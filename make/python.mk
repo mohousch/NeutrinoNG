@@ -29,56 +29,19 @@ PYTHON_INSTALL = \
 	$(HOST_DIR)/bin/python ./setup.py -q install --root=$(TARGET_DIR) --prefix=/usr
 	
 #
-# host_python
+# python
 #
 PYTHON_VER_MAJOR = 2.7
 PYTHON_VER_MINOR = 18
 PYTHON_VER = $(PYTHON_VER_MAJOR).$(PYTHON_VER_MINOR)
 PYTHON_SOURCE = Python-$(PYTHON_VER).tar.xz
-HOST_PYTHON_PATCH = python-$(PYTHON_VER).patch
-HOST_PYTHON_PATCH += python-$(PYTHON_VER)-support_64bit.patch
 
-$(ARCHIVE)/$(PYTHON_SOURCE):
-	$(DOWNLOAD) https://www.python.org/ftp/python/$(PYTHON_VER)/$(PYTHON_SOURCE)
-
-$(D)/host_python: $(ARCHIVE)/$(PYTHON_SOURCE)
-	$(START_BUILD)
-	$(REMOVE)/Python-$(PYTHON_VER)
-	$(UNTAR)/$(PYTHON_SOURCE)
-	$(CHDIR)/Python-$(PYTHON_VER); \
-		$(call apply_patches, $(HOST_PYTHON_PATCH)); \
-		autoconf; \
-		CONFIG_SITE= \
-		OPT="$(HOST_CFLAGS)" \
-		./configure \
-			--without-cxx-main \
-			--with-threads \
-		; \
-		$(MAKE) python Parser/pgen; \
-		mv python ./hostpython; \
-		mv Parser/pgen ./hostpgen; \
-		\
-		$(MAKE) distclean; \
-		./configure \
-			--prefix=$(HOST_DIR) \
-			--sysconfdir=$(HOST_DIR)/etc \
-			--without-cxx-main \
-			--with-threads \
-		; \
-		$(MAKE) all install; \
-		cp ./hostpgen $(HOST_DIR)/bin/pgen
-	$(REMOVE)/Python-$(PYTHON_VER)
-	$(TOUCH)
-
-#
-# python
-#
 PYTHON_PATCH  = python-$(PYTHON_VER).patch
 PYTHON_PATCH += python-$(PYTHON_VER)-xcompile.patch
 PYTHON_PATCH += python-$(PYTHON_VER)-revert_use_of_sysconfigdata.patch
 PYTHON_PATCH += python-$(PYTHON_VER)-pgettext.patch
 
-$(D)/python: $(D)/bootstrap $(D)/host_python $(D)/ncurses $(D)/zlib $(D)/openssl $(D)/libffi $(D)/bzip2 $(D)/readline $(D)/sqlite $(ARCHIVE)/$(PYTHON_SOURCE)
+$(D)/python: $(D)/bootstrap $(D)/ncurses $(D)/zlib $(D)/openssl $(D)/libffi $(D)/bzip2 $(D)/readline $(D)/sqlite $(ARCHIVE)/$(HOST_PYTHON_SOURCE)
 	$(START_BUILD)
 	$(REMOVE)/Python-$(PYTHON_VER)
 	$(UNTAR)/$(PYTHON_SOURCE)
@@ -709,7 +672,7 @@ $(D)/python_livestreamersrv: $(D)/bootstrap $(D)/python $(D)/python_setuptools $
 #
 # python-small
 #
-$(D)/python_small: $(D)/bootstrap $(D)/host_python $(D)/ncurses $(D)/zlib $(D)/openssl $(D)/libffi $(D)/bzip2 $(ARCHIVE)/$(PYTHON_SOURCE)
+$(D)/python_small: $(D)/bootstrap $(D)/ncurses $(D)/zlib $(D)/openssl $(D)/libffi $(D)/bzip2 $(ARCHIVE)/$(HOST_PYTHON_SOURCE)
 	$(START_BUILD)
 	$(REMOVE)/Python-$(PYTHON_VER)
 	$(UNTAR)/$(PYTHON_SOURCE)
@@ -812,8 +775,7 @@ $(D)/python_zope_interface_small: $(D)/bootstrap $(D)/python_small $(D)/python_s
 #
 # python_all
 #
-PYTHON_DEPS  = $(D)/host_python
-PYTHON_DEPS += $(D)/python
+PYTHON_DEPS = $(D)/python
 PYTHON_DEPS += $(D)/python_elementtree
 PYTHON_DEPS += $(D)/python_lxml
 PYTHON_DEPS += $(D)/python_zope_interface

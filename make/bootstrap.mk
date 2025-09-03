@@ -339,6 +339,49 @@ $(D)/host_atools: $(D)/directories $(ARCHIVE)/$(HAT_CORE_SOURCE) $(ARCHIVE)/$(HA
 		install -D -m 0755 $(BUILD_TMP)/hat/simg2simg $(HOST_DIR)/bin/
 	$(REMOVE)/hat
 	$(TOUCH)
+	
+#
+# host_python
+#
+HOST_PYTHON_VER_MAJOR = 2.7
+HOST_PYTHON_VER_MINOR = 18
+HOST_PYTHON_VER = $(HOST_PYTHON_VER_MAJOR).$(HOST_PYTHON_VER_MINOR)
+HOST_PYTHON_SOURCE = Python-$(HOST_PYTHON_VER).tar.xz
+HOST_PYTHON_PATCH = python-$(HOST_PYTHON_VER).patch
+HOST_PYTHON_PATCH += python-$(HOST_PYTHON_VER)-support_64bit.patch
+
+$(ARCHIVE)/$(PYTHON_SOURCE):
+	$(DOWNLOAD) https://www.python.org/ftp/python/$(HOST_PYTHON_VER)/$(HOST_PYTHON_SOURCE)
+
+$(D)/host_python: $(ARCHIVE)/$(HOST_PYTHON_SOURCE)
+	$(START_BUILD)
+	$(REMOVE)/Python-$(HOST_PYTHON_VER)
+	$(UNTAR)/$(HOST_PYTHON_SOURCE)
+	$(CHDIR)/Python-$(HOST_PYTHON_VER); \
+		$(call apply_patches, $(HOST_PYTHON_PATCH)); \
+		autoconf; \
+		CONFIG_SITE= \
+		OPT="$(HOST_CFLAGS)" \
+		./configure \
+			--without-cxx-main \
+			--with-threads \
+		; \
+		$(MAKE) python Parser/pgen; \
+		mv python ./hostpython; \
+		mv Parser/pgen ./hostpgen; \
+		\
+		$(MAKE) distclean; \
+		./configure \
+			--prefix=$(HOST_DIR) \
+			--sysconfdir=$(HOST_DIR)/etc \
+			--without-cxx-main \
+			--with-threads \
+		; \
+		$(MAKE) all install; \
+		cp ./hostpgen $(HOST_DIR)/bin/pgen
+	$(REMOVE)/Python-$(HOST_PYTHON_VER)
+	$(TOUCH)
+
 
 #
 # bootstrap
@@ -363,6 +406,9 @@ BOOTSTRAP += $(D)/host_atools
 endif
 ifeq ($(BOXTYPE), $(filter $(BOXTYPE), sf8008 ustym4kpro))
 BOOTSTRAP += $(D)/buildimage-tool
+endif
+ifeq ($(BOXARCH), $(filter $(BOXARCH), arm mips))	
+BOOTSTRAP += $(D)/host_python 
 endif
 
 $(D)/bootstrap: $(BOOTSTRAP)

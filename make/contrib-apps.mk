@@ -1809,7 +1809,7 @@ NANO_SOURCE = nano-$(NANO_VER).tar.gz
 $(ARCHIVE)/$(NANO_SOURCE):
 	$(DOWNLOAD) https://www.nano-editor.org/dist/v2.2/$(NANO_SOURCE)
 
-$(D)/nano: $(D)/bootstrap $(ARCHIVE)/$(NANO_SOURCE)
+$(D)/nano: $(D)/bootstrap $(D)/ncurses $(ARCHIVE)/$(NANO_SOURCE)
 	$(START_BUILD)
 	$(REMOVE)/nano-$(NANO_VER)
 	$(UNTAR)/$(NANO_SOURCE)
@@ -1825,7 +1825,6 @@ $(D)/nano: $(D)/bootstrap $(ARCHIVE)/$(NANO_SOURCE)
 		$(MAKE) install DESTDIR=$(TARGET_DIR)
 	$(REMOVE)/nano-$(NANO_VER)
 	$(TOUCH)
-
 
 #
 # gdb-remote

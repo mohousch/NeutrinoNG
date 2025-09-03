@@ -119,6 +119,7 @@ PACKAGES="\
 	${UBUNTU:+libpcre3-dev}											      \
 	${UBUNTU:+lua5.2}                                                                                             \
 	${UBUNTU:+liblua5.2-dev}                                                                                      \
+	${UBUNTU:+python-dev-is-python3} 									      \
 	${UBUNTU:+libcap-dev}											      \
 	${UBUNTU:+libtool-bin} 											      \
 	${UBUNTU:+gtk-doc-tools}
