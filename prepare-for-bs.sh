@@ -122,7 +122,8 @@ PACKAGES="\
 	${UBUNTU:+python-dev-is-python3} 									      \
 	${UBUNTU:+libcap-dev}											      \
 	${UBUNTU:+libtool-bin} 											      \
-	${UBUNTU:+gtk-doc-tools}
+	${UBUNTU:+gtk-doc-tools}										      \
+	${UBUNTU:+bc}
 	";
 
 if [ `which arch > /dev/null 2>&1 && arch || uname -m` == x86_64 ]; then

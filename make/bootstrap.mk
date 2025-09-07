@@ -350,7 +350,7 @@ HOST_PYTHON_SOURCE = Python-$(HOST_PYTHON_VER).tar.xz
 HOST_PYTHON_PATCH = python-$(HOST_PYTHON_VER).patch
 HOST_PYTHON_PATCH += python-$(HOST_PYTHON_VER)-support_64bit.patch
 
-$(ARCHIVE)/$(PYTHON_SOURCE):
+$(ARCHIVE)/$(HOST_PYTHON_SOURCE):
 	$(DOWNLOAD) https://www.python.org/ftp/python/$(HOST_PYTHON_VER)/$(HOST_PYTHON_SOURCE)
 
 $(D)/host_python: $(ARCHIVE)/$(HOST_PYTHON_SOURCE)
@@ -468,5 +468,5 @@ $(D)/ccache: directories
 	touch $@
 
 # hack to make sure they are always copied
-PHONY += ccache crosstool
+PHONY += ccache
 
