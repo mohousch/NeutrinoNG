@@ -1286,8 +1286,8 @@ $(D)/samba: $(D)/bootstrap $(ARCHIVE)/$(SAMBA_SOURCE)
 			--without-libtevent \
 			--without-libaddns \
 		; \
-		$(MAKE) $(MAKE_OPTS); \
-		$(MAKE) $(MAKE_OPTS) installservers installbin installscripts installdat installmodules \
+		$(MAKE); \
+		$(MAKE) installservers installbin installscripts installdat installmodules \
 			SBIN_PROGS="bin/samba_multicall" DESTDIR=$(TARGET_DIR) prefix=./. ; \
 			ln -sf samba_multicall $(TARGET_DIR)/usr/sbin/nmbd
 			ln -sf samba_multicall $(TARGET_DIR)/usr/sbin/smbd

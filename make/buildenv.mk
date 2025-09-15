@@ -249,21 +249,6 @@ CONFIGURE_TOOLS = \
 	$(BUILDENV) \
 	./configure $(CONFIGURE_OPTS)
 
-MAKE_OPTS := \
-	CC=$(TARGET)-gcc \
-	CXX=$(TARGET)-g++ \
-	LD=$(TARGET)-ld \
-	NM=$(TARGET)-nm \
-	AR=$(TARGET)-ar \
-	AS=$(TARGET)-as \
-	RANLIB=$(TARGET)-ranlib \
-	STRIP=$(TARGET)-strip \
-	OBJCOPY=$(TARGET)-objcopy \
-	OBJDUMP=$(TARGET)-objdump \
-	LN_S="ln -s" \
-	ARCH=sh \
-	CROSS_COMPILE=$(TARGET)-
-
 #
 #
 #	

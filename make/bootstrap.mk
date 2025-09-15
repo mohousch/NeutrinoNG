@@ -253,7 +253,6 @@ $(D)/cortex_strings: $(D)/directories $(ARCHIVE)/$(CORTEX_STRINGS_SOURCE)
 	$(UNTAR)/$(CORTEX_STRINGS_SOURCE)
 	$(CHDIR)/cortex-strings-git-$(CORTEX_STRINGS_VER); \
 		./autogen.sh; \
-		$(MAKE_OPTS) \
 		./configure\
 			--build=$(BUILD) \
 			--host=$(TARGET) \

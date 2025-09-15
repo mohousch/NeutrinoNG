@@ -773,8 +773,8 @@ samba-ipk: $(D)/bootstrap $(ARCHIVE)/$(SAMBA_SOURCE)
 			--without-libtevent \
 			--without-libaddns \
 		; \
-		$(MAKE) $(MAKE_OPTS); \
-		$(MAKE) $(MAKE_OPTS) installservers installbin installscripts installdat installmodules \
+		$(MAKE); \
+		$(MAKE) installservers installbin installscripts installdat installmodules \
 			SBIN_PROGS="bin/samba_multicall" DESTDIR=$(PKGPREFIX) prefix=./. ; \
 			ln -s samba_multicall $(PKGPREFIX)/usr/sbin/nmbd
 			ln -s samba_multicall $(PKGPREFIX)/usr/sbin/smbd
@@ -2063,7 +2063,7 @@ python-ipk: $(D)/bootstrap $(D)/host_python $(D)/ncurses $(D)/zlib $(D)/openssl 
 			ac_cv_broken_sem_getvalue=no \
 			HOSTPYTHON=$(HOST_DIR)/bin/python$(PYTHON_VER_MAJOR) \
 		; \
-		$(MAKE) $(MAKE_OPTS) \
+		$(MAKE) \
 			PYTHON_MODULES_INCLUDE="$(PKGPREFIX)/usr/include" \
 			PYTHON_MODULES_LIB="$(PKGPREFIX)/usr/lib" \
 			PYTHON_XCOMPILE_DEPENDENCIES_PREFIX="$(PKGPREFIX)" \

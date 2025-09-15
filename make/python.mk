@@ -80,7 +80,7 @@ $(D)/python: $(D)/bootstrap $(D)/ncurses $(D)/zlib $(D)/openssl $(D)/libffi $(D)
 			ac_cv_broken_sem_getvalue=no \
 			HOSTPYTHON=$(HOST_DIR)/bin/python$(PYTHON_VER_MAJOR) \
 		; \
-		$(MAKE) $(MAKE_OPTS) \
+		$(MAKE) \
 			PYTHON_MODULES_INCLUDE="$(TARGET_DIR)/usr/include" \
 			PYTHON_MODULES_LIB="$(TARGET_DIR)/usr/lib" \
 			PYTHON_XCOMPILE_DEPENDENCIES_PREFIX="$(TARGET_DIR)" \
@@ -711,7 +711,7 @@ $(D)/python_small: $(D)/bootstrap $(D)/ncurses $(D)/zlib $(D)/openssl $(D)/libff
 			ac_cv_broken_sem_getvalue=no \
 			HOSTPYTHON=$(HOST_DIR)/bin/python$(PYTHON_VER_MAJOR) \
 		; \
-		$(MAKE) $(MAKE_OPTS) \
+		$(MAKE) \
 			PYTHON_MODULES_INCLUDE="$(TARGET_DIR)/usr/include" \
 			PYTHON_MODULES_LIB="$(TARGET_DIR)/usr/lib" \
 			PYTHON_XCOMPILE_DEPENDENCIES_PREFIX="$(TARGET_DIR)" \
