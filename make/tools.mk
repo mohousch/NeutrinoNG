@@ -64,7 +64,7 @@ endif
 $(D)/tools-aio-grab: $(D)/bootstrap $(D)/libpng $(D)/libjpeg
 	$(START_BUILD)
 	set -e; cd $(TOOLS_DIR)/aio-grab-$(BOXARCH); \
-		$(CONFIGURE_TOOLS) CPPFLAGS="$(CPPFLAGS) -I$(DRIVER_DIR)/bpamem" \
+		$(CONFIGURE) CPPFLAGS="$(CPPFLAGS) -I$(DRIVER_DIR)/bpamem" \
 			--prefix=/usr \
 		; \
 		$(MAKE); \
@@ -77,7 +77,7 @@ $(D)/tools-aio-grab: $(D)/bootstrap $(D)/libpng $(D)/libjpeg
 $(D)/tools-devinit: $(D)/bootstrap
 	$(START_BUILD)
 	set -e; cd $(TOOLS_DIR)/devinit; \
-		$(CONFIGURE_TOOLS) \
+		$(CONFIGURE) \
 			--prefix= \
 		; \
 		$(MAKE); \
@@ -90,7 +90,7 @@ $(D)/tools-devinit: $(D)/bootstrap
 $(D)/tools-evremote2: $(D)/bootstrap
 	$(START_BUILD)
 	set -e; cd $(TOOLS_DIR)/evremote2; \
-		$(CONFIGURE_TOOLS) \
+		$(CONFIGURE) \
 			--prefix= \
 		; \
 		$(MAKE); \
@@ -103,7 +103,7 @@ $(D)/tools-evremote2: $(D)/bootstrap
 $(D)/tools-fp_control: $(D)/bootstrap
 	$(START_BUILD)
 	set -e; cd $(TOOLS_DIR)/fp_control; \
-		$(CONFIGURE_TOOLS) \
+		$(CONFIGURE) \
 			--prefix= \
 		; \
 		$(MAKE); \
@@ -144,7 +144,7 @@ $(D)/tools-flashtool-mup: $(D)/directories
 $(D)/tools_flashtool_mup:
 	$(START_BUILD)
 	set -e; cd $(TOOLS_DIR)/flashtool_mup; \
-		$(CONFIGURE_TOOLS) \
+		$(CONFIGURE) \
 			--prefix=/usr \
 		; \
 		$(MAKE); \
@@ -171,7 +171,7 @@ $(D)/tools-flashtool-pad: $(D)/directories
 $(D)/tools-hotplug: $(D)/bootstrap
 	$(START_BUILD)
 	set -e; cd $(TOOLS_DIR)/hotplug; \
-		$(CONFIGURE_TOOLS) \
+		$(CONFIGURE) \
 			--prefix= \
 		; \
 		$(MAKE); \
@@ -184,7 +184,7 @@ $(D)/tools-hotplug: $(D)/bootstrap
 $(D)/tools-ipbox_eeprom: $(D)/bootstrap
 	$(START_BUILD)
 	set -e; cd $(TOOLS_DIR)/ipbox_eeprom; \
-		$(CONFIGURE_TOOLS) \
+		$(CONFIGURE) \
 			--prefix= \
 		; \
 		$(MAKE); \
@@ -202,7 +202,7 @@ $(D)/tools-eplayer4: $(D)/bootstrap $(D)/gstreamer $(D)/gst_plugins_base $(D)/gs
 	$(D)/gst_plugins_bad $(D)/gst_plugins_ugly $(D)/gst_plugins_subsink $(D)/gst_plugins_dvbmediasink
 	$(START_BUILD)
 	set -e; cd $(TOOLS_DIR)/eplayer4; \
-		$(CONFIGURE_TOOLS) \
+		$(CONFIGURE) \
 			CPPFLAGS="$(EPLAYER4_CPPFLAGS)" \
 			--prefix=/usr \
 		; \
@@ -216,7 +216,7 @@ $(D)/tools-eplayer4: $(D)/bootstrap $(D)/gstreamer $(D)/gst_plugins_base $(D)/gs
 $(D)/tools-libmme_host: $(D)/bootstrap $(D)/driver
 	$(START_BUILD)
 	set -e; cd $(TOOLS_DIR)/libmme_host; \
-		$(CONFIGURE_TOOLS) \
+		$(CONFIGURE) \
 			--prefix= \
 		; \
 		$(MAKE) DRIVER_TOPDIR=$(DRIVER_DIR); \
@@ -229,7 +229,7 @@ $(D)/tools-libmme_host: $(D)/bootstrap $(D)/driver
 $(D)/tools-libmme_image: $(D)/bootstrap
 	$(START_BUILD)
 	set -e; cd $(TOOLS_DIR)/libmme_image; \
-		$(CONFIGURE_TOOLS) \
+		$(CONFIGURE) \
 			--prefix= \
 		; \
 		$(MAKE) DRIVER_TOPDIR=$(DRIVER_DIR); \
@@ -242,7 +242,7 @@ $(D)/tools-libmme_image: $(D)/bootstrap
 $(D)/tools-minimon: $(D)/bootstrap $(D)/libjpeg_turbo
 	$(START_BUILD)
 	set -e; cd $(TOOLS_DIR)/minimon-$(BOXARCH); \
-		$(CONFIGURE_TOOLS) \
+		$(CONFIGURE) \
 			--prefix= \
 		; \
 		$(MAKE) KERNEL_DIR=$(KERNEL_DIR) TARGET=$(TARGET) TARGET_DIR=$(TARGET_DIR); \
@@ -255,7 +255,7 @@ $(D)/tools-minimon: $(D)/bootstrap $(D)/libjpeg_turbo
 $(D)/tools-satfind: $(D)/bootstrap
 	$(START_BUILD)
 	set -e; cd $(TOOLS_DIR)/satfind; \
-		$(CONFIGURE_TOOLS) \
+		$(CONFIGURE) \
 			--prefix=/usr \
 		; \
 		$(MAKE); \
@@ -268,7 +268,7 @@ $(D)/tools-satfind: $(D)/bootstrap
 $(D)/tools-showiframe: $(D)/bootstrap
 	$(START_BUILD)
 	set -e; cd $(TOOLS_DIR)/showiframe-$(BOXARCH); \
-		$(CONFIGURE_TOOLS) \
+		$(CONFIGURE) \
 			--prefix=/usr \
 		; \
 		$(MAKE); \
@@ -281,7 +281,7 @@ $(D)/tools-showiframe: $(D)/bootstrap
 $(D)/tools-spf_tool: $(D)/bootstrap $(D)/libusb
 	$(START_BUILD)
 	set -e; cd $(TOOLS_DIR)/spf_tool; \
-		$(CONFIGURE_TOOLS) \
+		$(CONFIGURE) \
 			--prefix= \
 		; \
 		$(MAKE); \
@@ -294,7 +294,7 @@ $(D)/tools-spf_tool: $(D)/bootstrap $(D)/libusb
 $(D)/tools-stfbcontrol: $(D)/bootstrap
 	$(START_BUILD)
 	set -e; cd $(TOOLS_DIR)/stfbcontrol; \
-		$(CONFIGURE_TOOLS) \
+		$(CONFIGURE) \
 			--prefix=/usr \
 		; \
 		$(MAKE); \
@@ -307,7 +307,7 @@ $(D)/tools-stfbcontrol: $(D)/bootstrap
 $(D)/tools-streamproxy: $(D)/bootstrap
 	$(START_BUILD)
 	set -e; cd $(TOOLS_DIR)/streamproxy; \
-		$(CONFIGURE_TOOLS) \
+		$(CONFIGURE) \
 			--prefix=/usr \
 		; \
 		$(MAKE); \
@@ -320,7 +320,7 @@ $(D)/tools-streamproxy: $(D)/bootstrap
 $(D)/tools-tfd2mtd: $(D)/bootstrap
 	$(START_BUILD)
 	set -e; cd $(TOOLS_DIR)/tfd2mtd; \
-		$(CONFIGURE_TOOLS) \
+		$(CONFIGURE) \
 			--prefix= \
 		; \
 		$(MAKE); \
@@ -333,7 +333,7 @@ $(D)/tools-tfd2mtd: $(D)/bootstrap
 $(D)/tools-tffpctl: $(D)/bootstrap
 	$(START_BUILD)
 	set -e; cd $(TOOLS_DIR)/tffpctl; \
-		$(CONFIGURE_TOOLS) \
+		$(CONFIGURE) \
 			--prefix= \
 		; \
 		$(MAKE); \
@@ -346,7 +346,7 @@ $(D)/tools-tffpctl: $(D)/bootstrap
 $(D)/tools-ustslave: $(D)/bootstrap
 	$(START_BUILD)
 	set -e; cd $(TOOLS_DIR)/ustslave; \
-		$(CONFIGURE_TOOLS) \
+		$(CONFIGURE) \
 			--prefix= \
 		; \
 		$(MAKE); \
@@ -363,7 +363,7 @@ endif
 $(D)/tools-vfdctl: $(D)/bootstrap
 	$(START_BUILD)
 	set -e; cd $(TOOLS_DIR)/vfdctl; \
-		$(CONFIGURE_TOOLS) \
+		$(CONFIGURE) \
 			--prefix= \
 		; \
 		$(MAKE) CPPFLAGS="$(EXTRA_CPPFLAGS)"; \
@@ -376,7 +376,7 @@ $(D)/tools-vfdctl: $(D)/bootstrap
 $(D)/tools-wait4button: $(D)/bootstrap
 	$(START_BUILD)
 	set -e; cd $(TOOLS_DIR)/wait4button; \
-		$(CONFIGURE_TOOLS) \
+		$(CONFIGURE) \
 			--prefix= \
 		; \
 		$(MAKE); \
@@ -389,7 +389,7 @@ $(D)/tools-wait4button: $(D)/bootstrap
 $(D)/tools-turnoff_power: $(D)/bootstrap
 	$(START_BUILD)
 	set -e; cd $(TOOLS_DIR)/turnoff_power; \
-		$(CONFIGURE_TOOLS) \
+		$(CONFIGURE) \
 			--prefix= \
 		; \
 		$(MAKE); \

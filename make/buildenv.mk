@@ -244,11 +244,6 @@ CONFIGURE = \
 	$(BUILDENV) \
 	./configure $(CONFIGURE_OPTS)
 
-CONFIGURE_TOOLS = \
-	./autogen.sh && \
-	$(BUILDENV) \
-	./configure $(CONFIGURE_OPTS)
-
 #
 #
 #	
