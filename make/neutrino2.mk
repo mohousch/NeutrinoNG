@@ -194,7 +194,7 @@ ifneq ($(OPTIMIZATIONS), $(filter $(OPTIMIZATIONS), kerneldebug debug normal))
 	find $(PKGPREFIX)/ -name '*' -exec $(TARGET)-strip --strip-unneeded {} &>/dev/null \;
 endif
 	install -d $(PKGPREFIX)/var/etc/init.d
-	install -m 0755 $(BASE_DIR)/machine/$(BOXTYPE)/files/rcS_NEUTRINO2 $(PKGPREFIX)/var/etc/init.d/rcS.gui
+	install -m 0755 $(SKEL_ROOT)/etc/init.d/rcS.neutrino2 $(PKGPREFIX)/var/etc/init.d/rcS.gui
 	pushd $(PKGPREFIX) && tar --numeric-owner --group=0 --owner=0 -czf $(PKGS_DIR)/$@/data.tar.gz ./* && popd
 	install -d $(BUILD_TMP)/neutrino2/control
 	touch $(BUILD_TMP)/neutrino2/control/control
@@ -278,7 +278,7 @@ release-neutrino2: $(RELEASE_DEPS) $(D)/neutrino2 $(D)/neutrino2-plugins release
 	cp -aR $(TARGET_DIR)/usr/share/tuxbox/neutrino2 $(RELEASE_DIR)/usr/share/tuxbox
 	cp -aR $(TARGET_DIR)/var/tuxbox/* $(RELEASE_DIR)/var/tuxbox
 	[ -e $(RELEASE_DIR)/var/tuxbox/control/audioplayer.end ] && rm -rf $(RELEASE_DIR)/var/tuxbox/control || true
-	install -m 0755 $(BASE_DIR)/machine/$(BOXTYPE)/files/rcS_NEUTRINO2 $(RELEASE_DIR)/etc/init.d/rcS.gui
+	install -m 0755 $(SKEL_ROOT)/etc/init.d/rcS.neutrino2 $(RELEASE_DIR)/etc/init.d/rcS.gui
 #
 # delete unnecessary files
 #

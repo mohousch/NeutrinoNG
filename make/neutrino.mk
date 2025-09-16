@@ -407,7 +407,7 @@ endif
 	rm -rf $(PKGPREFIX)/var/tuxbox/config/zapit/bouquets.xml
 	rm -rf $(PKGPREFIX)/var/tuxbox/config/zapit/ubouquets.xml
 	install -d $(PKGPREFIX)/var/etc/init.d
-	install -m 0755 $(BASE_DIR)/machine/$(BOXTYPE)/files/rcS_NEUTRINO $(PKGPREFIX)/var/etc/init.d/rcS.gui
+	install -m 0755 $(SKEL_ROOT)/etc/init.d/rcS.neutrino $(PKGPREFIX)/var/etc/init.d/rcS.gui
 	pushd $(PKGPREFIX) && tar --numeric-owner --group=0 --owner=0 -czf $(PKGS_DIR)/$@/data.tar.gz ./* && popd
 	install -d $(BUILD_TMP)/neutrino/control
 	touch $(BUILD_TMP)/neutrino/control/control
@@ -497,7 +497,7 @@ endif
 	cp -aR $(TARGET_DIR)/usr/share/fonts $(RELEASE_DIR)/usr/share/
 	cp -aR $(TARGET_DIR)/usr/share/iso-codes $(RELEASE_DIR)/usr/share/
 	cp -aR $(TARGET_DIR)/var/tuxbox/* $(RELEASE_DIR)/var/tuxbox
-	install -m 0755 $(BASE_DIR)/machine/$(BOXTYPE)/files/rcS_NEUTRINO $(RELEASE_DIR)/etc/init.d/rcS.gui
+	install -m 0755 $(SKEL_ROOT)/etc/init.d/rcS.neutrino $(RELEASE_DIR)/etc/init.d/rcS.gui
 #
 # delete unnecessary files
 #
