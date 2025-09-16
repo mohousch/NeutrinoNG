@@ -11,6 +11,7 @@ export LD_LIBRARY_PATH
 #
 export BS_NAME	     := NeutrinoNG
 export BS_CYCLE	     := 204
+export BS_ALIAS	     := Numidia	
 
 #
 BASE_DIR             := $(shell pwd)

@@ -168,7 +168,7 @@ endif
 # imageversion
 #
 	echo "distro=$(BS_NAME)" > $(RELEASE_DIR)/.version
-	echo "imagename=NeutrinoNG" >> $(RELEASE_DIR)/.version
+	echo "imagename=$(BS_ALIAS)" >> $(RELEASE_DIR)/.version
 	echo "imageversion=1$(BS_CYCLE)`date +%Y%m%d%H%M`" >> $(RELEASE_DIR)/.version
 	echo "homepage=https://github.com/mohousch" >> $(RELEASE_DIR)/.version
 	echo "creator=$(MAINTAINER)" >> $(RELEASE_DIR)/.version
