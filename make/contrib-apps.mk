@@ -220,7 +220,10 @@ else
 E2FSPROGS_ARGS = --disable-resizer
 endif
 
-$(D)/e2fsprogs: $(D)/bootstrap $(D)/util_linux $(ARCHIVE)/$(HOST_E2FSPROGS_SOURCE)
+$(ARCHIVE)/$(E2FSPROGS_SOURCE):
+	$(DOWNLOAD) https://sourceforge.net/projects/e2fsprogs/files/e2fsprogs/v$(E2FSPROGS_VER)/$(HOST_E2FSPROGS_SOURCE)
+
+$(D)/e2fsprogs: $(D)/bootstrap $(D)/util_linux $(ARCHIVE)/$(E2FSPROGS_SOURCE)
 	$(START_BUILD)
 	$(REMOVE)/e2fsprogs-$(E2FSPROGS_VER)
 	$(UNTAR)/$(E2FSPROGS_SOURCE)

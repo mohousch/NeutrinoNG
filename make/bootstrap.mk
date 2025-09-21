@@ -183,15 +183,15 @@ $(D)/host_mksquashfs_lzma: directories $(ARCHIVE)/$(LZMA_SOURCE) $(ARCHIVE)/$(HO
 	$(TOUCH)
 
 #
-# host_resize2fs
+# host_e2fsprogs
 #
-HOST_E2FSPROGS_VER = 1.45.6
+HOST_E2FSPROGS_VER = 1.47.2
 HOST_E2FSPROGS_SOURCE = e2fsprogs-$(HOST_E2FSPROGS_VER).tar.gz
 
 $(ARCHIVE)/$(HOST_E2FSPROGS_SOURCE):
 	$(DOWNLOAD) https://sourceforge.net/projects/e2fsprogs/files/e2fsprogs/v$(HOST_E2FSPROGS_VER)/$(HOST_E2FSPROGS_SOURCE)
 
-$(D)/host_resize2fs: $(D)/directories $(ARCHIVE)/$(HOST_E2FSPROGS_SOURCE)
+$(D)/host_e2fsprogs: $(D)/directories $(ARCHIVE)/$(HOST_E2FSPROGS_SOURCE)
 	$(START_BUILD)
 	$(UNTAR)/$(HOST_E2FSPROGS_SOURCE)
 	$(CHDIR)/e2fsprogs-$(HOST_E2FSPROGS_VER); \
@@ -392,7 +392,7 @@ BOOTSTRAP += $(TARGET_DIR)/lib/libc.so.6
 BOOTSTRAP += $(D)/host_pkgconfig
 BOOTSTRAP += $(D)/host_module_init_tools
 BOOTSTRAP += $(D)/host_mtd_utils
-BOOTSTRAP += $(D)/host_resize2fs
+BOOTSTRAP += $(D)/host_e2fsprogs
 ifeq ($(BOXARCH), sh4)
 BOOTSTRAP += $(D)/host_mksquashfs_lzma
 BOOTSTRAP += host_u_boot_tools
