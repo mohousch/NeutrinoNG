@@ -7,7 +7,7 @@ TMPROOTDIR=$4
 TMPKERNELDIR=$5
 TMPFWDIR=$6
 
-DATETIME=_`date +%d.%m.%Y-%H.%M`
+DATETIME=`date +%d.%m.%Y-%H.%M`
 
 CREATEMULTI=$8
 
@@ -30,7 +30,7 @@ fi
 
 #
 OUTFILE=$OUTDIR/update_w_fw.img
-OUTFILE_Z=$OUTDIR/$BOXTYPE$DATETIME
+OUTFILE_Z=$OUTDIR/${BS_NAME}_${BS_CYCLE}_${BOXTYPE}_${DATETIME}
 
 if [ ! -e $OUTDIR ]; then
 	mkdir $OUTDIR

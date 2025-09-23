@@ -8,7 +8,7 @@ TMPKERNELDIR=$5
 TMPFWDIR=$6
 TMPEXTDIR=$7
 
-DATETIME=_`date +%d.%m.%Y-%H.%M`
+DATETIME=`date +%d.%m.%Y-%H.%M`
 
 echo "CURDIR       = $CURDIR"
 echo "TUFSBOXDIR   = $TUFSBOXDIR"
@@ -27,7 +27,7 @@ BOXTYPE=`cat $TMPEXTDIR/etc/hostname`
 
 #
 OUTFILE=$OUTDIR/update_w_fw.ird
-OUTFILE_Z=$OUTDIR/$BOXTYPE$DATETIME
+OUTFILE_Z=$OUTDIR/${BS_NAME}_${BS_CYCLE}_${BOXTYPE}_${DATETIME}
 
 if [ ! -e $OUTDIR ]; then
   mkdir $OUTDIR

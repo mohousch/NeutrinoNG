@@ -381,6 +381,47 @@ $(D)/host_python: $(ARCHIVE)/$(HOST_PYTHON_SOURCE)
 	$(REMOVE)/Python-$(HOST_PYTHON_VER)
 	$(TOUCH)
 
+#
+# flashtool-fup
+#
+$(D)/flashtool-fup: $(D)/directories
+	$(START_BUILD)
+	set -e; cd $(TOOLS_DIR)/flashtool-fup; \
+		./autogen.sh; \
+		./configure \
+			--prefix= \
+		; \
+		$(MAKE); \
+		$(MAKE) install DESTDIR=$(HOST_DIR)
+	$(TOUCH)
+
+#
+# flashtool-mup
+#
+$(D)/flashtool-mup: $(D)/directories
+	$(START_BUILD)
+	set -e; cd $(TOOLS_DIR)/flashtool-mup; \
+		./autogen.sh; \
+		./configure \
+			--prefix= \
+		; \
+		$(MAKE); \
+		$(MAKE) install DESTDIR=$(HOST_DIR)
+	$(TOUCH)
+
+#
+# flashtool-pad
+#
+$(D)/flashtool-pad: $(D)/directories
+	$(START_BUILD)
+	set -e; cd $(TOOLS_DIR)/flashtool-pad; \
+		./autogen.sh; \
+		./configure \
+			--prefix= \
+		; \
+		$(MAKE); \
+		$(MAKE) install DESTDIR=$(HOST_DIR)
+	$(TOUCH)
 
 #
 # bootstrap
@@ -396,6 +437,9 @@ BOOTSTRAP += $(D)/host_e2fsprogs
 ifeq ($(BOXARCH), sh4)
 BOOTSTRAP += $(D)/host_mksquashfs_lzma
 BOOTSTRAP += host_u_boot_tools
+BOOTSTRAP += flashtool-fup
+BOOTSTRAP += flashtool-mup
+BOOTSTRAP += flashtool-pad
 endif
 ifeq ($(BOXTYPE), $(filter $(BOXTYPE), dm8000 dm7020hd dm7020hdv2 dm800se dm800sev2))
 BOOTSTRAP += $(D)/buildimage

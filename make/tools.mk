@@ -111,34 +111,6 @@ $(D)/tools-fp_control: $(D)/bootstrap
 	$(TOUCH)
 
 #
-# flashtool-fup
-#
-$(D)/tools-flashtool-fup: $(D)/directories
-	$(START_BUILD)
-	set -e; cd $(TOOLS_DIR)/flashtool-fup; \
-		./autogen.sh; \
-		./configure \
-			--prefix= \
-		; \
-		$(MAKE); \
-		$(MAKE) install DESTDIR=$(HOST_DIR)
-	$(TOUCH)
-
-#
-# flashtool-mup
-#
-$(D)/tools-flashtool-mup: $(D)/directories
-	$(START_BUILD)
-	set -e; cd $(TOOLS_DIR)/flashtool-mup; \
-		./autogen.sh; \
-		./configure \
-			--prefix= \
-		; \
-		$(MAKE); \
-		$(MAKE) install DESTDIR=$(HOST_DIR)
-	$(TOUCH)
-
-#
 # flashtool_mup-box
 #
 $(D)/tools_flashtool_mup:
@@ -149,20 +121,6 @@ $(D)/tools_flashtool_mup:
 		; \
 		$(MAKE); \
 		$(MAKE) install DESTDIR=$(TARGET_DIR)
-	$(TOUCH)
-
-#
-# flashtool-pad
-#
-$(D)/tools-flashtool-pad: $(D)/directories
-	$(START_BUILD)
-	set -e; cd $(TOOLS_DIR)/flashtool-pad; \
-		./autogen.sh; \
-		./configure \
-			--prefix= \
-		; \
-		$(MAKE); \
-		$(MAKE) install DESTDIR=$(HOST_DIR)
 	$(TOUCH)
 
 #
