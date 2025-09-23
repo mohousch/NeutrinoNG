@@ -10,7 +10,7 @@ export LD_LIBRARY_PATH
 # BS version
 #
 export BS_NAME	     := NeutrinoNG
-export BS_CYCLE	     := 205
+export BS_CYCLE	     := 2.5
 
 #
 BASE_DIR             := $(shell pwd)
