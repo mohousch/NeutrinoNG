@@ -8,9 +8,6 @@ RELEASE_DEPS += $(D)/busybox
 RELEASE_DEPS += $(D)/sysvinit
 RELEASE_DEPS += $(D)/module_init_tools
 RELEASE_DEPS += $(D)/vsftpd
-#
-# root-etc
-#
 RELEASE_DEPS += $(D)/diverse-tools
 #
 # misc 
@@ -166,12 +163,12 @@ endif
 #
 	echo "distro=$(BS_NAME)" > $(RELEASE_DIR)/.version
 	echo "imagename=$(BS_NAME)" >> $(RELEASE_DIR)/.version
-	echo "imageversion=1`echo "$(BS_CYCLE)" | sed 's/\./0/g'``date +%Y%m%d%H%M`" >> $(RELEASE_DIR)/.version
+	echo "imageversion=0`echo "$(BS_CYCLE)" | sed 's/\./0/g'``date +%Y%m%d%H%M`" >> $(RELEASE_DIR)/.version
 	echo "homepage=https://github.com/mohousch" >> $(RELEASE_DIR)/.version
 	echo "creator=$(MAINTAINER)" >> $(RELEASE_DIR)/.version
 	echo "docs=https://github.com/mohousch" >> $(RELEASE_DIR)/.version
 	echo "forum=https://forum.mbremer.de" >> $(RELEASE_DIR)/.version
-	echo "version=1`echo "$(BS_CYCLE)" | sed 's/\./0/g'``date +%Y%m%d%H%M`" >> $(RELEASE_DIR)/.version
+	echo "version=0`echo "$(BS_CYCLE)" | sed 's/\./0/g'``date +%Y%m%d%H%M`" >> $(RELEASE_DIR)/.version
 	echo "git=`git log | grep "^commit" | wc -l`" >> $(RELEASE_DIR)/.version
 #
 # bin/sbin/usr/bin/usr/sbin
