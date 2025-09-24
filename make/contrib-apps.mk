@@ -123,90 +123,6 @@ $(D)/module_init_tools: $(D)/bootstrap $(D)/lsb $(ARCHIVE)/$(HOST_MODULE_INIT_TO
 	$(TOUCH)
 
 #
-# opkg
-#
-OPKG_VER = 0.3.3
-OPKG_SOURCE = opkg-$(OPKG_VER).tar.gz
-OPKG_PATCH = opkg-$(OPKG_VER).patch
-
-$(ARCHIVE)/$(OPKG_SOURCE):
-	$(DOWNLOAD) https://git.yoctoproject.org/cgit/cgit.cgi/opkg/snapshot/$(OPKG_SOURCE)
-	
-$(D)/opkg: $(D)/bootstrap $(D)/libarchive $(ARCHIVE)/$(OPKG_SOURCE)
-	$(START_BUILD)
-	$(REMOVE)/opkg-$(OPKG_VER)
-	$(UNTAR)/$(OPKG_SOURCE)
-	$(CHDIR)/opkg-$(OPKG_VER); \
-		$(call apply_patches, $(OPKG_PATCH)); \
-		LIBARCHIVE_LIBS="-L$(TARGET_DIR)/usr/lib -larchive" \
-		LIBARCHIVE_CFLAGS="-I$(TARGET_DIR)/usr/include" \
-		$(CONFIGURE) \
-			--prefix=/usr \
-			--disable-curl \
-			--disable-gpg \
-			--mandir=/.remove \
-		; \
-		$(MAKE) all ; \
-		$(MAKE) install DESTDIR=$(TARGET_DIR)
-	install -d -m 0755 $(TARGET_DIR)/usr/lib/opkg
-	install -d -m 0755 $(TARGET_DIR)/etc/opkg
-	ln -sf opkg $(TARGET_DIR)/usr/bin/opkg-cl
-	$(REWRITE_LIBTOOL)/libopkg.la
-	$(REWRITE_PKGCONF) $(PKG_CONFIG_PATH)/libopkg.pc
-	$(REMOVE)/opkg-$(OPKG_VER)
-	$(TOUCH)
-
-#
-# lsb
-#
-LSB_MAJOR = 3.2
-LSB_MINOR = 20
-LSB_VER = $(LSB_MAJOR)-$(LSB_MINOR)
-LSB_SOURCE = lsb_$(LSB_VER).tar.gz
-
-$(ARCHIVE)/$(LSB_SOURCE):
-	$(DOWNLOAD) https://debian.sdinet.de/etch/sdinet/lsb/$(LSB_SOURCE)
-
-$(D)/lsb: $(D)/bootstrap $(ARCHIVE)/$(LSB_SOURCE)
-	$(START_BUILD)
-	$(REMOVE)/lsb-$(LSB_MAJOR)
-	$(UNTAR)/$(LSB_SOURCE)
-	$(CHDIR)/lsb-$(LSB_MAJOR); \
-		install -m 0644 init-functions $(TARGET_DIR)/lib/lsb
-	$(REMOVE)/lsb-$(LSB_MAJOR)
-	$(TOUCH)
-
-#
-# portmap
-#
-PORTMAP_VER = 6.0.0
-PORTMAP_SOURCE = portmap_$(PORTMAP_VER).orig.tar.gz
-PORTMAP_PATCH = portmap-$(PORTMAP_VER).patch
-
-$(ARCHIVE)/$(PORTMAP_SOURCE):
-	$(DOWNLOAD) https://merges.ubuntu.com/p/portmap/$(PORTMAP_SOURCE)
-
-$(ARCHIVE)/portmap_$(PORTMAP_VER)-3.diff.gz:
-	$(DOWNLOAD) https://merges.ubuntu.com/p/portmap/portmap_$(PORTMAP_VER)-3.diff.gz
-
-$(D)/portmap: $(D)/bootstrap $(D)/lsb $(ARCHIVE)/$(PORTMAP_SOURCE) $(ARCHIVE)/portmap_$(PORTMAP_VER)-3.diff.gz
-	$(START_BUILD)
-	$(REMOVE)/portmap-$(PORTMAP_VER)
-	$(UNTAR)/$(PORTMAP_SOURCE)
-	$(CHDIR)/portmap-$(PORTMAP_VER); \
-		gunzip -cd $(lastword $^) | cat > debian.patch; \
-		patch -p1 <debian.patch && \
-		sed -e 's/### BEGIN INIT INFO/# chkconfig: S 41 10\n### BEGIN INIT INFO/g' -i debian/init.d; \
-		$(call apply_patches, $(PORTMAP_PATCH)); \
-		$(BUILDENV) $(MAKE) NO_TCP_WRAPPER=1 DAEMON_UID=65534 DAEMON_GID=65535 CC="$(TARGET)-gcc"; \
-		install -m 0755 portmap $(TARGET_DIR)/sbin; \
-		install -m 0755 pmap_dump $(TARGET_DIR)/sbin; \
-		install -m 0755 pmap_set $(TARGET_DIR)/sbin; \
-		install -m755 debian/init.d $(TARGET_DIR)/etc/init.d/portmap
-	$(REMOVE)/portmap-$(PORTMAP_VER)
-	$(TOUCH)
-
-#
 # e2fsprogs
 #
 E2FSPROGS_VER = 1.45.6
@@ -370,6 +286,115 @@ $(D)/util_linux: $(D)/bootstrap $(D)/zlib $(ARCHIVE)/$(UTIL_LINUX_SOURCE)
 		install -D -m 755 sfdisk $(TARGET_DIR)/sbin/sfdisk; \
 		install -D -m 755 mkfs $(TARGET_DIR)/sbin/mkfs
 	$(REMOVE)/util-linux-$(UTIL_LINUX_VER)
+	$(TOUCH)
+	
+#
+# vsftpd
+#
+VSFTPD_VER = 3.0.5
+VSFTPD_SOURCE = vsftpd-$(VSFTPD_VER).tar.gz
+VSFTPD_PATCH  = vsftpd-$(VSFTPD_VER).patch
+VSFTPD_PATCH += vsftpd-$(VSFTPD_VER)-find_libs.patch
+
+$(ARCHIVE)/$(VSFTPD_SOURCE):
+	$(DOWNLOAD) https://security.appspot.com/downloads/$(VSFTPD_SOURCE)
+
+$(D)/vsftpd: $(D)/bootstrap $(D)/openssl $(ARCHIVE)/$(VSFTPD_SOURCE)
+	$(START_BUILD)
+	$(REMOVE)/vsftpd-$(VSFTPD_VER)
+	$(UNTAR)/$(VSFTPD_SOURCE)
+	$(CHDIR)/vsftpd-$(VSFTPD_VER); \
+		$(call apply_patches, $(VSFTPD_PATCH)); \
+		$(MAKE) clean; \
+		$(MAKE) $(BUILDENV); \
+		$(MAKE) install PREFIX=$(TARGET_DIR)
+	install -m 755 $(SKEL_ROOT)/etc/init.d/vsftpd $(TARGET_DIR)/etc/init.d/
+	install -m 644 $(SKEL_ROOT)/etc/vsftpd.conf $(TARGET_DIR)/etc/
+	$(REMOVE)/vsftpd-$(VSFTPD_VER)
+	$(TOUCH)
+
+#
+# opkg
+#
+OPKG_VER = 0.3.3
+OPKG_SOURCE = opkg-$(OPKG_VER).tar.gz
+OPKG_PATCH = opkg-$(OPKG_VER).patch
+
+$(ARCHIVE)/$(OPKG_SOURCE):
+	$(DOWNLOAD) https://git.yoctoproject.org/cgit/cgit.cgi/opkg/snapshot/$(OPKG_SOURCE)
+	
+$(D)/opkg: $(D)/bootstrap $(D)/libarchive $(ARCHIVE)/$(OPKG_SOURCE)
+	$(START_BUILD)
+	$(REMOVE)/opkg-$(OPKG_VER)
+	$(UNTAR)/$(OPKG_SOURCE)
+	$(CHDIR)/opkg-$(OPKG_VER); \
+		$(call apply_patches, $(OPKG_PATCH)); \
+		LIBARCHIVE_LIBS="-L$(TARGET_DIR)/usr/lib -larchive" \
+		LIBARCHIVE_CFLAGS="-I$(TARGET_DIR)/usr/include" \
+		$(CONFIGURE) \
+			--prefix=/usr \
+			--disable-curl \
+			--disable-gpg \
+			--mandir=/.remove \
+		; \
+		$(MAKE) all ; \
+		$(MAKE) install DESTDIR=$(TARGET_DIR)
+	install -d -m 0755 $(TARGET_DIR)/usr/lib/opkg
+	install -d -m 0755 $(TARGET_DIR)/etc/opkg
+	ln -sf opkg $(TARGET_DIR)/usr/bin/opkg-cl
+	$(REWRITE_LIBTOOL)/libopkg.la
+	$(REWRITE_PKGCONF) $(PKG_CONFIG_PATH)/libopkg.pc
+	$(REMOVE)/opkg-$(OPKG_VER)
+	$(TOUCH)
+
+#
+# lsb
+#
+LSB_MAJOR = 3.2
+LSB_MINOR = 20
+LSB_VER = $(LSB_MAJOR)-$(LSB_MINOR)
+LSB_SOURCE = lsb_$(LSB_VER).tar.gz
+
+$(ARCHIVE)/$(LSB_SOURCE):
+	$(DOWNLOAD) https://debian.sdinet.de/etch/sdinet/lsb/$(LSB_SOURCE)
+
+$(D)/lsb: $(D)/bootstrap $(ARCHIVE)/$(LSB_SOURCE)
+	$(START_BUILD)
+	$(REMOVE)/lsb-$(LSB_MAJOR)
+	$(UNTAR)/$(LSB_SOURCE)
+	$(CHDIR)/lsb-$(LSB_MAJOR); \
+		install -m 0644 init-functions $(TARGET_DIR)/lib/lsb
+	$(REMOVE)/lsb-$(LSB_MAJOR)
+	$(TOUCH)
+
+#
+# portmap
+#
+PORTMAP_VER = 6.0.0
+PORTMAP_SOURCE = portmap_$(PORTMAP_VER).orig.tar.gz
+PORTMAP_PATCH = portmap-$(PORTMAP_VER).patch
+
+$(ARCHIVE)/$(PORTMAP_SOURCE):
+	$(DOWNLOAD) https://merges.ubuntu.com/p/portmap/$(PORTMAP_SOURCE)
+
+$(ARCHIVE)/portmap_$(PORTMAP_VER)-3.diff.gz:
+	$(DOWNLOAD) https://merges.ubuntu.com/p/portmap/portmap_$(PORTMAP_VER)-3.diff.gz
+
+$(D)/portmap: $(D)/bootstrap $(D)/lsb $(ARCHIVE)/$(PORTMAP_SOURCE) $(ARCHIVE)/portmap_$(PORTMAP_VER)-3.diff.gz
+	$(START_BUILD)
+	$(REMOVE)/portmap-$(PORTMAP_VER)
+	$(UNTAR)/$(PORTMAP_SOURCE)
+	$(CHDIR)/portmap-$(PORTMAP_VER); \
+		gunzip -cd $(lastword $^) | cat > debian.patch; \
+		patch -p1 <debian.patch && \
+		sed -e 's/### BEGIN INIT INFO/# chkconfig: S 41 10\n### BEGIN INIT INFO/g' -i debian/init.d; \
+		$(call apply_patches, $(PORTMAP_PATCH)); \
+		$(BUILDENV) $(MAKE) NO_TCP_WRAPPER=1 DAEMON_UID=65534 DAEMON_GID=65535 CC="$(TARGET)-gcc"; \
+		install -m 0755 portmap $(TARGET_DIR)/sbin; \
+		install -m 0755 pmap_dump $(TARGET_DIR)/sbin; \
+		install -m 0755 pmap_set $(TARGET_DIR)/sbin; \
+		install -m755 debian/init.d $(TARGET_DIR)/etc/init.d/portmap
+	$(REMOVE)/portmap-$(PORTMAP_VER)
 	$(TOUCH)
 
 #
@@ -1047,31 +1072,6 @@ $(D)/nfs_utils: $(D)/bootstrap $(D)/e2fsprogs $(ARCHIVE)/$(NFS_UTILS_SOURCE)
 	$(TOUCH)
 
 #
-# vsftpd
-#
-VSFTPD_VER = 3.0.5
-VSFTPD_SOURCE = vsftpd-$(VSFTPD_VER).tar.gz
-VSFTPD_PATCH  = vsftpd-$(VSFTPD_VER).patch
-VSFTPD_PATCH += vsftpd-$(VSFTPD_VER)-find_libs.patch
-
-$(ARCHIVE)/$(VSFTPD_SOURCE):
-	$(DOWNLOAD) https://security.appspot.com/downloads/$(VSFTPD_SOURCE)
-
-$(D)/vsftpd: $(D)/bootstrap $(D)/openssl $(ARCHIVE)/$(VSFTPD_SOURCE)
-	$(START_BUILD)
-	$(REMOVE)/vsftpd-$(VSFTPD_VER)
-	$(UNTAR)/$(VSFTPD_SOURCE)
-	$(CHDIR)/vsftpd-$(VSFTPD_VER); \
-		$(call apply_patches, $(VSFTPD_PATCH)); \
-		$(MAKE) clean; \
-		$(MAKE) $(BUILDENV); \
-		$(MAKE) install PREFIX=$(TARGET_DIR)
-	install -m 755 $(SKEL_ROOT)/etc/init.d/vsftpd $(TARGET_DIR)/etc/init.d/
-	install -m 644 $(SKEL_ROOT)/etc/vsftpd.conf $(TARGET_DIR)/etc/
-	$(REMOVE)/vsftpd-$(VSFTPD_VER)
-	$(TOUCH)
-
-#
 # procps_ng
 #
 PROCPS_NG_VER = 3.3.12
@@ -1096,39 +1096,6 @@ $(D)/procps_ng: $(D)/bootstrap $(D)/ncurses $(ARCHIVE)/$(PROCPS_NG_SOURCE)
 		install -D -m 755 ps/.libs/pscommand $(TARGET_DIR)/bin/ps; \
 		cp -a proc/.libs/libprocps.so* $(TARGET_LIB_DIR)
 	$(REMOVE)/procps-ng-$(PROCPS_NG_VER)
-	$(TOUCH)
-
-#
-# htop
-#
-HTOP_VER = 2.2.0
-HTOP_SOURCE = htop-$(HTOP_VER).tar.gz
-HTOP_PATCH = htop-$(HTOP_VER).patch
-
-$(ARCHIVE)/$(HTOP_SOURCE):
-	$(DOWNLOAD) http://hisham.hm/htop/releases/$(HTOP_VER)/$(HTOP_SOURCE)
-
-$(D)/htop: $(D)/bootstrap $(D)/ncurses $(ARCHIVE)/$(HTOP_SOURCE)
-	$(START_BUILD)
-	$(REMOVE)/htop-$(HTOP_VER)
-	$(UNTAR)/$(HTOP_SOURCE)
-	$(CHDIR)/htop-$(HTOP_VER); \
-		$(call apply_patches, $(HTOP_PATCH)); \
-		autoreconf -fi; \
-		$(CONFIGURE) \
-			--prefix=/usr \
-			--mandir=/.remove \
-			--sysconfdir=/etc \
-			--disable-unicode \
-			ac_cv_func_malloc_0_nonnull=yes \
-			ac_cv_func_realloc_0_nonnull=yes \
-			ac_cv_file__proc_stat=yes \
-			ac_cv_file__proc_meminfo=yes \
-		; \
-		$(MAKE) all; \
-		$(MAKE) install DESTDIR=$(TARGET_DIR)
-	rm -rf $(addprefix $(TARGET_DIR)/usr/share/,pixmaps applications)
-	$(REMOVE)/htop-$(HTOP_VER)
 	$(TOUCH)
 
 #
@@ -1827,6 +1794,39 @@ $(D)/nano: $(D)/bootstrap $(D)/ncurses $(ARCHIVE)/$(NANO_SOURCE)
 		$(MAKE); \
 		$(MAKE) install DESTDIR=$(TARGET_DIR)
 	$(REMOVE)/nano-$(NANO_VER)
+	$(TOUCH)
+
+#
+# htop
+#
+HTOP_VER = 2.2.0
+HTOP_SOURCE = htop-$(HTOP_VER).tar.gz
+HTOP_PATCH = htop-$(HTOP_VER).patch
+
+$(ARCHIVE)/$(HTOP_SOURCE):
+	$(DOWNLOAD) http://hisham.hm/htop/releases/$(HTOP_VER)/$(HTOP_SOURCE)
+
+$(D)/htop: $(D)/bootstrap $(D)/ncurses $(ARCHIVE)/$(HTOP_SOURCE)
+	$(START_BUILD)
+	$(REMOVE)/htop-$(HTOP_VER)
+	$(UNTAR)/$(HTOP_SOURCE)
+	$(CHDIR)/htop-$(HTOP_VER); \
+		$(call apply_patches, $(HTOP_PATCH)); \
+		autoreconf -fi; \
+		$(CONFIGURE) \
+			--prefix=/usr \
+			--mandir=/.remove \
+			--sysconfdir=/etc \
+			--disable-unicode \
+			ac_cv_func_malloc_0_nonnull=yes \
+			ac_cv_func_realloc_0_nonnull=yes \
+			ac_cv_file__proc_stat=yes \
+			ac_cv_file__proc_meminfo=yes \
+		; \
+		$(MAKE) all; \
+		$(MAKE) install DESTDIR=$(TARGET_DIR)
+	rm -rf $(addprefix $(TARGET_DIR)/usr/share/,pixmaps applications)
+	$(REMOVE)/htop-$(HTOP_VER)
 	$(TOUCH)
 
 #
