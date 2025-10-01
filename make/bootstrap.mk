@@ -481,6 +481,9 @@ $(D)/directories:
 	ln -sf ../init.d $(TARGET_DIR)/etc/rc.d/init.d
 	install -d $(TARGET_DIR)/lib/{lsb,firmware}
 	install -d $(TARGET_DIR)/usr/{bin,lib,sbin,share}
+ifeq ($(BOXARCH), x86_64)
+	ln -sf /usr/lib $(TARGGET_DIR)/usr/lib64
+endif
 	install -d $(TARGET_DIR)/usr/lib/pkgconfig
 	install -d $(TARGET_DIR)/usr/include/linux
 	install -d $(TARGET_DIR)/usr/include/linux/dvb
