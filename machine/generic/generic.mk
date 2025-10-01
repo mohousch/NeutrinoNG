@@ -1,0 +1,90 @@
+#
+# Makefile for wwio bre2zet2c
+#
+BOXARCH = x86_64
+CICAM = ci-cam
+
+#
+# kernel
+#
+KERNEL_VER             = e5f0a698b34ed76002dc5cff3804a61c80233a7a
+KERNEL_DATE            = 
+KERNEL_SRC 	       = $(KERNEL_VER).tar.gz
+KERNEL_URL	       = https://github.com/torvalds/linux/archive
+KERNEL_CONFIG          = defconfig
+KERNEL_DIR             = $(BUILD_TMP)/linux-$(KERNEL_VER)
+KERNEL_FILE 	       =
+
+KERNEL_PATCHES  = 
+			
+$(ARCHIVE)/$(KERNEL_SRC):
+	$(DOWNLOAD) $(KERNEL_URL)/$(KERNEL_SRC)
+
+$(D)/kernel.do_prepare: $(ARCHIVE)/$(KERNEL_SRC) $(BASE_DIR)/machine/$(BOXTYPE)/files/$(KERNEL_CONFIG)
+	$(START_BUILD)
+	rm -rf $(KERNEL_DIR)
+	$(UNTAR)/$(KERNEL_SRC)
+	set -e; cd $(KERNEL_DIR); \
+		for i in $(KERNEL_PATCHES); do \
+			echo -e "==> $(TERM_RED)Applying Patch:$(TERM_NORMAL) $$i"; \
+			$(APATCH) $(BASE_DIR)/machine/$(BOXTYPE)/patches/$$i; \
+		done
+	install -m 644 $(BASE_DIR)/machine/$(BOXTYPE)/files/$(KERNEL_CONFIG) $(KERNEL_DIR)/.config
+ifeq ($(OPTIMIZATIONS), $(filter $(OPTIMIZATIONS), kerneldebug debug))
+	@echo "Using kernel debug"
+	@grep -v "CONFIG_PRINTK" "$(KERNEL_DIR)/.config" > $(KERNEL_DIR)/.config.tmp
+	cp $(KERNEL_DIR)/.config.tmp $(KERNEL_DIR)/.config
+	@echo "CONFIG_PRINTK=y" >> $(KERNEL_DIR)/.config
+	@echo "CONFIG_PRINTK_TIME=y" >> $(KERNEL_DIR)/.config
+endif
+	@touch $@
+
+$(D)/kernel.do_compile: $(D)/kernel.do_prepare
+	set -e; cd $(KERNEL_DIR); \
+		$(MAKE) EXTRA_CFLAGS=-Wno-attribute-alias -C $(KERNEL_DIR) ARCH=x86_64 oldconfig
+		$(MAKE) EXTRA_CFLAGS=-Wno-attribute-alias -C $(KERNEL_DIR) ARCH=x86_64 CROSS_COMPILE=$(TARGET)- vmlinux modules
+		$(MAKE) EXTRA_CFLAGS=-Wno-attribute-alias -C $(KERNEL_DIR) ARCH=x86_64 CROSS_COMPILE=$(TARGET)- DEPMOD=$(DEPMOD) INSTALL_MOD_PATH=$(TARGET_DIR) modules_install
+	@touch $@
+
+$(D)/kernel: $(D)/bootstrap $(D)/kernel.do_compile
+	install -m 644 $(KERNEL_DIR)/vmlinux $(TARGET_DIR)/boot/
+	install -m 644 $(KERNEL_DIR)/System.map $(TARGET_DIR)/boot/System.map-$(BOXARCH)-$(KERNEL_VER)
+#	gzip -9c < $(TARGET_DIR)/boot/vmlinux > $(TARGET_DIR)/boot/$(KERNEL_FILE)
+	rm $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/build || true
+	rm $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/source || true
+	$(TOUCH)
+
+#
+# driver
+#
+DRIVER_VER =
+DRIVER_DATE =
+DRIVER_SRC 		= 
+DRIVER_URL		= 
+
+$(ARCHIVE)/$(DRIVER_SRC):
+#	$(DOWNLOAD) $(DRIVER_URL)/$(DRIVER_SRC)
+
+driver: $(D)/driver
+$(D)/driver: $(ARCHIVE)/$(DRIVER_SRC) $(D)/bootstrap $(D)/kernel
+	$(START_BUILD)
+	install -d $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra
+	unzip -o $(ARCHIVE)/$(DRIVER_SRC) -d $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra
+	$(DEPMOD) -ae -b $(TARGET_DIR) -r $(KERNEL_VER)
+	$(TOUCH)
+
+#
+# release
+#
+release-generic:
+	cp -pa $(TARGET_DIR)/lib/modules/$(KERNEL_VER) $(RELEASE_DIR)/lib/modules
+	install -m 0755 $(BASE_DIR)/machine/$(BOXTYPE)/files/halt $(RELEASE_DIR)/etc/init.d/
+	cp -f $(BASE_DIR)/machine/$(BOXTYPE)/files/fstab $(RELEASE_DIR)/etc/
+
+#
+# image
+#
+
+image-generic:
+
+

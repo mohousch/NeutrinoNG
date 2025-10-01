@@ -92,19 +92,9 @@ TARGET		     ?= mipsel-unknown-linux-gnu
 TARGET_MARCH_CFLAGS   = -march=mips32 -mtune=mips32
 endif
 
-ifeq ($(BOXARCH), powerpc)
-TARGET		     ?= powerpc-unknown-linux-gnu
-TARGET_MARCH_CFLAGS   =
-endif
-
-ifeq ($(BOXARCH), aarch64)
-TARGET		     ?= aarch64-unknown-linux-gnu
-TARGET_MARCH_CFLAGS   =
-endif
-
 ifeq ($(BOXARCH), x86_64)
 TARGET		     ?= x86_64-unknown-linux-gnu
-TARGET_MARCH_CFLAGS   =
+TARGET_MARCH_CFLAGS   = -march=x86-64
 endif
 
 OPTIMIZATIONS        ?= size
