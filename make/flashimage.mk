@@ -2,35 +2,30 @@
 # nor-image
 #
 nor-image-$(BOXTYPE):
-	mkdir -p $(IMAGE_DIR)
 	cd $(SCRIPTS_DIR)/nor_flash && $(SUDOCMD) ./make_flash.sh $(MAINTAINER) $(BOXTYPE)
 	
 #
 # atevio-image
 #
 atevio-image-$(BOXTYPE):
-	mkdir -p $(IMAGE_DIR)
 	cd $(SCRIPTS_DIR)/atevio7500 && $(SUDOCMD) ./atevio7500.sh $(MAINTAINER)
 	
 #
 # spark-image
 #
 spark-image-$(BOXTYPE):
-	mkdir -p $(IMAGE_DIR)
 	cd $(SCRIPTS_DIR)/spark && $(SUDOCMD) ./spark.sh $(MAINTAINER) $(BOXTYPE)
 
 #
 # ufs912-image
 #	
 ufs912-image-$(BOXTYPE):
-	mkdir -p $(IMAGE_DIR)
 	cd $(SCRIPTS_DIR)/ufs912 && $(SUDOCMD) ./ufs912.sh $(MAINTAINER)
 	
 #
 # usb-image
 #
 usb-image-$(BOXTYPE):
-	mkdir -p $(IMAGE_DIR)
 	cd $(RELEASE_DIR) && \
 	tar cvJf $(IMAGE_DIR)/$(BS_NAME)_$(BS_CYCLE)_$(BOXTYPE)_$(shell date '+%d.%m.%Y-%H.%M')_usb.tar.xz --exclude=vmlinux.gz* . > /dev/null 2>&1
 
@@ -40,7 +35,6 @@ usb-image-$(BOXTYPE):
 ubi-image-$(BOXTYPE):
 	rm -rf $(IMAGE_BUILD_DIR) || true
 	mkdir -p $(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)
-	mkdir -p $(IMAGE_DIR)
 	# splash
 	cp $(SKEL_ROOT)/boot/splash.bin $(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)/$(BOOTLOGO_FILENAME)
 ifeq ($(BOXTYPE), $(filter $(BOXTYPE), gbultraue))
@@ -82,7 +76,6 @@ endif
 dm-nfi-image-$(BOXTYPE):
 	rm -rf $(IMAGE_BUILD_DIR) || true
 	mkdir -p $(IMAGE_BUILD_DIR)/$(BOXTYPE)
-	mkdir -p $(IMAGE_DIR)
 	#
 	cp -f $(ARCHIVE)/$(2ND_FILE) $(IMAGE_BUILD_DIR)/$(BOXTYPE)/
 	#
@@ -126,7 +119,6 @@ dm-nfi-image-$(BOXTYPE):
 dm-rootfs-image-$(BOXTYPE):
 	rm -rf $(IMAGE_BUILD_DIR) || true
 	mkdir -p $(IMAGE_BUILD_DIR)/$(BOXTYPE)
-	mkdir -p $(IMAGE_DIR)
 	# kernel
 	cp $(TARGET_DIR)/boot/zImage $(IMAGE_BUILD_DIR)/$(BOXTYPE)/$(KERNEL_FILE)
 	# rootfs
@@ -147,7 +139,6 @@ dm-rootfs-image-$(BOXTYPE):
 vuplus-rootfs-image-$(BOXTYPE):
 	rm -rf $(IMAGE_BUILD_DIR) || true
 	mkdir -p $(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)
-	mkdir -p $(IMAGE_DIR)
 	# kernel
 	cp $(TARGET_DIR)/boot/$(INITRD_NAME) $(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)/$(INITRD_FILE)
 	cp $(TARGET_DIR)/boot/zImage $(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)/$(KERNEL_FILE)
@@ -171,7 +162,6 @@ vuplus-rootfs-image-$(BOXTYPE):
 vuplus-multi-rootfs-image-$(BOXTYPE):
 	rm -rf $(IMAGE_BUILD_DIR) || true
 	mkdir -p $(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)
-	mkdir -p $(IMAGE_DIR)
 	# kernel
 	cp $(TARGET_DIR)/boot/$(INITRD_NAME) $(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)/$(INITRD_FILE)
 	cp $(TARGET_DIR)/boot/zImage $(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)/$(KERNEL1_FILE)
@@ -207,7 +197,6 @@ OCTAGON_ROOTFS_SIZE = 320k #2*128k + 64k
 octagon-disk-image-$(BOXTYPE):
 	rm -rf $(IMAGE_BUILD_DIR) || true
 	mkdir -p $(IMAGE_BUILD_DIR)/$(BOXTYPE)
-	mkdir -p $(IMAGE_DIR)
 	# kernel
 	cp $(TARGET_DIR)/boot/uImage $(IMAGE_BUILD_DIR)/$(BOXTYPE)/
 	#
@@ -244,7 +233,6 @@ octagon-disk-image-$(BOXTYPE):
 octagon-rootfs-image-$(BOXTYPE):
 	rm -rf $(IMAGE_BUILD_DIR) || true
 	mkdir -p $(IMAGE_BUILD_DIR)/$(BOXTYPE)
-	mkdir -p $(IMAGE_DIR)
 	# kernel
 	cp $(TARGET_DIR)/boot/uImage $(IMAGE_BUILD_DIR)/$(BOXTYPE)/
 	# rootfs
@@ -294,7 +282,6 @@ EDISION_SWAP_PARTITION_OFFSET = $(shell expr $(EDISION_ROOTFS4_PARTITION_OFFSET)
 edision-disk-image-$(BOXTYPE):
 	rm -rf $(IMAGE_BUILD_DIR) || true
 	mkdir -p $(IMAGE_BUILD_DIR)/$(BOXTYPE)
-	mkdir -p $(IMAGE_DIR)
 	# Create a sparse image block
 	dd if=/dev/zero of=$(IMAGE_BUILD_DIR)/$(EDISION_IMAGE_LINK) seek=$(shell expr $(EDISION_EMMC_IMAGE_SIZE) \* $(EDISION_BLOCK_SECTOR)) count=0 bs=$(EDISION_BLOCK_SIZE)
 	$(HOST_DIR)/bin/mkfs.ext4 -F -m0 $(IMAGE_BUILD_DIR)/$(EDISION_IMAGE_LINK) -d $(RELEASE_DIR)
@@ -346,7 +333,6 @@ edision-disk-image-$(BOXTYPE):
 edision-rootfs-image-$(BOXTYPE):
 	rm -rf $(IMAGE_BUILD_DIR) || true
 	mkdir -p $(IMAGE_BUILD_DIR)/$(BOXTYPE)
-	mkdir -p $(IMAGE_DIR)
 	# kernel
 	cp $(TARGET_DIR)/boot/zImage $(IMAGE_BUILD_DIR)/$(BOXTYPE)/kernel.bin
 	# rootfs
@@ -403,7 +389,6 @@ GFUTURE_STORAGE_PARTITION_OFFSET = $(shell expr $(GFUTURE_SWAP_PARTITION_OFFSET)
 gfuture-disk-image-$(BOXTYPE):
 	rm -rf $(IMAGE_BUILD_DIR) || true
 	mkdir -p $(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)
-	mkdir -p $(IMAGE_DIR)
 	# splash
 ifeq ($(BOXTYPE), $(filter $(BOXTYPE), e4hdultra))
 	cp $(SKEL_ROOT)/boot/lcdsplash.bmp $(IMAGE_BUILD_DIR)/
@@ -489,7 +474,6 @@ endif
 gfuture-rootfs-image-$(BOXTYPE):
 	rm -rf $(IMAGE_BUILD_DIR) || true
 	mkdir -p $(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)
-	mkdir -p $(IMAGE_DIR)
 	# kernel
 ifneq ($(KERNEL_DTB_VER),)
 	cp $(TARGET_DIR)/boot/zImage.dtb $(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)/$(KERNEL_FILE)
@@ -523,7 +507,6 @@ hdfastboot8gb-disk-image-$(BOXTYPE): $(ARCHIVE)/$(FLASH_BOOTARGS_SRC) $(ARCHIVE)
 	# Create image
 	rm -rf $(IMAGE_BUILD_DIR) || true
 	mkdir -p $(IMAGE_BUILD_DIR)/$(BOXTYPE)
-	mkdir -p $(IMAGE_DIR)
 	#
 	unzip -o $(ARCHIVE)/$(FLASH_BOOTARGS_SRC) -d $(IMAGE_BUILD_DIR)
 #	unzip -o $(ARCHIVE)/$(FLASH_PARTITONS_SRC) -d $(IMAGE_BUILD_DIR)
@@ -567,7 +550,6 @@ endif
 hdfastboot8gb-rootfs-image-$(BOXTYPE):
 	rm -rf $(IMAGE_BUILD_DIR) || true
 	mkdir -p $(IMAGE_BUILD_DIR)/$(BOXTYPE)
-	mkdir -p $(IMAGE_DIR)
 	#
 	cp $(TARGET_DIR)/boot/$(KERNEL_FILE) $(IMAGE_BUILD_DIR)/$(BOXTYPE)/
 	#
@@ -591,7 +573,6 @@ hdfastboot8gb-rootfs-image-$(BOXTYPE):
 gbue4k-flash-image: $(ARCHIVE)/$(INITRD_SRC)
 	rm -rf $(IMAGE_BUILD_DIR) || true
 	mkdir -p $(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)
-	mkdir -p $(IMAGE_DIR)
 	# splash
 	cp $(SKEL_ROOT)/boot/splash.bin $(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)/splash.bin
 	cp $(SKEL_ROOT)/boot/warning.bin $(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)

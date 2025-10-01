@@ -23,6 +23,8 @@ endif
 
 distclean:
 	@echo -e "$(TERM_YELLOW)---> cleaning whole build system ... $(TERM_NORMAL)"
+	@-$(MAKE) driver-clean
+	@-$(MAKE) tools-distclean
 	@-rm -rf $(TUFSBOX_DIR)
 	@echo -e "$(TERM_YELLOW)done\n$(TERM_NORMAL)"
 
