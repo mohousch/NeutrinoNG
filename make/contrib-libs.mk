@@ -2399,8 +2399,8 @@ CAIRO_SOURCE = cairo-$(CAIRO_VER).tar.xz
 CAIRO_PATCH  = cairo-$(CAIRO_VER)-get_bitmap_surface.diff
 
 CAIRO_OPTS ?= \
-		--disable-egl \
-		--disable-glesv2
+		--enable-egl \
+		--enable-glesv2
 
 $(ARCHIVE)/$(CAIRO_SOURCE):
 	$(DOWNLOAD) https://www.cairographics.org/releases/$(CAIRO_SOURCE)

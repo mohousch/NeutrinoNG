@@ -145,7 +145,10 @@ endif
 	install -d $(RELEASE_DIR)/usr/lib/locale
 	cp -aR $(SKEL_ROOT)/usr/lib/locale/* $(RELEASE_DIR)/usr/lib/locale
 	install -d $(RELEASE_DIR)/usr/share/{udhcpc,zoneinfo,fonts}
-	install -d $(RELEASE_DIR)/var/{bin,etc,lib,net,tuxbox}
+	install -d $(RELEASE_DIR)/var/{bin,lib,net,tuxbox}
+ifeq ($(BOXARCH), sh4)
+	install -d $(RELEASE_DIR)/var/etc
+endif	
 	install -d $(RELEASE_DIR)/var/tuxbox/config
 	install -d $(RELEASE_DIR)/var/lib/{nfs,modules,opkg}
 	install -d $(RELEASE_DIR)/var/spool/cron/crontabs
@@ -478,13 +481,13 @@ ifeq ($(BOXARCH), sh4)
 	[ -e $(RELEASE_DIR)/usr/lib/libgobject-2.0.so ] && rm -rf $(RELEASE_DIR)/usr/lib/libgobject-2.0* || true
 	[ -e $(RELEASE_DIR)/usr/lib/libgthread-2.0.so ] && rm -rf $(RELEASE_DIR)/usr/lib/libgthread-2.0* || true
 	[ -e $(RELEASE_DIR)/usr/lib/libpython2.7.so ] && rm -rf $(RELEASE_DIR)/usr/lib/libpython* || true
-endif
 #
 # imigrate /etc to /var/etc
 #
 	cp -dpfr $(RELEASE_DIR)/etc $(RELEASE_DIR)/var
 	rm -fr $(RELEASE_DIR)/etc
 	ln -sf /var/etc $(RELEASE_DIR)
+endif
 #
 # strip
 #	

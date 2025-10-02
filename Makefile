@@ -326,6 +326,7 @@ include make/gstreamer.mk
 include make/root-etc.mk
 include make/python.mk
 include make/lua.mk
+include make/graphic.mk
 include make/tools.mk
 include make/cleantargets.mk
 include make/release.mk

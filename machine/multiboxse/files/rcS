@@ -98,12 +98,12 @@ else
 fi
 
 # rcS.local
-if [ -e /var/etc/init.d/rcS.local ]; then 
-	/var/etc/init.d/rcS.local
+if [ -e /etc/init.d/rcS.local ]; then 
+	/etc/init.d/rcS.local
 fi
 
 # rcS.gui
-if [ -e /var/etc/init.d/rcS.gui ]; then
-	/var/etc/init.d/rcS.gui
+if [ -e /etc/init.d/rcS.gui ]; then
+	/etc/init.d/rcS.gui
 fi
 

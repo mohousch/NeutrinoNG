@@ -64,12 +64,12 @@ NFS=$(grep -c nfs /proc/cmdline)
 date -s "2018-01-01 00:00"
 
 # rcS.local
-if [ -e /var/etc/init.d/rcS.local ]; then 
-	/var/etc/init.d/rcS.local
+if [ -e /etc/init.d/rcS.local ]; then 
+	/etc/init.d/rcS.local
 fi
 
 # rcS.gui
-if [ -e /var/etc/init.d/rcS.gui ]; then
-	/var/etc/init.d/rcS.gui
+if [ -e /etc/init.d/rcS.gui ]; then
+	/etc/init.d/rcS.gui
 fi
 
