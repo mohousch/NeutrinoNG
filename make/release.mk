@@ -145,10 +145,7 @@ endif
 	install -d $(RELEASE_DIR)/usr/lib/locale
 	cp -aR $(SKEL_ROOT)/usr/lib/locale/* $(RELEASE_DIR)/usr/lib/locale
 	install -d $(RELEASE_DIR)/usr/share/{udhcpc,zoneinfo,fonts}
-	install -d $(RELEASE_DIR)/var/{bin,lib,net,tuxbox}
-ifeq ($(BOXARCH), sh4)
-	install -d $(RELEASE_DIR)/var/etc
-endif	
+	install -d $(RELEASE_DIR)/var/{bin,etc,lib,net,tuxbox}
 	install -d $(RELEASE_DIR)/var/tuxbox/config
 	install -d $(RELEASE_DIR)/var/lib/{nfs,modules,opkg}
 	install -d $(RELEASE_DIR)/var/spool/cron/crontabs
