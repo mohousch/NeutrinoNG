@@ -2,12 +2,12 @@
 
 . /etc/profile
 
-if [ -e /var/etc/.firstboot ]; then
+if [ -e /etc/.firstboot ]; then
 /usr/bin/passwd root <<EOF
 root
 root
 EOF
-  rm /var/etc/.firstboot
+  rm /etc/.firstboot
 fi
 
 mount -t proc proc /proc

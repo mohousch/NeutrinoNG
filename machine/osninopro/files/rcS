@@ -1,15 +1,16 @@
 #!/bin/sh
 
 . /etc/profile
+
 echo "[rcS] `date +'%d.%m.%Y %H:%M:%S'` start"
 SYSDATE=`date +"%Y%m%d"`
 
-if [ -e /var/etc/.firstboot ]; then
+if [ -e /etc/.firstboot ]; then
 /usr/bin/passwd root <<EOF
 root
 root
 EOF
-  rm /var/etc/.firstboot
+  rm /etc/.firstboot
 fi
 
 mkdir -p /dev/pts

@@ -147,7 +147,10 @@ endif
 	install -d $(RELEASE_DIR)/usr/lib/locale
 	cp -aR $(SKEL_ROOT)/usr/lib/locale/* $(RELEASE_DIR)/usr/lib/locale
 	install -d $(RELEASE_DIR)/usr/share/{udhcpc,zoneinfo,fonts}
-	install -d $(RELEASE_DIR)/var/{bin,etc,lib,net,tuxbox}
+	install -d $(RELEASE_DIR)/var/{bin,lib,net,tuxbox}
+ifeq ($(BOXARCH), sh4)
+	install -d $(RELEASE_DIR)/var/etc
+endif
 	install -d $(RELEASE_DIR)/var/tuxbox/config
 	install -d $(RELEASE_DIR)/var/lib/{nfs,modules,opkg}
 	install -d $(RELEASE_DIR)/var/spool/cron/crontabs
@@ -158,7 +161,11 @@ endif
 	mkdir -p $(RELEASE_DIR)/etc/rc.d/rc6.d
 	ln -s ../init.d/sendsigs $(RELEASE_DIR)/etc/rc.d/rc6.d/S20sendsigs
 	ln -s ../init.d/reboot $(RELEASE_DIR)/etc/rc.d/rc6.d/S90reboot
+ifeq ($(BOXARCH), sh4)
 	touch $(RELEASE_DIR)/var/etc/.firstboot
+else
+	touch $(RELEASE_DIR)/etc/.firstboot
+endif
 	ln -sf /proc/mounts $(RELEASE_DIR)/etc/mtab
 #
 # imageversion
