@@ -35,8 +35,10 @@ endif
 #
 RELEASE_DEPS += $(D)/tools-aio-grab
 RELEASE_DEPS += $(D)/tools-showiframe
-ifeq ($(BOXARCH), sh4)
+ifeq ($(BOXARCH), $(filter $(BOXARCH), sh4 x86_64))
 RELEASE_DEPS += $(D)/lirc
+endif
+ifeq ($(BOXARCH), sh4)
 RELEASE_DEPS += $(D)/tools-evremote2
 RELEASE_DEPS += $(D)/tools-fp_control
 RELEASE_DEPS += $(D)/tools-stfbcontrol
