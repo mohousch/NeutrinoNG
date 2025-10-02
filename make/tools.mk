@@ -260,19 +260,6 @@ $(D)/tools-stfbcontrol: $(D)/bootstrap
 	$(TOUCH)
 
 #
-# streamproxy
-#
-$(D)/tools-streamproxy: $(D)/bootstrap
-	$(START_BUILD)
-	set -e; cd $(TOOLS_DIR)/streamproxy; \
-		$(CONFIGURE) \
-			--prefix=/usr \
-		; \
-		$(MAKE); \
-		$(MAKE) install DESTDIR=$(TARGET_DIR)
-	$(TOUCH)
-
-#
 # tfd2mtd
 #
 $(D)/tools-tfd2mtd: $(D)/bootstrap
