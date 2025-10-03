@@ -72,7 +72,7 @@ init:
 	@echo "  Giga Blue"
 	@echo "   70)  gb800se"
 	@echo "   71)  gbue4k"
-	@echo -e "\033[01;32m   72)  gbultraue\033[00m"
+	@echo "   72)  gbultraue"
 	@echo "  WWIO"
 	@echo "   80)  WWIO BRE2ZE 4K"
 	@echo "   81)  WWIO BRE2ZE T2C"
@@ -98,6 +98,8 @@ init:
 	@echo "   140)  protek4k"
 	@echo "  Uclan"
 	@echo "   150)  ustym4kpro"
+	@echo ""
+	@echo -e "\033[01;32m   *)  generic\033[00m"
 	@echo ""
 	@read -p "Select target (1-150)? " BOXTYPE; \
 	BOXTYPE=$${BOXTYPE}; \
@@ -149,7 +151,7 @@ init:
 		130) BOXTYPE="sf8008";; \
 		140) BOXTYPE="protek4k";; \
 		150) BOXTYPE="ustym4kpro";; \
-		*) BOXTYPE="gbultraue";; \
+		*) BOXTYPE="generic";; \
 	esac; \
 	echo "BOXTYPE?=$$BOXTYPE" > .config
 	@echo ""		
