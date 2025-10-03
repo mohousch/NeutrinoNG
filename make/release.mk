@@ -31,13 +31,17 @@ RELEASE_DEPS += $(D)/dvb-apps
 RELEASE_DEPS += $(D)/dvbsnoop
 endif
 #
-# tools
+# lirc
 #
-RELEASE_DEPS += $(D)/tools-aio-grab
-RELEASE_DEPS += $(D)/tools-showiframe
 ifeq ($(BOXARCH), $(filter $(BOXARCH), sh4 x86_64))
 RELEASE_DEPS += $(D)/lirc
 endif
+#
+# tools
+#
+ifneq ($(BOXARCH), x86_64)
+RELEASE_DEPS += $(D)/tools-aio-grab
+RELEASE_DEPS += $(D)/tools-showiframe
 ifeq ($(BOXARCH), sh4)
 RELEASE_DEPS += $(D)/tools-evremote2
 RELEASE_DEPS += $(D)/tools-fp_control
@@ -50,6 +54,7 @@ endif
 ifeq ($(BOXARCH), $(filter $(BOXARCH), arm mips))
 RELEASE_DEPS += $(D)/tools-turnoff_power
 RELEASE_DEPS += $(D)/tools-eplayer4
+endif
 endif
 #
 # wlan
