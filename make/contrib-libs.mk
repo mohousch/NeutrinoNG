@@ -519,9 +519,7 @@ $(D)/freetype: $(D)/bootstrap $(D)/zlib $(D)/libpng $(ARCHIVE)/$(FREETYPE_SOURCE
 #
 LIRC_VER = 0.9.0
 LIRC_SOURCE = lirc-$(LIRC_VER).tar.bz2
-ifneq ($(BOXARCH), x86_64)
 LIRC_PATCH = lirc-$(LIRC_VER).patch
-endif
 
 $(ARCHIVE)/$(LIRC_SOURCE):
 	$(DOWNLOAD) https://sourceforge.net/projects/lirc/files/LIRC/$(LIRC_VER)/$(LIRC_SOURCE)
