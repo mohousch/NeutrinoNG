@@ -161,11 +161,7 @@ endif
 	mkdir -p $(RELEASE_DIR)/etc/rc.d/rc6.d
 	ln -s ../init.d/sendsigs $(RELEASE_DIR)/etc/rc.d/rc6.d/S20sendsigs
 	ln -s ../init.d/reboot $(RELEASE_DIR)/etc/rc.d/rc6.d/S90reboot
-ifeq ($(BOXARCH), sh4)
-	touch $(RELEASE_DIR)/var/etc/.firstboot
-else
 	touch $(RELEASE_DIR)/etc/.firstboot
-endif
 	ln -sf /proc/mounts $(RELEASE_DIR)/etc/mtab
 #
 # imageversion
