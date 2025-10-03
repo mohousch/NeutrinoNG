@@ -7,10 +7,11 @@ CICAM = ci-cam
 #
 # kernel
 #
-KERNEL_VER             = e5f0a698b34ed76002dc5cff3804a61c80233a7a
+###https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.12.47.tar.xz
+KERNEL_VER             = 6.12.47
 KERNEL_DATE            = 
-KERNEL_SRC 	       = $(KERNEL_VER).tar.gz
-KERNEL_URL	       = https://github.com/torvalds/linux/archive
+KERNEL_SRC 	       = linux-$(KERNEL_VER).tar.xz
+KERNEL_URL	       = https://cdn.kernel.org/pub/linux/kernel/v6.x
 KERNEL_CONFIG          = defconfig
 KERNEL_DIR             = $(BUILD_TMP)/linux-$(KERNEL_VER)
 KERNEL_FILE 	       =

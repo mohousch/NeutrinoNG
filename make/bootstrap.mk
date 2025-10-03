@@ -482,7 +482,7 @@ $(D)/directories:
 	install -d $(TARGET_DIR)/lib/{lsb,firmware}
 	install -d $(TARGET_DIR)/usr/{bin,lib,sbin,share}
 ifeq ($(BOXARCH), x86_64)
-	ln -sf /usr/lib $(TARGGET_DIR)/usr/lib64
+	ln -sf /usr/lib $(TARGET_DIR)/usr/lib64
 endif
 	install -d $(TARGET_DIR)/usr/lib/pkgconfig
 	install -d $(TARGET_DIR)/usr/include/linux
