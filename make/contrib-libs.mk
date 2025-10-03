@@ -1896,7 +1896,9 @@ $(D)/alsa_utils: $(D)/bootstrap $(D)/alsa_lib $(ARCHIVE)/$(ALSA_UTILS_SOURCE)
 #
 LIBOPENTHREADS_VER = 3.2
 LIBOPENTHREADS_SOURCE = OpenThreads-$(LIBOPENTHREADS_VER).tar.gz
+ifneq ($(BOXARCH), x86_64)
 LIBOPENTHREADS_PATCH = libopenthreads-$(LIBOPENTHREADS_VER).patch
+endif
 
 $(ARCHIVE)/$(LIBOPENTHREADS_SOURCE):
 	$(DOWNLOAD) https://sourceforge.net/projects/mxedeps/files/$(LIBOPENTHREADS_SOURCE)
@@ -1920,7 +1922,11 @@ $(D)/libopenthreads: $(D)/bootstrap $(ARCHIVE)/$(LIBOPENTHREADS_SOURCE)
 		sed -i 's@SET(CMAKE_INSTALL_PREFIX "/usr/local")@SET(CMAKE_INSTALL_PREFIX "")@'; \
 		$(MAKE); \
 		$(MAKE) install DESTDIR=$(TARGET_DIR)
+ifeq ($(BOXARCH), x86_64)
+	$(REWRITE_PKGCONF) $(PKG_CONFIG64_PATH)/openthreads.pc
+else	
 	$(REWRITE_PKGCONF) $(PKG_CONFIG_PATH)/openthreads.pc
+endif
 	$(REMOVE)/OpenThreads-$(LIBOPENTHREADS_VER)
 	$(TOUCH)
 
