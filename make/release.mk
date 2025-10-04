@@ -216,10 +216,12 @@ endif
 #
 # wlan firmware
 #
+ifeq ($(BOXARCH), $(filter $(BOXARCH), arm mips x86_64))
 	install -d $(RELEASE_DIR)/etc/Wireless
 	cp -aR $(SKEL_ROOT)/lib/firmware/Wireless/* $(RELEASE_DIR)/etc/Wireless/
 	cp -aR $(SKEL_ROOT)/lib/firmware/rtlwifi $(RELEASE_DIR)/lib/firmware/
 	cp -aR $(SKEL_ROOT)/lib/firmware/*.bin $(RELEASE_DIR)/lib/firmware/
+endif
 #
 # lib
 #
