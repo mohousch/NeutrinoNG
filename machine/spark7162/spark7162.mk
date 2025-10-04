@@ -245,6 +245,5 @@ endif
 # image
 #
 image-spark7162:
-#	$(MAKE) spark-image-$(BOXTYPE)
 	cd $(HELPERS_DIR)/spark && $(SUDOCMD) ./spark.sh $(MAINTAINER) $(BOXTYPE)
 

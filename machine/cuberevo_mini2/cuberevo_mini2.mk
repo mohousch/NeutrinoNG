@@ -244,6 +244,5 @@ endif
 # image
 #
 image-cuberevo_mini2:
-#	$(MAKE) nor-image-$(BOXTYPE)
 	cd $(HELPERS_DIR)/nor_flash && $(SUDOCMD) ./make_flash.sh $(MAINTAINER) $(BOXTYPE)
 

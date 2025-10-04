@@ -242,6 +242,5 @@ endif
 # image
 #
 image-ufs912:
-#	$(MAKE) ufs912-image-$(BOXTYPE)
 	cd $(HELPERS_DIR)/ufs912 && $(SUDOCMD) ./ufs912.sh $(MAINTAINER)
 
