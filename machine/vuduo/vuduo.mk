@@ -140,6 +140,8 @@ BOOTLOGO_FILENAME = splash_cfe_auto.bin
 BOOT_UPDATE_TEXT = "This file forces a reboot after the update."
 BOOT_UPDATE_FILE = reboot.update
 
+-include $(HELPERS_DIR)/ubi/ubi.mk
+
 image-vuduo:
 	$(MAKE) ubi-image-$(BOXTYPE)
 

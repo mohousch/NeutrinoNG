@@ -168,6 +168,8 @@ INITRD_SRC = initrd_$(BOXTYPE)_$(INITRD_SRCDATE).zip
 $(ARCHIVE)/$(INITRD_SRC):
 	$(DOWNLOAD) https://source.mynonpublic.com/gigablue/initrd/$(INITRD_SRC)
 	
+-include $(HELPERS_DIR)/gigablue/gigablue.mk
+	
 image-gbue4k:
-	$(MAKE) gbue4k-flash-image
+	$(MAKE) gigablue-flash-image-gbue4k
 

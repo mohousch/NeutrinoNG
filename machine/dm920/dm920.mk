@@ -113,6 +113,9 @@ release-dm920:
 #
 # image
 #
+
+-include $(HELPERS_DIR)/dm/dm.mk
+
 image-dm920:
 	$(MAKE) dm-rootfs-image-$(BOXTYPE)
 

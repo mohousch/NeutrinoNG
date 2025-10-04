@@ -159,6 +159,8 @@ LOADER_SIZE = 0x40000
 BOOT_SIZE = 0x3C0000
 ROOT_SIZE = 0x3C00000
 
+-include $(HELPERS_DIR)/dm/dm.mk
+
 image-dm800se:
 	$(MAKE) dm-nfi-image-$(BOXTYPE)
 

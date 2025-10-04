@@ -110,6 +110,8 @@ release-e4hdultra:
 #
 FLASHIMAGE_PREFIX = e4hd
 
+-include $(HELPERS_DIR)/gfuture/gfuture.mk
+
 image-e4hdultra:
 	$(MAKE) gfuture-disk-image-$(BOXTYPE) gfuture-rootfs-image-$(BOXTYPE)
 

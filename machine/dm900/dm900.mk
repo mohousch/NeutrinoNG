@@ -113,6 +113,9 @@ release-dm900:
 #
 # image
 #
+
+-include $(HELPERS_DIR)/dm/dm.mk
+
 image-dm900:
 	$(MAKE) dm-rootfs-image-$(BOXTYPE)
 

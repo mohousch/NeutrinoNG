@@ -132,6 +132,8 @@ BOOTLOGO_FILENAME = splash.bin
 BOOT_UPDATE_TEXT = "rename this file to 'force' to force an update without confirmation"
 BOOT_UPDATE_FILE = noforce
 
+-include $(HELPERS_DIR)/ubi/ubi.mk
+
 image-bre2zet2c:
 	$(MAKE) ubi-image-$(BOXTYPE)
 

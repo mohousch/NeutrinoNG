@@ -231,6 +231,8 @@ release-sf8008: $(ARCHIVE)/$(FLASH_PARTITONS_SRC)
 # image
 #
 
+-include $(HELPERS_DIR)/octagon/octagon.mk
+
 image-sf8008:
 	$(MAKE) octagon-disk-image-$(BOXTYPE) octagon-rootfs-image-$(BOXTYPE)
 

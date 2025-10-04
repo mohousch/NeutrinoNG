@@ -188,6 +188,8 @@ BOOT_UPDATE_FILE = noforce
 PART_TEXT = This file forces creating partitions.
 PART_FILE = mkpart.update
 
+-include $(HELPERS_DIR)/vuplus/vuplus.mk
+
 image-vusolo4k:
 	$(MAKE) vuplus-rootfs-image-$(BOXTYPE) vuplus-multi-rootfs-image-$(BOXTYPE)
 

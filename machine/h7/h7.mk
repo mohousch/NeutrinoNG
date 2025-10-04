@@ -142,6 +142,8 @@ release-h7:
 #
 FLASHIMAGE_PREFIX = zgemma/$(BOXTYPE)
 
+-include $(HELPERS_DIR)/gfuture/gfuture.mk
+
 image-h7:
 	$(MAKE) gfuture-disk-image-$(BOXTYPE) gfuture-rootfs-image-$(BOXTYPE)
 

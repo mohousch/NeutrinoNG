@@ -22,7 +22,8 @@ ARCHIVE               = $(HOME)/Archive
 TOOLS_DIR             = $(BASE_DIR)/tools
 DRIVER_DIR            = $(BASE_DIR)/driver
 PATCHES               = $(BASE_DIR)/patches
-SCRIPTS_DIR           = $(BASE_DIR)/scripts
+HELPERS_DIR	      = $(BASE_DIR)/helpers
+SCRIPTS_DIR           = $(HELPERS_DIR)/scripts
 SKEL_ROOT             = $(BASE_DIR)/root
 
 # BOXTYPE

@@ -143,6 +143,8 @@ release-protek4k:
 #
 FLASHIMAGE_PREFIX = $(BOXTYPE)
 
+-include $(HELPERS_DIR)/gfuture/gfuture.mk
+
 image-protek4k:
 	$(MAKE) gfuture-disk-image-$(BOXTYPE) gfuture-rootfs-image-$(BOXTYPE)
 

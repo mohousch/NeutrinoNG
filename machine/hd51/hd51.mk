@@ -104,6 +104,8 @@ release-hd51:
 #
 FLASHIMAGE_PREFIX = $(BOXTYPE)
 
+-include $(HELPERS_DIR)/gfuture/gfuture.mk
+
 image-hd51:
 	$(MAKE) gfuture-disk-image-$(BOXTYPE) gfuture-rootfs-image-$(BOXTYPE)
 

@@ -220,6 +220,8 @@ $(ARCHIVE)/$(FLASH_PARTITONS_SRC):
 $(ARCHIVE)/$(FLASH_RECOVERY_SRC):
 	$(DOWNLOAD) http://source.mynonpublic.com/maxytec/$(FLASH_RECOVERY_SRC)
 	
+-include $(HELPERS_DIR)/hdfastboot8gb/hdfastboot8gb.mk
+	
 image-multiboxse:
 	$(MAKE) hdfastboot8gb-disk-image-$(BOXTYPE) hdfastboot8gb-rootfs-image-$(BOXTYPE)
 

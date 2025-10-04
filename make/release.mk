@@ -143,6 +143,9 @@ release-common: $(RELEASE_DEPS)
 	rm -rf $(RELEASE_DIR) || true
 	install -d $(RELEASE_DIR)
 	install -d $(RELEASE_DIR)/{bin,boot,dev,dev.static,etc,lib,media,mnt,proc,ram,root,sbin,sys,tmp,usr,var}
+ifeq ($(BOXARCH), x86_64)
+	install -d $(RELEASE_DIR)/boot/grub
+endif
 	install -d $(RELEASE_DIR)/etc/{init.d,network,mdev,ssl,default,samba}
 	install -d $(RELEASE_DIR)/etc/network/if-{post-{up,down},pre-{up,down},up,down}.d
 	install -d $(RELEASE_DIR)/lib/{modules,firmware}

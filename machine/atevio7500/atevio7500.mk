@@ -244,5 +244,6 @@ endif
 # image
 #
 image-atevio7500:
-	$(MAKE) atevio-image-$(BOXTYPE)
+#	$(MAKE) atevio-image-$(BOXTYPE)
+	cd $(HELPERS_DIR)/atevio7500 && $(SUDOCMD) ./atevio7500.sh $(MAINTAINER)
 

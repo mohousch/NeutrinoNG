@@ -120,6 +120,8 @@ FLASHSIZE = 4096
 #BOOT_SIZE = 0x700000
 #ROOT_SIZE = 0x3F800000
 
+-include $(HELPERS_DIR)/usb/usb.mk
+
 image-dm7080:
 	$(MAKE) usb-image-$(BOXTYPE)
 

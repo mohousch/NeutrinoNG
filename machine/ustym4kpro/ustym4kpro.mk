@@ -235,6 +235,8 @@ release-ustym4kpro: $(ARCHIVE)/$(FLASH_PARTITONS_SRC)
 # image
 #
 
+-include $(HELPERS_DIR)/octagon/octagon.mk
+
 image-ustym4kpro:
 	$(MAKE) octagon-disk-image-$(BOXTYPE) octagon-rootfs-image-$(BOXTYPE)
 

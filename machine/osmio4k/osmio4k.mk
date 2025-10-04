@@ -163,6 +163,8 @@ release-osmio4k:
 # image
 #
 
+-include $(HELPERS_DIR)/edision/edision.mk
+
 image-osmio4k:
 	$(MAKE) edision-disk-image-$(BOXTYPE) edision-rootfs-image-$(BOXTYPE)
 
