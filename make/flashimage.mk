@@ -595,6 +595,19 @@ gbue4k-flash-image: $(ARCHIVE)/$(INITRD_SRC)
 	rm -rf $(IMAGE_BUILD_DIR)
 	
 #
+# generic image
+#
+generic-flash-image:
+	rm -rf $(IMAGE_BUILD_DIR) || true
+	mkdir -p $(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)
+	#do image stuff here
+	#
+	cd $(IMAGE_BUILD_DIR) && \
+	zip -r $(IMAGE_DIR)/$(BS_NAME)_$(BS_CYCLE)_$(BOXTYPE)_$(shell date '+%d.%m.%Y-%H.%M')_usb.zip $(FLASHIMAGE_PREFIX)*
+	# cleanup
+	rm -rf $(IMAGE_BUILD_DIR)
+	
+#
 # image
 #
 image: release

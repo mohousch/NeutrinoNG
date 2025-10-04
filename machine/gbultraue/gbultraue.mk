@@ -116,4 +116,3 @@ BOOT_UPDATE_FILE = noforce
 image-gbultraue:
 	$(MAKE) ubi-image-$(BOXTYPE)
 
-

@@ -84,6 +84,8 @@ release-generic:
 #
 # image
 #
+FLASHIMAGE_PREFIX = generic
 
 image-generic:
+	$(MAKE) generic-flash-image
 
