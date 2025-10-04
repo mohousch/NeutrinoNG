@@ -334,7 +334,6 @@ include make/cleantargets.mk
 include make/release.mk
 include make/neutrino2.mk
 include make/neutrino.mk
-include make/flashimage.mk
 include make/packages.mk
 
 update:
