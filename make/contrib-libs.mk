@@ -101,7 +101,11 @@ $(D)/libffi: $(D)/bootstrap $(ARCHIVE)/$(LIBFFI_SOURCE)
 		$(MAKE); \
 		$(MAKE) install DESTDIR=$(TARGET_DIR)
 	$(REWRITE_PKGCONF) $(PKG_CONFIG_PATH)/libffi.pc
+ifeq ($(BOXARCH), x86_64)
+	$(REWRITE_LIB64TOOL)/libffi.la
+else
 	$(REWRITE_LIBTOOL)/libffi.la
+endif
 	$(REMOVE)/libffi-$(LIBFFI_VER)
 	$(TOUCH)
 

@@ -88,7 +88,8 @@ NEUTRINO2_CONFIG_OPTS += --enable-functionkeys
 endif
 
 ifeq ($(BOXARCH), x86_64)
-NEUTRINO2_CONFIG_OPTS += enable-opengl
+#NEUTRINO2_CONFIG_OPTS += enable-opengl
+NEUTRINO2_CONFIG_OPTS += --enable-lirc
 endif
 
 NEUTRINO2_PATCHES =

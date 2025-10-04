@@ -2,7 +2,6 @@
 # tools-clean
 #
 tools-clean:
-ifneq ($(BOXARCH), x86_64)
 	rm -f $(D)/tools-*
 	-$(MAKE) -C $(TOOLS_DIR)/aio-grab-$(BOXARCH) clean
 	-$(MAKE) -C $(TOOLS_DIR)/showiframe-$(BOXARCH) clean
@@ -28,13 +27,11 @@ endif
 ifeq ($(BOXTYPE), $(filter $(BOXTYPE), vuduo vuduo2 vuduo4k vuduo4kse vuuno4kse vuzero4k vuultimo4k vuuno4k vusolo4k))
 	-$(MAKE) -C $(TOOLS_DIR)/turnoff_power clean
 endif
-endif
 
 #
 # tools-distclean
 #
 tools-distclean:
-ifneq ($(BOXARCH), x86_64)
 	rm -f $(D)/tools-*
 	-$(MAKE) -C $(TOOLS_DIR)/aio-grab-$(BOXARCH) distclean
 	-$(MAKE) -C $(TOOLS_DIR)/showiframe-$(BOXARCH) distclean
@@ -59,7 +56,6 @@ endif
 endif
 ifeq ($(BOXTYPE), $(filter $(BOXTYPE), vuduo vuduo2 vuduo4k vuduo4kse vuuno4kse vuzero4k vuultimo4k vuuno4k vusolo4k))
 	-$(MAKE) -C $(TOOLS_DIR)/turnoff_power distclean
-endif
 endif
 
 #

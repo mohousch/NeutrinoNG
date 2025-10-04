@@ -450,7 +450,7 @@ endif
 ifeq ($(BOXTYPE), $(filter $(BOXTYPE), sf8008 ustym4kpro))
 BOOTSTRAP += $(D)/buildimage-tool
 endif
-ifeq ($(BOXARCH), $(filter $(BOXARCH), arm mips))	
+ifeq ($(BOXARCH), $(filter $(BOXARCH), arm mips x86_64))	
 BOOTSTRAP += $(D)/host_python 
 endif
 

@@ -23,6 +23,8 @@ RELEASE_DEPS += $(D)/opkg
 RELEASE_DEPS += $(D)/alsa_utils
 ifeq ($(BOXARCH), $(filter $(BOXARCH), arm mips))
 RELEASE_DEPS += $(D)/ofgwrite
+endif
+ifeq ($(BOXARCH), $(filter $(BOXARCH), arm mips x86_64))
 RELEASE_DEPS += $(D)/parted
 RELEASE_DEPS += $(D)/ntfs_3g
 RELEASE_DEPS += $(D)/mtd_utils 
@@ -59,14 +61,14 @@ endif
 #
 # wlan
 #
-ifeq ($(BOXARCH), $(filter $(BOXARCH), arm mips))	
+ifeq ($(BOXARCH), $(filter $(BOXARCH), arm mips x86_64))	
 RELEASE_DEPS += $(D)/wpa_supplicant 
 RELEASE_DEPS += $(D)/wireless_tools
 endif
 #
 # python
 #
-ifeq ($(BOXARCH), $(filter $(BOXARCH), arm mips))
+ifeq ($(BOXARCH), $(filter $(BOXARCH), arm mips x86_64))
 RELEASE_DEPS += $(D)/python
 endif
 #
@@ -94,7 +96,7 @@ endif
 #
 # optional
 #
-ifeq ($(BOXARCH), $(filter $(BOXARCH), arm mips))
+ifeq ($(BOXARCH), $(filter $(BOXARCH), arm mips x86_64))
 RELEASE_DEPS += $(D)/mc
 RELEASE_DEPS += $(D)/nano
 endif
@@ -248,7 +250,7 @@ endif
 #
 # python
 #
-ifeq ($(BOXARCH), $(filter $(BOXARCH), arm mips))
+ifeq ($(BOXARCH), $(filter $(BOXARCH), arm mips x86_64))
 	install -d $(RELEASE_DIR)/$(PYTHON_DIR)
 	cp -R $(TARGET_DIR)/$(PYTHON_DIR)/* $(RELEASE_DIR)/$(PYTHON_DIR)/
 	install -d $(RELEASE_DIR)/$(PYTHON_INCLUDE_DIR)
@@ -342,7 +344,7 @@ endif
 #
 # delete unnecessary python files
 #
-ifeq ($(BOXARCH), $(filter $(BOXARCH), arm mips))
+ifeq ($(BOXARCH), $(filter $(BOXARCH), arm mips x86_64))
 	rm -rf $(RELEASE_DIR)/$(PYTHON_DIR)/{bsddb,compiler,curses,lib-old,lib-tk,plat-linux3,test,sqlite3,pydoc_data,multiprocessing,hotshot,distutils,email,unitest,ensurepip,wsgiref,lib2to3,logging,idlelib}
 	rm -rf $(RELEASE_DIR)/$(PYTHON_DIR)/pdb.doc
 	rm -rf $(RELEASE_DIR)/$(PYTHON_DIR)/ctypes/test
@@ -410,7 +412,7 @@ ifeq ($(BOXARCH), sh4)
 	rm -f $(addprefix $(RELEASE_DIR)/usr/bin/,dvdnav-config gio-querymodules gobject-query gtester gtester-report)
 	rm -f $(addprefix $(RELEASE_DIR)/usr/bin/,livestreamer mailmail manhole)
 endif
-ifeq ($(BOXARCH), $(filter $(BOXARCH), arm mips))
+ifeq ($(BOXARCH), $(filter $(BOXARCH), arm mips x86_64))
 	rm -rf $(RELEASE_DIR)/dev.static
 	rm -rf $(RELEASE_DIR)/ram
 	rm -rf $(RELEASE_DIR)/root
