@@ -96,7 +96,7 @@ endif
 #
 # optional
 #
-ifeq ($(BOXARCH), $(filter $(BOXARCH), arm mips x86_64))
+ifeq ($(BOXARCH), $(filter $(BOXARCH), arm mips))
 RELEASE_DEPS += $(D)/mc
 RELEASE_DEPS += $(D)/nano
 endif
