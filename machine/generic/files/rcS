@@ -69,11 +69,9 @@ fi
 /etc/init.d/nfs-common start
 
 #
-#echo "[rcS] `date +'%d.%m.%Y %H:%M:%S'` load modules"
-
-while [ ! -c /dev/fb0 ]; do
-	usleep 100000
-done
+echo "init lircd"
+mkdir -p /var/run/lirc
+/usr/bin/lircd -u
 
 # set dummy time
 NTPDATE=`date +"%Y%m%d"`

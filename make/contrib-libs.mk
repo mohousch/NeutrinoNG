@@ -521,17 +521,34 @@ $(D)/freetype: $(D)/bootstrap $(D)/zlib $(D)/libpng $(ARCHIVE)/$(FREETYPE_SOURCE
 #
 # lirc
 #
+ifeq ($(BOXARCH), x86_64)
+LIRC_VER = 0.10.2
+LIRC_OPTS = --enable-devinput \
+                          --enable-uinput \
+                          --with-gnu-ld \
+                          --without-x \
+                          --runstatedir=/run \
+                          --with-lockdir=/var/lock
+else
 LIRC_VER = 0.9.0
-LIRC_SOURCE = lirc-$(LIRC_VER).tar.bz2
 LIRC_PATCH = lirc-$(LIRC_VER).patch
+LIRC_OPTS = --with-kerneldir=$(KERNEL_DIR) \
+			--without-x \
+			--with-devdir=/dev \
+			--with-moduledir=/lib/modules \
+			--with-major=61 \
+			--with-driver=userspace \
+			--enable-debug \
+			--with-syslog=LOG_DAEMON \
+			--enable-sandboxed
+endif
+LIRC_SOURCE = lirc-$(LIRC_VER).tar.bz2
 
 $(ARCHIVE)/$(LIRC_SOURCE):
 	$(DOWNLOAD) https://sourceforge.net/projects/lirc/files/LIRC/$(LIRC_VER)/$(LIRC_SOURCE)
 
 ifeq ($(BOXTYPE), $(filter $(BOXTYPE), spark spark7162))
-LIRC_OPTS = -D__KERNEL_STRICT_NAMES -DUINPUT_NEUTRINO_HACK -DSPARK -I$(DRIVER_DIR)/frontcontroller/aotom_spark
-else
-LIRC_OPTS = -D__KERNEL_STRICT_NAMES
+LIRC_CFLAGS = -D__KERNEL_STRICT_NAMES -DUINPUT_NEUTRINO_HACK -DSPARK -I$(DRIVER_DIR)/frontcontroller/aotom_spark
 endif
 
 $(D)/lirc: $(D)/bootstrap $(ARCHIVE)/$(LIRC_SOURCE)
@@ -542,21 +559,13 @@ $(D)/lirc: $(D)/bootstrap $(ARCHIVE)/$(LIRC_SOURCE)
 		$(call apply_patches, $(LIRC_PATCH)); \
 		$(CONFIGURE) \
 		ac_cv_path_LIBUSB_CONFIG= \
-		CFLAGS="$(TARGET_CFLAGS) $(LIRC_OPTS)" \
+		CFLAGS="$(TARGET_CFLAGS) $(LIRC_CFLAGS)" \
 			--build=$(BUILD) \
 			--host=$(TARGET) \
 			--prefix=/usr \
 			--sbindir=/usr/bin \
 			--mandir=/.remove \
-			--with-kerneldir=$(KERNEL_DIR) \
-			--without-x \
-			--with-devdir=/dev \
-			--with-moduledir=/lib/modules \
-			--with-major=61 \
-			--with-driver=userspace \
-			--enable-debug \
-			--with-syslog=LOG_DAEMON \
-			--enable-sandboxed \
+			$(LIRC_OPTS) \
 		; \
 		$(MAKE) all; \
 		$(MAKE) install DESTDIR=$(TARGET_DIR)
