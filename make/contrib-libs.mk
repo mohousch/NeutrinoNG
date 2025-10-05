@@ -522,7 +522,7 @@ $(D)/freetype: $(D)/bootstrap $(D)/zlib $(D)/libpng $(ARCHIVE)/$(FREETYPE_SOURCE
 #
 # lirc
 #
-ifeq ($(BOXARCH), x86_64)
+ifeq ($(BOXARCH), $(filter $(BOXARCH), x86_64))
 LIRC_VER = 0.10.2
 LIRC_OPTS = --enable-devinput \
                           --enable-uinput \

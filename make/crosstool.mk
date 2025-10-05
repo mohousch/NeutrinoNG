@@ -80,7 +80,7 @@ crosstool-restore: $(CROSSTOOL_NG_BACKUP)
 	tar xzvf $(CROSSTOOL_NG_BACKUP) -C $(CROSS_DIR)
 
 #
-# crossmenuconfig
+# crosstool-menuconfig
 #
 crosstool-menuconfig: $(D)/directories $(ARCHIVE)/$(CROSSTOOL_NG_SOURCE)
 	$(REMOVE)/crosstool-ng-git-$(CROSSTOOL_NG_VER)
@@ -95,7 +95,7 @@ crosstool-menuconfig: $(D)/directories $(ARCHIVE)/$(CROSSTOOL_NG_SOURCE)
 		./ct-ng menuconfig
 		
 #
-# linuxmenuconfig
+# linux-menuconfig
 #
 linux-menuconfig: $(D)/kernel.do_prepare
 	set -e; cd $(KERNEL_DIR); \
