@@ -127,7 +127,7 @@ TARGET_INCLUDE_DIR    = $(TARGET_DIR)/usr/include
 TARGET_CFLAGS         = -pipe $(TARGET_O_CFLAGS) $(TARGET_MARCH_CFLAGS) $(TARGET_EXTRA_CFLAGS) -I$(TARGET_INCLUDE_DIR)
 TARGET_CPPFLAGS       = $(TARGET_CFLAGS)
 TARGET_CXXFLAGS       = $(TARGET_CFLAGS)
-TARGET_LDFLAGS        = -Wl,-rpath -Wl,/usr/lib -Wl,-rpath-link -Wl,$(TARGET_LIB_DIR) -L$(TARGET_LIB_DIR) -L$(TARGET_LIB64_DIR) -L$(TARGET_DIR)/lib $(TARGET_EXTRA_LDFLAGS)
+TARGET_LDFLAGS        = -Wl,-rpath -Wl,/usr/lib -Wl,-rpath-link -Wl,$(TARGET_LIB_DIR) -L$(TARGET_LIB_DIR) -L$(TARGET_LIB64_DIR) -L$(TARGET_DIR)/lib -L$(TARGET_DIR)/lib64 $(TARGET_EXTRA_LDFLAGS)
 LD_FLAGS              = $(TARGET_LDFLAGS)
 
 PKG_CONFIG            = $(HOST_DIR)/bin/$(TARGET)-pkg-config
@@ -152,7 +152,7 @@ CA_BUNDLE_DIR         = /etc/ssl/certs
 
 # helper-"functions"
 REWRITE_LIBTOOL       = sed -i "s,^libdir=.*,libdir='$(TARGET_DIR)/usr/lib'," $(TARGET_DIR)/usr/lib
-REWRITE_LIB64TOOL     = sed -i "s,^libdir=.*,libdir='$(TARGET_DIR)/usr/lib'," $(TARGET_DIR)/usr/lib64
+REWRITE_LIB64TOOL     = sed -i "s,^libdir=.*,libdir='$(TARGET_DIR)/usr/lib64'," $(TARGET_DIR)/usr/lib64
 REWRITE_LIBTOOLDEP    = sed -i -e "s,\(^dependency_libs='\| \|-L\|^dependency_libs='\)/usr/lib,\ $(TARGET_DIR)/usr/lib,g" $(TARGET_DIR)/usr/lib
 REWRITE_PKGCONF       = sed -i "s,^prefix=.*,prefix='$(TARGET_DIR)/usr',"
 
