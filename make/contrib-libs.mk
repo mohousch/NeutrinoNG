@@ -432,9 +432,6 @@ $(D)/bzip2: $(D)/bootstrap $(ARCHIVE)/$(BZIP2_SOURCE)
 		mv Makefile-libbz2_so Makefile; \
 		$(MAKE) all CC=$(TARGET)-gcc AR=$(TARGET)-ar RANLIB=$(TARGET)-ranlib; \
 		$(MAKE) install PREFIX=$(TARGET_DIR)/usr
-ifneq ($(BOXTYPE), $(filter $(BOXTYPE), bre2ze4k hd51 h7 vuduo vuduo4k vuduo4kse vuuno4kse vuzero4k vuultimo4k vuuno4k vusolo4k))
-	cd $(TARGET_DIR) && rm -f usr/bin/bzip2
-endif
 	$(REMOVE)/bzip2-$(BZIP2_VER)
 	$(TOUCH)
 
@@ -1914,7 +1911,7 @@ $(D)/alsa_utils: $(D)/bootstrap $(D)/alsa_lib $(ARCHIVE)/$(ALSA_UTILS_SOURCE)
 #
 LIBOPENTHREADS_VER = 3.2
 LIBOPENTHREADS_SOURCE = OpenThreads-$(LIBOPENTHREADS_VER).tar.gz
-ifneq ($(BOXARCH), x86_64)
+ifeq ($(BOXARCH), $(filter $(BOXARCH), sh4 mips arm))
 LIBOPENTHREADS_PATCH = libopenthreads-$(LIBOPENTHREADS_VER).patch
 endif
 
