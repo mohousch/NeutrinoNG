@@ -26,7 +26,6 @@ RELEASE_DEPS += $(D)/ofgwrite
 endif
 ifeq ($(BOXARCH), $(filter $(BOXARCH), arm mips x86_64))
 RELEASE_DEPS += $(D)/parted
-RELEASE_DEPS += $(D)/ntfs_3g
 RELEASE_DEPS += $(D)/mtd_utils 
 RELEASE_DEPS += $(D)/gptfdisk
 RELEASE_DEPS += $(D)/dvb-apps
@@ -41,7 +40,7 @@ endif
 #
 # tools
 #
-ifneq ($(BOXARCH), x86_64)
+ifeq ($(BOXARCH), $(filter $(BOXARCH), sh4 mips arm))
 RELEASE_DEPS += $(D)/tools-aio-grab
 RELEASE_DEPS += $(D)/tools-showiframe
 ifeq ($(BOXARCH), sh4)
@@ -130,7 +129,7 @@ RELEASE_DEPS += $(D)/libsigc
 RELEASE_DEPS += $(D)/libdvbsi 
 RELEASE_DEPS += $(D)/pugixml 
 RELEASE_DEPS += $(D)/libopenthreads
-ifneq ($(BOXARCH), x86_64)
+ifeq ($(BOXARCH), $(filter $(BOXARCH), sh4 mips arm))
 RELEASE_DEPS += $(D)/libid3tag
 endif
 RELEASE_DEPS += $(D)/libmad

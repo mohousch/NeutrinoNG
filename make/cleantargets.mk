@@ -5,7 +5,7 @@ clean: depsclean
 	@echo -e "$(TERM_YELLOW)---> cleaning everything except toolchain.$(TERM_NORMAL)"
 	@-$(MAKE) kernel-clean
 	@-$(MAKE) driver-clean
-ifneq ($(BOXARCH), x86_64)
+ifeq ($(BOXARCH), $(filter $(BOXARCH), sh4 mips arm))
 	@-$(MAKE) tools-clean
 endif
 	@-rm -rf $(IMAGE_DIR)
@@ -25,8 +25,10 @@ endif
 
 distclean:
 	@echo -e "$(TERM_YELLOW)---> cleaning whole build system ... $(TERM_NORMAL)"
+ifeq ($(BOXARCH), sh4)
 	@-$(MAKE) driver-clean
-ifneq ($(BOXARCH), x86_64)
+endif
+ifeq ($(BOXARCH), $(filter $(BOXARCH), sh4 mips arm))
 	@-$(MAKE) tools-distclean
 endif
 	@-rm -rf $(TUFSBOX_DIR)
