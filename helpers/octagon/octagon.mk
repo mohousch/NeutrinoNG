@@ -1,8 +1,8 @@
 #
 # octagon-disk-image
 #
-OCTAGON_FLASH_IMAGE_NAME = disk
-OCTAGON_ROOTFS_SIZE = 320k #2*128k + 64k
+FLASH_IMAGE_NAME = disk
+ROOTFS_SIZE = 320k #2*128k + 64k
 
 octagon-disk-image-$(BOXTYPE):
 	rm -rf $(IMAGE_BUILD_DIR) || true
@@ -24,11 +24,11 @@ octagon-disk-image-$(BOXTYPE):
 	install -d $(IMAGE_BUILD_DIR)/userdata/linuxrootfs4
 	cp -a $(RELEASE_DIR) $(IMAGE_BUILD_DIR)/userdata
 	#
-	dd if=/dev/zero of=$(IMAGE_BUILD_DIR)/$(OCTAGON_FLASH_IMAGE_NAME).rootfs.ext4 seek=$(OCTAGON_ROOTFS_SIZE) count=0 bs=1024
-	$(HOST_DIR)/bin/mkfs.ext4 -F -i 4096 $(IMAGE_BUILD_DIR)/$(OCTAGON_FLASH_IMAGE_NAME).rootfs.ext4 -d $(IMAGE_BUILD_DIR)/userdata
-	fsck.ext4 -pvfD $(IMAGE_BUILD_DIR)/$(OCTAGON_FLASH_IMAGE_NAME).rootfs.ext4 || [ $? -le 3 ]
+	dd if=/dev/zero of=$(IMAGE_BUILD_DIR)/$(FLASH_IMAGE_NAME).rootfs.ext4 seek=$(ROOTFS_SIZE) count=0 bs=1024
+	$(HOST_DIR)/bin/mkfs.ext4 -F -i 4096 $(IMAGE_BUILD_DIR)/$(FLASH_IMAGE_NAME).rootfs.ext4 -d $(IMAGE_BUILD_DIR)/userdata
+	fsck.ext4 -pvfD $(IMAGE_BUILD_DIR)/$(FLASH_IMAGE_NAME).rootfs.ext4 || [ $? -le 3 ]
 	cp $(IMAGE_BUILD_DIR)/$(BOXTYPE)/uImage $(IMAGE_BUILD_DIR)/patitions/kernel.bin
-	cp $(IMAGE_BUILD_DIR)/$(OCTAGON_FLASH_IMAGE_NAME).rootfs.ext4 $(IMAGE_BUILD_DIR)/patitions/rootfs.ext4
+	cp $(IMAGE_BUILD_DIR)/$(FLASH_IMAGE_NAME).rootfs.ext4 $(IMAGE_BUILD_DIR)/patitions/rootfs.ext4
 	mkupdate -s 00000003-00000001-01010101 -f $(IMAGE_BUILD_DIR)/patitions/emmc_partitions.xml -d $(IMAGE_BUILD_DIR)/usb_update.bin
 	#
 	echo $(BS_NAME)_$(BS_CYCLE)_$(BOXTYPE)_$(shell date '+%d.%m.%Y-%H.%M') > $(IMAGE_BUILD_DIR)/imageversion
