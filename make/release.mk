@@ -67,7 +67,7 @@ endif
 #
 # python
 #
-ifeq ($(BOXARCH), $(filter $(BOXARCH), arm mips x86_64))
+ifeq ($(BOXARCH), $(filter $(BOXARCH), arm mips))
 RELEASE_DEPS += $(D)/python
 endif
 #

@@ -16,7 +16,7 @@ generic-flash-image:
 	# create sparse image disk
 	dd if=/dev/zero of=$(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)/disk.img bs=1M count=1024
 	# write disk label
-	parted -s $(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)/disk.img mklabel msdos
+#	parted -s $(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)/disk.img mklabel msdos
 	# merge disk.ext4 into disk.img
 	dd if=$(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)/disk.ext4 of=$(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)/disk.img bs=1M count=1024
 	rm -rf $(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)/disk.ext4
