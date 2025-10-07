@@ -5,7 +5,7 @@ generic-flash-image:
 	rm -rf $(IMAGE_BUILD_DIR) || true
 	mkdir -p $(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)
 	#do image stuff here
-	cp -a $(SKEL_ROOT)/boot/grub.cfg $(RELEASE_DIR)/boot/grub/grub.cfg
+	cp -a $(SKEL_ROOT)/boot/syslinux.cfg $(RELEASE_DIR)/boot/syslinux/
 	# kernel
 	cp $(TARGET_DIR)/boot/bzImage $(RELEASE_DIR)/boot/
 	#
@@ -15,13 +15,10 @@ generic-flash-image:
 	$(HOST_DIR)/bin/fsck.ext4 -pvfD $(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)/disk.ext4 || [ $? -le 3 ]
 	# create sparse image disk
 	dd if=/dev/zero of=$(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)/disk.img bs=1M count=1024
-	# write disk label
-#	parted -s $(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)/disk.img mklabel msdos
 	# merge disk.ext4 into disk.img
 	dd if=$(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)/disk.ext4 of=$(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)/disk.img bs=1M count=1024
 	rm -rf $(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)/disk.ext4
 	# install syslinux
-#	extlinux -i $(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)/disk.img
 	#
 	echo $(BS_NAME)_$(BS_CYCLE)_$(BOXTYPE)_$(shell date '+%d.%m.%Y-%H.%M') > $(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)/imageversion
 	#
