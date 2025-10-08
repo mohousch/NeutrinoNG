@@ -5,7 +5,7 @@ generic-flash-image:
 	rm -rf $(IMAGE_BUILD_DIR) || true
 	mkdir -p $(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)
 	#do image stuff here
-	cp -a $(SKEL_ROOT)/boot/syslinux.cfg $(RELEASE_DIR)/boot/syslinux/
+	cp -a $(BASE_DIR)/machine/$(BOXTYPE)/files/syslinux.cfg $(RELEASE_DIR)/boot/syslinux/
 	# kernel
 	cp $(TARGET_DIR)/boot/bzImage $(RELEASE_DIR)/boot/
 	#
