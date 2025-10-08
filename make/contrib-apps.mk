@@ -29,7 +29,7 @@ $(D)/busybox: $(D)/bootstrap $(ARCHIVE)/$(BUSYBOX_SOURCE) $(PATCHES)/$(BUSYBOX_C
 	$(TOUCH)
 
 #
-# busyboxmenuconfig
+# busybox-menuconfig
 #	
 busybox-menuconfig: $(D)/bootstrap $(ARCHIVE)/$(BUSYBOX_SOURCE) $(PATCHES)/$(BUSYBOX_CONFIG)
 	$(REMOVE)/busybox-$(BUSYBOX_VER)

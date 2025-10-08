@@ -34,7 +34,7 @@ endif
 #
 # lirc
 #
-ifeq ($(BOXARCH), $(filter $(BOXARCH), sh4 x86_64))
+ifeq ($(BOXARCH), $(filter $(BOXARCH), sh4))
 RELEASE_DEPS += $(D)/lirc
 endif
 #
