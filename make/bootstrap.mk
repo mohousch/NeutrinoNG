@@ -508,7 +508,6 @@ CCACHE_ENV = install -d $(CCACHE_BINDIR); \
 
 $(D)/ccache: directories
 	$(CCACHE_ENV)
-	$(CCACHE) -C
 	touch $@
 
 # hack to make sure they are always copied
