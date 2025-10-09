@@ -13,7 +13,7 @@ dm-nfi-image-$(BOXTYPE):
 	echo "/boot/bootlogo-$(BOXTYPE).elf.gz filename=/boot/bootlogo-$(BOXTYPE).jpg" > $(RELEASE_DIR)/boot/autoexec.bat
 	echo "/boot/$(KERNEL_FILE) ubi.mtd=root root=ubi0:rootfs rootfstype=ubifs rw console=ttyS0,115200n8" >> $(RELEASE_DIR)/boot/autoexec.bat
 	cp $(RELEASE_DIR)/boot/autoexec.bat $(RELEASE_DIR)/boot/autoexec_$(BOXTYPE).bat
-	cp $(SKEL_ROOT)/boot/bootlogo-$(BOXTYPE).elf.gz $(RELEASE_DIR)/boot/
+	cp $(BASE_DIR)/machine/$(BOXTYPE)/files/bootlogo-$(BOXTYPE).elf.gz $(RELEASE_DIR)/boot/
 	cp $(SKEL_ROOT)/boot/bootlogo.jpg $(RELEASE_DIR)/boot/bootlogo-$(BOXTYPE).jpg
 	#
 	mkfs.jffs2 --root=$(RELEASE_DIR)/boot/ --disable-compressor=lzo --compression-mode=size --eraseblock=$(ERASE_BLOCK_SIZE) --output=$(IMAGE_BUILD_DIR)/$(BOXTYPE)/boot.jffs2

@@ -287,9 +287,6 @@ help:
 	@echo " make crosstool			- build cross toolchain"
 	@echo " make bootstrap			- prepares for building"
 	@echo ""
-	@echo "show all build-targets:"
-	@echo " make print-targets		- show all available targets"
-	@echo ""
 	@echo "later, you might find these useful:"
 	@echo " make update			- update the buildsystem"
 	@echo ""
@@ -339,11 +336,6 @@ include make/packages.mk
 update:
 	git stash && git stash show -p > ./pull-stash-NeutrinoNG.patch || true && git pull || true;
 	@echo;
-
-# print all present targets...
-print-targets:
-	@sed -n 's/^\$$.D.\/\(.*\):.*/\1/p' \
-	@ls make/*.mk | grep -v make/buildenv.mk | sort -u | fold -s -w 65
 		
 # print all supported boards ...
 print-boards:
@@ -362,7 +354,6 @@ print-builds:
 .print-phony:
 	@echo $(PHONY)
 
-PHONY += print-targets
 PHONY += all printenv .print-phony
 PHONY += update
 .PHONY: $(PHONY)
