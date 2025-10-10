@@ -4,8 +4,6 @@
 BOXARCH = arm
 CICAM = ci-cam
 SCART = scart
-LCD = 
-FKEYS =
 
 #
 # kernel

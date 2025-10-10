@@ -77,26 +77,25 @@ $(D)/kernel: $(D)/bootstrap $(D)/kernel.do_compile
 #
 DRIVER_VER     = $(KERNEL_VER)
 DRIVER_DATE    = 20230804
+DRIVER_SRC = $(BOXTYPE)-hiko-$(DRIVER_DATE).zip
+
 HILIB_DATE     = 20190603
+HILIB_SRC = $(BOXTYPE)-hilib-$(HILIB_DATE).tar.gz
+
 LIBGLES_DATE   = 20180301
+LIBGLES_SRC = $(BOXTYPE)-opengl-$(LIBGLES_DATE).tar.gz
+
 LIBREADER_DATE = 20221220
+LIBREADER_SRC = $(BOXTYPE)-libreader-$(LIBREADER_DATE).zip
+
 HIHALT_DATE    = 20220326
+HIHALT_SRC = $(BOXTYPE)-hihalt-$(HIHALT_DATE).tar.gz
+
 TNTFS_DATE     = 20200528
+TNTFS_SRC = $(HICHIPSET)-tntfs-$(TNTFS_DATE).zip
 
 HICHIPSET = 3798mv200
 SOC_FAMILY = hisi3798mv200
-
-DRIVER_SRC = $(BOXTYPE)-hiko-$(DRIVER_DATE).zip
-
-HILIB_SRC = $(BOXTYPE)-hilib-$(HILIB_DATE).tar.gz
-
-LIBGLES_SRC = $(BOXTYPE)-opengl-$(LIBGLES_DATE).tar.gz
-
-LIBREADER_SRC = $(BOXTYPE)-libreader-$(LIBREADER_DATE).zip
-
-HIHALT_SRC = $(BOXTYPE)-hihalt-$(HIHALT_DATE).tar.gz
-
-TNTFS_SRC = $(HICHIPSET)-tntfs-$(TNTFS_DATE).zip
 
 LIBJPEG_SRC = libjpeg.so.62.2.0
 

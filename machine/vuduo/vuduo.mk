@@ -5,7 +5,6 @@ BOXARCH = mips
 CICAM = ci-cam
 SCART = scart
 LCD = vfd
-FKEYS =
 
 #
 # kernel

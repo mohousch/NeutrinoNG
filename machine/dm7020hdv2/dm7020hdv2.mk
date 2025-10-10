@@ -8,7 +8,7 @@ LCD = lcd
 FKEYS = fkeys
 
 #
-#
+# kernel
 #
 KERNEL_VER             = 3.2
 KERNEL_SRC_VER         = 3.2.68

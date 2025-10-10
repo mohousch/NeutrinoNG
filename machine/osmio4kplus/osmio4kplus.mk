@@ -5,7 +5,6 @@ BOXARCH = arm
 CICAM = ci-cam
 SCART = scart
 LCD = lcd
-FKEYS =
 
 #
 # kernel
@@ -83,9 +82,6 @@ $(D)/driver: $(ARCHIVE)/$(DRIVER_SRC) $(D)/bootstrap $(D)/kernel
 	$(DEPMOD) -ae -b $(TARGET_DIR) -r $(KERNEL_VER)
 	$(TOUCH)
 
-#
-#
-#
 $(D)/install-v3ddriver: $(ARCHIVE)/$(LIBGLES_SRC)
 	install -d $(TARGET_LIB_DIR)
 	$(REMOVE)/$(LIBGLES_DIR)

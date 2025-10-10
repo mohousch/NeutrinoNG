@@ -4,7 +4,6 @@
 BOXARCH = arm
 CICAM = ci-cam
 LCD = tftlcd
-FKEYS =
 
 #
 # kernel

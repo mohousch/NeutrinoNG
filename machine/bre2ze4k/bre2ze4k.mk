@@ -5,7 +5,6 @@ BOXARCH = arm
 CICAM = ci-cam
 SCART = scart
 LCD = 4-digits
-FKEYS =
 
 #
 # kernel
@@ -83,6 +82,7 @@ DRIVER_URL = http://source.mynonpublic.com/gfutures
 
 LIBGLES_DATE = 20191101
 LIBGLES_SRC = bre2ze4k-v3ddriver-$(LIBGLES_DATE).zip
+
 LIBGLES_HEADERS = hd-v3ddriver-headers.tar.gz
 LIBGLES_URL = http://downloads.mutant-digital.net/v3ddriver
 
