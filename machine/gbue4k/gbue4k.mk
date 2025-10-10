@@ -105,15 +105,13 @@ $(D)/kernel: $(D)/bootstrap $(D)/kernel.do_compile
 #
 DRIVER_VER = 4.1.20-1.9
 DRIVER_DATE = 20200723
-
-DRIVER_SRC = platform-util-gb7252-${KERNEL_SRC_VER}-$(DRIVER_DATE).r1.zip
+DRIVER_SRC = platform-util-gb7252-${DRIVER_VER}-$(DRIVER_DATE).r1.zip
 DRIVER_URL = http://source.mynonpublic.com/gigablue/drivers
 
 LIBGLES_DATE = 20200723
 LIBGLES_SRC  = gb7252-v3ddriver-$(LIBGLES_DATE).r0.zip
-LIBGLES_URL  = https://source.mynonpublic.com/gigablue/v3ddriver
-
 LIBGLES_HEADERS = gb-nexus-headers.zip
+LIBGLES_URL  = https://source.mynonpublic.com/gigablue/v3ddriver
 
 $(ARCHIVE)/$(DRIVER_SRC):
 	$(DOWNLOAD) $(DRIVER_URL)/$(DRIVER_SRC)
