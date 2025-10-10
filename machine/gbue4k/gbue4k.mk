@@ -103,7 +103,7 @@ $(D)/kernel: $(D)/bootstrap $(D)/kernel.do_compile
 #
 # driver
 #
-DRIVER_VER = 4.1.20-1.9
+DRIVER_VER = 4.1.20
 DRIVER_DATE = 20200723
 DRIVER_SRC = platform-util-gb7252-${DRIVER_VER}-$(DRIVER_DATE).r1.zip
 DRIVER_URL = http://source.mynonpublic.com/gigablue/drivers
