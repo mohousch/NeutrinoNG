@@ -1,5 +1,5 @@
 #
-# Makefile for wwio bre2zet2c
+# Makefile for generic x86_64
 #
 BOXARCH = x86_64
 CICAM = ci-cam
