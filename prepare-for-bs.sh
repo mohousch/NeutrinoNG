@@ -87,7 +87,7 @@ PACKAGES="\
 	rsync \
 	\
 	${UBUNTU:+rpm}                                               ${FEDORA:+rpm-build}      ${GENTOO:+rpm}         \
-	${UBUNTU:+lsb-release}          ${SUSE:+lsb-release}         ${FEDORA:+redhat-lsb}     ${GENTOO:+lsb-release} \
+	${UBUNTU:+lsb-release}          ${SUSE:+lsb-release}				       ${GENTOO:+lsb-release} \
 	${UBUNTU:+git}                  ${SUSE:+git-core}            ${FEDORA:+git}            ${GENTOO:+git}         \
 	${UBUNTU:+libncurses-dev}      ${SUSE:+ncurses-devel}       ${FEDORA:+ncurses-devel}  ${GENTOO:+ncurses}      \
 	${UBUNTU:+gettext}              ${SUSE:+gettext-devel}       ${FEDORA:+gettext-devel}  ${GENTOO:+gettext}     \
@@ -105,7 +105,7 @@ PACKAGES="\
 	${UBUNTU:+libglib2.0-dev}       ${SUSE:+glibc-devel-static}  ${FEDORA:+glibc-static}                          \
 	${UBUNTU:+doc-base}             ${SUSE:+libuuid-devel}       ${FEDORA:+libuuid-devel}                         \
 	${UBUNTU:+texi2html}                                                                                          \
-	${UBUNTU:+help2man}                                                                                           \
+	${UBUNTU:+help2man}                                          ${FEDORA:+help2man}                              \
 	${UBUNTU:+libcurl4-openssl-dev} ${SUSE:+libcurl-devel}       ${FEDORA:+libcurl-devel}                         \
 	${UBUNTU:+liblzo2-dev}          ${SUSE:+lzo-devel}           ${FEDORA:+lzo-devel}      ${GENTOO:+lzo:2}       \
 	${UBUNTU:+ruby}                                                                        ${GENTOO:+ruby}        \
@@ -134,7 +134,6 @@ if [ `which arch > /dev/null 2>&1 && arch || uname -m` == x86_64 ]; then
 	${UBUNTU:+binutils-multiarch}   ${SUSE:+glibc-devel-32bit}      ${FEDORA:+glibc-devel.i686}                   \
 	${UBUNTU:+lib32z1-dev}          ${SUSE:+zlib-devel-32bit}       ${FEDORA:+libgcc.i686}                        \
 	                                                                ${FEDORA:+ncurses-devel.i686}                 \
-	                                                                ${FEDORA:+redhat-lsb.i686}                    \
 	                                ${SUSE:+libstdc++-devel-32bit}  ${FEDORA:+glibc-static.i686}
 	";
 fi
