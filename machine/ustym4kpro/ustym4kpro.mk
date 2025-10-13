@@ -207,11 +207,6 @@ $(D)/install-wifi2: $(D)/bootstrap $(D)/kernel $(ARCHIVE)/$(WIFI2_SRC)
 		install -m 644 88x2cu.ko $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra
 	$(REMOVE)/$(WIFI2_DIR)
 	$(TOUCH)
-	
-FLASH_PARTITONS_SRC = $(BOXTYPE)-partitions-20220326.zip
-
-$(ARCHIVE)/$(FLASH_PARTITONS_SRC):
-	$(DOWNLOAD) http://source.mynonpublic.com/uclan/$(FLASH_PARTITONS_SRC)
 
 #
 # release
@@ -233,6 +228,10 @@ release-ustym4kpro: $(ARCHIVE)/$(FLASH_PARTITONS_SRC)
 #
 # image
 #
+FLASH_PARTITONS_SRC = $(BOXTYPE)-partitions-20220326.zip
+
+$(ARCHIVE)/$(FLASH_PARTITONS_SRC):
+	$(DOWNLOAD) http://source.mynonpublic.com/uclan/$(FLASH_PARTITONS_SRC)
 
 -include $(HELPERS_DIR)/octagon/octagon.mk
 

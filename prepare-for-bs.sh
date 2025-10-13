@@ -152,6 +152,3 @@ if [ ! "$?" -eq "0" ]; then
 	fi
 fi
 
-# for user mknod
-#chmod +s /bin/mknod
-
