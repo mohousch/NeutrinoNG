@@ -4,7 +4,7 @@
 FLASH_IMAGE_NAME = disk
 ROOTFS_SIZE = 320k #2*128k + 64k
 
-octagon-disk-image-$(BOXTYPE):
+octagon-disk-image-$(BOXTYPE): $(ARCHIVE)/$(FLASH_PARTITONS_SRC)
 	rm -rf $(IMAGE_BUILD_DIR) || true
 	mkdir -p $(IMAGE_BUILD_DIR)/$(BOXTYPE)
 	# kernel
