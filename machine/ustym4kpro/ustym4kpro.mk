@@ -15,6 +15,7 @@ KERNEL_URL             = http://source.mynonpublic.com/uclan
 KERNEL_CONFIG          = defconfig
 KERNEL_DIR             = $(BUILD_TMP)/linux-$(KERNEL_VER)
 KERNEL_DTB	       = hi3798mv200.dtb
+KERNEL_FILE	       = kernel.bin
 
 KERNEL_PATCHES = \
 		0002-log2-give-up-on-gcc-constant-optimizations.patch \
