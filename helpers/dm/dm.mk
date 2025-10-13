@@ -1,7 +1,7 @@
 #
 # dm-nfi-image
 #
-dm-nfi-image-$(BOXTYPE):
+dm-nfi-image-$(BOXTYPE): $(ARCHIVE)/$(2ND_FILE)
 	rm -rf $(IMAGE_BUILD_DIR) || true
 	mkdir -p $(IMAGE_BUILD_DIR)/$(BOXTYPE)
 	#

@@ -117,26 +117,11 @@ $(D)/driver: $(ARCHIVE)/$(DRIVER_SRC) $(D)/bootstrap $(D)/kernel
 #	tar -xf $(ARCHIVE)/grautec.tar.gz -C $(TARGET_DIR)/
 	$(DEPMOD) -ae -b $(TARGET_DIR) -r $(KERNEL_VER)-$(BOXTYPE)
 	$(TOUCH)
-
-#
-# dm800se second stage loader #84
-#
-DM800SE_2ND_SOURCE = secondstage-dm800se-84.bin
-#DM800SE_2ND_URL = http://sources.dreamboxupdate.com/download/7020/$(DM800SE_2ND_SOURCE)
-DM800SE_2ND_URL = https://github.com/oe-mirrors/dreambox/raw/main/$(DM800SE_2ND_SOURCE)
-2ND_FILE = secondstage-dm800se-84.bin
-
-$(ARCHIVE)/$(DM800SE_2ND_SOURCE):
-	$(DOWNLOAD) $(DM800SE_2ND_URL)
-
-$(D)/dm800se_2nd: $(ARCHIVE)/$(DM800SE_2ND_SOURCE)
-	$(START_BUILD)
-	$(TOUCH)
 	
 #
 # release-dm800se
 #
-release-dm800se: $(D)/dm800se_2nd
+release-dm800se:
 	cp -pa $(TARGET_DIR)/lib/modules/$(KERNEL_VER)-$(BOXTYPE) $(RELEASE_DIR)/lib/modules
 	install -m 0755 $(BASE_DIR)/machine/$(BOXTYPE)/files/halt $(RELEASE_DIR)/etc/init.d/
 	cp -f $(BASE_DIR)/machine/$(BOXTYPE)/files/fstab $(RELEASE_DIR)/etc/
@@ -158,6 +143,13 @@ FLASH_SIZE = 0x4000000
 LOADER_SIZE = 0x40000
 BOOT_SIZE = 0x3C0000
 ROOT_SIZE = 0x3C00000
+
+DM800SE_2ND_SOURCE = secondstage-dm800se-84.bin
+DM800SE_2ND_URL = https://github.com/oe-mirrors/dreambox/raw/main/$(DM800SE_2ND_SOURCE)
+2ND_FILE = secondstage-dm800se-84.bin
+
+$(ARCHIVE)/$(2ND_SOURCE):
+	$(DOWNLOAD) $(DM800SE_2ND_URL)
 
 -include $(HELPERS_DIR)/dm/dm.mk
 

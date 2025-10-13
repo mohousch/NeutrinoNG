@@ -119,24 +119,9 @@ $(D)/driver: $(ARCHIVE)/$(DRIVER_SRC) $(D)/bootstrap $(D)/kernel
 	$(TOUCH)
 
 #
-# dm800sev2 second stage loader #89
-#
-DM800SEV2_2ND_SOURCE = secondstage-dm800sev2-89.bin
-#DM800SEV2_2ND_URL = http://sources.dreamboxupdate.com/download/7020/$(DM800SEV2_2ND_SOURCE)
-DM800SEV2_2ND_URL = https://github.com/oe-mirrors/dreambox/raw/main/$(DM800SEV2_2ND_SOURCE)
-2ND_FILE = secondstage-dm800sev2-89.bin
-
-$(ARCHIVE)/$(DM800SEV2_2ND_SOURCE):
-	$(DOWNLOAD) $(DM800SEV2_2ND_URL)
-
-$(D)/dm800sev2_2nd: $(ARCHIVE)/$(DM800SEV2_2ND_SOURCE)
-	$(START_BUILD)
-	$(TOUCH)
-	
-#
 # release-dm800sev2
 #
-release-dm800sev2: $(D)/dm800sev2_2nd
+release-dm800sev2:
 	cp -pa $(TARGET_DIR)/lib/modules/$(KERNEL_VER)-$(BOXTYPE) $(RELEASE_DIR)/lib/modules
 	install -m 0755 $(BASE_DIR)/machine/$(BOXTYPE)/files/halt $(RELEASE_DIR)/etc/init.d/
 	cp -f $(BASE_DIR)/machine/$(BOXTYPE)/files/fstab $(RELEASE_DIR)/etc/
@@ -158,6 +143,13 @@ FLASH_SIZE = 0x4000000
 LOADER_SIZE = 0x100000
 BOOT_SIZE = 0x700000
 ROOT_SIZE = 0x3F800000
+
+DM800SEV2_2ND_SOURCE = secondstage-dm800sev2-89.bin
+DM800SEV2_2ND_URL = https://github.com/oe-mirrors/dreambox/raw/main/$(DM800SEV2_2ND_SOURCE)
+2ND_FILE = secondstage-dm800sev2-89.bin
+
+$(ARCHIVE)/$(2ND_SOURCE):
+	$(DOWNLOAD) $(DM800SEV2_2ND_URL)
 
 -include $(HELPERS_DIR)/dm/dm.mk
 

@@ -119,23 +119,9 @@ $(D)/driver: $(ARCHIVE)/$(DRIVER_SRC) $(D)/bootstrap $(D)/kernel
 	$(TOUCH)
 	
 #
-# dm8000 second stage loader #84
-#
-DM8000_2ND_SOURCE = secondstage-dm8000-84.bin
-DM8000_2ND_URL = https://github.com/oe-mirrors/dreambox/raw/main/$(DM8000_2ND_SOURCE)
-2ND_FILE = secondstage-dm8000-84.bin
-
-$(ARCHIVE)/$(DM8000_2ND_SOURCE):
-	$(DOWNLOAD) $(DM8000_2ND_URL)
-
-$(D)/dm8000_2nd: $(ARCHIVE)/$(DM8000_2ND_SOURCE)
-	$(START_BUILD)
-	$(TOUCH)
-	
-#
 # release-dm8000
 #
-release-dm8000: $(D)/dm8000_2nd
+release-dm8000:
 	cp -pa $(TARGET_DIR)/lib/modules/$(KERNEL_VER)-$(BOXTYPE) $(RELEASE_DIR)/lib/modules
 	install -m 0755 $(BASE_DIR)/machine/$(BOXTYPE)/files/halt $(RELEASE_DIR)/etc/init.d/
 	cp -f $(BASE_DIR)/machine/$(BOXTYPE)/files/fstab $(RELEASE_DIR)/etc/
@@ -157,6 +143,13 @@ FLASH_SIZE = 0x4000000
 LOADER_SIZE = 0x100000
 BOOT_SIZE = 0x700000
 ROOT_SIZE = 0xF800000
+
+DM8000_2ND_SOURCE = secondstage-dm8000-84.bin
+DM8000_2ND_URL = https://github.com/oe-mirrors/dreambox/raw/main/$(DM8000_2ND_SOURCE)
+2ND_FILE = secondstage-dm8000-84.bin
+
+$(ARCHIVE)/$(2ND_FILE):
+	$(DOWNLOAD) $(DM8000_2ND_URL)
 
 -include $(HELPERS_DIR)/dm/dm.mk
 
