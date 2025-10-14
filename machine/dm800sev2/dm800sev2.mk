@@ -150,7 +150,7 @@ DM800SEV2_2ND_SOURCE = secondstage-dm800sev2-89.bin
 DM800SEV2_2ND_URL = https://github.com/oe-mirrors/dreambox/raw/main/$(DM800SEV2_2ND_SOURCE)
 2ND_FILE = secondstage-dm800sev2-89.bin
 
-$(ARCHIVE)/$(2ND_SOURCE):
+$(ARCHIVE)/$(2ND_FILE):
 	$(DOWNLOAD) $(DM800SEV2_2ND_URL)
 
 -include $(HELPERS_DIR)/dm/dm.mk
