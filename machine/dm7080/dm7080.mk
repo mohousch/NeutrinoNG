@@ -16,6 +16,7 @@ KERNEL_SRC             = linux-${KERNEL_SRC_VER}.tar.xz
 KERNEL_URL             = https://cdn.kernel.org/pub/linux/kernel/v3.x
 KERNEL_CONFIG          = defconfig
 KERNEL_DIR             = $(BUILD_TMP)/linux-$(KERNEL_SRC_VER)
+KERNEL_FILE	       = vmlinux
 
 KERNEL_PATCHES = \
 		linux-dreambox-3.4-30070c78a23d461935d9db0b6ce03afc70a10c51.patch \

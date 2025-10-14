@@ -17,6 +17,7 @@ KERNEL_URL             = https://source.mynonpublic.com/gigablue
 KERNEL_CONFIG          = defconfig
 KERNEL_DIR             = $(BUILD_TMP)/linux-$(KERNEL_SRC_VER)
 KERNEL_DTB	       = bcm7445-bcm97445svmb.dtb
+KERNEL_FILE	       = kernel.bin
 
 KERNEL_PATCHES  = \
 		0002-linux_dvb-core.patch \
