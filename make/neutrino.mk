@@ -65,6 +65,14 @@ NEUTRINO_CONFIG_OPTS += --enable-ffmpegdec
 NEUTRINO_CONFIG_OPTS += --enable-pugixml
 #NEUTRINO_CONFIG_OPTS += --enable-pip
 #NEUTRINO_CONFIG_OPTS += --enable-dynamicdemux
+
+NEUTRINO_DEPS += $(D)/lua 
+NEUTRINO_DEPS += $(D)/luaexpat 
+NEUTRINO_DEPS += $(D)/luacurl 
+NEUTRINO_DEPS += $(D)/luasocket 
+NEUTRINO_DEPS += $(D)/luafeedparser 
+#NEUTRINO_DEPS += $(D)/luasoap 
+NEUTRINO2_DEPS += $(D)/luajson
 NEUTRINO_CONFIG_OPTS += --enable-lua
 
 ifeq ($(BOXARCH), arm)
@@ -72,10 +80,12 @@ NEUTRINO_CONFIG_OPTS += --enable-reschange
 endif
 
 ifeq ($(GRAPHLCD), graphlcd)
+NEUTRINO_DEPS += $(D)/graphlcd
 NEUTRINO_CONFIG_OPTS += --enable-graphlcd
 endif
 
 ifeq ($(LCD4LINUX), lcd4linux)
+NEUTRINO_DEPS += $(D)/lcd4linux
 NEUTRINO_CONFIG_OPTS += --enable-lcd4linux
 endif
 

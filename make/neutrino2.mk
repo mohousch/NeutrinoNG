@@ -37,10 +37,24 @@ ifeq ($(BOXTYPE), $(filter $(BOXTYPE), spark spark7162))
 NEUTRINO2_CPPFLAGS += -I$(DRIVER_DIR)/frontcontroller/aotom_spark
 endif
 
+NEUTRINO2_DEPS += $(D)/lua 
+NEUTRINO2_DEPS += $(D)/luaexpat 
+NEUTRINO2_DEPS += $(D)/luacurl 
+NEUTRINO2_DEPS += $(D)/luasocket 
+NEUTRINO2_DEPS += $(D)/luafeedparser 
+#NEUTRINO2_DEPS += $(D)/luasoap 
+NEUTRINO2_DEPS += $(D)/luajson
 NEUTRINO2_CONFIG_OPTS = --enable-lua
 
 ifeq ($(BOXARCH), $(filter $(BOXARCH), arm mips))
 ifeq ($(GSTREAMER), gstreamer)
+NEUTRINO2_DEPS  += $(D)/gstreamer 
+NEUTRINO2_DEPS  += $(D)/gst_plugins_base 
+NEUTRINO2_DEPS  += $(D)/gst_plugins_good 
+NEUTRINO2_DEPS  += $(D)/gst_plugins_bad 
+NEUTRINO2_DEPS  += $(D)/gst_plugins_ugly 
+NEUTRINO2_DEPS  += $(D)/gst_plugins_subsink
+NEUTRINO2_DEPS  += $(D)/gst_plugins_dvbmediasink
 NEUTRINO2_CPPFLAGS     += $(shell $(PKG_CONFIG) --cflags --libs gstreamer-1.0)
 NEUTRINO2_CPPFLAGS     += $(shell $(PKG_CONFIG) --cflags --libs gstreamer-audio-1.0)
 NEUTRINO2_CPPFLAGS     += $(shell $(PKG_CONFIG) --cflags --libs gstreamer-video-1.0)
@@ -51,11 +65,13 @@ endif
 
 ifeq ($(BOXARCH), $(filter $(BOXARCH), arm mips))
 ifeq ($(PYTHON), python)
+NEUTRINO2_DEPS += $(D)/python
 NEUTRINO2_CONFIG_OPTS += --enable-python PYTHON_CPPFLAGS="-I$(TARGET_DIR)/usr/include/python2.7" PYTHON_LIBS="-L$(TARGET_DIR)/usr/lib -lpython2.7" PYTHON_SITE_PKG="$(TARGET_DIR)/usr/lib/python2.7/site-packages"
 endif
 endif
 
 ifeq ($(GRAPHLCD), graphlcd)
+NEUTRINO2_DEPS += $(D)/graphlcd
 NEUTRINO2_CONFIG_OPTS += --enable-graphlcd
 endif
 
