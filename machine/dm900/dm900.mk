@@ -113,6 +113,7 @@ release-dm900:
 #
 # image
 #
+FLASHIMAGE_PREFIX = $(BOXTYPE)
 
 -include $(HELPERS_DIR)/dm/dm.mk
 
