@@ -15,6 +15,7 @@ KERNEL_SRC             = linux-edision-$(KERNEL_SRC_VER).tar.gz
 KERNEL_URL             = http://source.mynonpublic.com/edision
 KERNEL_CONFIG          = defconfig
 KERNEL_DIR             = $(BUILD_TMP)/linux-brcmstb-$(KERNEL_SRC_VER)
+KERNEL_FILE	       = kernel.bin
 
 $(ARCHIVE)/$(KERNEL_SRC):
 	$(DOWNLOAD) $(KERNEL_URL)/$(KERNEL_SRC)
@@ -161,6 +162,7 @@ release-osmini4k:
 #
 # image
 #
+FLASHIMAGE_PREFIX = $(BOXTYPE)
 
 -include $(HELPERS_DIR)/edision/edision.mk
 

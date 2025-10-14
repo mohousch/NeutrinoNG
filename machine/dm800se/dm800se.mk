@@ -129,6 +129,8 @@ release-dm800se:
 #
 # image
 #
+FLASHIMAGE_PREFIX = $(BOXTYPE)
+
 FLASHSIZE = 64
 ROOTFS_FILE = rootfs.ubi
 IMAGE_FSTYPES ?= ubifs

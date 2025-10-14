@@ -203,7 +203,9 @@ release-multiboxse:
 
 #
 # image
-# 
+#
+FLASHIMAGE_PREFIX = $(BOXTYPE)
+
 FLASH_BOOTARGS_DATE  = 20201110
 FLASH_BOOTARGS_SRC = $(BOXTYPE)-bootargs-$(FLASH_BOOTARGS_DATE).zip
 

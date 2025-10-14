@@ -229,6 +229,8 @@ release-ustym4kpro:
 #
 # image
 #
+FLASHIMAGE_PREFIX = $(BOXTYPE)
+
 FLASH_PARTITONS_SRC = $(BOXTYPE)-partitions-20220326.zip
 
 $(ARCHIVE)/$(FLASH_PARTITONS_SRC):

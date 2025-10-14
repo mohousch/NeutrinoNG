@@ -129,6 +129,8 @@ release-dm8000:
 #
 # flashimage
 #
+FLASHIMAGE_PREFIX = $(BOXTYPE)
+
 FLASHSIZE = 96
 ROOTFS_FILE = rootfs.ubi
 IMAGE_FSTYPES ?= ubifs
