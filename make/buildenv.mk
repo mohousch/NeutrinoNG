@@ -7,13 +7,14 @@ LD_LIBRARY_PATH =
 export LD_LIBRARY_PATH
 
 #
-# BS version
-#
-export BS_NAME	     := NeutrinoNG
-export BS_CYCLE	     := 2.5
+BASE_DIR             := $(shell pwd)
 
 #
-BASE_DIR             := $(shell pwd)
+# version
+#
+-include $(BASE_DIR)/version
+export BS_NAME
+export BS_CYCLE
 
 #
 ARCHIVE               = $(HOME)/Archive
