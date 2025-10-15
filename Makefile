@@ -249,6 +249,15 @@ endif
 	@echo "KERNEL_VERSION   : $(KERNEL_VER)"
 	@echo "PARALLEL_JOBS    : $(PARALLEL_JOBS)"
 	@echo '================================================================================'
+	@echo "Neutrino2 extra configuration:"
+	@echo "Gstreamer        :$(GSTREAMER)"
+	@echo "Python           :$(PYTHON)"
+	@echo "Graphlcd         :$(GRAPHLCD)"
+	@echo
+	@echo "Neutrino-DDT extra configuration:"
+	@echo "Graphlcd         :$(GRAPHLCD)"
+	@echo "LCD4Linux        :$(LCD4LINUX)"
+	@echo '================================================================================'
 	@make --no-print-directory toolcheck
 ifeq ($(MAINTAINER),)
 	@echo "##########################################################################"

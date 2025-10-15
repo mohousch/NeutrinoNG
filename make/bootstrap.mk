@@ -238,7 +238,7 @@ $(D)/host_parted: $(D)/directories $(ARCHIVE)/$(HOST_PARTED_SOURCE)
 	$(TOUCH)
 	
 #
-# cortex-strings
+# host_cortex-strings
 #
 CORTEX_STRINGS_VER = 48fd30c
 CORTEX_STRINGS_SOURCE = cortex-strings-git-$(CORTEX_STRINGS_VER).tar.bz2
@@ -247,7 +247,7 @@ CORTEX_STRINGS_URL = http://git.linaro.org/git-ro/toolchain/cortex-strings.git
 $(ARCHIVE)/$(CORTEX_STRINGS_SOURCE):
 	$(SCRIPTS_DIR)/get-git-archive.sh $(CORTEX_STRINGS_URL) $(CORTEX_STRINGS_VER) $(notdir $@) $(ARCHIVE)
 
-$(D)/cortex_strings: $(D)/directories $(ARCHIVE)/$(CORTEX_STRINGS_SOURCE)
+$(D)/host_cortex_strings: $(D)/directories $(ARCHIVE)/$(CORTEX_STRINGS_SOURCE)
 	$(START_BUILD)
 	$(REMOVE)/cortex-strings-git-$(CORTEX_STRINGS_VER)
 	$(UNTAR)/$(CORTEX_STRINGS_SOURCE)
@@ -267,11 +267,11 @@ $(D)/cortex_strings: $(D)/directories $(ARCHIVE)/$(CORTEX_STRINGS_SOURCE)
 	$(TOUCH)
 	
 #
-# host dm buildimage
+# host_dm_buildimage
 #
 BUILDIMAGE_PATCH = buildimage.patch
 
-$(D)/buildimage:
+$(D)/host_dm_buildimage:
 	$(START_BUILD)
 	set -e; cd $(TOOLS_DIR)/buildimage.git; \
 		autoreconf -fi; \
@@ -281,14 +281,14 @@ $(D)/buildimage:
 	$(TOUCH)
 	
 #
-# octagon buildimage
+# host_octagon_buildimage
 #
 BUILDIMAGE_SRC = buildimage.zip
 
 $(ARCHIVE)/$(BUILDIMAGE_SRC):
 	$(DOWNLOAD) https://github.com/oe-alliance/oe-alliance-core/raw/5.0/meta-brands/meta-octagon/recipes-bsp/octagon-buildimage/$(BUILDIMAGE_SRC)
 	
-$(D)/buildimage-tool: $(ARCHIVE)/$(BUILDIMAGE_SRC)
+$(D)/host_octagon_buildimage: $(ARCHIVE)/$(BUILDIMAGE_SRC)
 	$(START_BUILD)
 	$(REMOVE)/buildimage
 	unzip -o $(ARCHIVE)/$(BUILDIMAGE_SRC) -d $(BUILD_TMP)/buildimage
@@ -299,7 +299,7 @@ $(D)/buildimage-tool: $(ARCHIVE)/$(BUILDIMAGE_SRC)
 	$(TOUCH)
 
 #
-# android tools
+# host_android tools
 #
 ANDROID_MIRROR = https://android.googlesource.com
 HAT_CORE_REV = 2314b11
@@ -382,9 +382,9 @@ $(D)/host_python: $(ARCHIVE)/$(HOST_PYTHON_SOURCE)
 	$(TOUCH)
 
 #
-# flashtool-fup
+# host_flashtool-fup
 #
-$(D)/flashtool-fup: $(D)/directories
+$(D)/host_flashtool-fup: $(D)/directories
 	$(START_BUILD)
 	set -e; cd $(TOOLS_DIR)/flashtool-fup; \
 		./autogen.sh; \
@@ -396,9 +396,9 @@ $(D)/flashtool-fup: $(D)/directories
 	$(TOUCH)
 
 #
-# flashtool-mup
+# host_flashtool-mup
 #
-$(D)/flashtool-mup: $(D)/directories
+$(D)/host_flashtool-mup: $(D)/directories
 	$(START_BUILD)
 	set -e; cd $(TOOLS_DIR)/flashtool-mup; \
 		./autogen.sh; \
@@ -410,9 +410,9 @@ $(D)/flashtool-mup: $(D)/directories
 	$(TOUCH)
 
 #
-# flashtool-pad
+# host_flashtool-pad
 #
-$(D)/flashtool-pad: $(D)/directories
+$(D)/host_flashtool-pad: $(D)/directories
 	$(START_BUILD)
 	set -e; cd $(TOOLS_DIR)/flashtool-pad; \
 		./autogen.sh; \
@@ -437,18 +437,18 @@ BOOTSTRAP += $(D)/host_e2fsprogs
 ifeq ($(BOXARCH), sh4)
 BOOTSTRAP += $(D)/host_mksquashfs_lzma
 BOOTSTRAP += host_u_boot_tools
-BOOTSTRAP += flashtool-fup
-BOOTSTRAP += flashtool-mup
-BOOTSTRAP += flashtool-pad
+BOOTSTRAP += host_flashtool-fup
+BOOTSTRAP += host_flashtool-mup
+BOOTSTRAP += host_flashtool-pad
 endif
 ifeq ($(BOXTYPE), $(filter $(BOXTYPE), dm8000 dm7020hd dm7020hdv2 dm800se dm800sev2))
-BOOTSTRAP += $(D)/buildimage
+BOOTSTRAP += $(D)/host_dm_buildimage
 endif
 ifeq ($(BOXTYPE), $(filter $(BOXTYPE), hd60 multiboxse))
 BOOTSTRAP += $(D)/host_atools
 endif
 ifeq ($(BOXTYPE), $(filter $(BOXTYPE), sf8008 ustym4kpro))
-BOOTSTRAP += $(D)/buildimage-tool
+BOOTSTRAP += $(D)/host_octagon_buildimage
 endif
 ifeq ($(BOXARCH), $(filter $(BOXARCH), arm mips x86_64))	
 BOOTSTRAP += $(D)/host_python 

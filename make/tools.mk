@@ -6,7 +6,6 @@ tools-clean:
 	-$(MAKE) -C $(TOOLS_DIR)/aio-grab-$(BOXARCH) clean
 	-$(MAKE) -C $(TOOLS_DIR)/showiframe-$(BOXARCH) clean
 ifeq ($(BOXARCH), sh4)
-	-$(MAKE) -C $(TOOLS_DIR)/devinit clean
 	-$(MAKE) -C $(TOOLS_DIR)/evremote2 clean
 	-$(MAKE) -C $(TOOLS_DIR)/fp_control clean
 	-$(MAKE) -C $(TOOLS_DIR)/flashtool-fup clean
@@ -16,10 +15,6 @@ ifeq ($(BOXTYPE), $(filter $(BOXTYPE), ipbox55 ipbox99 ipbox9900 cuberevo cubere
 	-$(MAKE) -C $(TOOLS_DIR)/ipbox_eeprom clean
 endif
 	-$(MAKE) -C $(TOOLS_DIR)/stfbcontrol clean
-ifeq ($(BOXTYPE), $(filter $(BOXTYPE), tf7700))
-	-$(MAKE) -C $(TOOLS_DIR)/tfd2mtd clean
-	-$(MAKE) -C $(TOOLS_DIR)/tffpctl clean
-endif
 	-$(MAKE) -C $(TOOLS_DIR)/ustslave clean
 	-$(MAKE) -C $(TOOLS_DIR)/vfdctl clean
 	-$(MAKE) -C $(TOOLS_DIR)/wait4button clean
@@ -36,7 +31,6 @@ tools-distclean:
 	-$(MAKE) -C $(TOOLS_DIR)/aio-grab-$(BOXARCH) distclean
 	-$(MAKE) -C $(TOOLS_DIR)/showiframe-$(BOXARCH) distclean
 ifeq ($(BOXARCH), sh4)
-	-$(MAKE) -C $(TOOLS_DIR)/devinit distclean
 	-$(MAKE) -C $(TOOLS_DIR)/evremote2 distclean
 	-$(MAKE) -C $(TOOLS_DIR)/fp_control distclean
 	-$(MAKE) -C $(TOOLS_DIR)/flashtool-fup distclean
@@ -46,10 +40,6 @@ ifeq ($(BOXTYPE), $(filter $(BOXTYPE), ipbox55 ipbox99 ipbox9900 cuberevo cubere
 	-$(MAKE) -C $(TOOLS_DIR)/ipbox_eeprom distclean
 endif
 	-$(MAKE) -C $(TOOLS_DIR)/stfbcontrol distclean
-ifeq ($(BOXTYPE), $(filter $(BOXTYPE), tf7700))
-	-$(MAKE) -C $(TOOLS_DIR)/tfd2mtd distclean
-	-$(MAKE) -C $(TOOLS_DIR)/tffpctl distclean
-endif
 	-$(MAKE) -C $(TOOLS_DIR)/ustslave distclean
 	-$(MAKE) -C $(TOOLS_DIR)/vfdctl distclean
 	-$(MAKE) -C $(TOOLS_DIR)/wait4button distclean
@@ -66,19 +56,6 @@ $(D)/tools-aio-grab: $(D)/bootstrap $(D)/libpng $(D)/libjpeg
 	set -e; cd $(TOOLS_DIR)/aio-grab-$(BOXARCH); \
 		$(CONFIGURE) CPPFLAGS="$(CPPFLAGS) -I$(DRIVER_DIR)/bpamem" \
 			--prefix=/usr \
-		; \
-		$(MAKE); \
-		$(MAKE) install DESTDIR=$(TARGET_DIR)
-	$(TOUCH)
-
-#
-# devinit
-#
-$(D)/tools-devinit: $(D)/bootstrap
-	$(START_BUILD)
-	set -e; cd $(TOOLS_DIR)/devinit; \
-		$(CONFIGURE) \
-			--prefix= \
 		; \
 		$(MAKE); \
 		$(MAKE) install DESTDIR=$(TARGET_DIR)
@@ -254,32 +231,6 @@ $(D)/tools-stfbcontrol: $(D)/bootstrap
 	set -e; cd $(TOOLS_DIR)/stfbcontrol; \
 		$(CONFIGURE) \
 			--prefix=/usr \
-		; \
-		$(MAKE); \
-		$(MAKE) install DESTDIR=$(TARGET_DIR)
-	$(TOUCH)
-
-#
-# tfd2mtd
-#
-$(D)/tools-tfd2mtd: $(D)/bootstrap
-	$(START_BUILD)
-	set -e; cd $(TOOLS_DIR)/tfd2mtd; \
-		$(CONFIGURE) \
-			--prefix= \
-		; \
-		$(MAKE); \
-		$(MAKE) install DESTDIR=$(TARGET_DIR)
-	$(TOUCH)
-
-#
-# tffpctl
-#
-$(D)/tools-tffpctl: $(D)/bootstrap
-	$(START_BUILD)
-	set -e; cd $(TOOLS_DIR)/tffpctl; \
-		$(CONFIGURE) \
-			--prefix= \
 		; \
 		$(MAKE); \
 		$(MAKE) install DESTDIR=$(TARGET_DIR)

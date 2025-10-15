@@ -54,7 +54,6 @@ RELEASE_DEPS += $(D)/tools-ipbox_eeprom
 endif
 ifeq ($(BOXARCH), $(filter $(BOXARCH), arm mips))
 RELEASE_DEPS += $(D)/tools-turnoff_power
-RELEASE_DEPS += $(D)/tools-eplayer4
 endif
 endif
 #
@@ -84,6 +83,7 @@ RELEASE_DEPS += $(D)/luajson
 # gstreamer
 #
 ifeq ($(BOXARCH), $(filter $(BOXARCH), arm mips))
+ifeq ($(GSTREAMER), gstreamer)
 RELEASE_DEPS  += $(D)/gstreamer 
 RELEASE_DEPS  += $(D)/gst_plugins_base 
 RELEASE_DEPS  += $(D)/gst_plugins_good 
@@ -92,12 +92,14 @@ RELEASE_DEPS  += $(D)/gst_plugins_ugly
 RELEASE_DEPS  += $(D)/gst_plugins_subsink
 RELEASE_DEPS  += $(D)/gst_plugins_dvbmediasink
 endif
+endif
 #
 # optional
 #
-ifeq ($(BOXARCH), $(filter $(BOXARCH), arm mips))
+ifeq ($(BOXARCH), $(filter $(BOXARCH), x86_64))
 RELEASE_DEPS += $(D)/mc
 RELEASE_DEPS += $(D)/nano
+RELEASE_DEPS += $(D)/htop
 endif
 #
 # graphlcd
@@ -241,8 +243,10 @@ endif
 # gstreamer
 #
 ifeq ($(BOXARCH), $(filter $(BOXARCH), arm mips))
+ifeq ($(GSTREAMER), gstreamer)
 	cp -aR $(TARGET_DIR)/usr/lib/gstreamer-1.0 $(RELEASE_DIR)/usr/lib
 	cp -aR $(TARGET_DIR)/usr/lib/gio $(RELEASE_DIR)/usr/lib
+endif
 endif
 #
 # lua
