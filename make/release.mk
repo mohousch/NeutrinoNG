@@ -97,7 +97,7 @@ endif
 # optional
 #
 ifeq ($(BOXARCH), $(filter $(BOXARCH), x86_64))
-RELEASE_DEPS += $(D)/mc
+#RELEASE_DEPS += $(D)/mc
 RELEASE_DEPS += $(D)/nano
 RELEASE_DEPS += $(D)/htop
 endif

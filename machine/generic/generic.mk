@@ -6,8 +6,7 @@ CICAM = ci-cam
 
 #
 # kernel
-#
-###https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.12.47.tar.xz
+#s
 KERNEL_VER             = 6.12.47
 KERNEL_DATE            = 
 KERNEL_SRC 	       = linux-$(KERNEL_VER).tar.xz
@@ -42,9 +41,9 @@ endif
 
 $(D)/kernel.do_compile: $(D)/kernel.do_prepare
 	set -e; cd $(KERNEL_DIR); \
-		$(MAKE) EXTRA_CFLAGS=-Wno-attribute-alias -C $(KERNEL_DIR) ARCH=x86_64 oldconfig
-		$(MAKE) EXTRA_CFLAGS=-Wno-attribute-alias -C $(KERNEL_DIR) ARCH=x86_64 CROSS_COMPILE=$(TARGET)- bzImage modules
-		$(MAKE) EXTRA_CFLAGS=-Wno-attribute-alias -C $(KERNEL_DIR) ARCH=x86_64 CROSS_COMPILE=$(TARGET)- DEPMOD=$(DEPMOD) INSTALL_MOD_PATH=$(TARGET_DIR) modules_install
+		$(MAKE) -C $(KERNEL_DIR) ARCH=x86 oldconfig
+		$(MAKE) -C $(KERNEL_DIR) ARCH=x86 CROSS_COMPILE=$(TARGET)- bzImage modules
+		$(MAKE) -C $(KERNEL_DIR) ARCH=x86 CROSS_COMPILE=$(TARGET)- DEPMOD=$(DEPMOD) INSTALL_MOD_PATH=$(TARGET_DIR) modules_install
 	@touch $@
 
 $(D)/kernel: $(D)/bootstrap $(D)/kernel.do_compile
