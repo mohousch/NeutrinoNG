@@ -1,2 +1,3 @@
 BS_NAME := NeutrinoNG
 BS_CYCLE := 2.6
+BS_TYPE := 1
