@@ -43,8 +43,6 @@ gfuture-disk-image-$(BOXTYPE):
 ifeq ($(BOXTYPE), $(filter $(BOXTYPE), e4hdultra))
 	cp $(SKEL_ROOT)/boot/lcdsplash.bmp $(IMAGE_BUILD_DIR)/
 endif
-	# kernel
-	cp $(TARGET_DIR)/boot/zImage* $(IMAGE_BUILD_DIR)/ #???
 	# Create a sparse image block
 	dd if=/dev/zero of=$(IMAGE_BUILD_DIR)/$(FLASH_IMAGE_LINK) seek=$(shell expr $(FLASH_IMAGE_ROOTFS_SIZE) \* $(BLOCK_SECTOR)) count=0 bs=$(BLOCK_SIZE)
 	$(HOST_DIR)/bin/mkfs.ext4 -F $(IMAGE_BUILD_DIR)/$(FLASH_IMAGE_LINK) -d $(RELEASE_DIR)
