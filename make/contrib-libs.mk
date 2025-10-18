@@ -107,7 +107,7 @@ else
 	$(REWRITE_PKGCONF) $(PKG_CONFIG_PATH)/libffi.pc
 	$(REWRITE_LIBTOOL)/libffi.la
 endif
-#	$(REMOVE)/libffi-$(LIBFFI_VER)
+	$(REMOVE)/libffi-$(LIBFFI_VER)
 	$(TOUCH)
 
 #
