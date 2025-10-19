@@ -1,13 +1,13 @@
 #!/bin/sh
 
 #
-echo "starting neutrino-DDT"
+echo "starting neutrino-DDT..."
 
 until false
 do
 	/usr/bin/neutrino
 	rtv=$?
-	echo "GUI ended <- RTV: " $rtv
+	echo "Neutrino-DDT ended <- RTV: " $rtv
 	case "$rtv" in
 		0)
 		   echo "SHUTDOWN"

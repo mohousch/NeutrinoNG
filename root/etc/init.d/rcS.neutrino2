@@ -1,13 +1,13 @@
 #!/bin/sh
 
 #
-echo "starting NeutrinoNG"
+echo "starting Neutrino2..."
 
 until false
 do
 	/usr/bin/neutrino2
 	rtv=$?
-	echo "neutrino2 ended <- RTV: " $rtv
+	echo "Neutrino2 ended <- RTV: " $rtv
 	case "$rtv" in
 		0) echo "$rtv"
 			echo "RESTART"
