@@ -8,7 +8,6 @@ CICAM = ci-cam
 # kernel
 #s
 KERNEL_VER             = 6.12.47
-KERNEL_DATE            = 
 KERNEL_SRC 	       = linux-$(KERNEL_VER).tar.xz
 KERNEL_URL	       = https://cdn.kernel.org/pub/linux/kernel/v6.x
 KERNEL_CONFIG          = defconfig
