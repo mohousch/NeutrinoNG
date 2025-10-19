@@ -238,6 +238,7 @@ endif
 	cp $(SKEL_ROOT)/lib/firmware/component_7111_mb618.fw $(RELEASE_DIR)/lib/firmware/component.fw
 	rm -f $(RELEASE_DIR)/bin/vdstandby
 	cp -dp $(BASE_DIR)/machine/$(BOXTYPE)/files/lircd.conf $(RELEASE_DIR)/etc/
+	install -m 0755 $(BASE_DIR)/machine/$(BOXTYPE)/files/rcS $(RELEASE_DIR)/etc/init.d/rcS
 	install -m 0755 $(BASE_DIR)/machine/$(BOXTYPE)/files/halt $(RELEASE_DIR)/etc/init.d/
 	cp $(BASE_DIR)/machine/$(BOXTYPE)/files/fw_env.config $(RELEASE_DIR)/etc/
 	

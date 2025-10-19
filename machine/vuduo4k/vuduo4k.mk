@@ -183,6 +183,7 @@ release-vuduo4k:
 	rm -f $(RELEASE_DIR)/lib/modules/$(KERNEL_VER)/extra/fpga_directc.ko
 	cp -f $(SKEL_ROOT)/usr/bin/bp3flash.sh $(RELEASE_DIR)/usr/bin
 	cp -f $(SKEL_ROOT)/usr/bin/nvram $(RELEASE_DIR)/usr/bin
+	install -m 0755 $(BASE_DIR)/machine/$(BOXTYPE)/files/rcS $(RELEASE_DIR)/etc/init.d/rcS
 	install -m 0755 $(BASE_DIR)/machine/$(BOXTYPE)/files/halt $(RELEASE_DIR)/etc/init.d/
 	cp -f $(BASE_DIR)/machine/$(BOXTYPE)/files/fstab $(RELEASE_DIR)/etc/
 

@@ -222,6 +222,7 @@ release-sf8008:
 	install -m 0755 $(BASE_DIR)/machine/$(BOXTYPE)/files/root  $(RELEASE_DIR)/var/spool/cron/crontabs/root
 	touch $(RELEASE_DIR)/var/tuxbox/config/.crond
 	install -m 0755 $(BASE_DIR)/machine/$(BOXTYPE)/files/suspend  $(RELEASE_DIR)/etc/init.d/suspend
+	install -m 0755 $(BASE_DIR)/machine/$(BOXTYPE)/files/rcS $(RELEASE_DIR)/etc/init.d/rcS
 	install -m 0755 $(BASE_DIR)/machine/$(BOXTYPE)/files/libreader $(RELEASE_DIR)/etc/init.d/
 	cd $(RELEASE_DIR)/etc/rc.d/rc0.d; ln -sf ../../init.d/libreader ./S05libreader
 	cd $(RELEASE_DIR)/etc/rc.d/rc6.d; ln -sf ../../init.d/libreader ./S05libreader
