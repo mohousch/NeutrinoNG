@@ -1,13 +1,16 @@
 #
 # busybox
 #
-BUSYBOX_VER = 1.29.3
+BUSYBOX_VER = 1.36.1
 BUSYBOX_SOURCE = busybox-$(BUSYBOX_VER).tar.bz2
+
 BUSYBOX_PATCH  = busybox-$(BUSYBOX_VER)-nandwrite.patch
 BUSYBOX_PATCH += busybox-$(BUSYBOX_VER)-unicode.patch
 BUSYBOX_PATCH += busybox-$(BUSYBOX_VER)-extra.patch
 BUSYBOX_PATCH += busybox-$(BUSYBOX_VER)-extra2.patch
 BUSYBOX_PATCH += busybox-$(BUSYBOX_VER)-flashcp-small-output.patch
+BUSYBOX_PATCH += busybox-$(BUSYBOX_VER)-block-telnet-internet.patch
+BUSYBOX_PATCH += busybox-$(BUSYBOX_VER)-recursive_action-fix.patch
 
 BUSYBOX_CONFIG = busybox-$(BUSYBOX_VER).config
 
@@ -22,6 +25,9 @@ $(D)/busybox: $(D)/bootstrap $(ARCHIVE)/$(BUSYBOX_SOURCE) $(PATCHES)/$(BUSYBOX_C
 		$(call apply_patches, $(BUSYBOX_PATCH)); \
 		install -m 0644 $(lastword $^) .config; \
 		sed -i -e 's#^CONFIG_PREFIX.*#CONFIG_PREFIX="$(TARGET_DIR)"#' .config; \
+		sed -i -e 's#^CONFIG_EXTRA_CFLAGS.*#CONFIG_EXTRA_CFLAGS="$(BUSYBOX_EXTRA_CFLAGS)"#' .config; \
+		sed -i -e 's#^CONFIG_EXTRA_LDFLAGS.*#CONFIG_EXTRA_LDFLAGS="$(BUSYBOX_EXTRA_LDFLAGS)"#' .config; \
+		sed -i -e 's#^CONFIG_EXTRA_LDLIBS.*#CONFIG_EXTRA_LDLIBS="$(BUSYBOX_EXTRA_LDLIBS)"#' .config; \
 		$(BUILDENV) \
 		$(MAKE) busybox CROSS_COMPILE=$(TARGET)- CFLAGS_EXTRA="$(TARGET_CFLAGS)"; \
 		$(MAKE) install CROSS_COMPILE=$(TARGET)- CFLAGS_EXTRA="$(TARGET_CFLAGS)" CONFIG_PREFIX=$(TARGET_DIR)
