@@ -15,7 +15,7 @@ BUSYBOX_PATCH += busybox-$(BUSYBOX_VER)-recursive_action-fix.patch
 BUSYBOX_CONFIG = busybox-$(BUSYBOX_VER).config
 
 $(ARCHIVE)/$(BUSYBOX_SOURCE):
-	$(DOWNLOAD) https://busybox.net/downloads/$(BUSYBOX_SOURCE)
+	wget -P $(ARCHIVE) https://busybox.net/downloads/$(BUSYBOX_SOURCE)
 
 $(D)/busybox: $(D)/bootstrap $(ARCHIVE)/$(BUSYBOX_SOURCE) $(PATCHES)/$(BUSYBOX_CONFIG)
 	$(START_BUILD)
