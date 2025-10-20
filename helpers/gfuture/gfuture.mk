@@ -40,7 +40,7 @@ gfuture-disk-image-$(BOXTYPE):
 	rm -rf $(IMAGE_BUILD_DIR) || true
 	mkdir -p $(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)
 	# splash
-ifeq ($(BOXTYPE), $(filter $(BOXTYPE), e4hdultra))
+ifeq ($(BOXTYPE), $(filter $(BOXTYPE), e4hdultra protek4k))
 	cp $(SKEL_ROOT)/boot/lcdsplash.bmp $(IMAGE_BUILD_DIR)/
 endif
 	# Create a sparse image block
