@@ -175,6 +175,10 @@ endif
 	ln -s ../init.d/reboot $(RELEASE_DIR)/etc/rc.d/rc6.d/S90reboot
 	touch $(RELEASE_DIR)/etc/.firstboot
 	ln -sf /proc/mounts $(RELEASE_DIR)/etc/mtab
+ifeq ($(BOXTYPE), $(filter $(BOXTYPE), bre2ze4k h7 hd51 e4hdultra protek4k))
+	mv $(RELEASE_DIR)/sbin/init $(RELEASE_DIR)/sbin/init.sysvinit
+	install -m 0755 $(SKEL_ROOT)/sbin/init $(RELEASE_DIR)/sbin/
+endif	
 #
 # imageversion
 #
