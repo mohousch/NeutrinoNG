@@ -174,11 +174,7 @@ endif
 	ln -s ../init.d/sendsigs $(RELEASE_DIR)/etc/rc.d/rc6.d/S20sendsigs
 	ln -s ../init.d/reboot $(RELEASE_DIR)/etc/rc.d/rc6.d/S90reboot
 	touch $(RELEASE_DIR)/etc/.firstboot
-	ln -sf /proc/mounts $(RELEASE_DIR)/etc/mtab
-ifeq ($(BOXTYPE), $(filter $(BOXTYPE), bre2ze4k h7 hd51 e4hdultra protek4k))
-	mv $(RELEASE_DIR)/sbin/init $(RELEASE_DIR)/sbin/init.sysvinit
-	install -m 0755 $(SKEL_ROOT)/sbin/init $(RELEASE_DIR)/sbin/
-endif	
+	ln -sf /proc/mounts $(RELEASE_DIR)/etc/mtab	
 #
 # imageversion
 #
@@ -217,6 +213,10 @@ endif
 	cp -aR $(TARGET_DIR)/etc/* $(RELEASE_DIR)/etc/
 	echo "$(BOXTYPE)" > $(RELEASE_DIR)/etc/hostname
 	ln -sf ../../bin/busybox $(RELEASE_DIR)/usr/bin/ether-wake
+ifeq ($(BOXTYPE), $(filter $(BOXTYPE), bre2ze4k h7 hd51 e4hdultra protek4k))
+	mv $(RELEASE_DIR)/sbin/init $(RELEASE_DIR)/sbin/init.sysvinit
+	install -m 0755 $(SKEL_ROOT)/sbin/init $(RELEASE_DIR)/sbin/
+endif
 #
 # wlan firmware
 #
