@@ -40,7 +40,11 @@ SOURCE_DIR            = $(TUFSBOX_DIR)/build_source
 TARGET_DIR            = $(TUFSBOX_DIR)/cdkroot
 CROSS_DIR             = $(TUFSBOX_DIR)/cross
 HOST_DIR              = $(TUFSBOX_DIR)/host
+ifeq ($(BOXTYPE), $(filter $(BOXTYPE), bre2ze4k h7 hd51 e4hdultra protek4k))
+RELEASE_DIR	      = $(TUFSBOX_DIR)/release/linuxrootfs1
+else
 RELEASE_DIR           = $(TUFSBOX_DIR)/release
+endif
 IMAGE_DIR             = $(TUFSBOX_DIR)/image
 PKGS_DIR	      = $(TUFSBOX_DIR)/pkgs
 D                     = $(TUFSBOX_DIR)/.deps
