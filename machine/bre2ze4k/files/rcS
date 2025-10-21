@@ -34,6 +34,13 @@ echo "[rcS] add mmcblks in /dev/block"
 /etc/init.d/mmcblk-by-name
 
 #
+echo "[rcS] `date +'%d.%m.%Y %H:%M:%S'` load modules"
+modprobe bre2ze4k_1
+modprobe bre2ze4k_2
+modprobe bre2ze4k_3
+modprobe bre2ze4k_4
+
+#
 echo "[rcS] setup network"
 NFS=$(grep -c nfs /proc/cmdline)
 if [ "$NFS" -eq "1" ]; then
@@ -57,14 +64,6 @@ fi
 /usr/sbin/inetd
 # rpc.statd for nfs
 /etc/init.d/nfs-common start
-
-#
-echo "[rcS] `date +'%d.%m.%Y %H:%M:%S'` load modules"
-
-modprobe bre2ze4k_1
-modprobe bre2ze4k_2
-modprobe bre2ze4k_3
-modprobe bre2ze4k_4
 
 # set dummy time
 NTPDATE=`date +"%Y%m%d"`

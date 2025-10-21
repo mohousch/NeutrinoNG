@@ -38,6 +38,13 @@ echo "[rcS] starting mountall"
 /etc/mdev/ttyUSB-check.sh
 
 #
+echo "[rcS] `date +'%d.%m.%Y %H:%M:%S'` load modules"
+modprobe e4hd_1
+modprobe e4hd_2
+modprobe e4hd_3
+modprobe e4hd_4
+
+#
 echo "[rcS] setup network"
 NFS=$(grep -c nfs /proc/cmdline)
 if [ "$NFS" -eq "1" ]; then
@@ -61,14 +68,6 @@ fi
 /usr/sbin/inetd
 # rpc.statd for nfs
 /etc/init.d/nfs-common start
-
-#
-echo "[rcS] `date +'%d.%m.%Y %H:%M:%S'` load modules"
-
-modprobe e4hd_1
-modprobe e4hd_2
-modprobe e4hd_3
-modprobe e4hd_4
 
 # set dummy time
 NTPDATE=`date +"%Y%m%d"`
