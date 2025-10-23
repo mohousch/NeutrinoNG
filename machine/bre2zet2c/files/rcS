@@ -70,7 +70,6 @@ fi
 
 #
 echo "[rcS] `date +'%d.%m.%Y %H:%M:%S'` load modules"
-
 modprobe --force linuxtv
 
 while [ ! -c /dev/fb0 ]; do
@@ -98,5 +97,4 @@ fi
 if [ -e /etc/init.d/rcS.gui ]; then
 	/etc/init.d/rcS.gui
 fi
-
 
