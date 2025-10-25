@@ -157,7 +157,6 @@ endif
 	install -d $(RELEASE_DIR)/mnt/mnt{0..7}
 	install -d $(RELEASE_DIR)/usr/{bin,lib,sbin,share}
 	install -d $(RELEASE_DIR)/usr/lib/locale
-	cp -aR $(SKEL_ROOT)/usr/lib/locale/* $(RELEASE_DIR)/usr/lib/locale
 	install -d $(RELEASE_DIR)/usr/share/{udhcpc,zoneinfo,fonts}
 	install -d $(RELEASE_DIR)/var/{bin,lib,net,tuxbox}
 ifeq ($(BOXARCH), sh4)
@@ -168,23 +167,36 @@ endif
 	install -d $(RELEASE_DIR)/var/spool/cron/crontabs
 	install -d $(RELEASE_DIR)/usr/share/lua/5.2	
 	mkdir -p $(RELEASE_DIR)/etc/rc.d/rc0.d
-	ln -s ../init.d/sendsigs $(RELEASE_DIR)/etc/rc.d/rc0.d/S20sendsigs
-	ln -s ../init.d/halt $(RELEASE_DIR)/etc/rc.d/rc0.d/S90halt
 	mkdir -p $(RELEASE_DIR)/etc/rc.d/rc6.d
-	ln -s ../init.d/sendsigs $(RELEASE_DIR)/etc/rc.d/rc6.d/S20sendsigs
-	ln -s ../init.d/reboot $(RELEASE_DIR)/etc/rc.d/rc6.d/S90reboot
-	touch $(RELEASE_DIR)/etc/.firstboot
-	ln -sf /proc/mounts $(RELEASE_DIR)/etc/mtab	
 #
 # imageversion
 #
-	echo "imagename=$(BS_NAME)" >> $(RELEASE_DIR)/.version
+	echo "imagename=$(BS_NAME)" > $(RELEASE_DIR)/.version
 	echo "version=$(BS_TYPE)`echo "$(BS_CYCLE)" | sed 's/\./0/g'``date +%Y%m%d%H%M`" >> $(RELEASE_DIR)/.version
 	echo "homepage=https://github.com/mohousch" >> $(RELEASE_DIR)/.version
 	echo "creator=$(MAINTAINER)" >> $(RELEASE_DIR)/.version
 	echo "docs=https://github.com/mohousch" >> $(RELEASE_DIR)/.version
 	echo "forum=https://forum.mbremer.de" >> $(RELEASE_DIR)/.version
 	echo "git=`git log | grep "^commit" | wc -l`" >> $(RELEASE_DIR)/.version
+#
+# base-files
+#
+	cp -aR $(SKEL_ROOT)/etc/mdev/* $(RELEASE_DIR)/etc/mdev/
+	cp -aR $(SKEL_ROOT)/etc/mdev_$(BOXARCH).conf $(RELEASE_DIR)/etc/mdev.conf
+	cp -aR $(SKEL_ROOT)/usr/share/udhcpc/* $(RELEASE_DIR)/usr/share/udhcpc/
+	cp -aR $(SKEL_ROOT)/usr/share/zoneinfo/* $(RELEASE_DIR)/usr/share/zoneinfo/
+	cp -aR $(SKEL_ROOT)/usr/share/fonts $(RELEASE_DIR)/usr/share/
+	cp -aR $(SKEL_ROOT)/usr/lib/locale/* $(RELEASE_DIR)/usr/lib/locale
+	cp -aR $(TARGET_DIR)/etc/init.d/* $(RELEASE_DIR)/etc/init.d/
+	install -m 0755 $(SKEL_ROOT)/etc/init.d/rcS.local $(RELEASE_DIR)/etc/init.d/rcS.local
+	cp -aR $(TARGET_DIR)/etc/* $(RELEASE_DIR)/etc/
+	echo "$(BOXTYPE)" > $(RELEASE_DIR)/etc/hostname
+	ln -s ../init.d/sendsigs $(RELEASE_DIR)/etc/rc.d/rc0.d/S20sendsigs
+	ln -s ../init.d/halt $(RELEASE_DIR)/etc/rc.d/rc0.d/S90halt
+	ln -s ../init.d/sendsigs $(RELEASE_DIR)/etc/rc.d/rc6.d/S20sendsigs
+	ln -s ../init.d/reboot $(RELEASE_DIR)/etc/rc.d/rc6.d/S90reboot
+	ln -sf /proc/mounts $(RELEASE_DIR)/etc/mtab
+	touch $(RELEASE_DIR)/etc/.firstboot
 #
 # bin/sbin/usr/bin/usr/sbin
 #
@@ -205,15 +217,6 @@ endif
 ifeq ($(BOXARCH), sh4)
 	cp -dp $(SKEL_ROOT)/sbin/hotplug $(RELEASE_DIR)/sbin/
 endif
-	cp -aR $(SKEL_ROOT)/etc/mdev/* $(RELEASE_DIR)/etc/mdev/
-	cp -aR $(SKEL_ROOT)/etc/mdev_$(BOXARCH).conf $(RELEASE_DIR)/etc/mdev.conf
-	cp -aR $(SKEL_ROOT)/usr/share/udhcpc/* $(RELEASE_DIR)/usr/share/udhcpc/
-	cp -aR $(SKEL_ROOT)/usr/share/zoneinfo/* $(RELEASE_DIR)/usr/share/zoneinfo/
-	cp -aR $(SKEL_ROOT)/usr/share/fonts $(RELEASE_DIR)/usr/share/
-	cp -aR $(TARGET_DIR)/etc/init.d/* $(RELEASE_DIR)/etc/init.d/
-	install -m 0755 $(SKEL_ROOT)/etc/init.d/rcS.local $(RELEASE_DIR)/etc/init.d/rcS.local
-	cp -aR $(TARGET_DIR)/etc/* $(RELEASE_DIR)/etc/
-	echo "$(BOXTYPE)" > $(RELEASE_DIR)/etc/hostname
 	ln -sf ../../bin/busybox $(RELEASE_DIR)/usr/bin/ether-wake
 ifeq ($(BOXTYPE), $(filter $(BOXTYPE), bre2ze4k h7 hd51 e4hdultra protek4k))
 	mv $(RELEASE_DIR)/sbin/init $(RELEASE_DIR)/sbin/init.sysvinit
