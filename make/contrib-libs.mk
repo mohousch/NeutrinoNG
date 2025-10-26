@@ -942,7 +942,9 @@ $(D)/libmad: $(D)/bootstrap $(ARCHIVE)/$(LIBMAD_SOURCE)
 #
 LIBID3TAG_VER = 0.15.1b
 LIBID3TAG_SOURCE = libid3tag-$(LIBID3TAG_VER).tar.gz
+ifeq ($(BOXARCH), $(filter $(BOXARCH), sh4 arm mips))
 LIBID3TAG_PATCH = libid3tag-$(LIBID3TAG_VER).patch
+endif
 
 $(ARCHIVE)/$(LIBID3TAG_SOURCE):
 	$(DOWNLOAD) https://sourceforge.net/projects/mad/files/libid3tag/$(LIBID3TAG_VER)/$(LIBID3TAG_SOURCE)
@@ -961,7 +963,9 @@ $(D)/libid3tag: $(D)/bootstrap $(D)/zlib $(ARCHIVE)/$(LIBID3TAG_SOURCE)
 		; \
 		$(MAKE) all; \
 		$(MAKE) install DESTDIR=$(TARGET_DIR)
+ifeq ($(BOXARCH), $(filter $(BOXARCH), sh4 arm mips))		
 	$(REWRITE_PKGCONF) $(PKG_CONFIG_PATH)/id3tag.pc
+endif
 	$(REWRITE_LIBTOOL)/libid3tag.la
 	$(REMOVE)/libid3tag-$(LIBID3TAG_VER)
 	$(TOUCH)
