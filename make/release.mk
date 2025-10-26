@@ -162,6 +162,10 @@ endif
 ifeq ($(BOXARCH), sh4)
 	install -d $(RELEASE_DIR)/var/etc
 endif
+ifeq ($(BOXARCH), x86_64)	
+	cd $(RELEASE_DIR) && ln -sf lib lib64
+	cd $(RELEASE_DIR)/usr && ln -sf lib lib64
+endif
 	install -d $(RELEASE_DIR)/var/tuxbox/config
 	install -d $(RELEASE_DIR)/var/lib/{nfs,modules,opkg}
 	install -d $(RELEASE_DIR)/var/spool/cron/crontabs

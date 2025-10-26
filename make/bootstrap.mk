@@ -480,7 +480,11 @@ $(D)/directories:
 	install -d $(TARGET_DIR)/etc/rc.d/{rc0.d,rc6.d}
 	ln -sf ../init.d $(TARGET_DIR)/etc/rc.d/init.d
 	install -d $(TARGET_DIR)/lib/{lsb,firmware}
-	install -d $(TARGET_DIR)/usr/{bin,lib,lib64,sbin,share}
+	install -d $(TARGET_DIR)/usr/{bin,lib,sbin,share}
+ifeq ($(BOXARCH), x86_64)	
+	cd $(TARGET_DIR) && ln -sf lib lib64
+	cd $(TARGET_DIR)/usr && ln -sf lib lib64
+endif
 	install -d $(TARGET_DIR)/usr/lib/pkgconfig
 	install -d $(TARGET_DIR)/usr/include/linux
 	install -d $(TARGET_DIR)/usr/include/linux/dvb
