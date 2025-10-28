@@ -144,7 +144,7 @@ release-bre2ze4k:
 #
 FLASHIMAGE_PREFIX = $(BOXTYPE)
 
--include $(HELPERS_DIR)/gfuture/gfuture.mk
+-include $(HELPERS_DIR)/gfuture/gfuture_multiboot.mk
 
 image-bre2ze4k:
 	$(MAKE) gfuture-disk-image-$(BOXTYPE) gfuture-rootfs-image-$(BOXTYPE)
