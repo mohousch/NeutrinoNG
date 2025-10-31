@@ -27,17 +27,18 @@ mdev -s
 find /sys/ -name modalias -print0 | xargs -0 sort -u | tr '\n' '\0' | xargs -0 modprobe -abq
 
 #
-echo -n "add mmcblks in /dev/block"
-/etc/init.d/mmcblk-by-name
-
-echo "[rcS] starting mountall"
-/etc/init.d/mountall start
-
 echo "[rcS] `date +'%d.%m.%Y %H:%M:%S'` load modules"
 modprobe hd51_1
 modprobe hd51_2
 modprobe hd51_3
 modprobe hd51_4
+
+#
+echo -n "add mmcblks in /dev/block"
+/etc/init.d/mmcblk-by-name
+
+echo "[rcS] starting mountall"
+/etc/init.d/mountall start
 
 echo "[rcS] setup network"
 NFS=$(grep -c nfs /proc/cmdline)

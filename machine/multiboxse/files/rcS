@@ -26,6 +26,15 @@ mdev -s
 # coldplug modules
 find /sys/ -name modalias -print0 | xargs -0 sort -u | tr '\n' '\0' | xargs -0 modprobe -abq
 
+#
+echo "[rcS] `date +'%d.%m.%Y %H:%M:%S'` load modules"
+modprobe multiboxse_1
+modprobe multiboxse_2
+modprobe multiboxse_3
+modprobe multiboxse_4
+#modprobe hi_play
+#modprobe mali
+
 echo "[rcS] starting mountall"
 /etc/init.d/mountall start
 
@@ -70,20 +79,6 @@ fi
 /usr/sbin/inetd
 # rpc.statd for nfs
 /etc/init.d/nfs-common start
-
-echo "[rcS] `date +'%d.%m.%Y %H:%M:%S'` load modules"
-
-modprobe multiboxse_1
-modprobe multiboxse_2
-modprobe multiboxse_3
-modprobe multiboxse_4
-
-#modprobe hi_play
-#modprobe mali
-
-while [ ! -c /dev/fb0 ]; do
-	usleep 100000
-done
 
 # set dummy time
 NTPDATE=`date +"%Y%m%d"`

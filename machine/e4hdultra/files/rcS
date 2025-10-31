@@ -27,6 +27,13 @@ mdev -s
 find /sys/ -name modalias -print0 | xargs -0 sort -u | tr '\n' '\0' | xargs -0 modprobe -abq
 
 #
+echo "[rcS] `date +'%d.%m.%Y %H:%M:%S'` load modules"
+modprobe e4hd_1
+modprobe e4hd_2
+modprobe e4hd_3
+modprobe e4hd_4
+
+#
 echo -n "add mmcblks in /dev/block"
 /etc/init.d/mmcblk-by-name
 
@@ -36,13 +43,6 @@ echo "[rcS] starting mountall"
 
 # for start from power off
 /etc/mdev/ttyUSB-check.sh
-
-#
-echo "[rcS] `date +'%d.%m.%Y %H:%M:%S'` load modules"
-modprobe e4hd_1
-modprobe e4hd_2
-modprobe e4hd_3
-modprobe e4hd_4
 
 #
 echo "[rcS] setup network"

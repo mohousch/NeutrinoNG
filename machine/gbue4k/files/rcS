@@ -26,6 +26,13 @@ mdev -s
 # coldplug modules
 find /sys/ -name modalias -print0 | xargs -0 sort -u | tr '\n' '\0' | xargs -0 modprobe -abq
 
+#
+echo "[rcS] `date +'%d.%m.%Y %H:%M:%S'` load modules"
+export B_REFSW_BOXMODE=5
+modprobe nexus
+/usr/bin/nxserver &
+/usr/bin/dvb_init /lib/modules/$(uname -r)/extra/dvb.ko &
+
 # mountall (fstab)
 echo "[rcS] starting mountall"
 /etc/init.d/mountall start
@@ -69,18 +76,6 @@ fi
 /usr/sbin/inetd
 # rpc.statd for nfs
 /etc/init.d/nfs-common start
-
-#
-echo "[rcS] `date +'%d.%m.%Y %H:%M:%S'` load modules"
-
-export B_REFSW_BOXMODE=5
-modprobe nexus
-/usr/bin/nxserver &
-/usr/bin/dvb_init /lib/modules/$(uname -r)/extra/dvb.ko &
-
-while [ ! -c /dev/fb0 ]; do
-	usleep 100000
-done
 
 # set dummy time
 NTPDATE=`date +"%Y%m%d"`

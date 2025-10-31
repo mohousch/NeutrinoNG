@@ -26,19 +26,19 @@ mdev -s
 find /sys/ -name modalias -print0 | xargs -0 sort -u | tr '\n' '\0' | xargs -0 modprobe -abq
 
 #
+echo "[rcS] `date +'%d.%m.%Y %H:%M:%S'` load modules"
+modprobe bre2ze4k_1
+modprobe bre2ze4k_2
+modprobe bre2ze4k_3
+modprobe bre2ze4k_4
+
+#
 echo "[rcS] starting mountall"
 /etc/init.d/mountall start
 
 #
 echo "[rcS] add mmcblks in /dev/block"
 /etc/init.d/mmcblk-by-name
-
-#
-echo "[rcS] `date +'%d.%m.%Y %H:%M:%S'` load modules"
-modprobe bre2ze4k_1
-modprobe bre2ze4k_2
-modprobe bre2ze4k_3
-modprobe bre2ze4k_4
 
 #
 echo "[rcS] setup network"

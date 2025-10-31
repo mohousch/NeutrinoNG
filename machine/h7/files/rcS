@@ -23,14 +23,15 @@ mdev -s
 # coldplug modules
 find /sys/ -name modalias -print0 | xargs -0 sort -u | tr '\n' '\0' | xargs -0 modprobe -abq
 
-echo "starting interface"
-/etc/init.d/mountall start
-
+#
 echo "rcS loading modules"
 modprobe h7_1
 modprobe h7_2
 modprobe h7_3
 modprobe h7_4
+
+echo "starting interface"
+/etc/init.d/mountall start
 
 echo "[rcS] add mmcblks in /dev/block"
 /etc/init.d/mmcblk-by-name

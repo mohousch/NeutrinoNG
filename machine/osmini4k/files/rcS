@@ -24,12 +24,7 @@ mdev -s
 find /sys/ -name modalias -print0 | xargs -0 sort -u | tr '\n' '\0' | xargs -0 modprobe -abq
 
 #
-echo -n "add mmcblks in /dev/block"
-/etc/init.d/mmcblk-by-name
-
-echo "starting interface"
-/etc/init.d/mountall start
-
+echo "[rcS] load modules..."
 insmod /lib/modules/$(uname -r)/extra/avl6261.ko
 insmod /lib/modules/$(uname -r)/extra/avl6862.ko
 insmod /lib/modules/$(uname -r)/extra/si2183.ko
@@ -37,8 +32,15 @@ insmod /lib/modules/$(uname -r)/extra/ci.ko
 insmod /lib/modules/$(uname -r)/extra/brcmstb-osmio4k.ko
 
 if [ -e /lib/modules/$(uname -r)/extra/wlan.ko ]; then
-  insmod /lib/modules/$(uname -r)/extra/wlan.ko
+	insmod /lib/modules/$(uname -r)/extra/wlan.ko
 fi
+
+#
+echo -n "add mmcblks in /dev/block"
+/etc/init.d/mmcblk-by-name
+
+echo "starting interface"
+/etc/init.d/mountall start
 
 echo "setup network"
 /etc/init.d/hostname start
