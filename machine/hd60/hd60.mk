@@ -197,7 +197,7 @@ $(ARCHIVE)/$(FLASH_PARTITONS_SRC):
 $(ARCHIVE)/$(FLASH_RECOVERY_SRC):
 	$(DOWNLOAD) http://source.mynonpublic.com/gfutures/$(FLASH_RECOVERY_SRC)
 	
--include $(HELPERS_DIR)/hdfastboot8gb/hdfastboot8gb.mk
+-include $(HELPERS_DIR)/gfuture/hdfastboot8gb.mk
 
 image-hd60:
 	$(MAKE) hdfastboot8gb-disk-image-$(BOXTYPE) hdfastboot8gb-rootfs-image-$(BOXTYPE)
