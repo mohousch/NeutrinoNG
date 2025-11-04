@@ -208,6 +208,9 @@ init:
 
 init-clean:
 	rm -f .config
+	
+defconfig:
+	echo "BOXTYPE?=generic" > .config
 
 include make/buildenv.mk
 
