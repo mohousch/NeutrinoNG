@@ -30,10 +30,10 @@ RELEASE_DEPS += $(D)/mtd_utils
 RELEASE_DEPS += $(D)/gptfdisk
 RELEASE_DEPS += $(D)/dvb-apps
 RELEASE_DEPS += $(D)/dvbsnoop
-RELEASE_DEPS += $(D)/openvpn
-RELEASE_DEPS += $(D)/openssh
-RELEASE_DEPS += $(D)/dropbear
-RELEASE_DEPS += $(D)/samba
+#RELEASE_DEPS += $(D)/openvpn
+#RELEASE_DEPS += $(D)/openssh
+#RELEASE_DEPS += $(D)/dropbear
+#RELEASE_DEPS += $(D)/samba
 endif
 #
 # lirc
@@ -81,7 +81,7 @@ RELEASE_DEPS += $(D)/luaexpat
 RELEASE_DEPS += $(D)/luacurl 
 RELEASE_DEPS += $(D)/luasocket 
 RELEASE_DEPS += $(D)/luafeedparser 
-#RELEASE_DEPS += $(D)/luasoap 
+RELEASE_DEPS += $(D)/luasoap 
 RELEASE_DEPS += $(D)/luajson
 #
 # gstreamer
