@@ -12,9 +12,6 @@ KERNEL_SRC 	       = linux-$(KERNEL_VER).tar.xz
 KERNEL_URL	       = https://cdn.kernel.org/pub/linux/kernel/v6.x
 KERNEL_CONFIG          = defconfig
 KERNEL_DIR             = $(BUILD_TMP)/linux-$(KERNEL_VER)
-KERNEL_FILE 	       =
-
-KERNEL_PATCHES  = 
 			
 $(ARCHIVE)/$(KERNEL_SRC):
 	$(DOWNLOAD) $(KERNEL_URL)/$(KERNEL_SRC)
@@ -40,9 +37,9 @@ endif
 
 $(D)/kernel.do_compile: $(D)/kernel.do_prepare
 	set -e; cd $(KERNEL_DIR); \
-		$(MAKE) -C $(KERNEL_DIR) ARCH=x86 oldconfig
-		$(MAKE) -C $(KERNEL_DIR) ARCH=x86 CROSS_COMPILE=$(TARGET)- bzImage modules
-		$(MAKE) -C $(KERNEL_DIR) ARCH=x86 CROSS_COMPILE=$(TARGET)- DEPMOD=$(DEPMOD) INSTALL_MOD_PATH=$(TARGET_DIR) modules_install
+		$(MAKE) -C $(KERNEL_DIR) ARCH=$(BOXARCH) oldconfig
+		$(MAKE) -C $(KERNEL_DIR) ARCH=$(BOXARCH) CROSS_COMPILE=$(TARGET)- bzImage modules
+		$(MAKE) -C $(KERNEL_DIR) ARCH=$(BOXARCH) CROSS_COMPILE=$(TARGET)- DEPMOD=$(DEPMOD) INSTALL_MOD_PATH=$(TARGET_DIR) modules_install
 	@touch $@
 
 $(D)/kernel: $(D)/bootstrap $(D)/kernel.do_compile

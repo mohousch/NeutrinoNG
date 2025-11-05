@@ -100,13 +100,8 @@ $(D)/libffi: $(D)/bootstrap $(ARCHIVE)/$(LIBFFI_SOURCE)
 		; \
 		$(MAKE); \
 		$(MAKE) install DESTDIR=$(TARGET_DIR)
-ifeq ($(BOXARCH), x86_64)
-	$(REWRITE_PKGCONF) $(PKG_CONFIG64_PATH)/libffi.pc
-	$(REWRITE_LIB64TOOL)/libffi.la
-else
 	$(REWRITE_PKGCONF) $(PKG_CONFIG_PATH)/libffi.pc
 	$(REWRITE_LIBTOOL)/libffi.la
-endif
 	$(REMOVE)/libffi-$(LIBFFI_VER)
 	$(TOUCH)
 
@@ -1940,12 +1935,8 @@ $(D)/libopenthreads: $(D)/bootstrap $(ARCHIVE)/$(LIBOPENTHREADS_SOURCE)
 		find . -name cmake_install.cmake -print0 | xargs -0 \
 		sed -i 's@SET(CMAKE_INSTALL_PREFIX "/usr/local")@SET(CMAKE_INSTALL_PREFIX "")@'; \
 		$(MAKE); \
-		$(MAKE) install DESTDIR=$(TARGET_DIR)
-ifeq ($(BOXARCH), x86_64)
-	$(REWRITE_PKGCONF) $(PKG_CONFIG64_PATH)/openthreads.pc
-else	
+		$(MAKE) install DESTDIR=$(TARGET_DIR)	
 	$(REWRITE_PKGCONF) $(PKG_CONFIG_PATH)/openthreads.pc
-endif
 	$(REMOVE)/OpenThreads-$(LIBOPENTHREADS_VER)
 	$(TOUCH)
 
