@@ -30,10 +30,10 @@ LANG := C
 
 export LC_ALL LANG
 
-all: init
+all: config
 
 # Boxtype
-init:
+config:
 	@echo "Target receivers:"
 	@echo "  Kathrein"
 	@echo "    1)  UFS-912"
@@ -206,7 +206,7 @@ init:
 	@echo ""
 	@make printenv
 
-init-clean:
+config-clean:
 	rm -f .config
 	
 defconfig:
@@ -243,7 +243,7 @@ endif
 	@echo "MAINTAINER       : $(MAINTAINER)"
 	@echo "BUILD            : $(BUILD)"
 ifeq ($(BOXTYPE),)
-	@echo -e "\033[00;31mBOXTYPE		 :specify a valid BOXTYPE please run 'make init' or 'make'\033[0m"
+	@echo -e "\033[00;31mBOXTYPE		 :specify a valid BOXTYPE please run 'make config' or 'make'\033[0m"
 else
 	@echo "BOXTYPE          : $(BOXTYPE)"
 endif
@@ -271,7 +271,7 @@ ifeq ($(MAINTAINER),)
 	@echo
 endif
 	@echo
-	@echo -e "\033[01;33mIf you want to create or modify the configuration, run 'make init' or 'make'\033[0m"
+	@echo -e "\033[01;33mIf you want to create or modify the configuration, run 'make config' or 'make'\033[0m"
 	@echo
 	@echo "Your next step could be:"
 	@echo "  make image-neutrino2"
@@ -284,7 +284,7 @@ endif
 
 help:
 	@echo "target configuration:"
-	@echo " make init (or make)		- setup target configuration"
+	@echo " make config (or make)		- setup target configuration"
 	@echo ""
 	@echo "image:"
 	@echo " make image-neutrino2		- build neutrino2 image"

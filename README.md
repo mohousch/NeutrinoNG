@@ -15,7 +15,7 @@ $:~ sudo bash prepare-for-bs.sh
 
 **machine configuration:**
 ```bash
-$:~ make init
+$:~ make config
 ```
 
 or
