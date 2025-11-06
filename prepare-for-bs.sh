@@ -85,6 +85,7 @@ PACKAGES="\
 	cmake \
 	gperf \
 	rsync \
+	bzip2 \
 	\
 	${UBUNTU:+rpm}                                               ${FEDORA:+rpm-build}      ${GENTOO:+rpm}         \
 	${UBUNTU:+lsb-release}          ${SUSE:+lsb-release}				       ${GENTOO:+lsb-release} \
