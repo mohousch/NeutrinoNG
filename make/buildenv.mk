@@ -32,7 +32,7 @@ SKEL_ROOT             = $(BASE_DIR)/root
 -include $(BASE_DIR)/.config
 
 #
-TUFSBOX_DIR           = $(BASE_DIR)/tufsbox/$(BOXTYPE)
+TUFSBOX_DIR           = $(BASE_DIR)/builds/$(BOXTYPE)
 
 #
 BUILD_TMP             = $(TUFSBOX_DIR)/build_tmp

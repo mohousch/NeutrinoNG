@@ -62,5 +62,5 @@ kernel-clean:
 #
 #
 builds-clean:
-	rm -rf $(BASE_DIR)/tufsbox
+	rm -rf $(BASE_DIR)/builds
 

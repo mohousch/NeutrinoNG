@@ -464,8 +464,8 @@ ifneq ($(BOXTYPE),)
 $(D)/directories:
 	$(START_BUILD)
 	test -d $(ARCHIVE) || mkdir $(ARCHIVE)
-	test -d $(BASE_DIR)/tufsbox || mkdir $(BASE_DIR)/tufsbox
-	test -d $(BASE_DIR)/tufsbox/$(BOXTYPE) || mkdir $(BASE_DIR)/tufsbox/$(BOXTYPE)
+	test -d $(BASE_DIR)/builds || mkdir $(BASE_DIR)/builds
+	test -d $(BASE_DIR)/builds/$(BOXTYPE) || mkdir $(BASE_DIR)/builds/$(BOXTYPE)
 	test -d $(D) || mkdir $(D)
 	test -d $(BUILD_TMP) || mkdir $(BUILD_TMP)
 	test -d $(SOURCE_DIR) || mkdir $(SOURCE_DIR)
