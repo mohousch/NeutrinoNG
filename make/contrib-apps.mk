@@ -131,7 +131,7 @@ $(D)/module_init_tools: $(D)/bootstrap $(D)/lsb $(ARCHIVE)/$(HOST_MODULE_INIT_TO
 #
 # e2fsprogs
 #
-E2FSPROGS_VER = 1.45.6
+E2FSPROGS_VER = 1.47.3
 
 E2FSPROGS_SOURCE = e2fsprogs-$(E2FSPROGS_VER).tar.gz
 E2FSPROGS_PATCH = e2fsprogs-$(E2FSPROGS_VER).patch

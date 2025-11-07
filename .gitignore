@@ -2,7 +2,7 @@ buildlogs/*
 custom/*-local*
 root/boot/audio*
 root/boot/video*
-tufsbox/
+builds/
 Makefile.local
 .config
 config.local
