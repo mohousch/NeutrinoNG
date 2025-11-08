@@ -124,9 +124,9 @@ gfuture-rootfs-image-$(BOXTYPE):
 	mkdir -p $(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)
 	# kernel
 ifeq ($(BOXTYPE), $(filter $(BOXTYPE), e4hdultra protek4k))
-	cp $(TARGET_DIR)/boot/zImage.dtb $(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)/$(KERNEL_FILE)
-else
 	cp $(TARGET_DIR)/boot/zImage $(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)/$(KERNEL_FILE)
+else
+	cp $(TARGET_DIR)/boot/zImage,dtb $(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)/$(KERNEL_FILE)
 endif
 	# rootfs
 	cd $(RELEASE_DIR); \
