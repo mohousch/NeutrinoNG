@@ -21,23 +21,14 @@ KERNEL_FILE           = uImage
 KERNEL_DTB             = hi3798mv200.dtb
 
 KERNEL_PATCHES = \
-		0002-log2-give-up-on-gcc-constant-optimizations.patch \
-		0003-dont-mark-register-as-const.patch \
-		0001-remote.patch \
 		HauppaugeWinTV-dualHD.patch \
-		dib7000-linux_4.4.179.patch \
-		dvb-usb-linux_4.4.179.patch \
-		wifi-linux_4.4.183.patch \
 		move-default-dialect-to-SMB3.patch \
-		0004-linux-fix-buffer-size-warning-error.patch \
-		modules_mark__inittest__exittest_as__maybe_unused.patch \
-		includelinuxmodule_h_copy__init__exit_attrs_to_initcleanup_module.patch \
-		Backport_minimal_compiler_attributes_h_to_support_GCC_9.patch \
 		0005-xbox-one-tuner-4.4.patch \
 		0006-dvb-media-tda18250-support-for-new-silicon-tuner.patch \
 		0007-dvb-mn88472-staging.patch \
 		mn88472_reset_stream_ID_reg_if_no_PLP_given.patch \
-		4.4.35_fix-multiple-defs-yyloc.patch
+		af9035.patch \
+		fix-multiple-defs-yyloc.patch
 		
 $(ARCHIVE)/$(KERNEL_SRC):
 	$(DOWNLOAD) $(KERNEL_URL)/$(KERNEL_SRC)
