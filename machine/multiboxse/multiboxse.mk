@@ -1,8 +1,8 @@
 #
-# MACHINE = 
-# VENDOR = 
-# OEM = 
-# SOC = bcm72604
+# MACHINE = Maxytec Multiboxse
+# VENDOR = Maxytec
+# OEM = Maxytec
+# SOC = hisi3798mv200
 #
 
 BOXARCH = arm

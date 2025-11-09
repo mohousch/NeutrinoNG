@@ -1,11 +1,12 @@
 #
-# Makefile for dreambox dm800se
+# MACHINE = Dreambox 800se
+# VENDOR = Dreambox
+# OEM = Dreambox
+# SOC = bcm7405
 #
+
 BOXARCH = mips
-CICAM = ci-cam
-SCART = scart
-LCD = lcd
-FKEYS = fkeys
+MACHINE_OPTS = --enable-ci-cam --enable-fkeys --enable-lcd --enable-scart
 
 #
 #

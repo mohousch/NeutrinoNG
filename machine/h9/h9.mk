@@ -286,46 +286,46 @@ $(ARCHIVE)/$(PARAM_SRC):
 	$(DOWNLOAD) http://source.mynonpublic.com/zgemma/$(PARAM_SRC)
 	
 $(D)/install-bootargs: $(ARCHIVE)/$(BOOTARGS_SRC)
-	install -d $(IMAGE_BUILD_TMP)/bootargs
-	unzip -o $(ARCHIVE)/$(BOOTARGS_SRC) -d $(IMAGE_BUILD_TMP)/bootargs
-	install -m 0644 $(IMAGE_BUILD_TMP)/bootargs/bootargs_h9.bin $(IMAGE_BUILD_TMP)/$(FLASH_PREFIX)/bootargs.bin
-	install -m 0644 $(IMAGE_BUILD_TMP)/bootargs/rescue_bootargs_h9.bin $(IMAGE_BUILD_TMP)/bootargs.bin
+	install -d $(IMAGE_BUILD_DIR)/bootargs
+	unzip -o $(ARCHIVE)/$(BOOTARGS_SRC) -d $(IMAGE_BUILD_DIR)/bootargs
+	install -m 0644 $(IMAGE_BUILD_DIR)/bootargs/bootargs_h9.bin $(IMAGE_BUILD_DIR)/$(FLASH_PREFIX)/bootargs.bin
+	install -m 0644 $(IMAGE_BUILD_DIR)/bootargs/rescue_bootargs_h9.bin $(IMAGE_BUILD_DIR)/bootargs.bin
 
 $(D)/install-fastboot: $(ARCHIVE)/$(FASTBOOT_SRC)
-	install -d $(IMAGE_BUILD_TMP)/fastboot
-	unzip -o $(ARCHIVE)/$(FASTBOOT_SRC) -d $(IMAGE_BUILD_TMP)/fastboot
-	install -m 0644 $(IMAGE_BUILD_TMP)/fastboot/fastboot_h9.bin $(IMAGE_BUILD_TMP)/$(FLASH_PREFIX)/fastboot.bin
-	install -m 0644 $(IMAGE_BUILD_TMP)/fastboot/rescue_fastboot_h9.bin $(IMAGE_BUILD_TMP)/fastboot.bin
+	install -d $(IMAGE_BUILD_DIR)/fastboot
+	unzip -o $(ARCHIVE)/$(FASTBOOT_SRC) -d $(IMAGE_BUILD_DIR)/fastboot
+	install -m 0644 $(IMAGE_BUILD_DIR)/fastboot/fastboot_h9.bin $(IMAGE_BUILD_DIR)/$(FLASH_PREFIX)/fastboot.bin
+	install -m 0644 $(IMAGE_BUILD_DIR)/fastboot/rescue_fastboot_h9.bin $(IMAGE_BUILD_DIR)/fastboot.bin
 
 $(D)/install-param: $(ARCHIVE)/$(PARAM_SRC)
-	install -d $(IMAGE_BUILD_TMP)/param
-	unzip -o $(ARCHIVE)/$(PARAM_SRC) -d $(IMAGE_BUILD_TMP)/param
-	install -m 0644 $(IMAGE_BUILD_TMP)/param/baseparam.img $(IMAGE_BUILD_TMP)/$(FLASH_PREFIX)/baseparam.img
-	install -m 0644 $(IMAGE_BUILD_TMP)/param/pq_param.bin $(IMAGE_BUILD_TMP)/$(FLASH_PREFIX)/pq_param.bin
+	install -d $(IMAGE_BUILD_DIR)/param
+	unzip -o $(ARCHIVE)/$(PARAM_SRC) -d $(IMAGE_BUILD_DIR)/param
+	install -m 0644 $(IMAGE_BUILD_DIR)/param/baseparam.img $(IMAGE_BUILD_DIR)/$(FLASH_PREFIX)/baseparam.img
+	install -m 0644 $(IMAGE_BUILD_DIR)/param/pq_param.bin $(IMAGE_BUILD_DIR)/$(FLASH_PREFIX)/pq_param.bin
 	
 image-h9: $(ARCHIVE)/$(BOOTARGS_SRC) $(ARCHIVE)/$(FASTBOOT_SRC) $(ARCHIVE)/$(PARAM_SRC)
-	rm -rf $(IMAGE_BUILD_TMP) || true
-	mkdir -p $(IMAGE_BUILD_TMP)/$(FLASH_PREFIX)
+	rm -rf $(IMAGE_BUILD_DIR) || true
+	mkdir -p $(IMAGE_BUILD_DIR)/$(FLASH_PREFIX)
 	$(MAKE) install-bootargs
 	$(MAKE) install-fastboot
 	$(MAKE) install-param
-	echo "rename this file to 'force' to force an update without confirmation" > $(IMAGE_BUILD_TMP)/$(FLASH_PREFIX)/noforce;
-	cp $(RELEASE_DIR)/boot/uImage $(IMAGE_BUILD_TMP)/$(FLASH_PREFIX)
-	mkfs.ubifs -r $(RELEASE_DIR) -o $(IMAGE_BUILD_TMP)/$(FLASH_PREFIX)/ubifs.img -m 2048 -e 126976 -c 4096
-	echo '[ubifs]' > $(IMAGE_BUILD_TMP)/$(FLASH_PREFIX)/ubinize.cfg
-	echo 'mode=ubi' >> $(IMAGE_BUILD_TMP)/$(FLASH_PREFIX)/ubinize.cfg
-	echo 'image=$(IMAGE_BUILD_TMP)/$(FLASH_PREFIX)/ubifs.img' >> $(IMAGE_BUILD_TMP)/$(FLASH_PREFIX)/ubinize.cfg
-	echo 'vol_id=0' >> $(IMAGE_BUILD_TMP)/$(FLASH_PREFIX)/ubinize.cfg
-	echo 'vol_type=dynamic' >> $(IMAGE_BUILD_TMP)/$(FLASH_PREFIX)/ubinize.cfg
-	echo 'vol_name=rootfs' >> $(IMAGE_BUILD_TMP)/$(FLASH_PREFIX)/ubinize.cfg
-	echo 'vol_flags=autoresize' >> $(IMAGE_BUILD_TMP)/$(FLASH_PREFIX)/ubinize.cfg
-	ubinize -o $(IMAGE_BUILD_TMP)/$(FLASH_PREFIX)/rootfs.ubi -m 2048 -p 128KiB $(IMAGE_BUILD_TMP)/$(FLASH_PREFIX)/ubinize.cfg
-	rm -f $(IMAGE_BUILD_TMP)/$(FLASH_PREFIX)/ubifs.img
-	rm -f $(IMAGE_BUILD_TMP)/$(FLASH_PREFIX)/ubinize.cfg
-	echo $(BOXTYPE)_$(FLAVOUR)_$(ITYPE)_$(shell date '+%d%m%Y-%H%M%S') > $(IMAGE_BUILD_TMP)/$(FLASH_PREFIX)/imageversion
-	install -m 0644 $(MACHINE_FILES)/logo.img $(IMAGE_BUILD_TMP)/$(FLASH_PREFIX)/logo.img
-	cd $(IMAGE_BUILD_TMP)/ && \
-	zip -r $(RELEASE_IMAGE_DIR)/$(BOXTYPE)_$(FLAVOUR)_$(ITYPE)_$(shell date '+%d.%m.%Y-%H.%M').zip $(FLASH_PREFIX)* fastboot.bin bootargs.bin
+	echo "rename this file to 'force' to force an update without confirmation" > $(IMAGE_BUILD_DIR)/$(FLASH_PREFIX)/noforce;
+	cp $(TARGET_DIR)/boot/uImage $(IMAGE_BUILD_DIR)/$(FLASH_PREFIX)
+	mkfs.ubifs -r $(RELEASE_DIR) -o $(IMAGE_BUILD_DIR)/$(FLASH_PREFIX)/ubifs.img -m 2048 -e 126976 -c 4096
+	echo '[ubifs]' > $(IMAGE_BUILD_DIR)/$(FLASH_PREFIX)/ubinize.cfg
+	echo 'mode=ubi' >> $(IMAGE_BUILD_DIR)/$(FLASH_PREFIX)/ubinize.cfg
+	echo 'image=$(IMAGE_BUILD_DIR)/$(FLASH_PREFIX)/ubifs.img' >> $(IMAGE_BUILD_DIR)/$(FLASH_PREFIX)/ubinize.cfg
+	echo 'vol_id=0' >> $(IMAGE_BUILD_DIR)/$(FLASH_PREFIX)/ubinize.cfg
+	echo 'vol_type=dynamic' >> $(IMAGE_BUILD_DIR)/$(FLASH_PREFIX)/ubinize.cfg
+	echo 'vol_name=rootfs' >> $(IMAGE_BUILD_DIR)/$(FLASH_PREFIX)/ubinize.cfg
+	echo 'vol_flags=autoresize' >> $(IMAGE_BUILD_DIR)/$(FLASH_PREFIX)/ubinize.cfg
+	ubinize -o $(IMAGE_BUILD_DIR)/$(FLASH_PREFIX)/rootfs.ubi -m 2048 -p 128KiB $(IMAGE_BUILD_DIR)/$(FLASH_PREFIX)/ubinize.cfg
+	rm -f $(IMAGE_BUILD_DIR)/$(FLASH_PREFIX)/ubifs.img
+	rm -f $(IMAGE_BUILD_DIR)/$(FLASH_PREFIX)/ubinize.cfg
+	echo $(BS_NAME)_$(BS_CYCLE)_$(BOXTYPE)_$(shell date '+%d.%m.%Y-%H.%M') > $(IMAGE_BUILD_DIR)/$(FLASH_PREFIX)/imageversion
+	install -m 0644 $(BASE_DIR)/machine/$(BOXTYPE)/files/logo.img $(IMAGE_BUILD_DIR)/$(FLASH_PREFIX)/logo.img
+	cd $(IMAGE_BUILD_DIR)/ && \
+	zip -r $(IMAGE_DIR)/$(BS_NAME)_$(BS_CYCLE)_$(BOXTYPE)_$(shell date '+%d.%m.%Y-%H.%M')_usb.zip $(FLASH_PREFIX)* fastboot.bin bootargs.bin
 	# cleanup
-	rm -rf $(IMAGE_BUILD_TMP)
+	rm -rf $(IMAGE_BUILD_DIR)
 
