@@ -1,6 +1,10 @@
 #
-# Makefile for gigablue ultra
+# MACHINE = Gigablue ultra
+# VENDOR = Gigablue
+# OEM = Gigablue
+# SOC = bcm7362
 #
+
 BOXARCH = mips
 CICAM = ci-cam
 LCD = lcd

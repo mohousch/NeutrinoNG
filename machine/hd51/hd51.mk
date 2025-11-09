@@ -1,6 +1,10 @@
 #
-# Makefile for ax hd51
+# MACHINE = Mut@nt hd51
+# VENDOR = Mut@nt
+# OEM = GFUTURES
+# SOC = bcm7251s
 #
+
 BOXARCH = arm
 CICAM = ci-cam
 SCART = scart

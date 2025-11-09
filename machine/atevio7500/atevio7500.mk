@@ -1,3 +1,9 @@
+#
+# MACHINE = Atevio 7500
+# VENDOR = Atevio
+# SOC =sh4
+#
+
 BOXARCH = sh4
 CICAM = ci-cam
 SCART = scart

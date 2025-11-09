@@ -1,6 +1,10 @@
 #
-# Makefile for gigablue 800se
+# MACHINE = Gigablue 800se
+# VENDOR = Gigablue
+# OEM = Gigablue
+# CPU = bcm7325
 #
+
 BOXARCH = mips
 CICAM = ci-cam
 SCART = scart

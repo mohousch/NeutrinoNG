@@ -1,6 +1,10 @@
 #
-# Makefile for wwio bre2ze4k
+# MACHINE = WWiO bre2ze4k
+# VENDOR = WWiO
+# OEM = GFUTURES
+# SOC = bcm7251s
 #
+
 BOXARCH = arm
 CICAM = ci-cam
 SCART = scart

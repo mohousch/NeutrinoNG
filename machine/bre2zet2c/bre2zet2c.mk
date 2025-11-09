@@ -1,6 +1,10 @@
 #
-# Makefile for wwio bre2zet2c
+# MACHINE = WWiO bre2zet2c
+# VENDOR = WWiO
+# OEM = Broadcom
+# SOC = bcm73625
 #
+
 BOXARCH = mips
 CICAM = ci-cam
 LCD = 4-digits

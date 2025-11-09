@@ -1,4 +1,6 @@
+#
 # set up environment for other makefiles
+#
 
 CONFIG_SITE =
 export CONFIG_SITE

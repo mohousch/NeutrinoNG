@@ -1,6 +1,10 @@
 #
-# Makefile for gigablue ue 4k
+# MACHINE = Gigablue ue 4k
+# VENDOR = Gigablue
+# OEM = Gigablue
+# SOC = bcm7252s
 #
+
 BOXARCH = arm
 CICAM = ci-cam
 LCD = lcd

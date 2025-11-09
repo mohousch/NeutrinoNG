@@ -1,6 +1,10 @@
 #
-# Makefile for zgemma h7
+# MACHINE = Zgemma h7
+# VENDOR = zgemma
+# OEM = Air Digital
+# SOC = bcm7251s
 #
+
 BOXARCH = arm
 CICAM = ci-cam
 SCART = scart

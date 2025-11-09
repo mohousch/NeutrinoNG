@@ -1,5 +1,5 @@
 #
-# NEUTRINO2
+# neutrino2 Makefile
 #
 NEUTRINO2_DEPS  = $(D)/bootstrap
 NEUTRINO2_DEPS += $(D)/e2fsprogs

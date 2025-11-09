@@ -1,6 +1,10 @@
 #
-# Makefile for Axas e4 ultra (se)
+# MACHINE = Axas e4 ultra
+# VENDOR = Axas
+# OEM = Ceryon
+# CPU = bcm7252s
 #
+
 BOXARCH=arm
 CICAM=ci-cam
 SCART=scart

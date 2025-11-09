@@ -1,5 +1,5 @@
 #
-#
+# neutrino-DDT Makefile
 #
 LIBSTB_HAL = libstb-hal-ddt
 LIBSTB_HAL_URL = https://github.com/Duckbox-Developers/libstb-hal-ddt.git
