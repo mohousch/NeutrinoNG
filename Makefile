@@ -63,6 +63,7 @@ config:
 	@echo "  AX Mutant"
 	@echo "   50)  Mut@nt HD51"
 	@echo "   51)  Mut@nt HD60"
+	@echo "   52)  Mut@nt HD61"
 	@echo "  Edision"
 	@echo "   60)  osnino"
 	@echo "   61)  osninoplus" 
@@ -128,6 +129,7 @@ config:
 		47) BOXTYPE="vusolo4k";; \
 		50) BOXTYPE="hd51";; \
 		51) BOXTYPE="hd60";; \
+		52) BOXTYPE="hd61";; \
 		60) BOXTYPE="osnino";; \
 		61) BOXTYPE="osninoplus";; \
 		62) BOXTYPE="osninopro";; \
