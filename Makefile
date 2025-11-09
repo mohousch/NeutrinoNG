@@ -163,7 +163,7 @@ config:
 		131) BOXTYPE="sf8008m";; \
 		140) BOXTYPE="protek4k";; \
 		150) BOXTYPE="ustym4kpro";; \
-		152) BOXTYPE="ustym4ks2ottx";; \
+		151) BOXTYPE="ustym4ks2ottx";; \
 		*) BOXTYPE="generic";; \
 	esac; \
 	echo "BOXTYPE?=$$BOXTYPE" > .config
