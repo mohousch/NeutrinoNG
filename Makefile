@@ -80,6 +80,7 @@ config:
 	@echo "  Air Digital"
 	@echo "   90)  Zgemma h7"
 	@echo "   91)  Zgemma h9"
+	@echo "   92)  Zgemma h9combo"
 	@echo "  AXAS"
 	@echo "   100)  AXAS E4HD 4K Ultra"
 	@echo "  Dream Media"
@@ -140,6 +141,7 @@ config:
 		81) BOXTYPE="bre2zet2c";; \
 		90) BOXTYPE="h7";; \
 		91) BOXTYPE="h9";; \
+		92) BOXTYPE="h9combo";; \
 		100) BOXTYPE="e4hdultra";; \
 		110) BOXTYPE="dm800se";; \
 		111) BOXTYPE="dm800sev2";; \

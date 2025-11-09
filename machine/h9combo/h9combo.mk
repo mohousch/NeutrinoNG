@@ -1,5 +1,5 @@
 #
-# MACHINE = Zgemma h9
+# MACHINE = Zgemma h9 Combo
 # VENDOR = zgemma
 # OEM = GFUTURES
 # SOC = hisi3798mv200
@@ -53,6 +53,8 @@ $(D)/kernel.do_prepare: $(ARCHIVE)/$(KERNEL_SRC) $(BASE_DIR)/machine/$(BOXTYPE)/
 			$(APATCH) $(BASE_DIR)/machine/$(BOXTYPE)/patches/$$i; \
 		done
 	install -m 644 $(BASE_DIR)/machine/$(BOXTYPE)/files/$(KERNEL_CONFIG) $(KERNEL_DIR)/.config
+	sed -i -e 's#CONFIG_INITRAMFS_SOURCE=""#CONFIG_INITRAMFS_SOURCE="initramfs-subdirboot.cpio.gz"\nCONFIG_INITRAMFS_ROOT_UID=0\nCONFIG_INITRAMFS_ROOT_GID=0#g' $(KERNEL_DIR)/.config
+	cp $(PATCHES)/initramfs-subdirboot.cpio.gz $(KERNEL_DIR)
 ifeq ($(OPTIMIZATIONS), $(filter $(OPTIMIZATIONS), kerneldebug debug))
 	@echo "Using kernel debug"
 	@grep -v "CONFIG_PRINTK" "$(KERNEL_DIR)/.config" > $(KERNEL_DIR)/.config.tmp
@@ -253,56 +255,18 @@ $(D)/mali-gpu-modul: $(ARCHIVE)/$(MALI_MODULE_SRC) $(D)/bootstrap $(D)/kernel
 #
 # release
 #
-release-h9:
+release-h9combo:
 	cp -pa $(TARGET_DIR)/lib/modules/$(KERNEL_VER) $(RELEASE_DIR)/lib/modules
+	install -m 0755 $(SKEL_ROOT)/etc/init.d/mmcblk-by-name $(RELEASE_DIR)/etc/init.d/mmcblk-by-name
 	install -m 0755 $(BASE_DIR)/machine/$(BOXTYPE)/files/rcS $(RELEASE_DIR)/etc/init.d/rcS
 	install -m 0755 $(BASE_DIR)/machine/$(BOXTYPE)/files/halt $(RELEASE_DIR)/etc/init.d/
 	cp -f $(BASE_DIR)/machine/$(BOXTYPE)/files/fstab $(RELEASE_DIR)/etc/
-	
+
 #
 # image
 #
-FLASH_PREFIX = $(BOXTYPE)
-
-HICHIPSET = 3798mv200
-BOOTARGS_DATE = 20200916
-BOOTARGS_SRC = zgemma-bootargs-$(HICHIPSET)-$(BOOTARGS_DATE).zip
-
-FASTBOOT_DATE = 20200916
-FASTBOOT_SRC = zgemma-fastboot-$(HICHIPSET)-$(FASTBOOT_DATE).zip
-
-PARAM_DATE = 20190530
-PARAM_SRC = zgemma-param-$(HICHIPSET)-$(PARAM_DATE).zip
-
-$(ARCHIVE)/$(BOOTARGS_SRC):
-	$(DOWNLOAD) http://source.mynonpublic.com/zgemma/$(BOOTARGS_SRC)
-
-$(ARCHIVE)/$(FASTBOOT_SRC):
-	$(DOWNLOAD) http://source.mynonpublic.com/zgemma/$(FASTBOOT_SRC)
-
-$(ARCHIVE)/$(PARAM_SRC):
-	$(DOWNLOAD) http://source.mynonpublic.com/zgemma/$(PARAM_SRC)
-	
-$(D)/install-bootargs: $(ARCHIVE)/$(BOOTARGS_SRC)
-	install -d $(IMAGE_BUILD_DIR)/bootargs
-	unzip -o $(ARCHIVE)/$(BOOTARGS_SRC) -d $(IMAGE_BUILD_DIR)/bootargs
-	install -m 0644 $(IMAGE_BUILD_DIR)/bootargs/bootargs_h9.bin $(IMAGE_BUILD_DIR)/$(FLASH_PREFIX)/bootargs.bin
-	install -m 0644 $(IMAGE_BUILD_DIR)/bootargs/rescue_bootargs_h9.bin $(IMAGE_BUILD_DIR)/bootargs.bin
-
-$(D)/install-fastboot: $(ARCHIVE)/$(FASTBOOT_SRC)
-	install -d $(IMAGE_BUILD_DIR)/fastboot
-	unzip -o $(ARCHIVE)/$(FASTBOOT_SRC) -d $(IMAGE_BUILD_DIR)/fastboot
-	install -m 0644 $(IMAGE_BUILD_DIR)/fastboot/fastboot_h9.bin $(IMAGE_BUILD_DIR)/$(FLASH_PREFIX)/fastboot.bin
-	install -m 0644 $(IMAGE_BUILD_DIR)/fastboot/rescue_fastboot_h9.bin $(IMAGE_BUILD_DIR)/fastboot.bin
-
-$(D)/install-param: $(ARCHIVE)/$(PARAM_SRC)
-	install -d $(IMAGE_BUILD_DIR)/param
-	unzip -o $(ARCHIVE)/$(PARAM_SRC) -d $(IMAGE_BUILD_DIR)/param
-	install -m 0644 $(IMAGE_BUILD_DIR)/param/baseparam.img $(IMAGE_BUILD_DIR)/$(FLASH_PREFIX)/baseparam.img
-	install -m 0644 $(IMAGE_BUILD_DIR)/param/pq_param.bin $(IMAGE_BUILD_DIR)/$(FLASH_PREFIX)/pq_param.bin
-
 -include $(HELPERS_DIR)/zgemma/zgemma.mk
-	
-image-h9: $(ARCHIVE)/$(BOOTARGS_SRC) $(ARCHIVE)/$(FASTBOOT_SRC) $(ARCHIVE)/$(PARAM_SRC)
-	$(MAKE) zgemma-ubi-image-h9
+
+image-h9combo:
+	$(MAKE) zgemma-multi-rootfs-image-h9combo
 
