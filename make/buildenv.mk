@@ -33,6 +33,9 @@ SKEL_ROOT             = $(BASE_DIR)/root
 # BOXTYPE
 -include $(BASE_DIR)/.config
 
+# for local extensions
+-include $(BASE_DIR)/config.local
+
 #
 TUFSBOX_DIR           = $(BASE_DIR)/builds/$(BOXTYPE)
 
@@ -42,7 +45,7 @@ SOURCE_DIR            = $(TUFSBOX_DIR)/build_source
 TARGET_DIR            = $(TUFSBOX_DIR)/cdkroot
 CROSS_DIR             = $(TUFSBOX_DIR)/cross
 HOST_DIR              = $(TUFSBOX_DIR)/host
-ifeq ($(BOXTYPE), $(filter $(BOXTYPE), bre2ze4k h7 hd51 e4hdultra protek4k))
+ifeq ($(LAYOUT), multiboot)
 RELEASE_DIR	      = $(TUFSBOX_DIR)/release/linuxrootfs1
 else
 RELEASE_DIR           = $(TUFSBOX_DIR)/release
@@ -57,9 +60,6 @@ IMAGE_BUILD_DIR       = $(BUILD_TMP)/image-build
 
 # 
 -include $(BASE_DIR)/machine/$(BOXTYPE)/$(BOXTYPE).mk
-
-# for local extensions
--include $(BASE_DIR)/config.local
 
 # default platform...
 MAKEFLAGS            += --no-print-directory

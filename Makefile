@@ -175,8 +175,8 @@ config:
 	case "$$GSTREAMER" in \
 		1) echo "GSTREAMER=gstreamer" >> .config;; \
 		2|*) echo "GSTREAMER=" >> .config;; \
-	esac; \
-	echo ""
+	esac;
+	@echo ""
 # python
 	@echo -e "\npython plugins support in neutrino2 (experimental and only for mipsel / arm)?:"
 	@echo "   1)  yes"
@@ -186,8 +186,8 @@ config:
 	case "$$PYTHON" in \
 		1) echo "PYTHON=python" >> .config;; \
 		2|*) echo "PYTHON=" >> .config;; \
-	esac; \
-	echo ""
+	esac;
+	@echo ""
 # GraphLCD
 	@echo -e "\nGraphLCD (neutrino2 / neutrino-DDT):"
 	@echo -e "   \033[01;32m1)  yes\033[00m"
@@ -198,8 +198,8 @@ config:
 		1) echo "GRAPHLCD=graphlcd" >> .config;; \
 		2) echo "GRAPHLCD=" >> .config;; \
 		*) echo "GRAPHLCD=graphlcd" >> .config;; \
-	esac; \
-	echo ""
+	esac;
+	@echo ""
 # LCD4Linux
 	@echo -e "\nLCD4linux (neutrino-DDT):"
 	@echo -e "   \033[01;32m1)  no\033[00m"
@@ -210,8 +210,8 @@ config:
 		1) echo "LCD4LINUX=" >> .config;; \
 		2) echo "LCD4LINUX=lcd4linux" >> .config;; \
 		*) echo "LCD4LINUX=" >> .config;; \
-	esac; \
-	echo ""	
+	esac;
+	@echo ""	
 #	
 	@echo ""
 	@make printenv
