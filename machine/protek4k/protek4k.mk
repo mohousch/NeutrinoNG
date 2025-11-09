@@ -1,9 +1,12 @@
 #
-# Makefile for protek 4k
+# MACHINE = Protek UHD V2
+# VENDOR = Protek
+# OEM = GFUTURES
+# SOC = 
 #
+
 BOXARCH = arm
-CICAM = ci-cam
-LCD = tftlcd
+MACHINE_OPTS = --enable-ci-cam --enable-tftlcd
 
 #
 # kernel

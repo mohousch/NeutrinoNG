@@ -1,10 +1,12 @@
 #
-# Makefile for vuplus duo2
+# MACHINE = Vuplus
+# VENDOR = Vuplus
+# OEM = VU+
+# SOC = bcm7425
 #
+
 BOXARCH = mips
-CICAM = ci-cam
-SCART = scart
-LCD = lcd
+MACHINE_OPTS = --enable-ci-cam --enable-fkeys --enable-lcd --enable-scart
 
 #
 # kernel

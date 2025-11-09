@@ -1,10 +1,12 @@
 #
-# Makefile for edision osmini 4k
+# MACHINE = Edision Mini 4K
+# VENDOR = Edision
+# OEM = Edision
+# SOC = bcm72604
 #
+
 BOXARCH = arm
-CICAM = ci-cam
-SCART = scart
-LCD = 4-digits
+MACHINE_OPTS = --enable-ci-cam --enable-4digits
 
 #
 # kernel

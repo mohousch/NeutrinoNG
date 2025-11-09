@@ -1,10 +1,12 @@
 #
-# Makefile for vuplus duo 4k
+# MACHINE = Vuplus
+# VENDOR = Vuplus
+# OEM = VU+
+# SOC = bcm7376
 #
+
 BOXARCH = arm
-CICAM = ci-cam
-SCART = scart
-LCD = lcd
+MACHINE_OPTS = --enable-ci-cam --enable-fkeys --enable-lcd --enable-scart
 
 #
 # kernel

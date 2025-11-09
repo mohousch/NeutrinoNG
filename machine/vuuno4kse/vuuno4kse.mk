@@ -1,10 +1,12 @@
 #
-# Makefile for vuplus uno 4k se
+# MACHINE = Vuplus
+# VENDOR = Vuplus
+# OEM = VU+
+# SOC = bcm7252s
 #
+
 BOXARCH = arm
-CICAM = ci-cam
-SCART = scart
-LCD = lcd
+MACHINE_OPTS = --enable-ci-cam --enable-fkeys --enable-lcd
 
 #
 # kernel

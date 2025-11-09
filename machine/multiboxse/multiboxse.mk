@@ -1,9 +1,12 @@
 #
-# Makefile for maxytec multiboxse
+# MACHINE = 
+# VENDOR = 
+# OEM = 
+# SOC = bcm72604
 #
+
 BOXARCH = arm
-CICAM = ci-cam
-LCD = 4-digits
+MACHINE_OPTS = --enable-ci-cam --enable-4digits
 
 #
 # kernel

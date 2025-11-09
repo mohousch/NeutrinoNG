@@ -6,9 +6,7 @@
 #
 
 BOXARCH = arm
-CICAM = ci-cam
-SCART = scart
-LCD = vfd
+MACHINE_OPTS = --enable-ci-cam --enable-scart --enable-4digits
 
 #
 # kernel

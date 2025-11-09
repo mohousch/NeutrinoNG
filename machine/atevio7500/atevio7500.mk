@@ -1,13 +1,11 @@
 #
 # MACHINE = Atevio 7500
 # VENDOR = Atevio
-# SOC =sh4
+# SOC = sh4
 #
 
 BOXARCH = sh4
-CICAM = ci-cam
-SCART = scart
-LCD = vfd
+MACHINE_OPTS = --enable-ci-cam --enable-scart --enable-vfd
 
 #
 # kernel

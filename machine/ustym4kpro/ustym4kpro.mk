@@ -1,9 +1,12 @@
 #
-# Makefile for uclan ustym 4k pro
+# MACHINE = Ustym 4k Pro
+# VENDOR = Uclan
+# OEM = Uclan
+# SOC = hisi3798mv200
 #
+
 BOXARCH = arm
-CICAM = ci-cam
-LCD = 4-digits
+MACHINE_OPTS = --enable-ci-cam --enable-4digits
 
 #
 # kernel

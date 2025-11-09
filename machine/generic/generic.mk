@@ -1,8 +1,12 @@
 #
-# Makefile for generic x86_64
+# MACHINE = Generic
+# VENDOR = Generic
+# OEM = Generic
+# SOC = amd / intel (x86)
 #
+
 BOXARCH = x86_64
-CICAM = ci-cam
+MACHINE_OPTS = --enable-lirc
 
 #
 # kernel

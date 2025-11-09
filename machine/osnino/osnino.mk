@@ -1,10 +1,12 @@
 #
-# Makefile for edision osnino
+# MACHINE = Edision Nino
+# VENDOR = Edision
+# OEM = Edision
+# SOC = bcm7362
 #
+
 BOXARCH = mips
-CICAM = ci-cam
-SCART = scart
-LCD = 4-digits
+MACHINE_OPTS = --enable-ci-cam --enable-4digits
 
 #
 # kernel

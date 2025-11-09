@@ -1,10 +1,12 @@
 #
-# Makefile for vuplus ultimo 4k
+# MACHINE = Vuplus
+# VENDOR = Vuplus
+# OEM = VU+
+# SOC = bcm7444
 #
+
 BOXARCH = arm
-CICAM = ci-cam
-SCART = scart
-LCD = lcd
+MACHINE_OPTS = --enable-ci-cam --enable-fkeys --enable-vfd
 
 #
 # kernel

@@ -6,9 +6,7 @@
 #
 
 BOXARCH = mips
-CICAM = ci-cam
-LCD = 4-digits
-FKEYS = fkeys
+MACHINE_OPTS = --enable-ci-cam --enable-fkeys --enable-vfd
 
 #
 # kernel

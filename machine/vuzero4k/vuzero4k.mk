@@ -1,9 +1,12 @@
 #
-# Makefile for vuplus zero 4k
+# MACHINE = Vuplus
+# VENDOR = Vuplus
+# OEM = VU+
+# SOC = bcm72604
 #
+
 BOXARCH = arm
-CICAM = ci-cam
-SCART = scart
+MACHINE_OPTS = --enable-ci-cam --enable-fkeys
 
 #
 # kernel

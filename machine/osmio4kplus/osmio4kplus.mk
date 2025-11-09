@@ -1,10 +1,12 @@
 #
-# Makefile for edision osmio 4k plus
+# MACHINE = Edision Mio 4K Plus
+# VENDOR = Edision
+# OEM = Edision
+# SOC = bcm72604
 #
+
 BOXARCH = arm
-CICAM = ci-cam
-SCART = scart
-LCD = lcd
+MACHINE_OPTS = --enable-ci-cam --enable-lcd
 
 #
 # kernel

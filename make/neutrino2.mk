@@ -134,6 +134,7 @@ $(D)/neutrino2.config.status: $(D)/neutrino2.do_prepare
 			--enable-maintainer-mode \
 			--with-boxtype=$(BOXTYPE) \
 			$(NEUTRINO2_CONFIG_OPTS) \
+			$(MACHINE_OPTS) \
 			PKG_CONFIG=$(PKG_CONFIG) \
 			PKG_CONFIG_PATH=$(PKG_CONFIG_PATH) \
 			CFLAGS="$(NEUTRINO2_CFLAGS)" CXXFLAGS="$(NEUTRINO2_CFLAGS)" CPPFLAGS="$(NEUTRINO2_CPPFLAGS)" LDFLAGS="$(TARGET_LDFLAGS)"

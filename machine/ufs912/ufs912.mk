@@ -1,8 +1,11 @@
+#
+# MACHINE = Kathrein 912
+# VENDOR = Kathrein
+# SOC = sh4
+#
+
 BOXARCH = sh4
-CICAM = ci-cam
-SCART = scart
-LCD = vfd
-FKEYS =
+MACHINE_OPTS = --enable-ci-cam --enable-scart --enable-vfd
 
 #
 # kernel

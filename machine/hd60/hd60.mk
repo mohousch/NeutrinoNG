@@ -1,10 +1,12 @@
 #
-# Makefile for ax hd60
+# MACHINE = Mut@nt hd60
+# VENDOR = Mut@nt
+# OEM = GFUTURES
+# SOC = bcm7251s
 #
+
 BOXARCH = arm
-CICAM = ci-cam
-SCART = scart
-LCD = 4-digits
+MACHINE_OPTS = --enable-ci-cam --enable-scart --enable-4digits
 
 #
 # kernel

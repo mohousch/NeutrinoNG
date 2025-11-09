@@ -1,9 +1,12 @@
 #
-# Makefile for octagon sf8008
+# MACHINE = Octagon sf8008
+# VENDOR = Octagon
+# OEM = Octagon
+# SOC = hisi3798mv200
 #
+
 BOXARCH = arm
-CICAM = ci-cam
-LCD = 4-digits
+MACHINE_OPTS = --enable-ci-cam --enable-4digits
 
 #
 # kernel
