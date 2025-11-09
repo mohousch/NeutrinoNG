@@ -99,6 +99,7 @@ config:
 	@echo "   121)  multibox"
 	@echo "  Octagon"
 	@echo "   130)  sf8008"
+	@echo "   131   sf8008m"
 	@echo "  Protek"
 	@echo "   140)  protek4k"
 	@echo "  Uclan"
@@ -159,6 +160,7 @@ config:
 		120) BOXTYPE="multiboxse";; \
 		121) BOXTYPE="multibox";; \
 		130) BOXTYPE="sf8008";; \
+		131) BOXTYPE="sf8008m";; \
 		140) BOXTYPE="protek4k";; \
 		150) BOXTYPE="ustym4kpro";; \
 		152) BOXTYPE="ustym4ks2ottx";; \
