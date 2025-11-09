@@ -444,10 +444,10 @@ endif
 ifeq ($(BOXTYPE), $(filter $(BOXTYPE), dm8000 dm7020hd dm7020hdv2 dm800se dm800sev2))
 BOOTSTRAP += $(D)/host_dm_buildimage
 endif
-ifeq ($(BOXTYPE), $(filter $(BOXTYPE), hd60 multiboxse))
+ifeq ($(BOXTYPE), $(filter $(BOXTYPE), hd60 hd61 multibox multiboxse))
 BOOTSTRAP += $(D)/host_atools
 endif
-ifeq ($(BOXTYPE), $(filter $(BOXTYPE), sf8008 ustym4kpro))
+ifeq ($(BOXTYPE), $(filter $(BOXTYPE), sf8008 sf8008m ustym4kpro))
 BOOTSTRAP += $(D)/host_octagon_buildimage
 endif
 ifeq ($(BOXARCH), $(filter $(BOXARCH), arm mips x86_64))	
