@@ -80,6 +80,11 @@ $(D)/kernel: $(D)/bootstrap $(D)/kernel.do_compile
 #
 # driver
 #
+DRIVER_VER     = $(KERNEL_VER)
+DRIVER_DATE    = 20201204
+PLAYERLIB_DATE = 20200622
+LIBGLES_DATE   = 20190104
+
 DRIVER_SRC = multibox-drivers-$(DRIVER_VER)-$(DRIVER_DATE).zip
 
 PLAYERLIB_SRC = maxytec-libs-3798mv200-$(PLAYERLIB_DATE).zip
