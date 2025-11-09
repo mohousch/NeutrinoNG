@@ -78,6 +78,11 @@ $(D)/kernel: $(D)/bootstrap $(D)/kernel.do_compile
 #
 # driver
 #
+DRIVER_VER     = $(KERNEL_VER)
+DRIVER_DATE    = 20200731
+PLAYERLIB_DATE = 20200622
+LIBGLES_DATE   = 20181201
+
 DRIVER_SRC = hd61-drivers-$(DRIVER_VER)-$(DRIVER_DATE).zip
 
 PLAYERLIB_SRC = gfutures-libs-3798mv200-$(PLAYERLIB_DATE).zip
@@ -193,7 +198,7 @@ $(D)/mali-gpu-modul: $(ARCHIVE)/$(MALI_MODULE_SRC) $(D)/bootstrap $(D)/kernel
 #
 # release
 #
-release-hd60:
+release-hd61:
 	cp -pa $(TARGET_DIR)/lib/modules/$(KERNEL_VER) $(RELEASE_DIR)/lib/modules
 	install -m 0755 $(BASE_DIR)/machine/$(BOXTYPE)/files/rcS $(RELEASE_DIR)/etc/init.d/rcS
 	install -m 0755 $(BASE_DIR)/machine/$(BOXTYPE)/files/halt $(RELEASE_DIR)/etc/init.d/
@@ -222,6 +227,6 @@ $(ARCHIVE)/$(FLASH_RECOVERY_SRC):
 	$(DOWNLOAD) http://source.mynonpublic.com/gfutures/$(FLASH_RECOVERY_SRC)
 -include $(HELPERS_DIR)/gfuture/hdfastboot8gb.mk
 
-image-hd60:
+image-hd61:
 	$(MAKE) hdfastboot8gb-disk-image-$(BOXTYPE) hdfastboot8gb-rootfs-image-$(BOXTYPE)
 
