@@ -5,7 +5,6 @@ root/boot/video*
 builds/
 Makefile.local
 .config
-config.local
 /pull-stash-cdk.patch
 /buildlogs/make_cuberevo_mini2.log
 /tools/aio-grab-arm/.deps/main.Po
