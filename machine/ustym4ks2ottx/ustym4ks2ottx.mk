@@ -13,8 +13,8 @@ MACHINE_OPTS = --enable-ci-cam --enable-4digits
 #
 KERNEL_VER             = 4.4.176
 KERNEL_DATE            = 20221203
-KERNEL_SRC             = linux-$(KERNEL_VER)-$(KERNEL_DATE)-arm.tar.gz
-KERNEL_URL             = http://source.mynonpublic.com/gfutures
+KERNEL_SRC             = uclan-linux-$(KERNEL_VER)-$(KERNEL_DATE).tar.gz
+KERNEL_URL             = http://source.mynonpublic.com/uclan
 KERNEL_CONFIG          = defconfig
 KERNEL_DIR             = $(BUILD_TMP)/linux-$(KERNEL_VER)
 KERNEL_FILE            = uImage
