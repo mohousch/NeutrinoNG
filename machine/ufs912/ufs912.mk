@@ -46,7 +46,7 @@ KERNEL_PATCHES = \
 
 KERNEL_CONFIG = linux-sh4-$(subst _stm24_,_,$(KERNEL_VER))_$(BOXTYPE).config
 
-$(D)/kernel.do_prepare: $(BASE_DIR)/machine/$(BOXTYPE)/files/$(KERNEL_CONFIG)
+$(D)/kernel.do_prepare: $(BASE_DIR)/machine/$(BOXTYPE)/patches/$(KERNEL_CONFIG)
 	$(START_BUILD)
 	rm -rf $(KERNEL_DIR)
 	REPO=https://github.com/Duckbox-Developers/linux-sh4-2.6.32.71.git;protocol=https;branch=stmicro; \
@@ -61,7 +61,7 @@ $(D)/kernel.do_prepare: $(BASE_DIR)/machine/$(BOXTYPE)/files/$(KERNEL_CONFIG)
 			echo -e "==> $(TERM_RED)Applying Patch:$(TERM_NORMAL) $$i"; \
 			$(APATCH) $(BASE_DIR)/machine/$(BOXTYPE)/patches/$$i; \
 		done
-	install -m 644 $(BASE_DIR)/machine/$(BOXTYPE)/files/$(KERNEL_CONFIG) $(KERNEL_DIR)/.config
+	install -m 644 $(BASE_DIR)/machine/$(BOXTYPE)/patches/$(KERNEL_CONFIG) $(KERNEL_DIR)/.config
 	sed -i "s#^\(CONFIG_EXTRA_FIRMWARE_DIR=\).*#\1\"$(BASE_DIR)/root/lib/integrated_firmware\"#" $(KERNEL_DIR)/.config
 	-rm $(KERNEL_DIR)/localversion*
 	echo "$(KERNEL_STM_LABEL)" > $(KERNEL_DIR)/localversion-stm

@@ -21,19 +21,19 @@ KERNEL_FILE            = uImage
 KERNEL_DTB             = hi3798mv200.dtb
 
 KERNEL_PATCHES = \
-		HauppaugeWinTV-dualHD.patch \
-		move-default-dialect-to-SMB3.patch \
-		0005-xbox-one-tuner-4.4.patch \
-		0006-dvb-media-tda18250-support-for-new-silicon-tuner.patch \
-		0007-dvb-mn88472-staging.patch \
-		mn88472_reset_stream_ID_reg_if_no_PLP_given.patch \
-		af9035.patch \
-		fix-multiple-defs-yyloc.patch
+			0001-remote.patch \
+		    	HauppaugeWinTV-dualHD.patch \
+		    	dib7000-linux_4.4.179.patch \
+		    	dvb-usb-linux_4.4.179.patch \
+		    	0002-log2-give-up-on-gcc-constant-optimizations.patch \
+		    	0003-dont-mark-register-as-const.patch \
+		    	wifi-linux_4.4.183.patch \
+		    	make-yyloc-declaration-extern.patch
 		
 $(ARCHIVE)/$(KERNEL_SRC):
 	$(DOWNLOAD) $(KERNEL_URL)/$(KERNEL_SRC)
 
-$(D)/kernel.do_prepare: $(ARCHIVE)/$(KERNEL_SRC) $(BASE_DIR)/machine/$(BOXTYPE)/files/$(KERNEL_CONFIG)
+$(D)/kernel.do_prepare: $(ARCHIVE)/$(KERNEL_SRC) $(BASE_DIR)/machine/$(BOXTYPE)/patches/$(KERNEL_CONFIG)
 	$(START_BUILD)
 	rm -rf $(KERNEL_DIR)
 	$(UNTAR)/$(KERNEL_SRC)
@@ -42,7 +42,7 @@ $(D)/kernel.do_prepare: $(ARCHIVE)/$(KERNEL_SRC) $(BASE_DIR)/machine/$(BOXTYPE)/
 			echo -e "==> $(TERM_RED)Applying Patch:$(TERM_NORMAL) $$i"; \
 			$(APATCH) $(BASE_DIR)/machine/$(BOXTYPE)/patches/$$i; \
 		done
-	install -m 644 $(BASE_DIR)/machine/$(BOXTYPE)/files/$(KERNEL_CONFIG) $(KERNEL_DIR)/.config
+	install -m 644 $(BASE_DIR)/machine/$(BOXTYPE)/patches/$(KERNEL_CONFIG) $(KERNEL_DIR)/.config
 	cp $(BASE_DIR)/machine/$(BOXTYPE)/patches/initramfs-subdirboot.cpio.gz $(KERNEL_DIR)
 ifeq ($(OPTIMIZATIONS), $(filter $(OPTIMIZATIONS), kerneldebug debug))
 	@echo "Using kernel debug"
