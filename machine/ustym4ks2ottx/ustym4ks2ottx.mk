@@ -98,25 +98,25 @@ TNTFS_SRC = $(HICHIPSET)-tntfs-$(TNTFS_DATE).zip
 LIBJPEG_SRC = libjpeg.so.8.2.2
 
 $(ARCHIVE)/$(DRIVER_SRC):
-	$(DOWNLOAD) http://source.mynonpublic.com/$(MACHINE)/$(DRIVER_SRC)
+	$(DOWNLOAD) http://source.mynonpublic.com/uclan/$(DRIVER_SRC)
 
 $(ARCHIVE)/$(HILIB_SRC):
-	$(DOWNLOAD) http://source.mynonpublic.com/$(MACHINE)/$(HILIB_SRC)
+	$(DOWNLOAD) http://source.mynonpublic.com/uclan/$(HILIB_SRC)
 
 $(ARCHIVE)/$(LIBGLES_SRC):
-	$(DOWNLOAD) http://source.mynonpublic.com/$(MACHINE)/$(LIBGLES_SRC)
+	$(DOWNLOAD) http://source.mynonpublic.com/uclan/$(LIBGLES_SRC)
 
 $(ARCHIVE)/$(LIBREADER_SRC):
-	$(DOWNLOAD) http://source.mynonpublic.com/$(MACHINE)/$(LIBREADER_SRC)
+	$(DOWNLOAD) http://source.mynonpublic.com/uclan/$(LIBREADER_SRC)
 
 $(ARCHIVE)/$(HIHALT_SRC):
-	$(DOWNLOAD) http://source.mynonpublic.com/$(MACHINE)/$(HIHALT_SRC)
+	$(DOWNLOAD) http://source.mynonpublic.com/uclan/$(HIHALT_SRC)
 
 $(ARCHIVE)/$(TNTFS_SRC):
 	$(DOWNLOAD) http://source.mynonpublic.com/tntfs/$(TNTFS_SRC)
 
 $(ARCHIVE)/$(LIBJPEG_SRC):	
-	$(DOWNLOAD) https://github.com/oe-alliance/oe-alliance-core/raw/5.3/meta-brands/meta-$(MACHINE)/recipes-graphics/files/$(LIBJPEG_SRC)
+	$(DOWNLOAD) https://github.com/oe-alliance/oe-alliance-core/raw/5.3/meta-brands/meta-uclan/recipes-graphics/files/$(LIBJPEG_SRC)
 
 driver: $(D)/driver
 $(D)/driver: $(ARCHIVE)/$(DRIVER_SRC) $(D)/bootstrap $(D)/kernel
