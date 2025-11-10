@@ -1,12 +1,12 @@
 #
 # MACHINE = WWiO bre2zet2c
 # VENDOR = WWiO
-# OEM = Broadcom
+# OEM = WWiO
 # SOC = bcm73625
 #
 
 BOXARCH = mips
-MACHINE_OPTS = --enable-ci-cam --enable-fkeys --enable-vfd
+MACHINE_OPTS = --enable-ci-cam --enable-fkeys --enable-4digits
 
 #
 # kernel
