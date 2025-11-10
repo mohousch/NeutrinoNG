@@ -11,8 +11,8 @@ MACHINE_OPTS = --enable-ci-cam --enable-4digits
 #
 # kernel
 #
-KERNEL_VER             = 4.4.35
-KERNEL_DATE            = 20181228
+KERNEL_VER             = 4.4.176
+KERNEL_DATE            = 20221203
 KERNEL_SRC             = linux-$(KERNEL_VER)-$(KERNEL_DATE)-arm.tar.gz
 KERNEL_URL             = http://source.mynonpublic.com/gfutures
 KERNEL_CONFIG          = defconfig
@@ -21,14 +21,14 @@ KERNEL_FILE            = uImage
 KERNEL_DTB             = hi3798mv200.dtb
 
 KERNEL_PATCHES = \
-			0001-remote.patch \
-		    	HauppaugeWinTV-dualHD.patch \
-		    	dib7000-linux_4.4.179.patch \
-		    	dvb-usb-linux_4.4.179.patch \
-		    	0002-log2-give-up-on-gcc-constant-optimizations.patch \
-		    	0003-dont-mark-register-as-const.patch \
-		    	wifi-linux_4.4.183.patch \
-		    	make-yyloc-declaration-extern.patch
+		HauppaugeWinTV-dualHD.patch \
+		move-default-dialect-to-SMB3.patch \
+		0005-xbox-one-tuner-4.4.patch \
+		0006-dvb-media-tda18250-support-for-new-silicon-tuner.patch \
+		0007-dvb-mn88472-staging.patch \
+		mn88472_reset_stream_ID_reg_if_no_PLP_given.patch \
+		af9035.patch \
+		fix-multiple-defs-yyloc.patch
 		
 $(ARCHIVE)/$(KERNEL_SRC):
 	$(DOWNLOAD) $(KERNEL_URL)/$(KERNEL_SRC)
