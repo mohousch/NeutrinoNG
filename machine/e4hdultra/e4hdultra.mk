@@ -61,7 +61,7 @@ $(D)/kernel.do_prepare: $(ARCHIVE)/$(KERNEL_SRC) $(BASE_DIR)/machine/$(BOXTYPE)/
 	install -m 644 $(BASE_DIR)/machine/$(BOXTYPE)/files/$(KERNEL_CONFIG) $(KERNEL_DIR)/.config
 ifeq ($(LAYOUT), multiboot)
 	sed -i -e 's#CONFIG_INITRAMFS_SOURCE=""#CONFIG_INITRAMFS_SOURCE="initramfs-subdirboot.cpio.gz"\nCONFIG_INITRAMFS_ROOT_UID=0\nCONFIG_INITRAMFS_ROOT_GID=0#g' $(KERNEL_DIR)/.config
-	cp $(PATCHES)/initramfs-subdirboot.cpio.gz $(KERNEL_DIR)
+	cp $(BASE_DIR)/machine/$(BOXTYPE)/patches/initramfs-subdirboot.cpio.gz $(KERNEL_DIR)
 endif
 ifeq ($(OPTIMIZATIONS), $(filter $(OPTIMIZATIONS), kerneldebug debug))
 	@echo "Using kernel debug"
