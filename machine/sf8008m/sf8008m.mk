@@ -109,25 +109,25 @@ WIFI_SRC = master.zip
 WIFI = RTL8192EU.zip
 
 $(ARCHIVE)/$(DRIVER_SRC):
-	$(DOWNLOAD) http://source.mynonpublic.com/$(MACHINE)/$(DRIVER_SRC)
+	$(DOWNLOAD) http://source.mynonpublic.com/octagon/$(DRIVER_SRC)
 
 $(ARCHIVE)/$(HILIB_SRC):
-	$(DOWNLOAD) http://source.mynonpublic.com/$(MACHINE)/$(HILIB_SRC)
+	$(DOWNLOAD) http://source.mynonpublic.com/octagon/$(HILIB_SRC)
 
 $(ARCHIVE)/$(LIBGLES_SRC):
-	$(DOWNLOAD) http://source.mynonpublic.com/$(MACHINE)/$(LIBGLES_SRC)
+	$(DOWNLOAD) http://source.mynonpublic.com/octagon/$(LIBGLES_SRC)
 
 $(ARCHIVE)/$(LIBREADER_SRC):
-	$(DOWNLOAD) http://source.mynonpublic.com/$(MACHINE)/$(LIBREADER_SRC)
+	$(DOWNLOAD) http://source.mynonpublic.com/octagon/$(LIBREADER_SRC)
 
 $(ARCHIVE)/$(HIHALT_SRC):
-	$(DOWNLOAD) http://source.mynonpublic.com/$(MACHINE)/$(HIHALT_SRC)
+	$(DOWNLOAD) http://source.mynonpublic.com/octagon/$(HIHALT_SRC)
 
 $(ARCHIVE)/$(TNTFS_SRC):
 	$(DOWNLOAD) http://source.mynonpublic.com/tntfs/$(TNTFS_SRC)
 
 $(ARCHIVE)/$(LIBJPEG_SRC):	
-	$(DOWNLOAD) https://github.com/oe-alliance/oe-alliance-core/raw/5.3/meta-brands/meta-$(MACHINE)/recipes-graphics/files/$(LIBJPEG_SRC)
+	$(DOWNLOAD) https://github.com/oe-alliance/oe-alliance-core/raw/5.3/meta-brands/meta-octagon/recipes-graphics/files/$(LIBJPEG_SRC)
 
 $(ARCHIVE)/$(WIFI_SRC):
 	$(DOWNLOAD) https://github.com/zukon/RTL8192EU/archive/refs/heads/$(WIFI_SRC) -O $(ARCHIVE)/$(WIFI)
