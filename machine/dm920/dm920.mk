@@ -6,7 +6,7 @@
 #
 
 BOXARCH = arm
-MACHINE_OPTS = --enable-ci-cam --enable-fkeys --enable-lcd --enable-scart
+MACHINE_OPTS = --enable-ci --enable-fkeys --enable-lcd --enable-scart
 
 #
 #

@@ -6,7 +6,7 @@
 #
 
 BOXARCH = mips
-MACHINE_OPTS = --enable-ci-cam --enable-fkeys --enable-vfd --enable-scart
+MACHINE_OPTS = --enable-ci --enable-fkeys --enable-vfd --enable-scart
 
 #
 # kernel

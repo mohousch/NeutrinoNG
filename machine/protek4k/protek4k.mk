@@ -6,7 +6,7 @@
 #
 
 BOXARCH = arm
-MACHINE_OPTS = --enable-ci-cam --enable-tftlcd
+MACHINE_OPTS = --enable-ci --enable-tftlcd
 
 #
 # kernel

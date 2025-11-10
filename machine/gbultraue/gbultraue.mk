@@ -6,7 +6,7 @@
 #
 
 BOXARCH = mips
-MACHINE_OPTS = --enable-ci-cam --enable-fkeys --enable-lcd
+MACHINE_OPTS = --enable-ci --enable-fkeys --enable-lcd
 
 #
 # kernel

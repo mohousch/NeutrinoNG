@@ -6,7 +6,7 @@
 #
 
 BOXARCH = arm
-MACHINE_OPTS = --enable-ci-cam --enable-fkeys --enable-vfd
+MACHINE_OPTS = --enable-ci --enable-fkeys --enable-vfd
 
 #
 # kernel

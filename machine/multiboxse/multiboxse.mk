@@ -6,7 +6,7 @@
 #
 
 BOXARCH = arm
-MACHINE_OPTS = --enable-ci-cam
+MACHINE_OPTS = --enable-ci
 
 #
 # kernel

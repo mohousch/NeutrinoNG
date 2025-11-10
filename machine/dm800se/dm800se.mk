@@ -6,7 +6,7 @@
 #
 
 BOXARCH = mips
-MACHINE_OPTS = --enable-ci-cam --enable-lcd --enable-scart
+MACHINE_OPTS = --enable-ci --enable-lcd --enable-scart
 
 #
 #

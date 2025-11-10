@@ -6,7 +6,7 @@
 #
 
 BOXARCH = mips
-MACHINE_OPTS = --enable-ci-cam --enable-fkeys --enable-4digits
+MACHINE_OPTS = --enable-ci --enable-fkeys --enable-4digits
 
 #
 # kernel

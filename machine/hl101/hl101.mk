@@ -5,7 +5,7 @@
 #
 
 BOXARCH = sh4
-MACHINE_OPTS = --enable-ci-cam --enable-scart --enable-vfd
+MACHINE_OPTS = --enable-ci --enable-scart --enable-vfd
 
 #
 # kernel

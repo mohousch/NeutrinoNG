@@ -5,6 +5,9 @@
 # SOC = bcm7435
 #
 
+BOXARCH = mips
+MACHINE_OPTS = --enable-ci --enable-fkeys --enable-lcd --enable-scart
+
 #
 # kernel
 #
