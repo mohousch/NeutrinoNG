@@ -1,11 +1,9 @@
 #
-# Makefile for dreambox dm7020hdv2
+# MACHINE = Dreambox 7020hd v2
+# VENDOR = Dreambox
+# OEM = Dreambox
+# SOC = bcm7405
 #
-BOXARCH = mips
-CICAM = ci-cam
-SCART = scart
-LCD = lcd
-FKEYS = fkeys
 
 #
 # kernel

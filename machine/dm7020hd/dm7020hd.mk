@@ -1,11 +1,12 @@
 #
-# Makefile for dreambox dm7020hd
+# MACHINE = Dreambox 7020hd
+# VENDOR = Dreambox
+# OEM = Dreambox
+# SOC = bcm7405
 #
+
 BOXARCH = mips
-CICAM = ci-cam
-SCART = scart
-LCD = lcd
-FKEYS = fkeys
+MACHINE_OPTS = --enable-ci-cam --enable-fkeys --enable-lcd --enable-scart
 
 #
 # kernel

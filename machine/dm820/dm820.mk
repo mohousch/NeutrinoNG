@@ -1,10 +1,12 @@
 #
-# Makefile for dreambox dm820
+# MACHINE = Dreambox 820
+# VENDOR = Dreambox
+# OEM = Dreambox
+# SOC = bcm7435
 #
+
 BOXARCH = mips
-CICAM = ci-cam
-LCD = lcd
-FKEYS = fkeys
+MACHINE_OPTS = --enable-ci-cam --enable-fkeys --enable-lcd --enable-scart
 
 #
 #

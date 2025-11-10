@@ -1,11 +1,9 @@
 #
-# Makefile for dreambox dm7080
+# MACHINE = Dreambox 7080
+# VENDOR = Dreambox
+# OEM = Dreambox
+# SOC = bcm7435
 #
-BOXARCH = mips
-CICAM = ci-cam
-SCART = scart
-LCD = lcd
-FKEYS = fkeys
 
 #
 # kernel

@@ -1,10 +1,12 @@
 #
-# Makefile for dreambox dm920
+# MACHINE = Dreambox 920
+# VENDOR = Dreambox
+# OEM = Dreambox
+# SOC = bcm7252s
 #
+
 BOXARCH = arm
-CICAM = ci-cam
-LCD = lcd
-FKEYS = fkeys
+MACHINE_OPTS = --enable-ci-cam --enable-fkeys --enable-lcd --enable-scart
 
 #
 #

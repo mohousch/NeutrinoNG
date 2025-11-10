@@ -1,11 +1,9 @@
 #
-# Makefile for dreambox dm8000
+# MACHINE = Dreambox 8000 HD PVR
+# VENDOR = Dreambox
+# OEM = Dreambox
+# SOC = bcm7400
 #
-BOXARCH = mips
-CICAM = ci-cam
-SCART = scart
-LCD = lcd
-FKEYS = fkeys
 
 #
 # kernel
