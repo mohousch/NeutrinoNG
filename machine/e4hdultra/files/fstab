@@ -8,6 +8,6 @@ tmpfs		/tmp			tmpfs	defaults					0	0
 tmpfs		/media			tmpfs	defaults					0	0
 devpts		/dev/pts		devpts	defaults					0	0
 /dev/mmcblk0p1	/boot			vfat	defaults,noatime,nodiratime		0	0
-/dev/mmcblk0p9	/storage		auto	defaults,noatime,nodiratime		0	0
-/dev/mmcblk0p7	none 			swap	sw
+/dev/mmcblk0p11	/storage		auto	defaults,noatime,nodiratime		0	0
+/dev/mmcblk0p10	none 			swap	sw
 
