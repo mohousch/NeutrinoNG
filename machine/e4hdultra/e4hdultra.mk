@@ -5,11 +5,8 @@
 # CPU = bcm7252s
 #
 
-BOXARCH=arm
-CICAM=ci-cam
-SCART=scart
-LCD=tftlcd
-FKEYS=fkeys
+BOXARCH = arm
+MACHINE_OPTS = --enable-ci-cam --enable-tftlcd
 
 #
 # kernel
