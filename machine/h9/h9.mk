@@ -1,7 +1,7 @@
 #
 # MACHINE = Zgemma h9
 # VENDOR = zgemma
-# OEM = GFUTURES
+# OEM = Air Digital
 # SOC = hisi3798mv200
 #
 
