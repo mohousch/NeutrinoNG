@@ -6,7 +6,7 @@
 #
 
 BOXARCH = arm
-MACHINE_OPTS = --enable-ci
+MACHINE_OPTS = --enable-ci--enable-fkeys
 
 #
 # kernel
