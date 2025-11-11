@@ -407,6 +407,29 @@ $(D)/host_mtools: $(D)/directories $(ARCHIVE)/$(HOST_MTOOLS_SOURCE)
 	$(TOUCH)
 
 #
+# host_dosfstools
+#
+HOST_DOSFSTOOLS_VER = 4.2
+HOST_DOSFSTOOLS_SOURCE = dosfstools-$(HOST_DOSFSTOOLS_VER).tar.gz
+
+$(ARCHIVE)/$(HOST_DOSFSTOOLS_SOURCE):
+	$(DOWNLOAD) https://github.com/dosfstools/dosfstools/releases/download/v$(HOST_DOSFSTOOLS_VER)/$(HOST_DOSFSTOOLS_SOURCE)
+
+$(D)/host_dosfstools: $(D)/directories $(ARCHIVE)/$(HOST_DOSFSTOOLS_SOURCE)
+	$(START_BUILD)
+	$(REMOVE)/dosfstools-$(HOST_DOSFSTOOLS_VER)
+	$(UNTAR)/$(HOST_DOSFSTOOLS_SOURCE)
+	$(CHDIR)/dosfstools-$(HOST_DOSFSTOOLS_VER); \
+		./configure \
+			--prefix=$(HOST_DIR) \
+			--enable-compat-symlinks \
+		; \
+		$(MAKE); \
+		$(MAKE) install
+	$(REMOVE)/mtools-$(HOST_DOSFSTOOS_VER)
+	$(TOUCH)
+
+#
 # host_flashtool-fup
 #
 $(D)/host_flashtool-fup: $(D)/directories
@@ -461,6 +484,7 @@ BOOTSTRAP += $(D)/host_mtd_utils
 BOOTSTRAP += $(D)/host_e2fsprogs
 BOOTSTRAP += $(D)/host_parted
 BOOTSTRAP += $(D)/host_mtools
+BOOTSTRAP += $(D)/host_dosfstools
 ifeq ($(BOXARCH), sh4)
 BOOTSTRAP += $(D)/host_mksquashfs_lzma
 BOOTSTRAP += host_u_boot_tools
