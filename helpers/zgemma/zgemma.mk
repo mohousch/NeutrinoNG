@@ -28,10 +28,6 @@ zgemma-ubi-image-$(BOXTYPE): $(ARCHIVE)/$(BOOTARGS_SRC) $(ARCHIVE)/$(FASTBOOT_SR
 	rm -rf $(IMAGE_BUILD_DIR)
 
 #
-# zgemma disk image
-#
-
-#
 # zgemma multi-rootfs image
 #
 zgemma-multi-rootfs-image-$(BOXTYPE):
