@@ -459,6 +459,7 @@ BOOTSTRAP += $(D)/host_pkgconfig
 BOOTSTRAP += $(D)/host_module_init_tools
 BOOTSTRAP += $(D)/host_mtd_utils
 BOOTSTRAP += $(D)/host_e2fsprogs
+BOOTSTRAP += $(D)/host_parted
 BOOTSTRAP += $(D)/host_mtools
 ifeq ($(BOXARCH), sh4)
 BOOTSTRAP += $(D)/host_mksquashfs_lzma
