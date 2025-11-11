@@ -485,12 +485,12 @@ BOOTSTRAP += $(D)/host_e2fsprogs
 BOOTSTRAP += $(D)/host_parted
 BOOTSTRAP += $(D)/host_mtools
 BOOTSTRAP += $(D)/host_dosfstools
-ifeq ($(BOXARCH), sh4)
 BOOTSTRAP += $(D)/host_mksquashfs_lzma
-BOOTSTRAP += host_u_boot_tools
-BOOTSTRAP += host_flashtool-fup
-BOOTSTRAP += host_flashtool-mup
-BOOTSTRAP += host_flashtool-pad
+ifeq ($(BOXARCH), sh4)
+BOOTSTRAP += $(D)/host_u_boot_tools
+BOOTSTRAP += $(D)/host_flashtool-fup
+BOOTSTRAP += $(D)/host_flashtool-mup
+BOOTSTRAP += $(D)/host_flashtool-pad
 endif
 ifeq ($(BOXTYPE), $(filter $(BOXTYPE), dm8000 dm7020hd dm7020hdv2 dm800se dm800sev2))
 BOOTSTRAP += $(D)/host_dm_buildimage
