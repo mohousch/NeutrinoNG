@@ -16,6 +16,7 @@ KERNEL_SRC             = stblinux-${KERNEL_VER}.tar.bz2
 KERNEL_URL		= http://code.vuplus.com/download/release/kernel
 KERNEL_CONFIG          = defconfig
 KERNEL_DIR             = $(BUILD_TMP)/linux
+KERNEL_IMAGE           = vmlinux
 KERNEL_FILE            = kernel_cfe_auto.bin
 
 KERNEL_PATCHES = \

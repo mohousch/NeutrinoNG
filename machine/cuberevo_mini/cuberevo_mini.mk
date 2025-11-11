@@ -19,6 +19,7 @@ KERNEL_STM        :=$(word 2,$(call split_version,$(KERNEL_VER)))
 KERNEL_LABEL      :=$(word 3,$(call split_version,$(KERNEL_VER)))
 KERNEL_STM_LABEL  :=_$(KERNEL_STM)_$(KERNEL_LABEL)
 KERNEL_DIR         =$(BUILD_TMP)/linux-sh4-$(KERNEL_VER)
+KERNEL_IMAGE       = uImage
 
 KERNEL_PATCHES = \
 		linux-sh4-makefile_stm24.patch \

@@ -17,6 +17,7 @@ KERNEL_SRC             = uclan-linux-$(KERNEL_VER)-$(KERNEL_DATE).tar.gz
 KERNEL_URL             = http://source.mynonpublic.com/uclan
 KERNEL_CONFIG          = defconfig
 KERNEL_DIR             = $(BUILD_TMP)/linux-$(KERNEL_VER)
+KERNEL_IMAGE           = uImage
 KERNEL_FILE            = uImage
 KERNEL_DTB             = hi3798mv200.dtb
 

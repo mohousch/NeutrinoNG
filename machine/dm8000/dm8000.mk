@@ -17,6 +17,7 @@ KERNEL_SRC             = linux-${KERNEL_SRC_VER}.tar.xz
 KERNEL_URL             = https://cdn.kernel.org/pub/linux/kernel/v3.x
 KERNEL_CONFIG          = defconfig
 KERNEL_DIR             = $(BUILD_TMP)/linux-$(KERNEL_SRC_VER)
+KERNEL_IMAGE           = vmlinux
 KERNEL_FILE	       = vmlinux-3.2-dm8000.gz
 
 KERNEL_PATCHES = \

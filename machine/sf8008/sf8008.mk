@@ -18,6 +18,7 @@ KERNEL_URL             = http://source.mynonpublic.com/octagon
 KERNEL_CONFIG          = defconfig
 KERNEL_DIR             = $(BUILD_TMP)/linux-$(KERNEL_VER)
 KERNEL_DTB             = hi3798mv200.dtb
+KERNEL_IMAGE           = uImage
 KERNEL_FILE	       = kernel.bin
 
 KERNEL_PATCHES = \

@@ -16,6 +16,7 @@ KERNEL_SRC             = linux-edision-$(KERNEL_VER).tar.xz
 KERNEL_URL             = http://source.mynonpublic.com/edision
 KERNEL_CONFIG          = defconfig
 KERNEL_DIR             = $(BUILD_TMP)/linux-$(KERNEL_VER)
+KERNEL_IMAGE           = vmlinux
 KERNEL_FILE            = kernel.bin
 
 KERNEL_PATCHES = \

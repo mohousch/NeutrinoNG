@@ -17,6 +17,7 @@ KERNEL_SRC 	       = broadmedia-linux-$(KERNEL_VER)-$(KERNEL_DATE).tar.xz
 KERNEL_URL	       = http://source.mynonpublic.com/broadmedia/$(KERNERL_SRC)
 KERNEL_CONFIG          = defconfig
 KERNEL_DIR             = $(BUILD_TMP)/linux-$(KERNEL_VER)
+KERNEL_IMAGE           = vmlinux
 KERNEL_FILE 	       = kernel.bin
 
 KERNEL_PATCHES  = \

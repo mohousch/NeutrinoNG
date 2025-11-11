@@ -16,6 +16,7 @@ KERNEL_SRC 	       = linux-$(KERNEL_VER).tar.xz
 KERNEL_URL	       = https://cdn.kernel.org/pub/linux/kernel/v6.x
 KERNEL_CONFIG          = defconfig
 KERNEL_DIR             = $(BUILD_TMP)/linux-$(KERNEL_VER)
+KERNEL_IMAGE           = bzImage
 			
 $(ARCHIVE)/$(KERNEL_SRC):
 	$(DOWNLOAD) $(KERNEL_URL)/$(KERNEL_SRC)

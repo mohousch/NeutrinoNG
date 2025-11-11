@@ -17,6 +17,7 @@ KERNEL_SRC             = ceryon-linux-$(KERNEL_VER)-arm.tar.gz
 KERNEL_URL             = http://source.mynonpublic.com/ceryon
 KERNEL_CONFIG          = defconfig
 KERNEL_DIR             = $(BUILD_TMP)/linux-$(KERNEL_VER)
+KERNEL_IMAGE           = zImage
 KERNEL_FILE	       = kernel.bin
 
 KERNEL_PATCHES = \
