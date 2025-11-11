@@ -380,6 +380,31 @@ $(D)/host_python: $(ARCHIVE)/$(HOST_PYTHON_SOURCE)
 		cp ./hostpgen $(HOST_DIR)/bin/pgen
 	$(REMOVE)/Python-$(HOST_PYTHON_VER)
 	$(TOUCH)
+	
+#
+# host_mtools
+#
+HOST_MTOOLS_VER = 4.0.49
+HOST_MTOOLS_SOURCE = mtools-$(HOST_MTOOLS_VER).tar.gz
+
+$(ARCHIVE)/$(HOST_MTOOLS_SOURCE):
+	$(DOWNLOAD) http://ftp.gnu.org/gnu/mtools/$(HOST_MTOOLS_SOURCE)
+
+$(D)/host_mtools: $(D)/directories $(ARCHIVE)/$(HOST_MTOOLS_SOURCE)
+	$(START_BUILD)
+	$(REMOVE)/mtools-$(HOST_MTOOLS_VER)
+	$(UNTAR)/$(HOST_MTOOLS_SOURCE)
+	$(CHDIR)/mtools-$(HOST_MTOOLS_VER); \
+		./configure \
+			--prefix=$(HOST_DIR) \
+			ac_cv_lib_bsd_gethostbyname=no \
+			ac_cv_lib_bsd_main=no \
+			ac_cv_path_INSTALL_INFO= \
+		; \
+		$(MAKE); \
+		$(MAKE) install
+	$(REMOVE)/mtools-$(HOST_MTOOS_VER)
+	$(TOUCH)
 
 #
 # host_flashtool-fup
@@ -434,6 +459,7 @@ BOOTSTRAP += $(D)/host_pkgconfig
 BOOTSTRAP += $(D)/host_module_init_tools
 BOOTSTRAP += $(D)/host_mtd_utils
 BOOTSTRAP += $(D)/host_e2fsprogs
+BOOTSTRAP += $(D)/host_mtools
 ifeq ($(BOXARCH), sh4)
 BOOTSTRAP += $(D)/host_mksquashfs_lzma
 BOOTSTRAP += host_u_boot_tools
