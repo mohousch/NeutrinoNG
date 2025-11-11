@@ -447,7 +447,7 @@ endif
 ifeq ($(BOXTYPE), $(filter $(BOXTYPE), hd60 hd61 multibox multiboxse))
 BOOTSTRAP += $(D)/host_atools
 endif
-ifeq ($(BOXTYPE), $(filter $(BOXTYPE), sf8008 sf8008m ustym4kpro))
+ifeq ($(BOXTYPE), $(filter $(BOXTYPE), sf8008 sf8008m ustym4kpro ustym4ks2ottx))
 BOOTSTRAP += $(D)/host_octagon_buildimage
 endif
 ifeq ($(BOXARCH), $(filter $(BOXARCH), arm mips x86_64))	
