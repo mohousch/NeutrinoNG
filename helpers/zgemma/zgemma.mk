@@ -57,5 +57,7 @@ zgemma-multi-rootfs-image-$(BOXTYPE):
 	# cleanup
 	rm -rf $(IMAGE_BUILD_DIR)
 
-
+#
+# disk image
+#
 
