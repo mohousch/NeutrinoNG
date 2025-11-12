@@ -82,9 +82,6 @@ if [ ! -e /var/etc/.firstboot ]; then
    #delay
    /bin/evremote2 10 140 &
 
-# Module aus modules.extra laden
-   [ -f /var/etc/modules.extra ] && eval `sed -e 's/#.*//' -e '/^\s*$/d' -e 's/^\(.*\)/insmod \0;/' < /var/etc/modules.extra`
-
   /etc/init.d/portmap start
 #  /etc/init.d/vsftpd start
   /usr/sbin/inetd
