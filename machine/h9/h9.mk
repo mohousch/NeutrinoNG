@@ -283,27 +283,9 @@ $(ARCHIVE)/$(FASTBOOT_SRC):
 
 $(ARCHIVE)/$(PARAM_SRC):
 	$(DOWNLOAD) http://source.mynonpublic.com/zgemma/$(PARAM_SRC)
-	
-$(D)/install-bootargs: $(ARCHIVE)/$(BOOTARGS_SRC)
-	install -d $(IMAGE_BUILD_DIR)/bootargs
-	unzip -o $(ARCHIVE)/$(BOOTARGS_SRC) -d $(IMAGE_BUILD_DIR)/bootargs
-	install -m 0644 $(IMAGE_BUILD_DIR)/bootargs/bootargs_h9.bin $(IMAGE_BUILD_DIR)/$(FLASH_PREFIX)/bootargs.bin
-	install -m 0644 $(IMAGE_BUILD_DIR)/bootargs/rescue_bootargs_h9.bin $(IMAGE_BUILD_DIR)/bootargs.bin
-
-$(D)/install-fastboot: $(ARCHIVE)/$(FASTBOOT_SRC)
-	install -d $(IMAGE_BUILD_DIR)/fastboot
-	unzip -o $(ARCHIVE)/$(FASTBOOT_SRC) -d $(IMAGE_BUILD_DIR)/fastboot
-	install -m 0644 $(IMAGE_BUILD_DIR)/fastboot/fastboot_h9.bin $(IMAGE_BUILD_DIR)/$(FLASH_PREFIX)/fastboot.bin
-	install -m 0644 $(IMAGE_BUILD_DIR)/fastboot/rescue_fastboot_h9.bin $(IMAGE_BUILD_DIR)/fastboot.bin
-
-$(D)/install-param: $(ARCHIVE)/$(PARAM_SRC)
-	install -d $(IMAGE_BUILD_DIR)/param
-	unzip -o $(ARCHIVE)/$(PARAM_SRC) -d $(IMAGE_BUILD_DIR)/param
-	install -m 0644 $(IMAGE_BUILD_DIR)/param/baseparam.img $(IMAGE_BUILD_DIR)/$(FLASH_PREFIX)/baseparam.img
-	install -m 0644 $(IMAGE_BUILD_DIR)/param/pq_param.bin $(IMAGE_BUILD_DIR)/$(FLASH_PREFIX)/pq_param.bin
 
 -include $(HELPERS_DIR)/zgemma/zgemma.mk
 	
-image-h9: $(ARCHIVE)/$(BOOTARGS_SRC) $(ARCHIVE)/$(FASTBOOT_SRC) $(ARCHIVE)/$(PARAM_SRC)
+image-h9:
 	$(MAKE) zgemma-ubi-image-h9
 
