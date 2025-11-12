@@ -1,3 +1,4 @@
+#
 # Makefile for NeutrinoNG buildsystem
 #
 # This program is free software; you can redistribute it and/or modify
