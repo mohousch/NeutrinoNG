@@ -520,12 +520,12 @@ $(D)/directories:
 	test -d $(D) || mkdir $(D)
 	test -d $(BUILD_TMP) || mkdir $(BUILD_TMP)
 	test -d $(SOURCE_DIR) || mkdir $(SOURCE_DIR)
-	install -d $(TARGET_DIR)
 	install -d $(CROSS_DIR)
 	install -d $(HOST_DIR)
 	install -d $(HOST_DIR)/{bin,lib,share}
 	install -d $(IMAGE_DIR)
 	install -d $(PKGS_DIR)
+	install -d $(TARGET_DIR)
 	install -d $(TARGET_DIR)/{bin,boot,etc,lib,sbin,usr,var}
 	install -d $(TARGET_DIR)/etc/{init.d,mdev,network,rc.d,default,samba}
 	install -d $(TARGET_DIR)/etc/rc.d/{rc0.d,rc6.d}
