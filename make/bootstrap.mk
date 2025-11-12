@@ -426,7 +426,7 @@ $(D)/host_dosfstools: $(D)/directories $(ARCHIVE)/$(HOST_DOSFSTOOLS_SOURCE)
 		; \
 		$(MAKE); \
 		$(MAKE) install
-	$(REMOVE)/mtools-$(HOST_DOSFSTOOLS_VER)
+	$(REMOVE)/dosfstools-$(HOST_DOSFSTOOLS_VER)
 	$(TOUCH)
 
 #
