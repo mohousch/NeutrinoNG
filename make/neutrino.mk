@@ -71,7 +71,7 @@ NEUTRINO_DEPS += $(D)/luaexpat
 NEUTRINO_DEPS += $(D)/luacurl 
 NEUTRINO_DEPS += $(D)/luasocket 
 NEUTRINO_DEPS += $(D)/luafeedparser 
-#NEUTRINO_DEPS += $(D)/luasoap 
+NEUTRINO_DEPS += $(D)/luasoap 
 NEUTRINO2_DEPS += $(D)/luajson
 NEUTRINO_CONFIG_OPTS += --enable-lua
 
