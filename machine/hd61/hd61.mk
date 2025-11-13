@@ -226,6 +226,7 @@ $(ARCHIVE)/$(FLASH_PARTITONS_SRC):
 	
 $(ARCHIVE)/$(FLASH_RECOVERY_SRC):
 	$(DOWNLOAD) http://source.mynonpublic.com/gfutures/$(FLASH_RECOVERY_SRC)
+
 -include $(HELPERS_DIR)/gfuture/hdfastboot8gb.mk
 
 image-hd61:
