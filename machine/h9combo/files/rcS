@@ -28,10 +28,10 @@ find /sys/ -name modalias -print0 | xargs -0 sort -u | tr '\n' '\0' | xargs -0 m
 #
 echo "[rcS] loading modules..."
 modprobe tntfs
-modprobe h9_1
-modprobe h9_2
-modprobe h9_3
-modprobe h9_4
+modprobe h9combo_1
+modprobe h9combo_2
+modprobe h9combo_3
+modprobe h9combo_4
 
 echo "starting interface"
 /etc/init.d/mountall start
@@ -39,7 +39,7 @@ echo "starting interface"
 echo "mounting everything"
 /etc/init.d/mount_everything
 
-[ -f /lib/modules/mali.ko ] && modprobe mali
+modprobe mali
 
 wifi=`lsusb | grep -c 0bda:818b`
 if [ $wifi  == 1 ]; then

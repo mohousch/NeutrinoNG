@@ -135,8 +135,7 @@ $(D)/driver: $(ARCHIVE)/$(DRIVER_SRC) $(D)/bootstrap $(D)/kernel
 	$(MAKE) install-tntfs
 	$(MAKE) install-wifi
 	$(MAKE) mali-gpu-modul
-	install -m 0755 $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra/turnoff_power $(TARGET_DIR)/bin
-	ls -I turnoff_power $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra | sed s/.ko//g > $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/modules.default
+	mv $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra/turnoff_power $(TARGET_DIR)/bin
 	$(MAKE) install-hisiplayer-libs
 	$(MAKE) install-libmali
 	$(DEPMOD) -ae -b $(TARGET_DIR) -r $(KERNEL_VER)

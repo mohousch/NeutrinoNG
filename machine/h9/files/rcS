@@ -39,7 +39,7 @@ echo "starting interface"
 echo "mounting everything"
 /etc/init.d/mount_everything
 
-[ -f /lib/modules/mali.ko ] && modprobe mali
+modprobe mali
 
 wifi=`lsusb | grep -c 0bda:818b`
 if [ $wifi  == 1 ]; then
