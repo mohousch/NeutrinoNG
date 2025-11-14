@@ -1,5 +1,5 @@
 #
-# MACHINE = Axas e4 ultra
+# MACHINE = Axas E4HD Ultra
 # VENDOR = Axas
 # OEM = Ceryon
 # CPU = bcm7252s
