@@ -25,10 +25,10 @@ find /sys/ -name modalias -print0 | xargs -0 sort -u | tr '\n' '\0' | xargs -0 m
 
 #
 echo "[rcS] loading modules"
-modprobe hd66_1
-modprobe hd66_2
-modprobe hd66_3
-modprobe hd66_4
+modprobe hd66se_1
+modprobe hd66se_2
+modprobe hd66se_3
+modprobe hd66se_4
 
 modprobe hi_play
 

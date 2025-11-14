@@ -115,6 +115,7 @@ $(D)/driver: $(ARCHIVE)/$(DRIVER_SRC) $(D)/bootstrap $(D)/kernel
 	unzip -o $(ARCHIVE)/$(DRIVER_SRC) -d $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra
 	#$(MAKE) install-v3ddriver
 	#$(MAKE) install-v3ddriver-header
+	$(DEPMOD) -ae -b $(TARGET_DIR) -r $(KERNEL_VER)
 	$(TOUCH)
 
 $(D)/install-v3ddriver: $(ARCHIVE)/$(LIBGLES_SRC)

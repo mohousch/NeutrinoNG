@@ -121,6 +121,7 @@ $(D)/driver: $(ARCHIVE)/$(DRIVER_SRC) $(D)/bootstrap $(D)/kernel
 	#$(MAKE) install-hisiplayer-preq
 	#$(MAKE) install-hisiplayer-libs
 	#$(MAKE) mali-gpu-modul
+	$(DEPMOD) -ae -b $(TARGET_DIR) -r $(KERNEL_VER)
 	$(TOUCH)
 
 $(D)/install-v3ddriver: $(ARCHIVE)/$(LIBGLES_SRC)

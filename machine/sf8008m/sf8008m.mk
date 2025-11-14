@@ -149,6 +149,7 @@ $(D)/driver: $(ARCHIVE)/$(DRIVER_SRC) $(D)/bootstrap $(D)/kernel
 	$(MAKE) install-libjpeg
 	$(MAKE) install-hihalt
 	$(MAKE) install-libreader
+	$(DEPMOD) -ae -b $(TARGET_DIR) -r $(KERNEL_VER)
 	$(TOUCH)
 
 $(D)/install-hilib: $(ARCHIVE)/$(HILIB_SRC)
