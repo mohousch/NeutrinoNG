@@ -30,10 +30,6 @@ modprobe hd60_2
 modprobe hd60_3
 modprobe hd60_4
 
-modprobe hi_play
-
-[ -f /lib/modules/$(uname -r)/extra/mali.ko ] && modprobe mali
-
 #
 echo "[rcS] add mmcblks in /dev/block"
 /etc/init.d/mmcblk-by-name
