@@ -32,8 +32,6 @@ modprobe multibox_1
 modprobe multibox_2
 modprobe multibox_3
 modprobe multibox_4
-#modprobe hi_play
-#modprobe mali
 
 echo "[rcS] starting mountall"
 /etc/init.d/mountall start
