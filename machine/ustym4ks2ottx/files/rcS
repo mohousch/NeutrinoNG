@@ -52,11 +52,10 @@ modprobe hi_aiao
 modprobe hi_sync
 modprobe hi_pvr
 modprobe hi_mce
-modprobe hi_tuner
+
 modprobe hi_keyled
 modprobe oled
 modprobe vtunerc
-modprobe hi-dvb hi_vendor=3 hi_device=3
 # About hi_fb:
 #  For 1920*1080, triple buffer, ARGB8888 format, use:
 #  modprobe hi_fb video="hi_fb:vram0_size:16200,vram4_size:2430"
@@ -74,15 +73,21 @@ modprobe hi_png
 modprobe hi_advca
 modprobe hi_venc
 modprobe hi_aenc
-modprobe hi_sci
 modprobe hi_vi
 modprobe hi_pmoc
 modprobe libahci
 modprobe libahci_platform
+modprobe fusion
+modprobe udc-hisi
+modprobe libcomposite
+
+modprobe usb_f_service
+modprobe g_service
+modprobe u_service
+modprobe hi-dvb hi_vendor=3 hi_device=3
 modprobe hisi-ir
 modprobe hisi_sci
-modprobe hisi_keys
-modprobe hisi_encoder
+#modprobe hisi_encoder
 
 echo 2097152 > /proc/sys/net/core/rmem_max
 echo 6 > /proc/sys/vm/dirty_ratio
