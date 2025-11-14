@@ -124,11 +124,9 @@ $(D)/driver: $(ARCHIVE)/$(DRIVER_SRC) $(D)/bootstrap $(D)/kernel
 	$(START_BUILD)
 	install -d $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra
 	unzip -o $(ARCHIVE)/$(DRIVER_SRC) -d $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra
-	install -d $(TARGET_DIR)/bin
 	mv $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra/hiko/* $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra
 	rmdir $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra/hiko
 	$(MAKE) install-tntfs
-	ls $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra | sed s/.ko//g > $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/modules.default
 	$(MAKE) install-hisiplayer-libs
 	$(MAKE) install-hilib
 	$(MAKE) install-libjpeg
