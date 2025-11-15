@@ -188,6 +188,7 @@ $(D)/neutrino.do_prepare: $(NEUTRINO_DEPS) $(D)/libstb-hal
 	[ -d "$(ARCHIVE)/$(NEUTRINO).git" ] || \
 	git clone -b $(NEUTRINO_BRANCH) $(NEUTRINO_URL) $(ARCHIVE)/$(NEUTRINO).git; \
 	cp -ra $(ARCHIVE)/$(NEUTRINO).git $(SOURCE_DIR)/neutrino; \
+	mv $(SOURCE_DIR)/neutrino/src/zapit/include/linux.old $(SOURCE_DIR)/neutrino/src/zapit/include/linux
 	set -e; cd $(SOURCE_DIR)/neutrino; \
 		$(call apply_patches,$(NEUTRINO_PATCHES))
 	@touch $@
