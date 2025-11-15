@@ -125,7 +125,6 @@ $(D)/driver: $(ARCHIVE)/$(DRIVER_SRC) $(D)/bootstrap $(D)/kernel
 # extra-libs
 #
 $(D)/install-extra-libs: $(ARCHIVE)/$(EXTRA_PLAYERLIB_SRC) $(ARCHIVE)/$(EXTRA_MALILIB_SRC) $(D)/zlib $(D)/libpng $(D)/freetype $(D)/libcurl $(D)/libxml2 $(D)/libjpeg_turbo2
-	install -d $(TARGET_DIR)/usr/lib
 	unzip -o $(PATCHES)/libgles-mali-utgard-headers.zip -d $(TARGET_DIR)/usr/include
 	unzip -o $(ARCHIVE)/$(EXTRA_PLAYERLIB_SRC) -d $(TARGET_DIR)/usr/lib
 	unzip -o $(ARCHIVE)/$(EXTRA_MALILIB_SRC) -d $(TARGET_DIR)/usr/lib

@@ -113,13 +113,12 @@ $(D)/driver: $(ARCHIVE)/$(DRIVER_SRC) $(D)/bootstrap $(D)/kernel
 	$(START_BUILD)
 	install -d $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra
 	unzip -o $(ARCHIVE)/$(DRIVER_SRC) -d $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra
-	#$(MAKE) install-v3ddriver
-	#$(MAKE) install-v3ddriver-header
+	$(MAKE) install-v3ddriver
+	$(MAKE) install-v3ddriver-header
 	$(DEPMOD) -ae -b $(TARGET_DIR) -r $(KERNEL_VER)
 	$(TOUCH)
 
 $(D)/install-v3ddriver: $(ARCHIVE)/$(LIBGLES_SRC)
-	install -d $(TARGET_LIB_DIR)
 	unzip -o $(ARCHIVE)/$(LIBGLES_SRC) -d $(TARGET_LIB_DIR)
 	#patchelf --set-soname libv3ddriver.so $(TARGET_LIB_DIR)/libv3ddriver.so
 	ln -sf libv3ddriver.so $(TARGET_LIB_DIR)/libEGL.so.1.4
@@ -135,7 +134,6 @@ $(D)/install-v3ddriver: $(ARCHIVE)/$(LIBGLES_SRC)
 	ln -sf libgbm.so.1 $(TARGET_LIB_DIR)/libgbm.so
 
 $(D)/install-v3ddriver-header: $(ARCHIVE)/$(LIBGLES_HEADERS)
-	install -d $(TARGET_INCLUDE_DIR)
 	tar -xf $(ARCHIVE)/$(LIBGLES_HEADERS) -C $(TARGET_INCLUDE_DIR)
 #
 # release

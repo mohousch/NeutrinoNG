@@ -1171,6 +1171,7 @@ $(D)/expat: $(D)/bootstrap $(ARCHIVE)/$(EXPAT_SOURCE)
 #
 FONTCONFIG_VER = 2.11.93
 FONTCONFIG_SOURCE = fontconfig-$(FONTCONFIG_VER).tar.bz2
+FONTCONFIG_PATCH = fontconfig-glibc-$(FONTCONFIG_VER).patch
 
 $(ARCHIVE)/$(FONTCONFIG_SOURCE):
 	$(DOWNLOAD) https://www.freedesktop.org/software/fontconfig/release/$(FONTCONFIG_SOURCE)
@@ -1180,6 +1181,7 @@ $(D)/fontconfig: $(D)/bootstrap $(D)/freetype $(D)/expat $(ARCHIVE)/$(FONTCONFIG
 	$(REMOVE)/fontconfig-$(FONTCONFIG_VER)
 	$(UNTAR)/$(FONTCONFIG_SOURCE)
 	$(CHDIR)/fontconfig-$(FONTCONFIG_VER); \
+		$(call apply_patches, $(FONTCONFIG_PATCH)); \
 		$(CONFIGURE) \
 			--prefix=/usr \
 			--with-freetype-config=$(HOST_DIR)/bin/freetype-config \
@@ -2410,9 +2412,9 @@ $(D)/pixman: $(ARCHIVE)/$(PIXMAN_SOURCE) $(D)/bootstrap $(D)/zlib $(D)/libpng
 #
 # The Cairo library GObject wrapper library
 #
-CAIRO_VER = 1.16.0
-CAIRO_SOURCE = cairo-$(CAIRO_VER).tar.xz
-CAIRO_PATCH  = cairo-$(CAIRO_VER)-get_bitmap_surface.diff
+CAIRO_VER = 1.8.2
+CAIRO_SOURCE = cairo-$(CAIRO_VER).tar.gz
+#CAIRO_PATCH  = cairo-$(CAIRO_VER)-get_bitmap_surface.diff
 
 CAIRO_OPTS ?= \
 		--enable-egl \
@@ -2421,7 +2423,7 @@ CAIRO_OPTS ?= \
 $(ARCHIVE)/$(CAIRO_SOURCE):
 	$(DOWNLOAD) https://www.cairographics.org/releases/$(CAIRO_SOURCE)
 
-$(D)/cairo: $(ARCHIVE)/$(CAIRO_SOURCE) $(D)/bootstrap $(D)/libglib2 $(D)/libpng $(D)/pixman $(D)/zlib
+$(D)/cairo: $(ARCHIVE)/$(CAIRO_SOURCE) $(D)/bootstrap $(D)/libglib2 $(D)/libpng $(D)/pixman $(D)/zlib $(D)/freetype $(D)/fontconfig
 	$(START_BUILD)
 	$(REMOVE)/cairo-$(CAIRO_VER)
 	$(UNTAR)/$(CAIRO_SOURCE)
@@ -2432,11 +2434,20 @@ $(D)/cairo: $(ARCHIVE)/$(CAIRO_SOURCE) $(D)/bootstrap $(D)/libglib2 $(D)/libpng 
 		./configure $(CONFIGURE_OPTS) \
 			--prefix=/usr \
 			--with-x=no \
-			--disable-xlib \
-			--disable-xcb \
+			--enable-xlib=no \
+			--enable-xlib-xrender=no \
+			--enable-xcb=no \
+			--enable-win32=no \
+			--enable-win32-font=no \
+			--enable-png=no \
+			--enable-svg=no \
+			--enable-ft=no \
 			$(CAIRO_OPTS) \
 			--disable-gl \
 			--enable-tee \
+			--enable-quartz=no \
+			--enable-quartz-font=no \
+			--enable-quartz-image=no \
 		; \
 		$(MAKE) all; \
 		$(MAKE) install DESTDIR=$(TARGET_DIR)

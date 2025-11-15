@@ -82,7 +82,7 @@ $(D)/kernel: $(D)/bootstrap $(D)/kernel.do_compile
 # driver
 #
 DRIVER_VER = 4.4.35
-DRIVER_DATE    = 20211129
+DRIVER_DATE = 20211129
 DRIVER_SRC = multiboxse-drivers-$(DRIVER_VER)-$(DRIVER_DATE).zip
 
 PLAYERLIB_DATE = 20200622
@@ -103,7 +103,7 @@ $(ARCHIVE)/$(PLAYERLIB_SRC):
 	$(DOWNLOAD) http://source.mynonpublic.com/maxytec/$(PLAYERLIB_SRC)
 
 $(ARCHIVE)/$(LIBGLES_SRC):
-	$(DOWNLOAD) http://downloads.mutant-digital.net/$(KERNEL_TYPE)/$(LIBGLES_SRC)
+	$(DOWNLOAD) http://downloads.mutant-digital.net/maxytec/$(LIBGLES_SRC)
 
 $(ARCHIVE)/$(MALI_MODULE_SRC):
 	$(DOWNLOAD) https://developer.arm.com/-/media/Files/downloads/mali-drivers/kernel/mali-utgard-gpu/$(MALI_MODULE_SRC);name=driver
@@ -115,15 +115,14 @@ $(D)/driver: $(ARCHIVE)/$(DRIVER_SRC) $(D)/bootstrap $(D)/kernel
 	unzip -o $(ARCHIVE)/$(DRIVER_SRC) -d $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra
 	mv $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra/turnoff_power $(TARGET_DIR)/bin
 	#$(MAKE) install-v3ddriver
-	#$(MAKE) install-v3ddriver-header
+	$(MAKE) install-v3ddriver-header
 	#$(MAKE) install-hisiplayer-preq
-	#$(MAKE) install-hisiplayer-libs
-	#$(MAKE) mali-gpu-modul
+	$(MAKE) install-hisiplayer-libs
+	$(MAKE) mali-gpu-modul
 	$(DEPMOD) -ae -b $(TARGET_DIR) -r $(KERNEL_VER)
 	$(TOUCH)
 
 $(D)/install-v3ddriver: $(ARCHIVE)/$(LIBGLES_SRC)
-	install -d $(TARGET_LIB_DIR)
 	unzip -o $(ARCHIVE)/$(LIBGLES_SRC) -d $(TARGET_LIB_DIR)
 	ln -sf libMali.so $(TARGET_LIB_DIR)/libmali.so
 	ln -sf libMali.so $(TARGET_LIB_DIR)/libEGL.so.1.4
@@ -137,16 +136,9 @@ $(D)/install-v3ddriver: $(ARCHIVE)/$(LIBGLES_SRC)
 	ln -sf libGLESv2.so.2 $(TARGET_LIB_DIR)/libGLESv2.so
 	ln -sf libMali.so $(TARGET_LIB_DIR)/libgbm.so
 
-$(D)/install-v3ddriver-header: $(ARCHIVE)/$(LIBGLES_HEADERS)
-	install -d $(TARGET_INCLUDE_DIR)
+$(D)/install-v3ddriver-header: $(PATCHES)/$(LIBGLES_HEADERS)
 	unzip -o $(PATCHES)/$(LIBGLES_HEADERS) -d $(TARGET_INCLUDE_DIR)
 	install -d $(TARGET_LIB_DIR)/pkgconfig
-	cp $(PATCHES)/glesv2.pc $(TARGET_LIB_DIR)/pkgconfig
-	$(REWRITE_PKGCONF) $(PKG_CONFIG_PATH)/glesv2.pc
-	cp $(PATCHES)/glesv1_cm.pc $(TARGET_LIB_DIR)/pkgconfig
-	$(REWRITE_PKGCONF) $(PKG_CONFIG_PATH)/glesv1_cm.pc
-	cp $(PATCHES)/egl.pc $(TARGET_LIB_DIR)/pkgconfig
-	$(REWRITE_PKGCONF) $(PKG_CONFIG_PATH)/egl.pc
 
 $(D)/install-hisiplayer-libs: $(ARCHIVE)/$(PLAYERLIB_SRC)
 	install -d $(BUILD_TMP)/hiplay
