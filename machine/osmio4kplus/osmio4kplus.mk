@@ -77,6 +77,7 @@ $(ARCHIVE)/$(DRIVER_SRC):
 $(ARCHIVE)/$(LIBGLES_SRC):
 	$(DOWNLOAD) $(LIBGLES_URL)/$(LIBGLES_SRC)
 
+driver: $(D)/driver
 $(D)/driver: $(ARCHIVE)/$(DRIVER_SRC) $(D)/bootstrap $(D)/kernel
 	$(START_BUILD)
 	install -d $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra
