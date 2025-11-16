@@ -116,7 +116,7 @@ $(D)/driver: $(ARCHIVE)/$(DRIVER_SRC) $(D)/bootstrap $(D)/kernel
 	mv $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra/turnoff_power $(TARGET_DIR)/bin
 	$(MAKE) install-v3ddriver
 	$(MAKE) install-v3ddriver-header
-	#$(MAKE) install-hisiplayer-preq
+	$(MAKE) install-hisiplayer-preq
 	$(MAKE) install-hisiplayer-libs
 	$(MAKE) mali-gpu-modul
 	$(DEPMOD) -ae -b $(TARGET_DIR) -r $(KERNEL_VER)

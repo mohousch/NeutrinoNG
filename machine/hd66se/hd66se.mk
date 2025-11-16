@@ -84,7 +84,7 @@ $(D)/kernel: $(D)/bootstrap $(D)/kernel.do_compile
 DRIVER_VER     = $(KERNEL_VER)
 DRIVER_DATE    = 20221213
 PLAYERLIB_DATE = 20200622
-LIBGLES_DATE   = 20221213
+LIBGLES_DATE   = 20181201
 
 DRIVER_SRC = hd66se-drivers-$(DRIVER_VER)-$(DRIVER_DATE).zip
 
@@ -118,7 +118,7 @@ $(D)/driver: $(ARCHIVE)/$(DRIVER_SRC) $(D)/bootstrap $(D)/kernel
 	mv $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra/turnoff_power $(TARGET_DIR)/bin
 	#$(MAKE) install-v3ddriver
 	$(MAKE) install-v3ddriver-header
-	#$(MAKE) install-hisiplayer-preq
+	$(MAKE) install-hisiplayer-preq
 	$(MAKE) install-hisiplayer-libs
 	$(MAKE) mali-gpu-modul
 	$(DEPMOD) -ae -b $(TARGET_DIR) -r $(KERNEL_VER)

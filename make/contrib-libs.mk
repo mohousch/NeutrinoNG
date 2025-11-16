@@ -2482,7 +2482,7 @@ HARFBUZZ_PATCH  = harfbuzz-$(HARFBUZZ_VER)-disable-docs.patch
 $(ARCHIVE)/$(HARFBUZZ_SOURCE):
 	$(DOWNLOAD) https://www.freedesktop.org/software/harfbuzz/release/$(HARFBUZZ_SOURCE)
 
-$(D)/harfbuzz: $(ARCHIVE)/$(HARFBUZZ_SOURCE) $(D)/bootstrap $(D)/libglib2 $(D)/cairo $(D)/freetype
+$(D)/harfbuzz: $(ARCHIVE)/$(HARFBUZZ_SOURCE) $(D)/bootstrap $(D)/libglib2 $(D)/freetype
 	$(START_BUILD)
 	$(REMOVE)/harfbuzz-$(HARFBUZZ_VER)
 	$(UNTAR)/$(HARFBUZZ_SOURCE)
@@ -2491,7 +2491,7 @@ $(D)/harfbuzz: $(ARCHIVE)/$(HARFBUZZ_SOURCE) $(D)/bootstrap $(D)/libglib2 $(D)/c
 		autoreconf -fi; \
 		$(CONFIGURE) \
 			--prefix=/usr \
-			--with-cairo \
+			--without-cairo \
 			--with-freetype \
 			--without-fontconfig \
 			--with-glib \
