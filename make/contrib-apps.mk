@@ -1870,74 +1870,56 @@ $(D)/htop: $(D)/bootstrap $(D)/ncurses $(ARCHIVE)/$(HTOP_SOURCE)
 	$(TOUCH)
 
 #
-# gdb-remote
-#
-GDB_VER = 7.8
-GDB_SOURCE = gdb-$(GDB_VER).tar.xz
-GDB_PATCH = gdb-$(GDB_VER)-remove-builddate.patch
-
-$(ARCHIVE)/$(GDB_SOURCE):
-	$(DOWNLOAD) ftp://sourceware.org/pub/gdb/releases/$(GDB_SOURCE)
-
-$(D)/gdb-remote: $(ARCHIVE)/$(GDB_SOURCE)
-	$(START_BUILD)
-	$(REMOVE)/gdb-$(GDB_VER)
-	$(UNTAR)/$(GDB_SOURCE)
-	$(CHDIR)/gdb-$(GDB_VER); \
-		./configure \
-			--nfp --disable-werror \
-			--prefix=$(HOST_DIR) \
-			--build=$(BUILD) \
-			--host=$(BUILD) \
-			--target=$(TARGET) \
-		; \
-		$(MAKE) all-gdb; \
-		$(MAKE) install-gdb
-	$(REMOVE)/gdb-$(GDB_VER)
-	$(TOUCH)
-
-#
 # gdb
 #
-GDB_PATCH = gdb-7.8-remove-builddate.patch
+GDB_VER    = 8.1.1
+GDB        = gdb-$(GDB_VER)
+GDB_SOURCE = gdb-$(GDB_VER).tar.xz
+GDB_URL    = https://sourceware.org/pub/gdb/releases
+GDB_PATCH  = gdb-$(GDB_VER)-fix-includes.patch
 
-$(D)/gdb: $(D)/bootstrap $(D)/ncurses $(D)/zlib $(ARCHIVE)/$(GDB_SOURCE)
+$(ARCHIVE)/$(GDB_SOURCE):
+	$(DOWNLOAD) $(GDB_URL)/$(GDB_SOURCE)
+
+$(D)/gdb: $(D)/bootstrap $(D)/zlib $(D)/ncurses $(ARCHIVE)/$(GDB_SOURCE)
 	$(START_BUILD)
-	$(REMOVE)/gdb-$(GDB_VER)
+	$(REMOVE)/$(GDB)
 	$(UNTAR)/$(GDB_SOURCE)
-	$(CHDIR)/gdb-$(GDB_VER); \
+	$(CHDIR)/$(GDB); \
 		$(call apply_patches, $(GDB_PATCH)); \
-		./configure \
-			--host=$(BUILD) \
-			--build=$(BUILD) \
-			--target=$(TARGET) \
+		$(CONFIGURE) \
 			--prefix=/usr \
-			--includedir=$(TARGET_DIR)/usr/include \
-			--mandir=$(TARGET_DIR)/.remove \
-			--infodir=$(TARGET_DIR)/.remove \
-			--datarootdir=$(TARGET_DIR)/.remove \
-			--nfp \
+			--mandir=/.remove \
+			--infodir=/.remove \
+			--disable-binutils \
 			--disable-werror \
+			--with-curses \
+			--with-zlib \
+			--enable-static \
+			--with-system-gdbinit=/usr/share/gdb/gdbinit \
 		; \
 		$(MAKE) all-gdb; \
-		$(MAKE) install-gdb prefix=$(TARGET_DIR)
-	$(REMOVE)/gdb-$(GDB_VER)
+		$(MAKE) install-gdb DESTDIR=$(TARGET_DIR)
+	$(REMOVE)/$(GDB)
 	$(TOUCH)
 
 #
 # valgrind
 #
-VALGRIND_VER = 3.13.0
+VALGRIND_VER    = 3.13.0
+VALGRIND        = valgrind-$(VALGRIND_VER)
 VALGRIND_SOURCE = valgrind-$(VALGRIND_VER).tar.bz2
+VALGRIND_URL    = ftp://sourceware.org/pub/valgrind
 
 $(ARCHIVE)/$(VALGRIND_SOURCE):
-	$(DOWNLOAD) ftp://sourceware.org/pub/valgrind/$(VALGRIND_SOURCE)
+	$(DOWNLOAD) $(VALGRIND_URL)/$(VALGRIND_SOURCE)
 
 $(D)/valgrind: $(D)/bootstrap $(ARCHIVE)/$(VALGRIND_SOURCE)
 	$(START_BUILD)
-	$(REMOVE)/valgrind-$(VALGRIND_VER)
+	$(REMOVE)/$(VALGRIND)
 	$(UNTAR)/$(VALGRIND_SOURCE)
-	$(CHDIR)/valgrind-$(VALGRIND_VER); \
+	$(CHDIR)/$(VALGRIND); \
+		sed -i -e "s#armv7#arm#g" configure; \
 		$(CONFIGURE) \
 			--prefix=/usr \
 			--mandir=/.remove \
@@ -1946,9 +1928,35 @@ $(D)/valgrind: $(D)/bootstrap $(ARCHIVE)/$(VALGRIND_SOURCE)
 		; \
 		$(MAKE); \
 		$(MAKE) install DESTDIR=$(TARGET_DIR)
-	rm -f $(addprefix $(TARGET_DIR)/usr/lib/valgrind/,*.a *.xml)
+	rm -f $(addprefix $(TARGET_LIB_DIR)/valgrind/,*.a *.xml)
 	rm -f $(addprefix $(TARGET_DIR)/usr/bin/,cg_* callgrind_* ms_print)
-	$(REWRITE_PKGCONF) $(PKG_CONFIG_PATH)/valgrind.pc
-	$(REMOVE)/valgrind-$(VALGRIND_VER)
+	$(REMOVE)/$(VALGRIND)
+	$(TOUCH)
+
+#
+# strace
+#
+STRACE_VER    = 5.1
+STRACE        = strace-$(STRACE_VER)
+STRACE_SOURCE = strace-$(STRACE_VER).tar.xz
+STRACE_URL    = https://strace.io/files/$(STRACE_VER)
+
+$(ARCHIVE)/$(STRACE_SOURCE):
+	$(DOWNLOAD) $(STRACE_URL)/$(STRACE_SOURCE)
+
+$(D)/strace: $(D)/bootstrap $(ARCHIVE)/$(STRACE_SOURCE)
+	$(START_BUILD)
+	$(REMOVE)/$(STRACE)
+	$(UNTAR)/$(STRACE_SOURCE)
+	$(CHDIR)/$(STRACE); \
+		$(CONFIGURE) \
+			--prefix=/usr \
+			--mandir=/.remove \
+			--enable-silent-rules \
+		; \
+		$(MAKE) all; \
+		$(MAKE) install DESTDIR=$(TARGET_DIR)
+	rm -f $(addprefix $(TARGET_DIR)/usr/bin/,strace-graph strace-log-merge)
+	$(REMOVE)/$(STRACE)
 	$(TOUCH)
 
