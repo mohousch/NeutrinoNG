@@ -2410,69 +2410,6 @@ $(D)/pixman: $(ARCHIVE)/$(PIXMAN_SOURCE) $(D)/bootstrap $(D)/zlib $(D)/libpng
 	$(TOUCH)
 
 #
-# The Cairo library GObject wrapper library
-#
-CAIRO_VER = 1.8.2
-CAIRO_SOURCE = cairo-$(CAIRO_VER).tar.gz
-#CAIRO_PATCH  = cairo-$(CAIRO_VER)-get_bitmap_surface.diff
-
-CAIRO_OPTS ?= \
-		--enable-egl \
-		--enable-glesv2
-
-$(ARCHIVE)/$(CAIRO_SOURCE):
-	$(DOWNLOAD) https://www.cairographics.org/releases/$(CAIRO_SOURCE)
-
-$(D)/cairo: $(ARCHIVE)/$(CAIRO_SOURCE) $(D)/bootstrap $(D)/libglib2 $(D)/libpng $(D)/pixman $(D)/zlib $(D)/freetype $(D)/fontconfig
-	$(START_BUILD)
-	$(REMOVE)/cairo-$(CAIRO_VER)
-	$(UNTAR)/$(CAIRO_SOURCE)
-	$(CHDIR)/cairo-$(CAIRO_VER); \
-		$(call apply_patches, $(CAIRO_PATCH)); \
-		$(BUILDENV) \
-		ax_cv_c_float_words_bigendian="no" \
-		./configure $(CONFIGURE_OPTS) \
-			--prefix=/usr \
-			--with-x=no \
-			--enable-xlib=no \
-			--enable-xlib-xrender=no \
-			--enable-xcb=no \
-			--enable-win32=no \
-			--enable-win32-font=no \
-			--enable-png=no \
-			--enable-svg=no \
-			--enable-ft=no \
-			$(CAIRO_OPTS) \
-			--disable-gl \
-			--enable-tee \
-			--enable-quartz=no \
-			--enable-quartz-font=no \
-			--enable-quartz-image=no \
-		; \
-		$(MAKE) all; \
-		$(MAKE) install DESTDIR=$(TARGET_DIR)
-	rm -rf $(TARGET_DIR)/usr/bin/cairo-sphinx
-	rm -rf $(TARGET_LIB_DIR)/cairo/cairo-fdr*
-	rm -rf $(TARGET_LIB_DIR)/cairo/cairo-sphinx*
-	rm -rf $(TARGET_LIB_DIR)/cairo/.debug/cairo-fdr*
-	rm -rf $(TARGET_LIB_DIR)/cairo/.debug/cairo-sphinx*
-	$(REWRITE_LIBTOOL)/libcairo.la
-	$(REWRITE_LIBTOOL)/libcairo-script-interpreter.la
-	$(REWRITE_LIBTOOL)/libcairo-gobject.la
-	$(REWRITE_LIBTOOL)/cairo/libcairo-trace.la
-	$(REWRITE_PKGCONF) $(PKG_CONFIG_PATH)/cairo.pc
-	$(REWRITE_PKGCONF) $(PKG_CONFIG_PATH)/cairo-ft.pc
-	$(REWRITE_PKGCONF) $(PKG_CONFIG_PATH)/cairo-gobject.pc
-	$(REWRITE_PKGCONF) $(PKG_CONFIG_PATH)/cairo-pdf.pc
-	$(REWRITE_PKGCONF) $(PKG_CONFIG_PATH)/cairo-png.pc
-	$(REWRITE_PKGCONF) $(PKG_CONFIG_PATH)/cairo-ps.pc
-	$(REWRITE_PKGCONF) $(PKG_CONFIG_PATH)/cairo-script.pc
-	$(REWRITE_PKGCONF) $(PKG_CONFIG_PATH)/cairo-svg.pc
-	$(REWRITE_PKGCONF) $(PKG_CONFIG_PATH)/cairo-tee.pc
-	$(REMOVE)/cairo-$(CAIRO_VER)
-	$(TOUCH)
-
-#
 # HarfBuzz is an OpenType text shaping engine
 #
 HARFBUZZ_VER = 1.8.8
