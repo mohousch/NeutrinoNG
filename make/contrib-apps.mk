@@ -516,11 +516,11 @@ $(D)/jfsutils: $(D)/bootstrap $(D)/e2fsprogs $(ARCHIVE)/$(JFSUTILS_SOURCE)
 #
 # ntfs-3g
 #
-NTFS_3G_VER = 2017.3.23
+NTFS_3G_VER = 2022.10.3
 NTFS_3G_SOURCE = ntfs-3g_ntfsprogs-$(NTFS_3G_VER).tgz
 
 $(ARCHIVE)/$(NTFS_3G_SOURCE):
-	$(DOWNLOAD) https://tuxera.com/opensource/$(NTFS_3G_SOURCE)
+	$(DOWNLOAD) http://tuxera.com/opensource/$(NTFS_3G_SOURCE)
 
 $(D)/ntfs_3g: $(D)/bootstrap $(ARCHIVE)/$(NTFS_3G_SOURCE)
 	$(START_BUILD)
