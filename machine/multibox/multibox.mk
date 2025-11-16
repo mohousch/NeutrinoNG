@@ -149,7 +149,7 @@ $(D)/install-hisiplayer-libs: $(ARCHIVE)/$(PLAYERLIB_SRC) $(D)/zlib $(D)/libpng 
 	#install -m 0755 $(BUILD_TMP)/hiplay/glibc/* $(TARGET_LIB_DIR)/hisilicon
 	ln -sf /lib/ld-linux-armhf.so.3 $(TARGET_LIB_DIR)/hisilicon/ld-linux.so
 	$(REMOVE)/hiplay
-s
+
 $(D)/mali-gpu-modul: $(ARCHIVE)/$(MALI_MODULE_SRC) $(D)/bootstrap $(D)/kernel
 	$(START_BUILD)
 	$(REMOVE)/$(MALI_MODULE_VER)
