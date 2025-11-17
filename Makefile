@@ -73,7 +73,7 @@ config:
 	@echo "   63)  osmio4k"
 	@echo "   64)  osmio4kplus"
 	@echo "   65)  osmini4k"  
-	@echo "  Giga Blue"
+	@echo "  Gigablue"
 	@echo "   70)  gb800se"
 	@echo "   71)  gbue4k"
 	@echo "   72)  gbultraue"
