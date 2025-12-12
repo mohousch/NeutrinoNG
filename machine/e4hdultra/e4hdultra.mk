@@ -6,7 +6,7 @@
 #
 
 BOXARCH = arm
-MACHINE_OPTS = --enable-ci --enable-tftlcd
+MACHINE_OPTS = --enable-ci --enable-tftlcd --enable-4k
 
 #
 # kernel

@@ -6,7 +6,7 @@
 #
 
 BOXARCH = arm
-MACHINE_OPTS = --enable-ci --enable-4digits
+MACHINE_OPTS = --enable-ci --enable-4digits --enable-4k
 
 #
 # kernel
