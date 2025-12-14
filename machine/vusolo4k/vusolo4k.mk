@@ -194,5 +194,5 @@ PART_FILE = mkpart.update
 -include $(HELPERS_DIR)/vuplus/vuplus.mk
 
 image-vusolo4k:
-	$(MAKE) vuplus-rootfs-image-$(BOXTYPE) vuplus-multi-rootfs-image-$(BOXTYPE)
+	$(MAKE) vuplus-rootfs-image-$(BOXTYPE)
 
