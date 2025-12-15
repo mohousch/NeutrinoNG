@@ -20,7 +20,7 @@ zgemma-ubi-image-$(BOXTYPE): $(ARCHIVE)/$(BOOTARGS_SRC) $(ARCHIVE)/$(FASTBOOT_SR
 	#
 	echo "rename this file to 'force' to force an update without confirmation" > $(IMAGE_BUILD_DIR)/$(FLASH_PREFIX)/noforce;
 	cp $(TARGET_DIR)/boot/uImage $(IMAGE_BUILD_DIR)/$(FLASH_PREFIX)
-	$(HOST_DIR)/bin/mkfs.ubifs -r $(RELEASE_DIR) -o $(IMAGE_BUILD_DIR)/$(FLASH_PREFIX)/ubifs.img -m 2048 -e 126976 -c 4096
+	mkfs.ubifs -r $(RELEASE_DIR) -o $(IMAGE_BUILD_DIR)/$(FLASH_PREFIX)/ubifs.img -m 2048 -e 126976 -c 4096
 	echo '[ubifs]' > $(IMAGE_BUILD_DIR)/$(FLASH_PREFIX)/ubinize.cfg
 	echo 'mode=ubi' >> $(IMAGE_BUILD_DIR)/$(FLASH_PREFIX)/ubinize.cfg
 	echo 'image=$(IMAGE_BUILD_DIR)/$(FLASH_PREFIX)/ubifs.img' >> $(IMAGE_BUILD_DIR)/$(FLASH_PREFIX)/ubinize.cfg
@@ -28,7 +28,7 @@ zgemma-ubi-image-$(BOXTYPE): $(ARCHIVE)/$(BOOTARGS_SRC) $(ARCHIVE)/$(FASTBOOT_SR
 	echo 'vol_type=dynamic' >> $(IMAGE_BUILD_DIR)/$(FLASH_PREFIX)/ubinize.cfg
 	echo 'vol_name=rootfs' >> $(IMAGE_BUILD_DIR)/$(FLASH_PREFIX)/ubinize.cfg
 	echo 'vol_flags=autoresize' >> $(IMAGE_BUILD_DIR)/$(FLASH_PREFIX)/ubinize.cfg
-	$(HOST_DIR)/bin/ubinize -o $(IMAGE_BUILD_DIR)/$(FLASH_PREFIX)/rootfs.ubi -m 2048 -p 128KiB $(IMAGE_BUILD_DIR)/$(FLASH_PREFIX)/ubinize.cfg
+	ubinize -o $(IMAGE_BUILD_DIR)/$(FLASH_PREFIX)/rootfs.ubi -m 2048 -p 128KiB $(IMAGE_BUILD_DIR)/$(FLASH_PREFIX)/ubinize.cfg
 	rm -f $(IMAGE_BUILD_DIR)/$(FLASH_PREFIX)/ubifs.img
 	rm -f $(IMAGE_BUILD_DIR)/$(FLASH_PREFIX)/ubinize.cfg
 	echo $(BS_NAME)_$(BS_CYCLE)_$(BOXTYPE)_$(shell date '+%d.%m.%Y-%H.%M') > $(IMAGE_BUILD_DIR)/$(FLASH_PREFIX)/imageversion
