@@ -39,9 +39,9 @@ zgemma-ubi-image-$(BOXTYPE): $(ARCHIVE)/$(BOOTARGS_SRC) $(ARCHIVE)/$(FASTBOOT_SR
 	rm -rf $(IMAGE_BUILD_DIR)
 
 #
-# zgemma multi-rootfs image
+# zgemma-rootfs image
 #
-zgemma-multi-rootfs-image-$(BOXTYPE):
+zgemma-rootfs-image-$(BOXTYPE):
 	rm -rf $(IMAGE_BUILD_DIR) || true
 	mkdir -p $(IMAGE_BUILD_DIR)/$(BOXTYPE)
 	cp $(TARGET_DIR)/boot/uImage $(IMAGE_BUILD_DIR)/$(BOXTYPE)/uImage
@@ -56,8 +56,4 @@ zgemma-multi-rootfs-image-$(BOXTYPE):
 	zip -r $(IMAGE_DIR)/$(BS_NAME)_$(BS_CYCLE)_$(BOXTYPE)_$(shell date '+%d.%m.%Y-%H.%M')_usb.zip unforce_$(BOXTYPE).txt force_$(BOXTYPE)_READ.ME $(BOXTYPE)/rootfs.tar.bz2 $(BOXTYPE)/uImage $(BOXTYPE)/imageversion
 	# cleanup
 	rm -rf $(IMAGE_BUILD_DIR)
-
-#
-# disk image
-#
 

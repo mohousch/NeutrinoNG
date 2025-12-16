@@ -275,5 +275,5 @@ endif
 -include $(HELPERS_DIR)/zgemma/zgemma.mk
 
 image-h9combo:
-	$(MAKE) zgemma-multi-rootfs-image-h9combo
+	$(MAKE) zgemma-rootfs-image-h9combo
 
