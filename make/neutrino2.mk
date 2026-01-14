@@ -162,7 +162,7 @@ neutrino2-distclean:
 #
 N2_PLUGINS_PATCHES =
 
-$(D)/neutrino2-plugins.do_prepare: $(D)/neutrino2.do_prepare
+$(D)/neutrino2-plugins.do_prepare: $(D)/neutrino2
 	$(START_BUILD)
 	set -e; cd $(SOURCE_DIR)/neutrino2/plugins; \
 		$(call apply_patches, $(N2_PLUGINS_PATCHES))
