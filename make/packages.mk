@@ -867,7 +867,7 @@ endif
 #
 # xupnpd-ipk
 #	
-xupnpd-ipk: $(D)/bootstrap $(D)/openssl
+xupnpd-ipk: $(D)/bootstrap $(D)/openssl $(D)/lua
 	$(START_BUILD)
 	rm -rf $(PKGPREFIX)
 	install -d $(PKGPREFIX)
@@ -1027,7 +1027,7 @@ endif
 #
 # gstreamer-ipk
 #
-gstreamer-ipk: $(D)/bootstrap $(D)/libglib2 $(D)/libxml2 $(D)/glib_networking $(ARCHIVE)/$(GSTREAMER_SOURCE)
+gstreamer-ipk: $(D)/bootstrap $(D)/libglib2 $(D)/libxml2 $(ARCHIVE)/$(GSTREAMER_SOURCE)
 	$(START_BUILD)
 	rm -rf $(PKGPREFIX)
 	install -d $(PKGPREFIX)
@@ -2116,8 +2116,8 @@ aio-grab-ipk: $(D)/bootstrap $(D)/libpng $(D)/libjpeg
 	install -d $(PKGS_DIR)
 	install -d $(PKGS_DIR)/$@
 	set -e; cd $(TOOLS_DIR)/aio-grab-$(BOXARCH); \
-		$(CONFIGURE_TOOLS) CPPFLAGS="$(CPPFLAGS) -I$(DRIVER_DIR)/bpamem" \
-			--prefix= \
+		$(CONFIGURE) CPPFLAGS="$(CPPFLAGS) -I$(DRIVER_DIR)/bpamem" \
+			--prefix=/usr \
 		; \
 		$(MAKE); \
 		$(MAKE) install DESTDIR=$(PKGPREFIX)
@@ -2153,7 +2153,7 @@ showiframe-ipk: $(D)/bootstrap
 	install -d $(PKGS_DIR)
 	install -d $(PKGS_DIR)/$@
 	set -e; cd $(TOOLS_DIR)/showiframe-$(BOXARCH); \
-		$(CONFIGURE_TOOLS) \
+		$(CONFIGURE) \
 			--prefix= \
 		; \
 		$(MAKE); \
