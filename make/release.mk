@@ -156,6 +156,7 @@ endif
 	install -d $(RELEASE_DIR)/lib/{modules,firmware}
 ifeq ($(BOXARCH), sh4)
 	install -d $(RELEASE_DIR)/lib/udev
+	install -d $(RELEASE_DIR)/media/{hdd,dvd,nfs,usb,sda1,sdb1}
 endif
 	install -d $(RELEASE_DIR)/mnt/{hdd,nfs,usb}
 	install -d $(RELEASE_DIR)/mnt/mnt{0..7}
