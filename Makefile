@@ -276,6 +276,11 @@ endif
 	@echo "Neutrino-DDT extra configuration:"
 	@echo "Graphlcd         :$(GRAPHLCD)"
 	@echo "LCD4Linux        :$(LCD4LINUX)"
+	@echo
+ifeq ($(BOXTYPE), $(filter $(BOXTYPE), bre2ze4k e4hdultra h7 h9combo hd51 protek4k))
+	@echo -e "\033[01;33mDefault Flash LAYOUT is standard if you want multiboot layout set LAYOUT := multiboot in config.local\033[0m"
+endif
+	@echo
 	@echo '================================================================================'
 	@make --no-print-directory toolcheck
 ifeq ($(MAINTAINER),)
