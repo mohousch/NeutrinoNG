@@ -174,5 +174,5 @@ $(ARCHIVE)/$(INITRD_SRC):
 -include $(HELPERS_DIR)/gigablue/gigablue.mk
 	
 image-gbue4k:
-	$(MAKE) gigablue-flash-image-gbue4k
+	$(MAKE) gigablue-rootfs-image-gbue4k
 
