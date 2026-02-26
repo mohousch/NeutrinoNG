@@ -45,7 +45,7 @@ $:~ make help
 $:~ make print-boards
 ```
 
-* Backed image can be found into ~/NeutrinoNG/builds/<machine>/image.
+* Backed image can be found into ~/NeutrinoNG/builds/../image.
 
 # DISCLAIMER
 * Tested on:
