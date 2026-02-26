@@ -20,7 +20,7 @@ zgemma-ubi-image-$(BOXTYPE): $(ARCHIVE)/$(BOOTARGS_SRC) $(ARCHIVE)/$(FASTBOOT_SR
 	#
 	echo "rename this file to 'force' to force an update without confirmation" > $(IMAGE_BUILD_DIR)/$(FLASH_PREFIX)/noforce;
 	cp $(TARGET_DIR)/boot/uImage $(IMAGE_BUILD_DIR)/$(FLASH_PREFIX)
-	mkfs.ubifs -r $(RELEASE_DIR) -o $(IMAGE_BUILD_DIR)/$(FLASH_PREFIX)/ubifs.img -m 2048 -e 126976 -c 4096
+	mkfs.ubifs -r $(RELEASE_DIR) -o $(IMAGE_BUILD_DIR)/$(FLASH_PREFIX)/ubifs.img -m 2048 -e 126976 -c 8192
 	echo '[ubifs]' > $(IMAGE_BUILD_DIR)/$(FLASH_PREFIX)/ubinize.cfg
 	echo 'mode=ubi' >> $(IMAGE_BUILD_DIR)/$(FLASH_PREFIX)/ubinize.cfg
 	echo 'image=$(IMAGE_BUILD_DIR)/$(FLASH_PREFIX)/ubifs.img' >> $(IMAGE_BUILD_DIR)/$(FLASH_PREFIX)/ubinize.cfg
