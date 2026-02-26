@@ -48,14 +48,14 @@ $:~ make print-boards
 * Backed image can be found into ~/NeutrinoNG/builds/../image.
 
 # DISCLAIMER
-* Tested on:
+Tested on:
 - Gigablue UE 4K
 - Gigablue Ultra UE
 - Gigablue 800se
 - WWIO Bre2zt2c
 - Cuberevo 3000HD / IPBox 910HD
 
-* All others platforms are not tested, do it on your own risk.
+All others platforms are not tested, do it on your own risk.
 
 
 
