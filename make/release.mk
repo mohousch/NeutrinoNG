@@ -39,7 +39,9 @@ endif
 # lirc
 #
 ifeq ($(BOXARCH), $(filter $(BOXARCH), sh4))
+ifeq ($(BOXTYPE), $(filter $(BOXTYPE), spark spark7162 hl101))
 RELEASE_DEPS += $(D)/lirc
+endif
 endif
 #
 # tools
