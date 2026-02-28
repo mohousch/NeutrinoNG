@@ -214,7 +214,7 @@ LIBARCHIVE_VER = 3.4.0
 LIBARCHIVE_SOURCE = libarchive-$(LIBARCHIVE_VER).tar.gz
 
 $(ARCHIVE)/$(LIBARCHIVE_SOURCE):
-	$(DOWNLOAD) https://www.libarchive.org/downloads/$(LIBARCHIVE_SOURCE)
+	wget -P $(ARCHIVE) https://www.libarchive.org/downloads/$(LIBARCHIVE_SOURCE)
 
 $(D)/libarchive: $(D)/bootstrap $(ARCHIVE)/$(LIBARCHIVE_SOURCE)
 	$(START_BUILD)
