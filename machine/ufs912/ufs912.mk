@@ -247,5 +247,5 @@ endif
 # image
 #
 image-ufs912:
-	cd $(HELPERS_DIR)/ufs912 && $(SUDOCMD) ./ufs912.sh $(MAINTAINER)
+	cd $(HELPERS_DIR)/kathrein && $(SUDOCMD) ./ufs912.sh $(MAINTAINER)
 

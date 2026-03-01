@@ -251,5 +251,5 @@ endif
 # image
 #
 image-atevio7500:
-	cd $(HELPERS_DIR)/atevio7500 && $(SUDOCMD) ./atevio7500.sh $(MAINTAINER)
+	cd $(HELPERS_DIR)/atevio && $(SUDOCMD) ./atevio7500.sh $(MAINTAINER)
 
