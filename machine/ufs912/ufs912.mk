@@ -20,6 +20,7 @@ KERNEL_LABEL      :=$(word 3,$(call split_version,$(KERNEL_VER)))
 KERNEL_STM_LABEL  :=_$(KERNEL_STM)_$(KERNEL_LABEL)
 KERNEL_DIR         =$(BUILD_TMP)/linux-sh4-$(KERNEL_VER)
 KERNEL_IMAGE       = uImage
+KERNEL_FILE	   = vmlinux-sh4-$(KERNEL_VER)
 
 KERNEL_PATCHES = \
 		linux-sh4-makefile_stm24.patch \
@@ -103,8 +104,7 @@ $(D)/kernel.do_compile: $(D)/kernel.do_prepare
 	@touch $@
 
 $(D)/kernel: $(D)/bootstrap $(D)/kernel.do_compile
-	install -m 644 $(KERNEL_DIR)/arch/sh/boot/uImage $(TARGET_DIR)/boot/vmlinux.ub
-	install -m 644 $(KERNEL_DIR)/vmlinux $(TARGET_DIR)/boot/vmlinux-sh4-$(KERNEL_VER)
+	install -m 644 $(KERNEL_DIR)/vmlinux $(TARGET_DIR)/boot/$(KERNEL_FILE)
 	install -m 644 $(KERNEL_DIR)/System.map $(TARGET_DIR)/boot/System.map-$(BOXARCH)-$(KERNEL_VER)
 	cp $(KERNEL_DIR)/arch/sh/boot/uImage $(TARGET_DIR)/boot/
 	$(DEPMOD) -ae -b $(TARGET_DIR) -F $(KERNEL_DIR)/System.map -r $(KERNEL_VER)
