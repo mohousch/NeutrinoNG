@@ -71,3 +71,7 @@ echo "Remember, if this is the first time you flash Enigma2 or Neutrino,"
 echo "you will need to flash the updatescript.sh first."
 echo "The script can be found in the extras folder, copy it to /kathrein/ufs912/ on your usb drive."
 echo ""
+
+# cleanup
+rm -rf $TMPDIR
+

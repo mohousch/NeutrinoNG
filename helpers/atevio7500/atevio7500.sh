@@ -68,3 +68,7 @@ echo ""
 echo "To flash the created image copy the *.ird file to the root (/) of your usb drive."
 echo "To start the flashing process press CH UP for 10 sec on your box while the box is starting."
 echo ""
+
+# cleanup
+rm -rf $TMPDIR
+

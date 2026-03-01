@@ -73,3 +73,7 @@ echo "To start the flashing process press OK for 5 sec on your box "
 echo "while the box is starting. As soon as \"Fact\" is being displayed press"
 echo "RIGHT (->) on your box to start the update"
 echo ""
+
+# cleanup
+rm -rf $TMPDIR
+

@@ -79,3 +79,7 @@ echo "             and copy it to the root (/) of your usb drive."
 echo "             To start the flashing process press POWER for 10 sec on your"
 echo "             box while the box is starting."
 echo ""
+
+# cleanup
+rm -rf $TMPDIR
+
