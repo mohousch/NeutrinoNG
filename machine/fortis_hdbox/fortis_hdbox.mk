@@ -1,7 +1,7 @@
 #
 # MACHINE = Fortis HDBox
 # VENDOR = Fortis
-# SOC = sh4
+# SOC = stx7109c3
 #
 
 BOXARCH = sh4

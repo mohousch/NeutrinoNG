@@ -1,7 +1,7 @@
 #
 # MACHINE = Atevio 7500
 # VENDOR = Atevio
-# SOC = sh4
+# SOC = sti7105
 #
 
 BOXARCH = sh4

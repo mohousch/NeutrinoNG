@@ -1,7 +1,7 @@
 #
 # MACHINE = SpiderBox HL101
 # VENDOR = SpiderBox
-# SOC = sh4
+# SOC = stx7109c3
 #
 
 BOXARCH = sh4

@@ -1,7 +1,7 @@
 #
 # MACHINE = Spark
 # VENDOR = Spark
-# SOC = sh4
+# SOC = sti7111
 #
 
 BOXARCH = sh4

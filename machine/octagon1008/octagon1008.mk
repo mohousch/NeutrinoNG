@@ -1,7 +1,7 @@
 #
 # MACHINE = Octagon 1008
 # VENDOR = Octagon
-# SOC = sh4
+# SOC = stx7109c3
 #
 
 BOXARCH = sh4
