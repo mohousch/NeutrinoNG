@@ -175,3 +175,4 @@ ifdef ARIVALINK200
 dummy_cic-objs += dummy_cic/dummy_cic.o
 obj-m += dummy_cic.o
 endif
+

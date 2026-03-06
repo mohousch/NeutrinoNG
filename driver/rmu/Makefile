@@ -1,7 +1,3 @@
-ifeq ($(KERNELRELEASE),)
-DRIVER_TOPDIR:=$(shell pwd)/..
-include $(DRIVER_TOPDIR)/kernel.make
-else
 obj-m		+= rmu.o
 rmu-objs	+= rmu_core.o rmu74055.o
 
@@ -12,5 +8,5 @@ ccflags-y += $(CCFLAGSY)
 else
 CFLAGS += $(CCFLAGSY)
 endif
-endif
+
 

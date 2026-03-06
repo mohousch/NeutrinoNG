@@ -156,3 +156,4 @@ endif
 ifdef PACE7241
 obj-y += vfd_pace7241/
 endif
+
