@@ -42,7 +42,7 @@ endif
 #
 driver-clean:
 ifeq ($(BOXARCH), sh4)
-	$(MAKE) -C $(DRIVER_DIR) ARCH=sh KERNEL_LOCATION=$(KERNEL_DIR) clean
+	@$(MAKE) -C $(KERNEL_DIR) M=$(DRIVER_DIR) KBUILD_VERBOSE=0 clean
 else
 	rm -f $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra/*
 endif

@@ -9,12 +9,7 @@
 # directory while "all" and "install" will
 # execute from the top dir.
 
-ifeq ($(KERNELRELEASE),)
-DRIVER_TOPDIR:=$(shell pwd)
-include $(DRIVER_TOPDIR)/kernel.make
-else
 CCFLAGSY += -D__TDT__ -D__LINUX__ -D__SH4__ -D__KERNEL__ -DMODULE -DEXPORT_SYMTAB
-
 
 ifdef OCTAGON1008
 CCFLAGSY += -DOCTAGON1008
@@ -357,7 +352,5 @@ ifdef PACE7241
 obj-y += cec/
 obj-y += smartcard/
 obj-y += fan_pace7241/
-endif
-
 endif
 
