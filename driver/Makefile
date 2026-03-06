@@ -1,8 +1,8 @@
 # Tuxbox drivers Makefile
 # there are only three targets
 #
-# make all     - builds all modules
-# make install - installs the modules
+# make modules     - builds all modules
+# make modules_install - installs the modules
 # make clean   - deletes modules recursively
 #
 # note that "clean" only works in the current
