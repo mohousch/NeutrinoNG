@@ -6,7 +6,7 @@
 #
 
 BOXARCH = mips
-MACHINE_OPTS = --enable-ci --enable-4digits --enable-fkeys --enable-scart
+MACHINE_OPTS = --enable-ci --enable-4digits --enable-fkeys --enable-scart --enable-cec
 
 #
 # kernel

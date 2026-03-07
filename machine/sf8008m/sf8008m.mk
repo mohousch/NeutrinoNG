@@ -6,7 +6,7 @@
 #
 
 BOXARCH = arm
-MACHINE_OPTS = --enable-ci --enable-4digits --enable-fkeys --enable-4k
+MACHINE_OPTS = --enable-ci --enable-4digits --enable-fkeys --enable-4k --enable-cec
 
 #
 # kernel
