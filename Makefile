@@ -322,6 +322,8 @@ help:
 	@echo "cleantargets:"
 	@echo " make clean			- clears everything except toolchain."
 	@echo " make distclean			- clears the whole construction."
+	@echo " make neutrino2-distclean	- clears neutrino2 to invoke update neutrino2 sources"
+	@echo " make neutrino-distclean		- clears neutrino to invoke update neutrino sources"
 	@echo ""
 	@echo "feed packages:"
 	@echo " make package_name-ipk		- build package."
