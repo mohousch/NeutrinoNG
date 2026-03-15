@@ -80,6 +80,8 @@ if [ ! -e /var/etc/.firstboot ]; then
    echo "init lircd"
    mkdir -p /var/run/lirc
    /usr/bin/lircd -u
+   
+   /bin/evremote2 10 120 &
 
 #   major=$(awk "\$2==\"sparkid\" {print \$1}" /proc/devices)
 #   rm -f /dev/sparkid
