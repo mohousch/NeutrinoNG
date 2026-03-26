@@ -2,7 +2,7 @@
 # MACHINE = Protek UHD V2
 # VENDOR = Protek
 # OEM = GFUTURES
-# SOC = 
+# SOC = bcm7252s
 #
 
 BOXARCH = arm
