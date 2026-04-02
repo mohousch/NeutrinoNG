@@ -725,10 +725,10 @@ $(D)/pngpp: $(D)/bootstrap $(D)/libpng $(ARCHIVE)/$(PNGPP_SOURCE)
 # giflib
 #
 GIFLIB_VER = 5.1.4
-GIFLIB_SOURCE = giflib-$(GIFLIB_VER).tar.bz2
+GIFLIB_SOURCE = giflib-$(GIFLIB_VER).tar.gz
 
 $(ARCHIVE)/$(GIFLIB_SOURCE):
-	$(DOWNLOAD) https://sourceforge.net/projects/giflib/files/$(GIFLIB_SOURCE)
+	$(DOWNLOAD) https://sourceforge.net/projects/giflib/files/giflib-5.x/$(GIFLIB_SOURCE)
 
 $(D)/giflib: $(D)/bootstrap $(ARCHIVE)/$(GIFLIB_SOURCE)
 	$(START_BUILD)
