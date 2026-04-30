@@ -2358,7 +2358,7 @@ GLIB_NETWORKING_VER = $(GLIB_NETWORKING_VER_MAJOR).$(GLIB_NETWORKING_VER_MINOR)
 GLIB_NETWORKING_SOURCE = glib-networking-$(GLIB_NETWORKING_VER).tar.xz
 
 $(ARCHIVE)/$(GLIB_NETWORKING_SOURCE):
-	$(DOWNLOAD) https://ftp.acc.umu.se/pub/GNOME/sources/glib-networking/$(GLIB_NETWORKING_VER_MAJOR)/$(GLIB_NETWORKING_SOURCE)
+	$(DOWNLOAD) https://download.gnome.org/sources/glib-networking/$(GLIB_NETWORKING_VER_MAJOR)/$(GLIB_NETWORKING_SOURCE)
 
 $(D)/glib_networking: $(D)/bootstrap $(D)/libglib2 $(ARCHIVE)/$(GLIB_NETWORKING_SOURCE)
 	$(START_BUILD)
