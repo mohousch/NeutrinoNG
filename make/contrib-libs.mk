@@ -1140,16 +1140,13 @@ EXPAT_SOURCE = libexpat.git
 EXPAT_PATCH  = expat-libtool-tag.patch
 EXPAT_PATCH += expat-enum-fix.patch
 
-$(ARCHIVE)/$(EXPAT_SOURCE):
-	if [ -d $(ARCHIVE)/libexpat.git ]; \
-		then cd $(ARCHIVE)/libexpat.git; git pull || true; \
-		else cd $(ARCHIVE); git clone https://github.com/libexpat/libexpat.git libexpat.git; \
-	fi
+$(ARCHIVE)/libexpat.git.tar.bz2:
+	$(SCRIPTS_DIR)/get-git-archive.sh https://github.com/libexpat/libexpat.git $(EXPAT_VER) $(notdir $@) $(ARCHIVE)
 
-$(D)/expat: $(D)/bootstrap $(ARCHIVE)/$(EXPAT_SOURCE)
+$(D)/expat: $(D)/bootstrap $(ARCHIVE)/libexpat.git.tar.bz2
 	$(START_BUILD)
 	$(REMOVE)/$(EXPAT_SOURCE)
-	cp -ra $(ARCHIVE)/libexpat.git $(BUILD_TMP)/libexpat.git
+	$(UNTAR)/libexpat.git.tar.bz2
 	$(CHDIR)/$(EXPAT_SOURCE)/expat; \
 		$(call apply_patches, $(EXPAT_PATCH)); \
 		autoreconf -fi; \
