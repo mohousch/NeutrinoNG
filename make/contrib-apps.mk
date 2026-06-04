@@ -328,7 +328,7 @@ OPKG_SOURCE = opkg-$(OPKG_VER).tar.gz
 OPKG_PATCH = opkg-$(OPKG_VER).patch
 
 $(ARCHIVE)/$(OPKG_SOURCE):
-	$(DOWNLOAD) https://git.yoctoproject.org/cgit/cgit.cgi/opkg/snapshot/$(OPKG_SOURCE)
+	$(DOWNLOAD) https://downloads.yoctoproject.org/releases/opkg/$(OPKG_SOURCE)
 	
 $(D)/opkg: $(D)/bootstrap $(D)/libarchive $(ARCHIVE)/$(OPKG_SOURCE)
 	$(START_BUILD)
@@ -338,6 +338,7 @@ $(D)/opkg: $(D)/bootstrap $(D)/libarchive $(ARCHIVE)/$(OPKG_SOURCE)
 		$(call apply_patches, $(OPKG_PATCH)); \
 		LIBARCHIVE_LIBS="-L$(TARGET_DIR)/usr/lib -larchive" \
 		LIBARCHIVE_CFLAGS="-I$(TARGET_DIR)/usr/include" \
+		autoreconf -fi; \
 		$(CONFIGURE) \
 			--prefix=/usr \
 			--disable-curl \
