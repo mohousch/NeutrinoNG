@@ -1047,3 +1047,16 @@ Makefile.local
 /driver/simu_button/modules.order
 /driver/smartcard/modules.order
 /driver/stgfb/modules.order
+/driver/boxtype/modules.order
+/driver/bpamem/modules.order
+/driver/cic/modules.order
+/driver/cpu_frequ/modules.order
+/driver/e2_proc/modules.order
+/driver/frontcontroller/ipbox/modules.order
+/driver/frontcontroller/modules.order
+/driver/frontends/modules.order
+/driver/frontends/multituner/modules.order
+/driver/multicom/embxmailbox/modules.order
+/driver/multicom/embxshell/modules.order
+/driver/multicom/embxshm/modules.order
+/driver/multicom/mme/modules.order
