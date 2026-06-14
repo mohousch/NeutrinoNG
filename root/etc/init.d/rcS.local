@@ -2,10 +2,21 @@
 
 . /etc/profile
 
-/etc/init.d/openvpn start
-/etc/init.d/openssh start
-/etc/init.d/dropbear start
-/etc/init.d/samba start
+if [ -e /usr/sbin/openvpn ]; then
+	/etc/init.d/openvpn start
+fi
+
+if [ -e /usr/sbin/sshd ]; then
+	/etc/init.d/openssh start
+fi
+
+if [ -e /usr/sbin/dropbear ]; then
+	/etc/init.d/dropbear start
+fi
+
+if [ -e /usr/sbin/nmbd ]; then
+	/etc/init.d/samba start
+fi
 
 # add your own stuff here
 
