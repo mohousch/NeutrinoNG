@@ -137,9 +137,7 @@ RELEASE_DEPS += $(D)/libsigc
 RELEASE_DEPS += $(D)/libdvbsi 
 RELEASE_DEPS += $(D)/pugixml 
 RELEASE_DEPS += $(D)/libopenthreads
-ifeq ($(BOXARCH), $(filter $(BOXARCH), sh4 mips arm))
 RELEASE_DEPS += $(D)/libid3tag
-endif
 RELEASE_DEPS += $(D)/libmad
 RELEASE_DEPS += $(D)/flac
 RELEASE_DEPS += $(D)/openssl
