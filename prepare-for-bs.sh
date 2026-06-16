@@ -88,6 +88,9 @@ PACKAGES="\
 	gperf \
 	rsync \
 	bzip2 \
+	zip \
+	unzip \
+	cpio \
 	\
 	${UBUNTU:+rpm}                                               ${FEDORA:+rpm-build}      ${GENTOO:+rpm}         \
 	${UBUNTU:+lsb-release}          ${SUSE:+lsb-release}				       ${GENTOO:+lsb-release} \
