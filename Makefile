@@ -353,7 +353,7 @@ include make/neutrino.mk
 include make/packages.mk
 
 update:
-	git stash && git stash show -p > ./pull-stash-NeutrinoNG.patch || true && git pull || true;
+	git stash && git stash show -p > ./pull-stash-NeutrinoNG_$(shell date '+%d.%m.%Y-%H.%M').patch || true && git pull || true;
 	@echo;
 		
 # print all supported boards ...
