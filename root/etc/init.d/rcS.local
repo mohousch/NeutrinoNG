@@ -18,6 +18,14 @@ if [ -e /usr/sbin/nmbd ]; then
 	/etc/init.d/samba start
 fi
 
+if [ -e /usr/sbin/shairport ]; then
+	/etc/init.d/shairport start
+fi
+
+if [ -e /usr/sbin/xupnpd ]; then
+	/etc/init.d/xupnpd start
+fi
+
 # add your own stuff here
 
 
