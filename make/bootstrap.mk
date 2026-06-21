@@ -277,7 +277,7 @@ $(D)/host_dm_buildimage:
 		autoreconf -fi; \
 		./configure; \
 		$(MAKE); \
-	$(MAKE) install DESTDIR=$(HOST_DIR)
+	install -m 755 $(TOOLS_DIR)/buildimage.git/src/buildimage $(HOST_DIR)/bin
 	$(TOUCH)
 	
 #

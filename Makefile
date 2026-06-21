@@ -235,8 +235,6 @@ override MAKE = make $(if $(findstring j,$(filter-out --%,$(MAKEFLAGS))),,-j$(PA
 #
 #  A print out of environment variables
 #
-# maybe a help about all supported targets would be nice here, too...
-#
 printenv:
 	@echo
 	@echo '================================================================================'
@@ -329,6 +327,10 @@ help:
 	@echo " make package_name-ipk           - build package."
 	@echo " make packages                   - build all feed packages."
 	@echo " make packges-clean              - clean all packages."
+	@echo ""
+	@echo "optional (for developers):"
+	@echo " make image                      - build base image without GUI."
+	@echo " make release                    - build base release without GUI."
 	@echo ""
 
 ifeq ($(BOXARCH), sh4)
