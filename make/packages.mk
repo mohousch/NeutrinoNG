@@ -2182,6 +2182,23 @@ endif
 	$(END_BUILD)
 	
 #
+# python packages
+#
+python-packages:
+	python-ipk
+	
+#
+# gstreamer packages
+#
+gstreamer-packages:
+	gstreamer-ipk \
+	gst_plugins_good-ipk \
+	gst_plugins_bad-ipk \
+	gst_plugins_ugly-ipk \
+	gst_plugins_subsink-ipk \
+	gst_plugins_dvbmediasink-ipk
+	
+#
 # all packages
 #
 packages: \
@@ -2192,22 +2209,14 @@ packages: \
 	xupnpd-ipk \
 	graphlcd-ipk \
 	lcd4linux-ipk \
-	gstreamer-ipk \
-	gst_plugins_good-ipk \
-	gst_plugins_bad-ipk \
-	gst_plugins_ugly-ipk \
-	gst_plugins_subsink-ipk \
-	gst_plugins_dvbmediasink-ipk \
-	ffmpeg-ipk lua-ipk \
+	ffmpeg-ipk \
+	lua-ipk \
 	luacurl-ipk \
 	luaexpat-ipk \
 	luasocket-ipk \
 	luafeedparser-ipk \
-	luajson-ipk \
-	python-ipk \
-	aio-grab-ipk \
-	showiframe-ipk
-		
+	luajson-ipk
+
 #
 # pkg-clean
 #
