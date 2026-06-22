@@ -1,7 +1,7 @@
 #
 # generic image
 #
-generic-flash-image:
+generic-disk-image:
 	rm -rf $(IMAGE_BUILD_DIR) || true
 	mkdir -p $(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)
 	#do image stuff here
