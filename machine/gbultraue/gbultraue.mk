@@ -6,7 +6,7 @@
 #
 
 BOXARCH = mips
-MACHINE_OPTS = --enable-ci --enable-fkeys --enable-lcd --enable-cec
+MACHINE_OPTS = --enable-ci --enable-fkeys --enable-lcd --enable-lcd-color-bitorder-rgb565 --enable-cec
 
 #
 # kernel
