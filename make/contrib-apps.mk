@@ -108,7 +108,7 @@ MODULE_INIT_TOOLS_VER = 3.16
 MODULE_INIT_TOOLS_SOURCE = module-init-tools-$(MODULE_INIT_TOOLS_VER).tar.bz2
 MODULE_INIT_TOOLS_PATCH = module-init-tools-$(MODULE_INIT_TOOLS_VER).patch
 
-$(D)/module_init_tools: $(D)/bootstrap $(D)/lsb $(ARCHIVE)/$(HOST_MODULE_INIT_TOOLS_SOURCE)
+$(D)/module_init_tools: $(D)/bootstrap $(ARCHIVE)/$(HOST_MODULE_INIT_TOOLS_SOURCE)
 	$(START_BUILD)
 	$(REMOVE)/module-init-tools-$(MODULE_INIT_TOOLS_VER)
 	$(UNTAR)/$(MODULE_INIT_TOOLS_SOURCE)
