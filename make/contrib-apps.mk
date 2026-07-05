@@ -399,6 +399,7 @@ $(D)/portmap: $(D)/bootstrap $(ARCHIVE)/$(PORTMAP_SOURCE) $(PATCHES)/portmap_$(P
 		install -m 0755 pmap_dump $(TARGET_DIR)/sbin; \
 		install -m 0755 pmap_set $(TARGET_DIR)/sbin; \
 		install -m755 debian/init.d $(TARGET_DIR)/etc/init.d/portmap
+		cp -a $(SKEL_ROOT)/lib/lsb/init-functions $(TARGET_DIR)/lib/lsb
 	$(REMOVE)/portmap-$(PORTMAP_VER)
 	$(TOUCH)
 
