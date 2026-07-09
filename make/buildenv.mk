@@ -76,9 +76,7 @@ DEPDIR                = $(D)
 
 #SUDOCMD               = echo $(SUDOPASSWD) | sudo -S
 SUDOCMD			= fakeroot
-
 MAINTAINER           ?= $(shell whoami)
-MAIN_ID               = $(shell echo -en "\x74\x68\x6f\x6d\x61\x73")
 
 CCACHE                = /usr/bin/ccache
 CCACHE_DIR            = $(HOME)/.ccache-bs-$(BOXARCH)
