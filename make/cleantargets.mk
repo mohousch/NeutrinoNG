@@ -57,6 +57,10 @@ kernel-clean:
 	rm -f $(D)/kernel.do_compile
 	rm -f $(D)/kernel.do_prepare
 	rm -f $(TARGET_DIR)/boot/*
+ifeq ($(BOXARCH), x86_64)
+	rm -f $(TARGET_DIR)/usr/lib/pkgconfig/libcrypto.pc
+	rm -f $(D)/openssl
+endif
 	
 #
 #
