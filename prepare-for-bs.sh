@@ -129,6 +129,7 @@ PACKAGES="\
 	${UBUNTU:+libcap-dev}											      \
 	${UBUNTU:+libtool-bin} 											      \
 	${UBUNTU:+gtk-doc-tools}										      \
+	${UBUNTU:+libelf-dev}											      \
 	${UBUNTU:+bc}
 	";
 
