@@ -1,9 +1,13 @@
 #!/bin/bash
 
+CURDIR=`pwd`
+BOXTYPE=$(cat .config | grep "BOXTYPE?=" | awk -F "=" '{print $2}')
+BUILDLOGDIR=$CURDIR/builds/$BOXTYPE/buildlogs
+
+mkdir -p $BUILDLOGDIR
+
 if [ ! -z $1 ] ; then
-	mkdir -p buildlogs
-	BOXTYPE=$(cat .config | grep "BOXTYPE?=" | awk -F "=" '{print $2}')
-	LOGFILE=buildlogs/make_$(echo $BOXTYPE)_$(date +%d.%m.%Y_%H.%M).log
+	LOGFILE=$BUILDLOGDIR/make_$(echo $BOXTYPE)_$(date +%d.%m.%Y_%H.%M).log
 
 	echo "--- DISTRIBUTION ---" > $LOGFILE
 	cat /etc/*release >> $LOGFILE
