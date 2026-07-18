@@ -63,8 +63,14 @@ ifeq ($(BOXARCH), x86_64)
 endif
 	
 #
-#
+# builds-clean
 #
 builds-clean:
 	rm -rf $(BASE_DIR)/builds
+	
+#
+#
+#
+buildlogs-clean:
+	rm -rf $(TUFSBOX_DIR)/make_$(BOXTYPE)*
 
