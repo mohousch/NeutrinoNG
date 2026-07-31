@@ -63,6 +63,7 @@ $(D)/host_pkgconfig: $(D)/directories $(ARCHIVE)/$(HOST_PKGCONFIG_SRC)
 #
 HOST_MODULE_INIT_TOOLS_VER = 3.16
 HOST_MODULE_INIT_TOOLS_SRC = module-init-tools-$(HOST_MODULE_INIT_TOOLS_VER).tar.bz2
+
 HOST_MODULE_INIT_TOOLS_PATCH = module-init-tools-$(HOST_MODULE_INIT_TOOLS_VER).patch
 
 $(ARCHIVE)/$(HOST_MODULE_INIT_TOOLS_SRC):
@@ -89,6 +90,7 @@ $(D)/host_module_init_tools: $(D)/directories $(ARCHIVE)/$(HOST_MODULE_INIT_TOOL
 #
 HOST_MTD_UTILS_VER = 1.5.2
 HOST_MTD_UTILS_SRC = mtd-utils-$(HOST_MTD_UTILS_VER).tar.bz2
+
 HOST_MTD_UTILS_PATCH = host-mtd-utils-$(HOST_MTD_UTILS_VER).patch
 HOST_MTD_UTILS_PATCH += host-mtd-utils-$(HOST_MTD_UTILS_VER)-sysmacros.patch
 
@@ -111,6 +113,7 @@ $(D)/host_mtd_utils: $(D)/directories $(ARCHIVE)/$(HOST_MTD_UTILS_SRC)
 #
 HOST_MKCRAMFS_VER = 1.1
 HOST_MKCRAMFS_SRC = cramfs-$(HOST_MKCRAMFS_VER).tar.gz
+
 HOST_MKCRAMFS_PATCH = cramfs-$(HOST_MKCRAMFS_VER)-sysmacros.patch
 
 $(ARCHIVE)/$(HOST_MKCRAMFS_SRC):
@@ -153,6 +156,7 @@ $(D)/host_mksquashfs: directories $(ARCHIVE)/$(HOST_MKSQUASHFS_SRC)
 #
 HOST_MKSQUASHFS_LZMA_VER = 4.2
 HOST_MKSQUASHFS_LZMA_SRC = squashfs$(HOST_MKSQUASHFS_LZMA_VER).tar.gz
+
 HOST_MKSQUASHFS_LZMA_PATCH = squashfs-$(HOST_MKSQUASHFS_LZMA_VER)-sysmacros.patch
 
 LZMA_VER = 4.65
@@ -216,6 +220,7 @@ $(D)/host_e2fsprogs: $(D)/directories $(ARCHIVE)/$(HOST_E2FSPROGS_SRC)
 #
 HOST_PARTED_VER = 3.2
 HOST_PARTED_SRC = parted-$(HOST_PARTED_VER).tar.xz
+
 HOST_PARTED_PATCH = parted-$(HOST_PARTED_VER)-device-mapper.patch
 
 $(ARCHIVE)/$(HOST_PARTED_SRC):
@@ -346,6 +351,7 @@ HOST_PYTHON_VER_MAJOR = 2.7
 HOST_PYTHON_VER_MINOR = 18
 HOST_PYTHON_VER = $(HOST_PYTHON_VER_MAJOR).$(HOST_PYTHON_VER_MINOR)
 HOST_PYTHON_SRC = Python-$(HOST_PYTHON_VER).tar.xz
+
 HOST_PYTHON_PATCH = python-$(HOST_PYTHON_VER).patch
 HOST_PYTHON_PATCH += python-$(HOST_PYTHON_VER)-support_64bit.patch
 
