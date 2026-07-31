@@ -149,8 +149,8 @@ LOADER_SIZE = 0x100000
 BOOT_SIZE = 0x700000
 ROOT_SIZE = 0x3F800000
 
-DM800SEV2_2ND_SOURCE = secondstage-dm800sev2-89.bin
-DM800SEV2_2ND_URL = https://github.com/oe-mirrors/dreambox/raw/main/$(DM800SEV2_2ND_SOURCE)
+DM800SEV2_2ND_SRC = secondstage-dm800sev2-89.bin
+DM800SEV2_2ND_URL = https://github.com/oe-mirrors/dreambox/raw/main/$(DM800SEV2_2ND_SRC)
 2ND_FILE = secondstage-dm800sev2-89.bin
 
 $(ARCHIVE)/$(2ND_FILE):

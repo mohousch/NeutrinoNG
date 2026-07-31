@@ -2,15 +2,15 @@
 # DirectFB
 #
 DIRECTFB_VER = 1.7.7
-DIRECTFB_SOURCE = DirectFB-$(DIRECTFB_VER).tar.gz
+DIRECTFB_SRC = DirectFB-$(DIRECTFB_VER).tar.gz
 
-$(ARCHIVE)/$(DIRECTFB_SOURCE):
-	$(DOWNLOAD) http://sources.buildroot.net/$(DIRECTFB_SOURCE)
+$(ARCHIVE)/$(DIRECTFB_SRC):
+	$(DOWNLOAD) http://sources.buildroot.net/$(DIRECTFB_SRC)
 
-$(D)/directfb: $(D)/bootstrap $(ARCHIVE)/$(DIRECTFB_SOURCE)
+$(D)/directfb: $(D)/bootstrap $(ARCHIVE)/$(DIRECTFB_SRC)
 	$(START_BUILD)
 	$(REMOVE)/DirectFB-$(DIRECTFB_VER)
-	$(UNTAR)/$(DIRECTFB_SOURCE)
+	$(UNTAR)/$(DIRECTFB_SRC)
 	$(CHDIR)/DirectFB-$(DIRECTFB_VER); \
 		$(call apply_patches, $(PKG_PATCH)); \
 		$(BUILDENV) \

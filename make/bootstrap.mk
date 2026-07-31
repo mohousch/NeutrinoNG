@@ -35,15 +35,15 @@ endif
 # host_pkgconfig
 #
 HOST_PKGCONFIG_VER = 0.29.2
-HOST_PKGCONFIG_SOURCE = pkg-config-$(HOST_PKGCONFIG_VER).tar.gz
+HOST_PKGCONFIG_SRC = pkg-config-$(HOST_PKGCONFIG_VER).tar.gz
 
-$(ARCHIVE)/$(HOST_PKGCONFIG_SOURCE):
-	$(DOWNLOAD) https://pkgconfig.freedesktop.org/releases/$(HOST_PKGCONFIG_SOURCE)
+$(ARCHIVE)/$(HOST_PKGCONFIG_SRC):
+	$(DOWNLOAD) https://pkgconfig.freedesktop.org/releases/$(HOST_PKGCONFIG_SRC)
 
-$(D)/host_pkgconfig: $(D)/directories $(ARCHIVE)/$(HOST_PKGCONFIG_SOURCE)
+$(D)/host_pkgconfig: $(D)/directories $(ARCHIVE)/$(HOST_PKGCONFIG_SRC)
 	$(START_BUILD)
 	$(REMOVE)/pkg-config-$(HOST_PKGCONFIG_VER)
-	$(UNTAR)/$(HOST_PKGCONFIG_SOURCE)
+	$(UNTAR)/$(HOST_PKGCONFIG_SRC)
 	$(CHDIR)/pkg-config-$(HOST_PKGCONFIG_VER); \
 		./configure \
 			--prefix=$(HOST_DIR) \
@@ -62,16 +62,16 @@ $(D)/host_pkgconfig: $(D)/directories $(ARCHIVE)/$(HOST_PKGCONFIG_SOURCE)
 # host_module_init_tools
 #
 HOST_MODULE_INIT_TOOLS_VER = 3.16
-HOST_MODULE_INIT_TOOLS_SOURCE = module-init-tools-$(HOST_MODULE_INIT_TOOLS_VER).tar.bz2
+HOST_MODULE_INIT_TOOLS_SRC = module-init-tools-$(HOST_MODULE_INIT_TOOLS_VER).tar.bz2
 HOST_MODULE_INIT_TOOLS_PATCH = module-init-tools-$(HOST_MODULE_INIT_TOOLS_VER).patch
 
-$(ARCHIVE)/$(HOST_MODULE_INIT_TOOLS_SOURCE):
-	$(DOWNLOAD) http://distro.ibiblio.org/fatdog/source/600/m/$(HOST_MODULE_INIT_TOOLS_SOURCE)
+$(ARCHIVE)/$(HOST_MODULE_INIT_TOOLS_SRC):
+	$(DOWNLOAD) http://distro.ibiblio.org/fatdog/source/600/m/$(HOST_MODULE_INIT_TOOLS_SRC)
 
-$(D)/host_module_init_tools: $(D)/directories $(ARCHIVE)/$(HOST_MODULE_INIT_TOOLS_SOURCE)
+$(D)/host_module_init_tools: $(D)/directories $(ARCHIVE)/$(HOST_MODULE_INIT_TOOLS_SRC)
 	$(START_BUILD)
 	$(REMOVE)/module-init-tools-$(HOST_MODULE_INIT_TOOLS_VER)
-	$(UNTAR)/$(HOST_MODULE_INIT_TOOLS_SOURCE)
+	$(UNTAR)/$(HOST_MODULE_INIT_TOOLS_SRC)
 	$(CHDIR)/module-init-tools-$(HOST_MODULE_INIT_TOOLS_VER); \
 		$(call apply_patches,$(HOST_MODULE_INIT_TOOLS_PATCH)); \
 		autoreconf -fi; \
@@ -88,17 +88,17 @@ $(D)/host_module_init_tools: $(D)/directories $(ARCHIVE)/$(HOST_MODULE_INIT_TOOL
 # host_mtd_utils
 #
 HOST_MTD_UTILS_VER = 1.5.2
-HOST_MTD_UTILS_SOURCE = mtd-utils-$(HOST_MTD_UTILS_VER).tar.bz2
+HOST_MTD_UTILS_SRC = mtd-utils-$(HOST_MTD_UTILS_VER).tar.bz2
 HOST_MTD_UTILS_PATCH = host-mtd-utils-$(HOST_MTD_UTILS_VER).patch
 HOST_MTD_UTILS_PATCH += host-mtd-utils-$(HOST_MTD_UTILS_VER)-sysmacros.patch
 
-$(ARCHIVE)/$(HOST_MTD_UTILS_SOURCE):
-	$(DOWNLOAD) ftp://ftp.infradead.org/pub/mtd-utils/$(HOST_MTD_UTILS_SOURCE)
+$(ARCHIVE)/$(HOST_MTD_UTILS_SRC):
+	$(DOWNLOAD) ftp://ftp.infradead.org/pub/mtd-utils/$(HOST_MTD_UTILS_SRC)
 
-$(D)/host_mtd_utils: $(D)/directories $(ARCHIVE)/$(HOST_MTD_UTILS_SOURCE)
+$(D)/host_mtd_utils: $(D)/directories $(ARCHIVE)/$(HOST_MTD_UTILS_SRC)
 	$(START_BUILD)
 	$(REMOVE)/mtd-utils-$(HOST_MTD_UTILS_VER)
-	$(UNTAR)/$(HOST_MTD_UTILS_SOURCE)
+	$(UNTAR)/$(HOST_MTD_UTILS_SRC)
 	$(CHDIR)/mtd-utils-$(HOST_MTD_UTILS_VER); \
 		$(call apply_patches,$(HOST_MTD_UTILS_PATCH)); \
 		$(MAKE) `pwd`/mkfs.jffs2 `pwd`/sumtool BUILDDIR=`pwd` WITHOUT_XATTR=1 DESTDIR=$(HOST_DIR); \
@@ -110,16 +110,16 @@ $(D)/host_mtd_utils: $(D)/directories $(ARCHIVE)/$(HOST_MTD_UTILS_SOURCE)
 # host_mkcramfs
 #
 HOST_MKCRAMFS_VER = 1.1
-HOST_MKCRAMFS_SOURCE = cramfs-$(HOST_MKCRAMFS_VER).tar.gz
+HOST_MKCRAMFS_SRC = cramfs-$(HOST_MKCRAMFS_VER).tar.gz
 HOST_MKCRAMFS_PATCH = cramfs-$(HOST_MKCRAMFS_VER)-sysmacros.patch
 
-$(ARCHIVE)/$(HOST_MKCRAMFS_SOURCE):
-	$(DOWNLOAD) https://sourceforge.net/projects/cramfs/files/cramfs/$(HOST_MKCRAMFS_VER)/$(HOST_MKCRAMFS_SOURCE)
+$(ARCHIVE)/$(HOST_MKCRAMFS_SRC):
+	$(DOWNLOAD) https://sourceforge.net/projects/cramfs/files/cramfs/$(HOST_MKCRAMFS_VER)/$(HOST_MKCRAMFS_SRC)
 
-$(D)/host_mkcramfs: $(D)/directories $(ARCHIVE)/$(HOST_MKCRAMFS_SOURCE)
+$(D)/host_mkcramfs: $(D)/directories $(ARCHIVE)/$(HOST_MKCRAMFS_SRC)
 	$(START_BUILD)
 	$(REMOVE)/cramfs-$(HOST_MKCRAMFS_VER)
-	$(UNTAR)/$(HOST_MKCRAMFS_SOURCE)
+	$(UNTAR)/$(HOST_MKCRAMFS_SRC)
 	$(CHDIR)/cramfs-$(HOST_MKCRAMFS_VER); \
 		$(call apply_patches,$(HOST_MKCRAMFS_PATCH)); \
 		$(MAKE) all
@@ -132,15 +132,15 @@ $(D)/host_mkcramfs: $(D)/directories $(ARCHIVE)/$(HOST_MKCRAMFS_SOURCE)
 # host_mksquashfs
 #
 HOST_MKSQUASHFS_VER = 3.3
-HOST_MKSQUASHFS_SOURCE = squashfs$(HOST_MKSQUASHFS_VER).tar.gz
+HOST_MKSQUASHFS_SRC = squashfs$(HOST_MKSQUASHFS_VER).tar.gz
 
-$(ARCHIVE)/$(HOST_MKSQUASHFS_SOURCE):
-	$(DOWNLOAD) https://sourceforge.net/projects/squashfs/files/OldFiles/$(HOST_MKSQUASHFS_SOURCE)
+$(ARCHIVE)/$(HOST_MKSQUASHFS_SRC):
+	$(DOWNLOAD) https://sourceforge.net/projects/squashfs/files/OldFiles/$(HOST_MKSQUASHFS_SRC)
 
-$(D)/host_mksquashfs: directories $(ARCHIVE)/$(HOST_MKSQUASHFS_SOURCE)
+$(D)/host_mksquashfs: directories $(ARCHIVE)/$(HOST_MKSQUASHFS_SRC)
 	$(START_BUILD)
 	$(REMOVE)/squashfs$(HOST_MKSQUASHFS_VER)
-	$(UNTAR)/$(HOST_MKSQUASHFS_SOURCE)
+	$(UNTAR)/$(HOST_MKSQUASHFS_SRC)
 	$(CHDIR)/squashfs$(HOST_MKSQUASHFS_VER)/squashfs-tools; \
 		$(MAKE) CC=gcc all
 		mv $(BUILD_TMP)/squashfs$(HOST_MKSQUASHFS_VER)/squashfs-tools/mksquashfs $(HOST_DIR)/bin/mksquashfs3.3
@@ -152,24 +152,24 @@ $(D)/host_mksquashfs: directories $(ARCHIVE)/$(HOST_MKSQUASHFS_SOURCE)
 # host_mksquashfs with LZMA support
 #
 HOST_MKSQUASHFS_LZMA_VER = 4.2
-HOST_MKSQUASHFS_LZMA_SOURCE = squashfs$(HOST_MKSQUASHFS_LZMA_VER).tar.gz
+HOST_MKSQUASHFS_LZMA_SRC = squashfs$(HOST_MKSQUASHFS_LZMA_VER).tar.gz
 HOST_MKSQUASHFS_LZMA_PATCH = squashfs-$(HOST_MKSQUASHFS_LZMA_VER)-sysmacros.patch
 
 LZMA_VER = 4.65
-LZMA_SOURCE = lzma-$(LZMA_VER).tar.bz2
+LZMA_SRC = lzma-$(LZMA_VER).tar.bz2
 
-$(ARCHIVE)/$(HOST_MKSQUASHFS_LZMA_SOURCE):
-	$(DOWNLOAD) https://sourceforge.net/projects/squashfs/files/squashfs/squashfs$(HOST_MKSQUASHFS_LZMA_VER)/$(HOST_MKSQUASHFS_LZMA_SOURCE)
+$(ARCHIVE)/$(HOST_MKSQUASHFS_LZMA_SRC):
+	$(DOWNLOAD) https://sourceforge.net/projects/squashfs/files/squashfs/squashfs$(HOST_MKSQUASHFS_LZMA_VER)/$(HOST_MKSQUASHFS_LZMA_SRC)
 
-$(ARCHIVE)/$(LZMA_SOURCE):
-	$(DOWNLOAD) http://downloads.openwrt.org/sources/$(LZMA_SOURCE)
+$(ARCHIVE)/$(LZMA_SRC):
+	$(DOWNLOAD) http://downloads.openwrt.org/sources/$(LZMA_SRC)
 
-$(D)/host_mksquashfs_lzma: directories $(ARCHIVE)/$(LZMA_SOURCE) $(ARCHIVE)/$(HOST_MKSQUASHFS_LZMA_SOURCE)
+$(D)/host_mksquashfs_lzma: directories $(ARCHIVE)/$(LZMA_SRC) $(ARCHIVE)/$(HOST_MKSQUASHFS_LZMA_SRC)
 	$(START_BUILD)
 	$(REMOVE)/lzma-$(LZMA_VER)
-	$(UNTAR)/$(LZMA_SOURCE)
+	$(UNTAR)/$(LZMA_SRC)
 	$(REMOVE)/squashfs$(HOST_MKSQUASHFS_LZMA_VER)
-	$(UNTAR)/$(HOST_MKSQUASHFS_LZMA_SOURCE)
+	$(UNTAR)/$(HOST_MKSQUASHFS_LZMA_SRC)
 	$(CHDIR)/squashfs$(HOST_MKSQUASHFS_LZMA_VER); \
 		$(call apply_patches,$(HOST_MKSQUASHFS_LZMA_PATCH)); \
 		$(MAKE) -C squashfs-tools EXTRA_CFLAGS=-fgnu89-inline \
@@ -186,14 +186,14 @@ $(D)/host_mksquashfs_lzma: directories $(ARCHIVE)/$(LZMA_SOURCE) $(ARCHIVE)/$(HO
 # host_e2fsprogs
 #
 HOST_E2FSPROGS_VER = 1.47.2
-HOST_E2FSPROGS_SOURCE = e2fsprogs-$(HOST_E2FSPROGS_VER).tar.gz
+HOST_E2FSPROGS_SRC = e2fsprogs-$(HOST_E2FSPROGS_VER).tar.gz
 
-$(ARCHIVE)/$(HOST_E2FSPROGS_SOURCE):
-	$(DOWNLOAD) https://sourceforge.net/projects/e2fsprogs/files/e2fsprogs/v$(HOST_E2FSPROGS_VER)/$(HOST_E2FSPROGS_SOURCE)
+$(ARCHIVE)/$(HOST_E2FSPROGS_SRC):
+	$(DOWNLOAD) https://sourceforge.net/projects/e2fsprogs/files/e2fsprogs/v$(HOST_E2FSPROGS_VER)/$(HOST_E2FSPROGS_SRC)
 
-$(D)/host_e2fsprogs: $(D)/directories $(ARCHIVE)/$(HOST_E2FSPROGS_SOURCE)
+$(D)/host_e2fsprogs: $(D)/directories $(ARCHIVE)/$(HOST_E2FSPROGS_SRC)
 	$(START_BUILD)
-	$(UNTAR)/$(HOST_E2FSPROGS_SOURCE)
+	$(UNTAR)/$(HOST_E2FSPROGS_SRC)
 	$(CHDIR)/e2fsprogs-$(HOST_E2FSPROGS_VER); \
 		./configure; \
 		$(MAKE)
@@ -215,16 +215,16 @@ $(D)/host_e2fsprogs: $(D)/directories $(ARCHIVE)/$(HOST_E2FSPROGS_SOURCE)
 # host_parted
 #
 HOST_PARTED_VER = 3.2
-HOST_PARTED_SOURCE = parted-$(HOST_PARTED_VER).tar.xz
+HOST_PARTED_SRC = parted-$(HOST_PARTED_VER).tar.xz
 HOST_PARTED_PATCH = parted-$(HOST_PARTED_VER)-device-mapper.patch
 
-$(ARCHIVE)/$(HOST_PARTED_SOURCE):
-	$(DOWNLOAD) https://ftp.gnu.org/gnu/parted/$(HOST_PARTED_SOURCE)
+$(ARCHIVE)/$(HOST_PARTED_SRC):
+	$(DOWNLOAD) https://ftp.gnu.org/gnu/parted/$(HOST_PARTED_SRC)
 
-$(D)/host_parted: $(D)/directories $(ARCHIVE)/$(HOST_PARTED_SOURCE)
+$(D)/host_parted: $(D)/directories $(ARCHIVE)/$(HOST_PARTED_SRC)
 	$(START_BUILD)
 	$(REMOVE)/parted-$(HOST_PARTED_VER)
-	$(UNTAR)/$(HOST_PARTED_SOURCE)
+	$(UNTAR)/$(HOST_PARTED_SRC)
 	$(CHDIR)/parted-$(HOST_PARTED_VER); \
 		$(call apply_patches,$(HOST_PARTED_PATCH)); \
 		./configure \
@@ -241,16 +241,16 @@ $(D)/host_parted: $(D)/directories $(ARCHIVE)/$(HOST_PARTED_SOURCE)
 # host_cortex-strings
 #
 CORTEX_STRINGS_VER = 48fd30c
-CORTEX_STRINGS_SOURCE = cortex-strings-git-$(CORTEX_STRINGS_VER).tar.bz2
+CORTEX_STRINGS_SRC = cortex-strings-git-$(CORTEX_STRINGS_VER).tar.bz2
 CORTEX_STRINGS_URL = http://git.linaro.org/git-ro/toolchain/cortex-strings.git
 
-$(ARCHIVE)/$(CORTEX_STRINGS_SOURCE):
+$(ARCHIVE)/$(CORTEX_STRINGS_SRC):
 	$(SCRIPTS_DIR)/get-git-archive.sh $(CORTEX_STRINGS_URL) $(CORTEX_STRINGS_VER) $(notdir $@) $(ARCHIVE)
 
-$(D)/host_cortex_strings: $(D)/directories $(ARCHIVE)/$(CORTEX_STRINGS_SOURCE)
+$(D)/host_cortex_strings: $(D)/directories $(ARCHIVE)/$(CORTEX_STRINGS_SRC)
 	$(START_BUILD)
 	$(REMOVE)/cortex-strings-git-$(CORTEX_STRINGS_VER)
-	$(UNTAR)/$(CORTEX_STRINGS_SOURCE)
+	$(UNTAR)/$(CORTEX_STRINGS_SRC)
 	$(CHDIR)/cortex-strings-git-$(CORTEX_STRINGS_VER); \
 		./autogen.sh; \
 		./configure\
@@ -303,30 +303,30 @@ $(D)/host_octagon_buildimage: $(ARCHIVE)/$(BUILDIMAGE_SRC)
 #
 ANDROID_MIRROR = https://android.googlesource.com
 HAT_CORE_REV = 2314b11
-HAT_CORE_SOURCE = hat-core-git-$(HAT_CORE_REV).tar.bz2
+HAT_CORE_SRC = hat-core-git-$(HAT_CORE_REV).tar.bz2
 HAT_EXTRAS_REV = 3ecbe8d
-HAT_EXTRAS_SOURCE = hat-extras-git-$(HAT_EXTRAS_REV).tar.bz2
+HAT_EXTRAS_SRC = hat-extras-git-$(HAT_EXTRAS_REV).tar.bz2
 HAT_LIBSELINUX_REV = 07e9e13
-HAT_LIBSELINUX_SOURCE = hat-libselinux-git-$(HAT_LIBSELINUX_REV).tar.bz2
+HAT_LIBSELINUX_SRC = hat-libselinux-git-$(HAT_LIBSELINUX_REV).tar.bz2
 
-$(ARCHIVE)/$(HAT_CORE_SOURCE):
+$(ARCHIVE)/$(HAT_CORE_SRC):
 	$(SCRIPTS_DIR)/get-git-archive.sh $(ANDROID_MIRROR)/platform/system/core $(HAT_CORE_REV) $(notdir $@) $(ARCHIVE)
 
-$(ARCHIVE)/$(HAT_EXTRAS_SOURCE):
+$(ARCHIVE)/$(HAT_EXTRAS_SRC):
 	$(SCRIPTS_DIR)/get-git-archive.sh $(ANDROID_MIRROR)/platform/system/extras $(HAT_EXTRAS_REV) $(notdir $@) $(ARCHIVE)
 
-$(ARCHIVE)/$(HAT_LIBSELINUX_SOURCE):
+$(ARCHIVE)/$(HAT_LIBSELINUX_SRC):
 	$(SCRIPTS_DIR)/get-git-archive.sh $(ANDROID_MIRROR)/platform/external/libselinux $(HAT_LIBSELINUX_REV) $(notdir $@) $(ARCHIVE)
 
-$(D)/host_atools: $(D)/directories $(ARCHIVE)/$(HAT_CORE_SOURCE) $(ARCHIVE)/$(HAT_EXTRAS_SOURCE) $(ARCHIVE)/$(HAT_LIBSELINUX_SOURCE)
+$(D)/host_atools: $(D)/directories $(ARCHIVE)/$(HAT_CORE_SRC) $(ARCHIVE)/$(HAT_EXTRAS_SRC) $(ARCHIVE)/$(HAT_LIBSELINUX_SRC)
 	$(START_BUILD)
 	$(REMOVE)/hat
 	$(MKDIR)/hat/system/core
-	tar --strip 1 -C $(BUILD_TMP)/hat/system/core -xf $(ARCHIVE)/$(HAT_CORE_SOURCE)
+	tar --strip 1 -C $(BUILD_TMP)/hat/system/core -xf $(ARCHIVE)/$(HAT_CORE_SRC)
 	$(MKDIR)/hat/system/extras
-	tar --strip 1 -C $(BUILD_TMP)/hat/system/extras -xf $(ARCHIVE)/$(HAT_EXTRAS_SOURCE)
+	tar --strip 1 -C $(BUILD_TMP)/hat/system/extras -xf $(ARCHIVE)/$(HAT_EXTRAS_SRC)
 	$(MKDIR)/hat/external/libselinux
-	tar --strip 1 -C $(BUILD_TMP)/hat/external/libselinux -xf $(ARCHIVE)/$(HAT_LIBSELINUX_SOURCE)
+	tar --strip 1 -C $(BUILD_TMP)/hat/external/libselinux -xf $(ARCHIVE)/$(HAT_LIBSELINUX_SRC)
 	cp $(PATCHES)/ext4_utils.mk $(BUILD_TMP)/hat
 	$(CHDIR)/hat; \
 		$(MAKE) --file=ext4_utils.mk SRCDIR=$(BUILD_TMP)/hat
@@ -345,17 +345,17 @@ $(D)/host_atools: $(D)/directories $(ARCHIVE)/$(HAT_CORE_SOURCE) $(ARCHIVE)/$(HA
 HOST_PYTHON_VER_MAJOR = 2.7
 HOST_PYTHON_VER_MINOR = 18
 HOST_PYTHON_VER = $(HOST_PYTHON_VER_MAJOR).$(HOST_PYTHON_VER_MINOR)
-HOST_PYTHON_SOURCE = Python-$(HOST_PYTHON_VER).tar.xz
+HOST_PYTHON_SRC = Python-$(HOST_PYTHON_VER).tar.xz
 HOST_PYTHON_PATCH = python-$(HOST_PYTHON_VER).patch
 HOST_PYTHON_PATCH += python-$(HOST_PYTHON_VER)-support_64bit.patch
 
-$(ARCHIVE)/$(HOST_PYTHON_SOURCE):
-	$(DOWNLOAD) https://www.python.org/ftp/python/$(HOST_PYTHON_VER)/$(HOST_PYTHON_SOURCE)
+$(ARCHIVE)/$(HOST_PYTHON_SRC):
+	$(DOWNLOAD) https://www.python.org/ftp/python/$(HOST_PYTHON_VER)/$(HOST_PYTHON_SRC)
 
-$(D)/host_python: $(ARCHIVE)/$(HOST_PYTHON_SOURCE)
+$(D)/host_python: $(ARCHIVE)/$(HOST_PYTHON_SRC)
 	$(START_BUILD)
 	$(REMOVE)/Python-$(HOST_PYTHON_VER)
-	$(UNTAR)/$(HOST_PYTHON_SOURCE)
+	$(UNTAR)/$(HOST_PYTHON_SRC)
 	$(CHDIR)/Python-$(HOST_PYTHON_VER); \
 		$(call apply_patches, $(HOST_PYTHON_PATCH)); \
 		autoconf; \
@@ -385,15 +385,15 @@ $(D)/host_python: $(ARCHIVE)/$(HOST_PYTHON_SOURCE)
 # host_mtools
 #
 HOST_MTOOLS_VER = 4.0.49
-HOST_MTOOLS_SOURCE = mtools-$(HOST_MTOOLS_VER).tar.gz
+HOST_MTOOLS_SRC = mtools-$(HOST_MTOOLS_VER).tar.gz
 
-$(ARCHIVE)/$(HOST_MTOOLS_SOURCE):
-	$(DOWNLOAD) http://ftp.gnu.org/gnu/mtools/$(HOST_MTOOLS_SOURCE)
+$(ARCHIVE)/$(HOST_MTOOLS_SRC):
+	$(DOWNLOAD) http://ftp.gnu.org/gnu/mtools/$(HOST_MTOOLS_SRC)
 
-$(D)/host_mtools: $(D)/directories $(ARCHIVE)/$(HOST_MTOOLS_SOURCE)
+$(D)/host_mtools: $(D)/directories $(ARCHIVE)/$(HOST_MTOOLS_SRC)
 	$(START_BUILD)
 	$(REMOVE)/mtools-$(HOST_MTOOLS_VER)
-	$(UNTAR)/$(HOST_MTOOLS_SOURCE)
+	$(UNTAR)/$(HOST_MTOOLS_SRC)
 	$(CHDIR)/mtools-$(HOST_MTOOLS_VER); \
 		./configure \
 			--prefix=$(HOST_DIR) \
@@ -410,15 +410,15 @@ $(D)/host_mtools: $(D)/directories $(ARCHIVE)/$(HOST_MTOOLS_SOURCE)
 # host_dosfstools
 #
 HOST_DOSFSTOOLS_VER = 4.2
-HOST_DOSFSTOOLS_SOURCE = dosfstools-$(HOST_DOSFSTOOLS_VER).tar.gz
+HOST_DOSFSTOOLS_SRC = dosfstools-$(HOST_DOSFSTOOLS_VER).tar.gz
 
-$(ARCHIVE)/$(HOST_DOSFSTOOLS_SOURCE):
-	$(DOWNLOAD) https://github.com/dosfstools/dosfstools/releases/download/v$(HOST_DOSFSTOOLS_VER)/$(HOST_DOSFSTOOLS_SOURCE)
+$(ARCHIVE)/$(HOST_DOSFSTOOLS_SRC):
+	$(DOWNLOAD) https://github.com/dosfstools/dosfstools/releases/download/v$(HOST_DOSFSTOOLS_VER)/$(HOST_DOSFSTOOLS_SRC)
 
-$(D)/host_dosfstools: $(D)/directories $(ARCHIVE)/$(HOST_DOSFSTOOLS_SOURCE)
+$(D)/host_dosfstools: $(D)/directories $(ARCHIVE)/$(HOST_DOSFSTOOLS_SRC)
 	$(START_BUILD)
 	$(REMOVE)/dosfstools-$(HOST_DOSFSTOOLS_VER)
-	$(UNTAR)/$(HOST_DOSFSTOOLS_SOURCE)
+	$(UNTAR)/$(HOST_DOSFSTOOLS_SRC)
 	$(CHDIR)/dosfstools-$(HOST_DOSFSTOOLS_VER); \
 		./configure \
 			--prefix=$(HOST_DIR) \

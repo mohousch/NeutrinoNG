@@ -2,7 +2,7 @@
 # busybox
 #
 BUSYBOX_VER = 1.36.1
-BUSYBOX_SOURCE = busybox-$(BUSYBOX_VER).tar.bz2
+BUSYBOX_SRC = busybox-$(BUSYBOX_VER).tar.bz2
 
 BUSYBOX_PATCH  = busybox-$(BUSYBOX_VER)-nandwrite.patch
 BUSYBOX_PATCH += busybox-$(BUSYBOX_VER)-unicode.patch
@@ -14,13 +14,13 @@ BUSYBOX_PATCH += busybox-$(BUSYBOX_VER)-recursive_action-fix.patch
 
 BUSYBOX_CONFIG = busybox-$(BUSYBOX_VER).config
 
-$(ARCHIVE)/$(BUSYBOX_SOURCE):
-	wget -P $(ARCHIVE) https://busybox.net/downloads/$(BUSYBOX_SOURCE)
+$(ARCHIVE)/$(BUSYBOX_SRC):
+	wget -P $(ARCHIVE) https://busybox.net/downloads/$(BUSYBOX_SRC)
 
-$(D)/busybox: $(D)/bootstrap $(ARCHIVE)/$(BUSYBOX_SOURCE) $(PATCHES)/$(BUSYBOX_CONFIG)
+$(D)/busybox: $(D)/bootstrap $(ARCHIVE)/$(BUSYBOX_SRC) $(PATCHES)/$(BUSYBOX_CONFIG)
 	$(START_BUILD)
 	$(REMOVE)/busybox-$(BUSYBOX_VER)
-	$(UNTAR)/$(BUSYBOX_SOURCE)
+	$(UNTAR)/$(BUSYBOX_SRC)
 	$(CHDIR)/busybox-$(BUSYBOX_VER); \
 		$(call apply_patches, $(BUSYBOX_PATCH)); \
 		install -m 0644 $(lastword $^) .config; \
@@ -37,9 +37,9 @@ $(D)/busybox: $(D)/bootstrap $(ARCHIVE)/$(BUSYBOX_SOURCE) $(PATCHES)/$(BUSYBOX_C
 #
 # busybox-menuconfig
 #	
-busybox-menuconfig: $(D)/bootstrap $(ARCHIVE)/$(BUSYBOX_SOURCE) $(PATCHES)/$(BUSYBOX_CONFIG)
+busybox-menuconfig: $(D)/bootstrap $(ARCHIVE)/$(BUSYBOX_SRC) $(PATCHES)/$(BUSYBOX_CONFIG)
 	$(REMOVE)/busybox-$(BUSYBOX_VER)
-	$(UNTAR)/$(BUSYBOX_SOURCE)
+	$(UNTAR)/$(BUSYBOX_SRC)
 	$(CHDIR)/busybox-$(BUSYBOX_VER); \
 		$(call apply_patches, $(BUSYBOX_PATCH)); \
 		install -m 0644 $(lastword $^) .config; \
@@ -50,18 +50,19 @@ busybox-menuconfig: $(D)/bootstrap $(ARCHIVE)/$(BUSYBOX_SOURCE) $(PATCHES)/$(BUS
 # sysvinit
 #
 SYSVINIT_VER = 3.06
-SYSVINIT_SOURCE = sysvinit-$(SYSVINIT_VER).tar.xz
+SYSVINIT_SRC = sysvinit-$(SYSVINIT_VER).tar.xz
+
 SYSVINIT_PATCH  = sysvinit-$(SYSVINIT_VER)-crypt-lib.patch
 SYSVINIT_PATCH += sysvinit-$(SYSVINIT_VER)-change-INIT_FIFO.patch
 SYSVINIT_PATCH += sysvinit-$(SYSVINIT_VER)-remove-killall5.patch
 
-$(ARCHIVE)/$(SYSVINIT_SOURCE):
-	$(DOWNLOAD) https://github.com/slicer69/sysvinit/releases/download/$(SYSVINIT_VER)/$(SYSVINIT_SOURCE)
+$(ARCHIVE)/$(SYSVINIT_SRC):
+	$(DOWNLOAD) https://github.com/slicer69/sysvinit/releases/download/$(SYSVINIT_VER)/$(SYSVINIT_SRC)
 
-$(D)/sysvinit: $(D)/bootstrap $(ARCHIVE)/$(SYSVINIT_SOURCE)
+$(D)/sysvinit: $(D)/bootstrap $(ARCHIVE)/$(SYSVINIT_SRC)
 	$(START_BUILD)
 	$(REMOVE)/sysvinit-$(SYSVINIT_VER)
-	$(UNTAR)/$(SYSVINIT_SOURCE)
+	$(UNTAR)/$(SYSVINIT_SRC)
 	$(CHDIR)/sysvinit-$(SYSVINIT_VER); \
 		$(call apply_patches, $(SYSVINIT_PATCH)); \
 		sed -i -e 's/\ sulogin[^ ]*//' -e 's/pidof\.8//' -e '/ln .*pidof/d' \
@@ -83,14 +84,15 @@ endif
 # mtd_utils
 #
 MTD_UTILS_VER = 1.5.2
-MTD_UTILS_SOURCE = mtd-utils-$(MTD_UTILS_VER).tar.bz2
+MTD_UTILS_SRC = mtd-utils-$(MTD_UTILS_VER).tar.bz2
+
 MTD_UTILS_PATCH = host-mtd-utils-$(MTD_UTILS_VER).patch
 MTD_UTILS_PATCH += host-mtd-utils-$(MTD_UTILS_VER)-sysmacros.patch
 
-$(D)/mtd_utils: $(D)/bootstrap $(D)/zlib $(D)/lzo $(D)/e2fsprogs $(ARCHIVE)/$(HOST_MTD_UTILS_SOURCE)
+$(D)/mtd_utils: $(D)/bootstrap $(D)/zlib $(D)/lzo $(D)/e2fsprogs $(ARCHIVE)/$(HOST_MTD_UTILS_SRC)
 	$(START_BUILD)
 	$(REMOVE)/mtd-utils-$(MTD_UTILS_VER)
-	$(UNTAR)/$(MTD_UTILS_SOURCE)
+	$(UNTAR)/$(MTD_UTILS_SRC)
 	$(CHDIR)/mtd-utils-$(MTD_UTILS_VER); \
 		$(call apply_patches, $(MTD_UTILS_PATCH)); \
 		$(BUILDENV) \
@@ -105,13 +107,14 @@ $(D)/mtd_utils: $(D)/bootstrap $(D)/zlib $(D)/lzo $(D)/e2fsprogs $(ARCHIVE)/$(HO
 # module_init_tools
 #
 MODULE_INIT_TOOLS_VER = 3.16
-MODULE_INIT_TOOLS_SOURCE = module-init-tools-$(MODULE_INIT_TOOLS_VER).tar.bz2
+MODULE_INIT_TOOLS_SRC = module-init-tools-$(MODULE_INIT_TOOLS_VER).tar.bz2
+
 MODULE_INIT_TOOLS_PATCH = module-init-tools-$(MODULE_INIT_TOOLS_VER).patch
 
-$(D)/module_init_tools: $(D)/bootstrap $(ARCHIVE)/$(HOST_MODULE_INIT_TOOLS_SOURCE)
+$(D)/module_init_tools: $(D)/bootstrap $(ARCHIVE)/$(HOST_MODULE_INIT_TOOLS_SRC)
 	$(START_BUILD)
 	$(REMOVE)/module-init-tools-$(MODULE_INIT_TOOLS_VER)
-	$(UNTAR)/$(MODULE_INIT_TOOLS_SOURCE)
+	$(UNTAR)/$(MODULE_INIT_TOOLS_SRC)
 	$(CHDIR)/module-init-tools-$(MODULE_INIT_TOOLS_VER); \
 		$(call apply_patches, $(MODULE_INIT_TOOLS_PATCH)); \
 		autoreconf -fi; \
@@ -132,8 +135,8 @@ $(D)/module_init_tools: $(D)/bootstrap $(ARCHIVE)/$(HOST_MODULE_INIT_TOOLS_SOURC
 # e2fsprogs
 #
 E2FSPROGS_VER = 1.47.3
+E2FSPROGS_SRC = e2fsprogs-$(E2FSPROGS_VER).tar.gz
 
-E2FSPROGS_SOURCE = e2fsprogs-$(E2FSPROGS_VER).tar.gz
 E2FSPROGS_PATCH = e2fsprogs-$(E2FSPROGS_VER).patch
 
 ifeq ($(BOXARCH), $(filter $(BOXARCH), arm mips))
@@ -142,13 +145,13 @@ else
 E2FSPROGS_ARGS = --disable-resizer
 endif
 
-$(ARCHIVE)/$(E2FSPROGS_SOURCE):
-	$(DOWNLOAD) https://sourceforge.net/projects/e2fsprogs/files/e2fsprogs/v$(E2FSPROGS_VER)/$(E2FSPROGS_SOURCE)
+$(ARCHIVE)/$(E2FSPROGS_SRC):
+	$(DOWNLOAD) https://sourceforge.net/projects/e2fsprogs/files/e2fsprogs/v$(E2FSPROGS_VER)/$(E2FSPROGS_SRC)
 
-$(D)/e2fsprogs: $(D)/bootstrap $(D)/util_linux $(ARCHIVE)/$(E2FSPROGS_SOURCE)
+$(D)/e2fsprogs: $(D)/bootstrap $(D)/util_linux $(ARCHIVE)/$(E2FSPROGS_SRC)
 	$(START_BUILD)
 	$(REMOVE)/e2fsprogs-$(E2FSPROGS_VER)
-	$(UNTAR)/$(E2FSPROGS_SOURCE)
+	$(UNTAR)/$(E2FSPROGS_SRC)
 	$(CHDIR)/e2fsprogs-$(E2FSPROGS_VER); \
 		$(call apply_patches, $(E2FSPROGS_PATCH)); \
 		PATH=$(BUILD_TMP)/e2fsprogs-$(E2FSPROGS_VER):$(PATH) \
@@ -206,15 +209,15 @@ $(D)/e2fsprogs: $(D)/bootstrap $(D)/util_linux $(ARCHIVE)/$(E2FSPROGS_SOURCE)
 UTIL_LINUX_MAJOR = 2.41
 UTIL_LINUX_MINOR = .2
 UTIL_LINUX_VER = $(UTIL_LINUX_MAJOR)$(UTIL_LINUX_MINOR)
-UTIL_LINUX_SOURCE = util-linux-$(UTIL_LINUX_VER).tar.xz
+UTIL_LINUX_SRC = util-linux-$(UTIL_LINUX_VER).tar.xz
 
-$(ARCHIVE)/$(UTIL_LINUX_SOURCE):
-	$(DOWNLOAD) https://www.kernel.org/pub/linux/utils/util-linux/v$(UTIL_LINUX_MAJOR)/$(UTIL_LINUX_SOURCE)
+$(ARCHIVE)/$(UTIL_LINUX_SRC):
+	$(DOWNLOAD) https://www.kernel.org/pub/linux/utils/util-linux/v$(UTIL_LINUX_MAJOR)/$(UTIL_LINUX_SRC)
 
-$(D)/util_linux: $(D)/bootstrap $(D)/zlib $(ARCHIVE)/$(UTIL_LINUX_SOURCE)
+$(D)/util_linux: $(D)/bootstrap $(D)/zlib $(ARCHIVE)/$(UTIL_LINUX_SRC)
 	$(START_BUILD)
 	$(REMOVE)/util-linux-$(UTIL_LINUX_VER)
-	$(UNTAR)/$(UTIL_LINUX_SOURCE)
+	$(UNTAR)/$(UTIL_LINUX_SRC)
 	$(CHDIR)/util-linux-$(UTIL_LINUX_VER); \
 		$(CONFIGURE) \
 			--prefix=/usr \
@@ -299,17 +302,18 @@ $(D)/util_linux: $(D)/bootstrap $(D)/zlib $(ARCHIVE)/$(UTIL_LINUX_SOURCE)
 # vsftpd
 #
 VSFTPD_VER = 3.0.5
-VSFTPD_SOURCE = vsftpd-$(VSFTPD_VER).tar.gz
+VSFTPD_SRC = vsftpd-$(VSFTPD_VER).tar.gz
+
 VSFTPD_PATCH  = vsftpd-$(VSFTPD_VER).patch
 VSFTPD_PATCH += vsftpd-$(VSFTPD_VER)-find_libs.patch
 
-$(ARCHIVE)/$(VSFTPD_SOURCE):
-	$(DOWNLOAD) https://security.appspot.com/downloads/$(VSFTPD_SOURCE)
+$(ARCHIVE)/$(VSFTPD_SRC):
+	$(DOWNLOAD) https://security.appspot.com/downloads/$(VSFTPD_SRC)
 
-$(D)/vsftpd: $(D)/bootstrap $(D)/openssl $(ARCHIVE)/$(VSFTPD_SOURCE)
+$(D)/vsftpd: $(D)/bootstrap $(D)/openssl $(ARCHIVE)/$(VSFTPD_SRC)
 	$(START_BUILD)
 	$(REMOVE)/vsftpd-$(VSFTPD_VER)
-	$(UNTAR)/$(VSFTPD_SOURCE)
+	$(UNTAR)/$(VSFTPD_SRC)
 	$(CHDIR)/vsftpd-$(VSFTPD_VER); \
 		$(call apply_patches, $(VSFTPD_PATCH)); \
 		$(MAKE) clean; \
@@ -324,16 +328,17 @@ $(D)/vsftpd: $(D)/bootstrap $(D)/openssl $(ARCHIVE)/$(VSFTPD_SOURCE)
 # opkg
 #
 OPKG_VER = 0.3.3
-OPKG_SOURCE = opkg-$(OPKG_VER).tar.gz
+OPKG_SRC = opkg-$(OPKG_VER).tar.gz
+
 OPKG_PATCH = opkg-$(OPKG_VER).patch
 
-$(ARCHIVE)/$(OPKG_SOURCE):
-	$(DOWNLOAD) https://downloads.yoctoproject.org/releases/opkg/$(OPKG_SOURCE)
+$(ARCHIVE)/$(OPKG_SRC):
+	$(DOWNLOAD) https://downloads.yoctoproject.org/releases/opkg/$(OPKG_SRC)
 	
-$(D)/opkg: $(D)/bootstrap $(D)/libarchive $(ARCHIVE)/$(OPKG_SOURCE)
+$(D)/opkg: $(D)/bootstrap $(D)/libarchive $(ARCHIVE)/$(OPKG_SRC)
 	$(START_BUILD)
 	$(REMOVE)/opkg-$(OPKG_VER)
-	$(UNTAR)/$(OPKG_SOURCE)
+	$(UNTAR)/$(OPKG_SRC)
 	$(CHDIR)/opkg-$(OPKG_VER); \
 		$(call apply_patches, $(OPKG_PATCH)); \
 		LIBARCHIVE_LIBS="-L$(TARGET_DIR)/usr/lib -larchive" \
@@ -361,15 +366,15 @@ $(D)/opkg: $(D)/bootstrap $(D)/libarchive $(ARCHIVE)/$(OPKG_SOURCE)
 LSB_MAJOR = 3.2
 LSB_MINOR = 20
 LSB_VER = $(LSB_MAJOR)-$(LSB_MINOR)
-LSB_SOURCE = lsb_$(LSB_VER).tar.gz
+LSB_SRC = lsb_$(LSB_VER).tar.gz
 
-$(ARCHIVE)/$(LSB_SOURCE):
-	$(DOWNLOAD) https://debian.sdinet.de/etch/sdinet/lsb/$(LSB_SOURCE)
+$(ARCHIVE)/$(LSB_SRC):
+	$(DOWNLOAD) https://debian.sdinet.de/etch/sdinet/lsb/$(LSB_SRC)
 
-$(D)/lsb: $(D)/bootstrap $(ARCHIVE)/$(LSB_SOURCE)
+$(D)/lsb: $(D)/bootstrap $(ARCHIVE)/$(LSB_SRC)
 	$(START_BUILD)
 	$(REMOVE)/lsb-$(LSB_MAJOR)
-	$(UNTAR)/$(LSB_SOURCE)
+	$(UNTAR)/$(LSB_SRC)
 	$(CHDIR)/lsb-$(LSB_MAJOR); \
 		install -m 0644 init-functions $(TARGET_DIR)/lib/lsb
 	$(REMOVE)/lsb-$(LSB_MAJOR)
@@ -379,16 +384,17 @@ $(D)/lsb: $(D)/bootstrap $(ARCHIVE)/$(LSB_SOURCE)
 # portmap
 #
 PORTMAP_VER = 6.0.0
-PORTMAP_SOURCE = portmap_$(PORTMAP_VER).orig.tar.gz
+PORTMAP_SRC = portmap_$(PORTMAP_VER).orig.tar.gz
+
 PORTMAP_PATCH = portmap-$(PORTMAP_VER).patch
 
-$(ARCHIVE)/$(PORTMAP_SOURCE):
-	$(DOWNLOAD) https://debian-archive.anexia.at/debian/pool/main/p/portmap/$(PORTMAP_SOURCE)
+$(ARCHIVE)/$(PORTMAP_SRC):
+	$(DOWNLOAD) https://debian-archive.anexia.at/debian/pool/main/p/portmap/$(PORTMAP_SRC)
 
-$(D)/portmap: $(D)/bootstrap $(ARCHIVE)/$(PORTMAP_SOURCE) $(PATCHES)/portmap_$(PORTMAP_VER)-3.diff.gz
+$(D)/portmap: $(D)/bootstrap $(ARCHIVE)/$(PORTMAP_SRC) $(PATCHES)/portmap_$(PORTMAP_VER)-3.diff.gz
 	$(START_BUILD)
 	$(REMOVE)/portmap-$(PORTMAP_VER)
-	$(UNTAR)/$(PORTMAP_SOURCE)
+	$(UNTAR)/$(PORTMAP_SRC)
 	$(CHDIR)/portmap-$(PORTMAP_VER); \
 		gunzip -cd $(lastword $^) | cat > debian.patch; \
 		patch -p1 <debian.patch && \
@@ -407,15 +413,15 @@ $(D)/portmap: $(D)/bootstrap $(ARCHIVE)/$(PORTMAP_SOURCE) $(PATCHES)/portmap_$(P
 # gptfdisk
 #
 GPTFDISK_VER = 1.0.4
-GPTFDISK_SOURCE = gptfdisk-$(GPTFDISK_VER).tar.gz
+GPTFDISK_SRC = gptfdisk-$(GPTFDISK_VER).tar.gz
 
-$(ARCHIVE)/$(GPTFDISK_SOURCE):
-	$(DOWNLOAD) https://sourceforge.net/projects/gptfdisk/files/gptfdisk/$(GPTFDISK_VER)/$(GPTFDISK_SOURCE)
+$(ARCHIVE)/$(GPTFDISK_SRC):
+	$(DOWNLOAD) https://sourceforge.net/projects/gptfdisk/files/gptfdisk/$(GPTFDISK_VER)/$(GPTFDISK_SRC)
 
-$(D)/gptfdisk: $(D)/bootstrap $(D)/e2fsprogs $(D)/ncurses $(D)/libpopt $(ARCHIVE)/$(GPTFDISK_SOURCE)
+$(D)/gptfdisk: $(D)/bootstrap $(D)/e2fsprogs $(D)/ncurses $(D)/libpopt $(ARCHIVE)/$(GPTFDISK_SRC)
 	$(START_BUILD)
 	$(REMOVE)/gptfdisk-$(GPTFDISK_VER)
-	$(UNTAR)/$(GPTFDISK_SOURCE)
+	$(UNTAR)/$(GPTFDISK_SRC)
 	$(CHDIR)/gptfdisk-$(GPTFDISK_VER); \
 		$(BUILDENV) \
 		$(MAKE) sgdisk; \
@@ -426,10 +432,10 @@ $(D)/gptfdisk: $(D)/bootstrap $(D)/e2fsprogs $(D)/ncurses $(D)/libpopt $(ARCHIVE
 #
 # parted
 #
-$(D)/parted: $(D)/bootstrap $(D)/e2fsprogs $(ARCHIVE)/$(HOST_PARTED_SOURCE)
+$(D)/parted: $(D)/bootstrap $(D)/e2fsprogs $(ARCHIVE)/$(HOST_PARTED_SRC)
 	$(START_BUILD)
 	$(REMOVE)/parted-$(HOST_PARTED_VER)
-	$(UNTAR)/$(HOST_PARTED_SOURCE)
+	$(UNTAR)/$(HOST_PARTED_SRC)
 	$(CHDIR)/parted-$(HOST_PARTED_VER); \
 		$(call apply_patches, $(HOST_PARTED_PATCH)); \
 		$(CONFIGURE) \
@@ -456,17 +462,17 @@ $(D)/parted: $(D)/bootstrap $(D)/e2fsprogs $(ARCHIVE)/$(HOST_PARTED_SOURCE)
 # dosfstools
 #
 DOSFSTOOLS_VER = 4.1
-DOSFSTOOLS_SOURCE = dosfstools-$(DOSFSTOOLS_VER).tar.xz
+DOSFSTOOLS_SRC = dosfstools-$(DOSFSTOOLS_VER).tar.xz
 
-$(ARCHIVE)/$(DOSFSTOOLS_SOURCE):
-	$(DOWNLOAD) https://github.com/dosfstools/dosfstools/releases/download/v$(DOSFSTOOLS_VER)/$(DOSFSTOOLS_SOURCE)
+$(ARCHIVE)/$(DOSFSTOOLS_SRC):
+	$(DOWNLOAD) https://github.com/dosfstools/dosfstools/releases/download/v$(DOSFSTOOLS_VER)/$(DOSFSTOOLS_SRC)
 
-DOSFSTOOLS_CFLAGS = $(TARGET_CFLAGS) -D_GNU_SOURCE -fomit-frame-pointer -D_FILE_OFFSET_BITS=64
+DOSFSTOOLS_CFLAGS = $(TARGET_CFLAGS) -D_GNU_SRC -fomit-frame-pointer -D_FILE_OFFSET_BITS=64
 
-$(D)/dosfstools: bootstrap $(ARCHIVE)/$(DOSFSTOOLS_SOURCE)
+$(D)/dosfstools: bootstrap $(ARCHIVE)/$(DOSFSTOOLS_SRC)
 	$(START_BUILD)
 	$(REMOVE)/dosfstools-$(DOSFSTOOLS_VER)
-	$(UNTAR)/$(DOSFSTOOLS_SOURCE)
+	$(UNTAR)/$(DOSFSTOOLS_SRC)
 	$(CHDIR)/dosfstools-$(DOSFSTOOLS_VER); \
 		autoreconf -fi; \
 		$(CONFIGURE) \
@@ -486,17 +492,18 @@ $(D)/dosfstools: bootstrap $(ARCHIVE)/$(DOSFSTOOLS_SOURCE)
 # jfsutils
 #
 JFSUTILS_VER = 1.1.15
-JFSUTILS_SOURCE = jfsutils-$(JFSUTILS_VER).tar.gz
+JFSUTILS_SRC = jfsutils-$(JFSUTILS_VER).tar.gz
+
 JFSUTILS_PATCH = jfsutils-$(JFSUTILS_VER).patch
 JFSUTILS_PATCH += jfsutils-$(JFSUTILS_VER)-gcc10_fix.patch
 
-$(ARCHIVE)/$(JFSUTILS_SOURCE):
-	$(DOWNLOAD) http://jfs.sourceforge.net/project/pub/$(JFSUTILS_SOURCE)
+$(ARCHIVE)/$(JFSUTILS_SRC):
+	$(DOWNLOAD) http://jfs.sourceforge.net/project/pub/$(JFSUTILS_SRC)
 
-$(D)/jfsutils: $(D)/bootstrap $(D)/e2fsprogs $(ARCHIVE)/$(JFSUTILS_SOURCE)
+$(D)/jfsutils: $(D)/bootstrap $(D)/e2fsprogs $(ARCHIVE)/$(JFSUTILS_SRC)
 	$(START_BUILD)
 	$(REMOVE)/jfsutils-$(JFSUTILS_VER)
-	$(UNTAR)/$(JFSUTILS_SOURCE)
+	$(UNTAR)/$(JFSUTILS_SRC)
 	$(CHDIR)/jfsutils-$(JFSUTILS_VER); \
 		$(call apply_patches, $(JFSUTILS_PATCH)); \
 		sed "s@<unistd.h>@&\n#include <sys/types.h>@g" -i fscklog/extract.c; \
@@ -516,15 +523,15 @@ $(D)/jfsutils: $(D)/bootstrap $(D)/e2fsprogs $(ARCHIVE)/$(JFSUTILS_SOURCE)
 # ntfs-3g
 #
 NTFS_3G_VER = 2022.10.3
-NTFS_3G_SOURCE = ntfs-3g_ntfsprogs-$(NTFS_3G_VER).tgz
+NTFS_3G_SRC = ntfs-3g_ntfsprogs-$(NTFS_3G_VER).tgz
 
-$(ARCHIVE)/$(NTFS_3G_SOURCE):
-	$(DOWNLOAD) http://tuxera.com/opensource/$(NTFS_3G_SOURCE)
+$(ARCHIVE)/$(NTFS_3G_SRC):
+	$(DOWNLOAD) http://tuxera.com/opensource/$(NTFS_3G_SRC)
 
-$(D)/ntfs_3g: $(D)/bootstrap $(ARCHIVE)/$(NTFS_3G_SOURCE)
+$(D)/ntfs_3g: $(D)/bootstrap $(ARCHIVE)/$(NTFS_3G_SRC)
 	$(START_BUILD)
 	$(REMOVE)/ntfs-3g_ntfsprogs-$(NTFS_3G_VER)
-	$(UNTAR)/$(NTFS_3G_SOURCE)
+	$(UNTAR)/$(NTFS_3G_SRC)
 	$(CHDIR)/ntfs-3g_ntfsprogs-$(NTFS_3G_VER); \
 		$(CONFIGURE) \
 			--prefix=/usr \
@@ -551,15 +558,15 @@ $(D)/ntfs_3g: $(D)/bootstrap $(ARCHIVE)/$(NTFS_3G_SOURCE)
 # rsync
 #
 RSYNC_VER = 3.1.3
-RSYNC_SOURCE = rsync-$(RSYNC_VER).tar.gz
+RSYNC_SRC = rsync-$(RSYNC_VER).tar.gz
 
-$(ARCHIVE)/$(RSYNC_SOURCE):
-	$(DOWNLOAD) https://ftp.samba.org/pub/rsync/$(RSYNC_SOURCE)
+$(ARCHIVE)/$(RSYNC_SRC):
+	$(DOWNLOAD) https://ftp.samba.org/pub/rsync/$(RSYNC_SRC)
 
-$(D)/rsync: $(D)/bootstrap $(ARCHIVE)/$(RSYNC_SOURCE)
+$(D)/rsync: $(D)/bootstrap $(ARCHIVE)/$(RSYNC_SRC)
 	$(START_BUILD)
 	$(REMOVE)/rsync-$(RSYNC_VER)
-	$(UNTAR)/$(RSYNC_SOURCE)
+	$(UNTAR)/$(RSYNC_SRC)
 	$(CHDIR)/rsync-$(RSYNC_VER); \
 		$(CONFIGURE) \
 			--prefix=/usr \
@@ -577,15 +584,15 @@ $(D)/rsync: $(D)/bootstrap $(ARCHIVE)/$(RSYNC_SOURCE)
 # fuse
 #
 FUSE_VER = 2.9.7
-FUSE_SOURCE = fuse-$(FUSE_VER).tar.gz
+FUSE_SRC = fuse-$(FUSE_VER).tar.gz
 
-$(ARCHIVE)/$(FUSE_SOURCE):
-	$(DOWNLOAD) https://github.com/libfuse/libfuse/releases/download/fuse-$(FUSE_VER)/$(FUSE_SOURCE)
+$(ARCHIVE)/$(FUSE_SRC):
+	$(DOWNLOAD) https://github.com/libfuse/libfuse/releases/download/fuse-$(FUSE_VER)/$(FUSE_SRC)
 
-$(D)/fuse: $(D)/bootstrap $(ARCHIVE)/$(FUSE_SOURCE)
+$(D)/fuse: $(D)/bootstrap $(ARCHIVE)/$(FUSE_SRC)
 	$(START_BUILD)
 	$(REMOVE)/fuse-$(FUSE_VER)
-	$(UNTAR)/$(FUSE_SOURCE)
+	$(UNTAR)/$(FUSE_SRC)
 	$(CHDIR)/fuse-$(FUSE_VER); \
 		$(CONFIGURE) \
 			CFLAGS="$(TARGET_CFLAGS) -I$(KERNEL_DIR)/arch/sh" \
@@ -609,16 +616,17 @@ $(D)/fuse: $(D)/bootstrap $(ARCHIVE)/$(FUSE_SOURCE)
 # curlftpfs
 #
 CURLFTPFS_VER = 0.9.2
-CURLFTPFS_SOURCE = curlftpfs-$(CURLFTPFS_VER).tar.gz
+CURLFTPFS_SRC = curlftpfs-$(CURLFTPFS_VER).tar.gz
+
 CURLFTPFS_PATCH = curlftpfs-$(CURLFTPFS_VER).patch
 
-$(ARCHIVE)/$(CURLFTPFS_SOURCE):
-	$(DOWNLOAD) https://sourceforge.net/projects/curlftpfs/files/latest/download/$(CURLFTPFS_SOURCE)
+$(ARCHIVE)/$(CURLFTPFS_SRC):
+	$(DOWNLOAD) https://sourceforge.net/projects/curlftpfs/files/latest/download/$(CURLFTPFS_SRC)
 
-$(D)/curlftpfs: $(D)/bootstrap $(D)/libcurl $(D)/fuse $(D)/libglib2 $(ARCHIVE)/$(CURLFTPFS_SOURCE)
+$(D)/curlftpfs: $(D)/bootstrap $(D)/libcurl $(D)/fuse $(D)/libglib2 $(ARCHIVE)/$(CURLFTPFS_SRC)
 	$(START_BUILD)
 	$(REMOVE)/curlftpfs-$(CURLFTPFS_VER)
-	$(UNTAR)/$(CURLFTPFS_SOURCE)
+	$(UNTAR)/$(CURLFTPFS_SRC)
 	$(CHDIR)/curlftpfs-$(CURLFTPFS_VER); \
 		$(call apply_patches, $(CURLFTPFS_PATCH)); \
 		export ac_cv_func_malloc_0_nonnull=yes; \
@@ -638,15 +646,15 @@ $(D)/curlftpfs: $(D)/bootstrap $(D)/libcurl $(D)/fuse $(D)/libglib2 $(ARCHIVE)/$
 # sdparm
 #
 SDPARM_VER = 1.10
-SDPARM_SOURCE = sdparm-$(SDPARM_VER).tgz
+SDPARM_SRC = sdparm-$(SDPARM_VER).tgz
 
-$(ARCHIVE)/$(SDPARM_SOURCE):
-	$(DOWNLOAD) http://sg.danny.cz/sg/p/$(SDPARM_SOURCE)
+$(ARCHIVE)/$(SDPARM_SRC):
+	$(DOWNLOAD) http://sg.danny.cz/sg/p/$(SDPARM_SRC)
 
-$(D)/sdparm: $(D)/bootstrap $(ARCHIVE)/$(SDPARM_SOURCE)
+$(D)/sdparm: $(D)/bootstrap $(ARCHIVE)/$(SDPARM_SRC)
 	$(START_BUILD)
 	$(REMOVE)/sdparm-$(SDPARM_VER)
-	$(UNTAR)/$(SDPARM_SOURCE)
+	$(UNTAR)/$(SDPARM_SRC)
 	$(CHDIR)/sdparm-$(SDPARM_VER); \
 		$(CONFIGURE) \
 			--prefix= \
@@ -663,15 +671,15 @@ $(D)/sdparm: $(D)/bootstrap $(ARCHIVE)/$(SDPARM_SOURCE)
 # hddtemp
 #
 HDDTEMP_VER = 0.3-beta15
-HDDTEMP_SOURCE = hddtemp-$(HDDTEMP_VER).tar.bz2
+HDDTEMP_SRC = hddtemp-$(HDDTEMP_VER).tar.bz2
 
-$(ARCHIVE)/$(HDDTEMP_SOURCE):
-	$(DOWNLOAD) http://savannah.c3sl.ufpr.br/hddtemp/$(HDDTEMP_SOURCE)
+$(ARCHIVE)/$(HDDTEMP_SRC):
+	$(DOWNLOAD) http://savannah.c3sl.ufpr.br/hddtemp/$(HDDTEMP_SRC)
 
-$(D)/hddtemp: $(D)/bootstrap $(ARCHIVE)/$(HDDTEMP_SOURCE)
+$(D)/hddtemp: $(D)/bootstrap $(ARCHIVE)/$(HDDTEMP_SRC)
 	$(START_BUILD)
 	$(REMOVE)/hddtemp-$(HDDTEMP_VER)
-	$(UNTAR)/$(HDDTEMP_SOURCE)
+	$(UNTAR)/$(HDDTEMP_SRC)
 	$(CHDIR)/hddtemp-$(HDDTEMP_VER); \
 		$(CONFIGURE) \
 			--prefix= \
@@ -690,15 +698,15 @@ $(D)/hddtemp: $(D)/bootstrap $(ARCHIVE)/$(HDDTEMP_SOURCE)
 # hdparm
 #
 HDPARM_VER = 9.54
-HDPARM_SOURCE = hdparm-$(HDPARM_VER).tar.gz
+HDPARM_SRC = hdparm-$(HDPARM_VER).tar.gz
 
-$(ARCHIVE)/$(HDPARM_SOURCE):
-	$(DOWNLOAD) https://sourceforge.net/projects/hdparm/files/hdparm/$(HDPARM_SOURCE)
+$(ARCHIVE)/$(HDPARM_SRC):
+	$(DOWNLOAD) https://sourceforge.net/projects/hdparm/files/hdparm/$(HDPARM_SRC)
 
-$(D)/hdparm: $(D)/bootstrap $(ARCHIVE)/$(HDPARM_SOURCE)
+$(D)/hdparm: $(D)/bootstrap $(ARCHIVE)/$(HDPARM_SRC)
 	$(START_BUILD)
 	$(REMOVE)/hdparm-$(HDPARM_VER)
-	$(UNTAR)/$(HDPARM_SOURCE)
+	$(UNTAR)/$(HDPARM_SRC)
 	$(CHDIR)/hdparm-$(HDPARM_VER); \
 		$(BUILDENV) \
 		$(MAKE) CROSS=$(TARGET)- all; \
@@ -710,16 +718,17 @@ $(D)/hdparm: $(D)/bootstrap $(ARCHIVE)/$(HDPARM_SOURCE)
 # hdidle
 #
 HDIDLE_VER = 1.05
-HDIDLE_SOURCE = hd-idle-$(HDIDLE_VER).tgz
+HDIDLE_SRC = hd-idle-$(HDIDLE_VER).tgz
+
 HDIDLE_PATCH = hd-idle-$(HDIDLE_VER).patch
 
-$(ARCHIVE)/$(HDIDLE_SOURCE):
-	$(DOWNLOAD) https://sourceforge.net/projects/hd-idle/files/$(HDIDLE_SOURCE)
+$(ARCHIVE)/$(HDIDLE_SRC):
+	$(DOWNLOAD) https://sourceforge.net/projects/hd-idle/files/$(HDIDLE_SRC)
 
-$(D)/hdidle: $(D)/bootstrap $(ARCHIVE)/$(HDIDLE_SOURCE)
+$(D)/hdidle: $(D)/bootstrap $(ARCHIVE)/$(HDIDLE_SRC)
 	$(START_BUILD)
 	$(REMOVE)/hd-idle
-	$(UNTAR)/$(HDIDLE_SOURCE)
+	$(UNTAR)/$(HDIDLE_SRC)
 	$(CHDIR)/hd-idle; \
 		$(call apply_patches, $(HDIDLE_PATCH)); \
 		$(BUILDENV) \
@@ -732,16 +741,17 @@ $(D)/hdidle: $(D)/bootstrap $(ARCHIVE)/$(HDIDLE_SOURCE)
 # fbshot
 #
 FBSHOT_VER = 0.3
-FBSHOT_SOURCE = fbshot-$(FBSHOT_VER).tar.gz
+FBSHOT_SRC = fbshot-$(FBSHOT_VER).tar.gz
+
 FBSHOT_PATCH = fbshot-$(FBSHOT_VER)-$(BOXARCH).patch
 
-$(ARCHIVE)/$(FBSHOT_SOURCE):
-	$(DOWNLOAD) http://distro.ibiblio.org/amigolinux/download/Utils/fbshot/$(FBSHOT_SOURCE)
+$(ARCHIVE)/$(FBSHOT_SRC):
+	$(DOWNLOAD) http://distro.ibiblio.org/amigolinux/download/Utils/fbshot/$(FBSHOT_SRC)
 
-$(D)/fbshot: $(D)/bootstrap $(D)/libpng $(ARCHIVE)/$(FBSHOT_SOURCE)
+$(D)/fbshot: $(D)/bootstrap $(D)/libpng $(ARCHIVE)/$(FBSHOT_SRC)
 	$(START_BUILD)
 	$(REMOVE)/fbshot-$(FBSHOT_VER)
-	$(UNTAR)/$(FBSHOT_SOURCE)
+	$(UNTAR)/$(FBSHOT_SRC)
 	$(CHDIR)/fbshot-$(FBSHOT_VER); \
 		$(call apply_patches, $(FBSHOT_PATCH)); \
 		sed -i s~'gcc'~"$(TARGET)-gcc $(TARGET_CFLAGS) $(TARGET_LDFLAGS)"~ Makefile; \
@@ -755,15 +765,15 @@ $(D)/fbshot: $(D)/bootstrap $(D)/libpng $(ARCHIVE)/$(FBSHOT_SOURCE)
 # sysstat
 #
 SYSSTAT_VER = 12.6.1
-SYSSTAT_SOURCE = sysstat-$(SYSSTAT_VER).tar.xz
+SYSSTAT_SRC = sysstat-$(SYSSTAT_VER).tar.xz
 
-$(ARCHIVE)/$(SYSSTAT_SOURCE):
-	$(DOWNLOAD) https://ftp.wrz.de/pub/BLFS/conglomeration/sysstat/$(SYSSTAT_SOURCE)
+$(ARCHIVE)/$(SYSSTAT_SRC):
+	$(DOWNLOAD) https://ftp.wrz.de/pub/BLFS/conglomeration/sysstat/$(SYSSTAT_SRC)
 
-$(D)/sysstat: $(D)/bootstrap $(ARCHIVE)/$(SYSSTAT_SOURCE)
+$(D)/sysstat: $(D)/bootstrap $(ARCHIVE)/$(SYSSTAT_SRC)
 	$(START_BUILD)
 	$(REMOVE)/sysstat-$(SYSSTAT_VER)
-	$(UNTAR)/$(SYSSTAT_SOURCE)
+	$(UNTAR)/$(SYSSTAT_SRC)
 	$(CHDIR)/sysstat-$(SYSSTAT_VER); \
 		$(CONFIGURE) \
 			--prefix=/usr \
@@ -778,20 +788,21 @@ $(D)/sysstat: $(D)/bootstrap $(ARCHIVE)/$(SYSSTAT_SOURCE)
 # autofs
 #
 AUTOFS_VER = 4.1.4
-AUTOFS_SOURCE = autofs-$(AUTOFS_VER).tar.gz
+AUTOFS_SRC = autofs-$(AUTOFS_VER).tar.gz
+
 AUTOFS_PATCH = autofs-$(AUTOFS_VER).patch
 
-$(ARCHIVE)/$(AUTOFS_SOURCE):
-	$(DOWNLOAD) https://www.kernel.org/pub/linux/daemons/autofs/v4/$(AUTOFS_SOURCE)
+$(ARCHIVE)/$(AUTOFS_SRC):
+	$(DOWNLOAD) https://www.kernel.org/pub/linux/daemons/autofs/v4/$(AUTOFS_SRC)
 
 ifeq ($(BOXARCH), $(filter $(BOXARCH), arm mips))
 AUTOFS_LIBNSL = $(D)/libnsl
 endif
 
-$(D)/autofs: $(D)/bootstrap $(D)/e2fsprogs $(AUTOFS_LIBNSL) $(ARCHIVE)/$(AUTOFS_SOURCE)
+$(D)/autofs: $(D)/bootstrap $(D)/e2fsprogs $(AUTOFS_LIBNSL) $(ARCHIVE)/$(AUTOFS_SRC)
 	$(START_BUILD)
 	$(REMOVE)/autofs-$(AUTOFS_VER)
-	$(UNTAR)/$(AUTOFS_SOURCE)
+	$(UNTAR)/$(AUTOFS_SRC)
 	$(CHDIR)/autofs-$(AUTOFS_VER); \
 		$(call apply_patches, $(AUTOFS_PATCH)); \
 		cp aclocal.m4 acinclude.m4; \
@@ -863,15 +874,15 @@ $(D)/shairport-sync: $(D)/bootstrap $(D)/libdaemon $(D)/libpopt $(D)/libconfig $
 # dbus
 #
 DBUS_VER = 1.12.6
-DBUS_SOURCE = dbus-$(DBUS_VER).tar.gz
+DBUS_SRC = dbus-$(DBUS_VER).tar.gz
 
-$(ARCHIVE)/$(DBUS_SOURCE):
-	$(DOWNLOAD) https://dbus.freedesktop.org/releases/dbus/$(DBUS_SOURCE)
+$(ARCHIVE)/$(DBUS_SRC):
+	$(DOWNLOAD) https://dbus.freedesktop.org/releases/dbus/$(DBUS_SRC)
 
-$(D)/dbus: $(D)/bootstrap $(D)/expat $(ARCHIVE)/$(DBUS_SOURCE)
+$(D)/dbus: $(D)/bootstrap $(D)/expat $(ARCHIVE)/$(DBUS_SRC)
 	$(START_BUILD)
 	$(REMOVE)/dbus-$(DBUS_VER)
-	$(UNTAR)/$(DBUS_SOURCE)
+	$(UNTAR)/$(DBUS_SRC)
 	$(CHDIR)/dbus-$(DBUS_VER); \
 		$(CONFIGURE) \
 		CFLAGS="$(TARGET_CFLAGS) -Wno-cast-align" \
@@ -896,15 +907,15 @@ $(D)/dbus: $(D)/bootstrap $(D)/expat $(ARCHIVE)/$(DBUS_SOURCE)
 # avahi
 #
 AVAHI_VER = 0.7
-AVAHI_SOURCE = avahi-$(AVAHI_VER).tar.gz
+AVAHI_SRC = avahi-$(AVAHI_VER).tar.gz
 
-$(ARCHIVE)/$(AVAHI_SOURCE):
-	$(DOWNLOAD) https://github.com/lathiat/avahi/releases/download/v$(AVAHI_VER)/$(AVAHI_SOURCE)
+$(ARCHIVE)/$(AVAHI_SRC):
+	$(DOWNLOAD) https://github.com/lathiat/avahi/releases/download/v$(AVAHI_VER)/$(AVAHI_SRC)
 
-$(D)/avahi: $(D)/bootstrap $(D)/expat $(D)/libdaemon $(D)/dbus $(ARCHIVE)/$(AVAHI_SOURCE)
+$(D)/avahi: $(D)/bootstrap $(D)/expat $(D)/libdaemon $(D)/dbus $(ARCHIVE)/$(AVAHI_SRC)
 	$(START_BUILD)
 	$(REMOVE)/avahi-$(AVAHI_VER)
-	$(UNTAR)/$(AVAHI_SOURCE)
+	$(UNTAR)/$(AVAHI_SRC)
 	$(CHDIR)/avahi-$(AVAHI_VER); \
 		$(CONFIGURE) \
 			--prefix=/usr \
@@ -962,15 +973,15 @@ $(D)/avahi: $(D)/bootstrap $(D)/expat $(D)/libdaemon $(D)/dbus $(ARCHIVE)/$(AVAH
 # wget
 #
 WGET_VER = 1.19.5
-WGET_SOURCE = wget-$(WGET_VER).tar.gz
+WGET_SRC = wget-$(WGET_VER).tar.gz
 
-$(ARCHIVE)/$(WGET_SOURCE):
-	$(DOWNLOAD) https://ftp.gnu.org/gnu/wget/$(WGET_SOURCE)
+$(ARCHIVE)/$(WGET_SRC):
+	$(DOWNLOAD) https://ftp.gnu.org/gnu/wget/$(WGET_SRC)
 
-$(D)/wget: $(D)/bootstrap $(D)/openssl $(ARCHIVE)/$(WGET_SOURCE)
+$(D)/wget: $(D)/bootstrap $(D)/openssl $(ARCHIVE)/$(WGET_SRC)
 	$(START_BUILD)
 	$(REMOVE)/wget-$(WGET_VER)
-	$(UNTAR)/$(WGET_SOURCE)
+	$(UNTAR)/$(WGET_SRC)
 	$(CHDIR)/wget-$(WGET_VER); \
 		$(CONFIGURE) \
 			--prefix=/usr \
@@ -994,16 +1005,17 @@ $(D)/wget: $(D)/bootstrap $(D)/openssl $(ARCHIVE)/$(WGET_SOURCE)
 # coreutils
 #
 COREUTILS_VER = 8.23
-COREUTILS_SOURCE = coreutils-$(COREUTILS_VER).tar.xz
+COREUTILS_SRC = coreutils-$(COREUTILS_VER).tar.xz
+
 COREUTILS_PATCH = coreutils-$(COREUTILS_VER).patch
 
-$(ARCHIVE)/$(COREUTILS_SOURCE):
-	$(DOWNLOAD) https://ftp.gnu.org/gnu/coreutils/$(COREUTILS_SOURCE)
+$(ARCHIVE)/$(COREUTILS_SRC):
+	$(DOWNLOAD) https://ftp.gnu.org/gnu/coreutils/$(COREUTILS_SRC)
 
-$(D)/coreutils: $(D)/bootstrap $(D)/openssl $(ARCHIVE)/$(COREUTILS_SOURCE)
+$(D)/coreutils: $(D)/bootstrap $(D)/openssl $(ARCHIVE)/$(COREUTILS_SRC)
 	$(START_BUILD)
 	$(REMOVE)/coreutils-$(COREUTILS_VER)
-	$(UNTAR)/$(COREUTILS_SOURCE)
+	$(UNTAR)/$(COREUTILS_SRC)
 	$(CHDIR)/coreutils-$(COREUTILS_VER); \
 		$(call apply_patches, $(COREUTILS_PATCH)); \
 		export fu_cv_sys_stat_statfs2_bsize=yes; \
@@ -1020,15 +1032,15 @@ $(D)/coreutils: $(D)/bootstrap $(D)/openssl $(ARCHIVE)/$(COREUTILS_SOURCE)
 # smartmontools
 #
 SMARTMONTOOLS_VER = 6.6
-SMARTMONTOOLS_SOURCE = smartmontools-$(SMARTMONTOOLS_VER).tar.gz
+SMARTMONTOOLS_SRC = smartmontools-$(SMARTMONTOOLS_VER).tar.gz
 
-$(ARCHIVE)/$(SMARTMONTOOLS_SOURCE):
-	$(DOWNLOAD) https://sourceforge.net/projects/smartmontools/files/smartmontools/$(SMARTMONTOOLS_VER)/$(SMARTMONTOOLS_SOURCE)
+$(ARCHIVE)/$(SMARTMONTOOLS_SRC):
+	$(DOWNLOAD) https://sourceforge.net/projects/smartmontools/files/smartmontools/$(SMARTMONTOOLS_VER)/$(SMARTMONTOOLS_SRC)
 
-$(D)/smartmontools: $(D)/bootstrap $(ARCHIVE)/$(SMARTMONTOOLS_SOURCE)
+$(D)/smartmontools: $(D)/bootstrap $(ARCHIVE)/$(SMARTMONTOOLS_SRC)
 	$(START_BUILD)
 	$(REMOVE)/smartmontools-$(SMARTMONTOOLS_VER)
-	$(UNTAR)/$(SMARTMONTOOLS_SOURCE)
+	$(UNTAR)/$(SMARTMONTOOLS_SRC)
 	$(CHDIR)/smartmontools-$(SMARTMONTOOLS_VER); \
 		$(CONFIGURE) \
 			--prefix=/usr \
@@ -1042,16 +1054,17 @@ $(D)/smartmontools: $(D)/bootstrap $(ARCHIVE)/$(SMARTMONTOOLS_SOURCE)
 # nfs_utils
 #
 NFS_UTILS_VER = 2.5.3
-NFS_UTILS_SOURCE = nfs-utils-$(NFS_UTILS_VER).tar.bz2
+NFS_UTILS_SRC = nfs-utils-$(NFS_UTILS_VER).tar.bz2
+
 NFS_UTILS_PATCH = nfs-utils-$(NFS_UTILS_VER).patch
 
-$(ARCHIVE)/$(NFS_UTILS_SOURCE):
-	$(DOWNLOAD) https://sourceforge.net/projects/nfs/files/nfs-utils/$(NFS_UTILS_VER)/$(NFS_UTILS_SOURCE)
+$(ARCHIVE)/$(NFS_UTILS_SRC):
+	$(DOWNLOAD) https://sourceforge.net/projects/nfs/files/nfs-utils/$(NFS_UTILS_VER)/$(NFS_UTILS_SRC)
 
-$(D)/nfs_utils: $(D)/bootstrap $(D)/e2fsprogs $(ARCHIVE)/$(NFS_UTILS_SOURCE)
+$(D)/nfs_utils: $(D)/bootstrap $(D)/e2fsprogs $(ARCHIVE)/$(NFS_UTILS_SRC)
 	$(START_BUILD)
 	$(REMOVE)/nfs-utils-$(NFS_UTILS_VER)
-	$(UNTAR)/$(NFS_UTILS_SOURCE)
+	$(UNTAR)/$(NFS_UTILS_SRC)
 	$(CHDIR)/nfs-utils-$(NFS_UTILS_VER); \
 		$(call apply_patches, $(NFS_UTILS_PATCH)); \
 		$(CONFIGURE) \
@@ -1081,15 +1094,15 @@ $(D)/nfs_utils: $(D)/bootstrap $(D)/e2fsprogs $(ARCHIVE)/$(NFS_UTILS_SOURCE)
 # procps_ng
 #
 PROCPS_NG_VER = 3.3.12
-PROCPS_NG_SOURCE = procps-ng-$(PROCPS_NG_VER).tar.xz
+PROCPS_NG_SRC = procps-ng-$(PROCPS_NG_VER).tar.xz
 
-$(ARCHIVE)/$(PROCPS_NG_SOURCE):
-	$(DOWNLOAD) http://sourceforge.net/projects/procps-ng/files/Production/$(PROCPS_NG_SOURCE)
+$(ARCHIVE)/$(PROCPS_NG_SRC):
+	$(DOWNLOAD) http://sourceforge.net/projects/procps-ng/files/Production/$(PROCPS_NG_SRC)
 
-$(D)/procps_ng: $(D)/bootstrap $(D)/ncurses $(ARCHIVE)/$(PROCPS_NG_SOURCE)
+$(D)/procps_ng: $(D)/bootstrap $(D)/ncurses $(ARCHIVE)/$(PROCPS_NG_SRC)
 	$(START_BUILD)
 	$(REMOVE)/procps-ng-$(PROCPS_NG_VER)
-	$(UNTAR)/$(PROCPS_NG_SOURCE)
+	$(UNTAR)/$(PROCPS_NG_SRC)
 	cd $(BUILD_TMP)/procps-ng-$(PROCPS_NG_VER); \
 		export ac_cv_func_malloc_0_nonnull=yes; \
 		export ac_cv_func_realloc_0_nonnull=yes; \
@@ -1108,15 +1121,15 @@ $(D)/procps_ng: $(D)/bootstrap $(D)/ncurses $(ARCHIVE)/$(PROCPS_NG_SOURCE)
 # ethtool
 #
 ETHTOOL_VER = 4.17
-ETHTOOL_SOURCE = ethtool-$(ETHTOOL_VER).tar.xz
+ETHTOOL_SRC = ethtool-$(ETHTOOL_VER).tar.xz
 
-$(ARCHIVE)/$(ETHTOOL_SOURCE):
-	$(DOWNLOAD) https://www.kernel.org/pub/software/network/ethtool/$(ETHTOOL_SOURCE)
+$(ARCHIVE)/$(ETHTOOL_SRC):
+	$(DOWNLOAD) https://www.kernel.org/pub/software/network/ethtool/$(ETHTOOL_SRC)
 
-$(D)/ethtool: $(D)/bootstrap $(ARCHIVE)/$(ETHTOOL_SOURCE)
+$(D)/ethtool: $(D)/bootstrap $(ARCHIVE)/$(ETHTOOL_SRC)
 	$(START_BUILD)
 	$(REMOVE)/ethtool-$(ETHTOOL_VER)
-	$(UNTAR)/$(ETHTOOL_SOURCE)
+	$(UNTAR)/$(ETHTOOL_SRC)
 	$(CHDIR)/ethtool-$(ETHTOOL_VER); \
 		$(CONFIGURE) \
 			--prefix=/usr \
@@ -1132,7 +1145,8 @@ $(D)/ethtool: $(D)/bootstrap $(ARCHIVE)/$(ETHTOOL_SOURCE)
 # samba
 #
 SAMBA_VER = 3.6.25
-SAMBA_SOURCE = samba-$(SAMBA_VER).tar.gz
+SAMBA_SRC = samba-$(SAMBA_VER).tar.gz
+
 SAMBA_PATCH = \
 	010-patch-cve-2015-5252.patch \
 	011-patch-cve-2015-5296.patch \
@@ -1167,13 +1181,13 @@ SAMBA_PATCH = \
 	330-librpc_default_print.patch \
 	samba-3.6.25.patch
 
-$(ARCHIVE)/$(SAMBA_SOURCE):
-	$(DOWNLOAD) https://ftp.samba.org/pub/samba/stable/$(SAMBA_SOURCE)
+$(ARCHIVE)/$(SAMBA_SRC):
+	$(DOWNLOAD) https://ftp.samba.org/pub/samba/stable/$(SAMBA_SRC)
 
-$(D)/samba: $(D)/bootstrap $(ARCHIVE)/$(SAMBA_SOURCE)
+$(D)/samba: $(D)/bootstrap $(ARCHIVE)/$(SAMBA_SRC)
 	$(START_BUILD)
 	$(REMOVE)/samba-$(SAMBA_VER)
-	$(UNTAR)/$(SAMBA_SOURCE)
+	$(UNTAR)/$(SAMBA_SRC)
 	$(CHDIR)/samba-$(SAMBA_VER); \
 		$(call apply_patches, $(SAMBA_PATCH)); \
 		cd source3; \
@@ -1281,16 +1295,17 @@ $(D)/samba: $(D)/bootstrap $(ARCHIVE)/$(SAMBA_SOURCE)
 # ntp
 #
 NTP_VER = 4.2.8p10
-NTP_SOURCE = ntp-$(NTP_VER).tar.gz
+NTP_SRC = ntp-$(NTP_VER).tar.gz
+
 NTP_PATCH = ntp-$(NTP_VER).patch
 
-$(ARCHIVE)/$(NTP_SOURCE):
-	$(DOWNLOAD) https://www.eecis.udel.edu/~ntp/ntp_spool/ntp4/ntp-4.2/$(NTP_SOURCE)
+$(ARCHIVE)/$(NTP_SRC):
+	$(DOWNLOAD) https://www.eecis.udel.edu/~ntp/ntp_spool/ntp4/ntp-4.2/$(NTP_SRC)
 
-$(D)/ntp: $(D)/bootstrap $(ARCHIVE)/$(NTP_SOURCE)
+$(D)/ntp: $(D)/bootstrap $(ARCHIVE)/$(NTP_SRC)
 	$(START_BUILD)
 	$(REMOVE)/ntp-$(NTP_VER)
-	$(UNTAR)/$(NTP_SOURCE)
+	$(UNTAR)/$(NTP_SRC)
 	$(CHDIR)/ntp-$(NTP_VER); \
 		$(call apply_patches, $(NTP_PATCH)); \
 		$(CONFIGURE) \
@@ -1311,16 +1326,17 @@ $(D)/ntp: $(D)/bootstrap $(ARCHIVE)/$(NTP_SOURCE)
 # wireless_tools
 #
 WIRELESS_TOOLS_VER = 29
-WIRELESS_TOOLS_SOURCE = wireless_tools.$(WIRELESS_TOOLS_VER).tar.gz
+WIRELESS_TOOLS_SRC = wireless_tools.$(WIRELESS_TOOLS_VER).tar.gz
+
 WIRELESS_TOOLS_PATCH = wireless-tools.$(WIRELESS_TOOLS_VER).patch
 
-$(ARCHIVE)/$(WIRELESS_TOOLS_SOURCE):
-	$(DOWNLOAD) https://src.fedoraproject.org/repo/pkgs/wireless-tools/wireless_tools.29.tar.gz/e06c222e186f7cc013fd272d023710cb/$(WIRELESS_TOOLS_SOURCE)
+$(ARCHIVE)/$(WIRELESS_TOOLS_SRC):
+	$(DOWNLOAD) https://src.fedoraproject.org/repo/pkgs/wireless-tools/wireless_tools.29.tar.gz/e06c222e186f7cc013fd272d023710cb/$(WIRELESS_TOOLS_SRC)
 
-$(D)/wireless_tools: $(D)/bootstrap $(ARCHIVE)/$(WIRELESS_TOOLS_SOURCE)
+$(D)/wireless_tools: $(D)/bootstrap $(ARCHIVE)/$(WIRELESS_TOOLS_SRC)
 	$(START_BUILD)
 	$(REMOVE)/wireless_tools.$(WIRELESS_TOOLS_VER)
-	$(UNTAR)/$(WIRELESS_TOOLS_SOURCE)
+	$(UNTAR)/$(WIRELESS_TOOLS_SRC)
 	$(CHDIR)/wireless_tools.$(WIRELESS_TOOLS_VER); \
 		$(call apply_patches, $(WIRELESS_TOOLS_PATCH)); \
 		$(MAKE) CC="$(TARGET)-gcc" CFLAGS="$(TARGET_CFLAGS) -I."; \
@@ -1332,15 +1348,15 @@ $(D)/wireless_tools: $(D)/bootstrap $(ARCHIVE)/$(WIRELESS_TOOLS_SOURCE)
 # wpa_supplicant
 #
 WPA_SUPPLICANT_VER = 0.7.3
-WPA_SUPPLICANT_SOURCE = wpa_supplicant-$(WPA_SUPPLICANT_VER).tar.gz
+WPA_SUPPLICANT_SRC = wpa_supplicant-$(WPA_SUPPLICANT_VER).tar.gz
 
-$(ARCHIVE)/$(WPA_SUPPLICANT_SOURCE):
-	$(DOWNLOAD) https://w1.fi/releases/$(WPA_SUPPLICANT_SOURCE)
+$(ARCHIVE)/$(WPA_SUPPLICANT_SRC):
+	$(DOWNLOAD) https://w1.fi/releases/$(WPA_SUPPLICANT_SRC)
 
-$(D)/wpa_supplicant: $(D)/bootstrap $(D)/openssl $(D)/wireless_tools $(ARCHIVE)/$(WPA_SUPPLICANT_SOURCE)
+$(D)/wpa_supplicant: $(D)/bootstrap $(D)/openssl $(D)/wireless_tools $(ARCHIVE)/$(WPA_SUPPLICANT_SRC)
 	$(START_BUILD)
 	$(REMOVE)/wpa_supplicant-$(WPA_SUPPLICANT_VER)
-	$(UNTAR)/$(WPA_SUPPLICANT_SOURCE)
+	$(UNTAR)/$(WPA_SUPPLICANT_SRC)
 	$(CHDIR)/wpa_supplicant-$(WPA_SUPPLICANT_VER)/wpa_supplicant; \
 		cp -f defconfig .config; \
 		sed -i 's/#CONFIG_DRIVER_RALINK=y/CONFIG_DRIVER_RALINK=y/' .config; \
@@ -1363,20 +1379,20 @@ $(D)/wpa_supplicant: $(D)/bootstrap $(D)/openssl $(D)/wireless_tools $(ARCHIVE)/
 # dvbsnoop
 #
 DVBSNOOP_VER = d3f134b
-DVBSNOOP_SOURCE = dvbsnoop-git-$(DVBSNOOP_VER).tar.bz2
+DVBSNOOP_SRC = dvbsnoop-git-$(DVBSNOOP_VER).tar.bz2
 DVBSNOOP_URL = https://github.com/Duckbox-Developers/dvbsnoop.git
 
-$(ARCHIVE)/$(DVBSNOOP_SOURCE):
+$(ARCHIVE)/$(DVBSNOOP_SRC):
 	$(SCRIPTS_DIR)/get-git-archive.sh $(DVBSNOOP_URL) $(DVBSNOOP_VER) $(notdir $@) $(ARCHIVE)
 
 ifeq ($(BOXARCH), sh4)
 DVBSNOOP_CONF_OPTS = --with-dvbincludes=$(KERNEL_DIR)/include
 endif
 
-$(D)/dvbsnoop: $(D)/bootstrap $(D)/kernel $(ARCHIVE)/$(DVBSNOOP_SOURCE)
+$(D)/dvbsnoop: $(D)/bootstrap $(D)/kernel $(ARCHIVE)/$(DVBSNOOP_SRC)
 	$(START_BUILD)
 	$(REMOVE)/dvbsnoop-git-$(DVBSNOOP_VER)
-	$(UNTAR)/$(DVBSNOOP_SOURCE)
+	$(UNTAR)/$(DVBSNOOP_SRC)
 	$(CHDIR)/dvbsnoop-git-$(DVBSNOOP_VER); \
 		$(CONFIGURE) \
 			--enable-silent-rules \
@@ -1393,19 +1409,20 @@ $(D)/dvbsnoop: $(D)/bootstrap $(D)/kernel $(ARCHIVE)/$(DVBSNOOP_SOURCE)
 # udpxy
 #
 UDPXY_VER = 612d227
-UDPXY_SOURCE = udpxy-git-$(UDPXY_VER).tar.bz2
+UDPXY_SRC = udpxy-git-$(UDPXY_VER).tar.bz2
 UDPXY_URL = https://github.com/pcherenkov/udpxy.git
+
 UDPXY_PATCH = udpxy-git-$(UDPXY_VER).patch
 UDPXY_PATCH += udpxy-git-$(UDPXY_VER)-fix-build-with-gcc8.patch
 UDPXY_PATCH += udpxy-git-$(UDPXY_VER)-fix-build-with-gcc9.patch
 
-$(ARCHIVE)/$(UDPXY_SOURCE):
+$(ARCHIVE)/$(UDPXY_SRC):
 	$(SCRIPTS_DIR)/get-git-archive.sh $(UDPXY_URL) $(UDPXY_VER) $(notdir $@) $(ARCHIVE)
 
-$(D)/udpxy: $(D)/bootstrap $(ARCHIVE)/$(UDPXY_SOURCE)
+$(D)/udpxy: $(D)/bootstrap $(ARCHIVE)/$(UDPXY_SRC)
 	$(START_BUILD)
 	$(REMOVE)/udpxy-git-$(UDPXY_VER)
-	$(UNTAR)/$(UDPXY_SOURCE)
+	$(UNTAR)/$(UDPXY_SRC)
 	$(CHDIR)/udpxy-git-$(UDPXY_VER)/chipmunk; \
 		$(call apply_patches, $(UDPXY_PATCH)); \
 		$(BUILDENV) \
@@ -1418,16 +1435,16 @@ $(D)/udpxy: $(D)/bootstrap $(ARCHIVE)/$(UDPXY_SOURCE)
 # openvpn
 #
 OPENVPN_VER = 2.4.6
-OPENVPN_SOURCE = openvpn-$(OPENVPN_VER).tar.xz
+OPENVPN_SRC = openvpn-$(OPENVPN_VER).tar.xz
 
-$(ARCHIVE)/$(OPENVPN_SOURCE):
-	$(DOWNLOAD) http://swupdate.openvpn.org/community/releases/$(OPENVPN_SOURCE) || \
-	$(DOWNLOAD) http://build.openvpn.net/downloads/releases/$(OPENVPN_SOURCE)
+$(ARCHIVE)/$(OPENVPN_SRC):
+	$(DOWNLOAD) http://swupdate.openvpn.org/community/releases/$(OPENVPN_SRC) || \
+	$(DOWNLOAD) http://build.openvpn.net/downloads/releases/$(OPENVPN_SRC)
 
-$(D)/openvpn: $(D)/bootstrap $(D)/openssl $(D)/lzo $(ARCHIVE)/$(OPENVPN_SOURCE)
+$(D)/openvpn: $(D)/bootstrap $(D)/openssl $(D)/lzo $(ARCHIVE)/$(OPENVPN_SRC)
 	$(START_BUILD)
 	$(REMOVE)/openvpn-$(OPENVPN_VER)
-	$(UNTAR)/$(OPENVPN_SOURCE)
+	$(UNTAR)/$(OPENVPN_SRC)
 	$(CHDIR)/openvpn-$(OPENVPN_VER); \
 		$(CONFIGURE) \
 			--target=$(TARGET) \
@@ -1457,15 +1474,15 @@ $(D)/openvpn: $(D)/bootstrap $(D)/openssl $(D)/lzo $(ARCHIVE)/$(OPENVPN_SOURCE)
 # openssh
 #
 OPENSSH_VER = 7.7p1
-OPENSSH_SOURCE = openssh-$(OPENSSH_VER).tar.gz
+OPENSSH_SRC = openssh-$(OPENSSH_VER).tar.gz
 
-$(ARCHIVE)/$(OPENSSH_SOURCE):
-	$(DOWNLOAD) https://artfiles.org/openbsd/OpenSSH/portable/$(OPENSSH_SOURCE)
+$(ARCHIVE)/$(OPENSSH_SRC):
+	$(DOWNLOAD) https://artfiles.org/openbsd/OpenSSH/portable/$(OPENSSH_SRC)
 
-$(D)/openssh: $(D)/bootstrap $(D)/zlib $(D)/openssl $(ARCHIVE)/$(OPENSSH_SOURCE)
+$(D)/openssh: $(D)/bootstrap $(D)/zlib $(D)/openssl $(ARCHIVE)/$(OPENSSH_SRC)
 	$(START_BUILD)
 	$(REMOVE)/openssh-$(OPENSSH_VER)
-	$(UNTAR)/$(OPENSSH_SOURCE)
+	$(UNTAR)/$(OPENSSH_SRC)
 	$(CHDIR)/openssh-$(OPENSSH_VER); \
 		CC=$(TARGET)-gcc; \
 		./configure \
@@ -1489,15 +1506,15 @@ $(D)/openssh: $(D)/bootstrap $(D)/zlib $(D)/openssl $(ARCHIVE)/$(OPENSSH_SOURCE)
 # dropbear
 #
 DROPBEAR_VER = 2018.76
-DROPBEAR_SOURCE = dropbear-$(DROPBEAR_VER).tar.bz2
+DROPBEAR_SRC = dropbear-$(DROPBEAR_VER).tar.bz2
 
-$(ARCHIVE)/$(DROPBEAR_SOURCE):
-	$(DOWNLOAD) http://matt.ucc.asn.au/dropbear/releases/$(DROPBEAR_SOURCE)
+$(ARCHIVE)/$(DROPBEAR_SRC):
+	$(DOWNLOAD) http://matt.ucc.asn.au/dropbear/releases/$(DROPBEAR_SRC)
 
-$(D)/dropbear: $(D)/bootstrap $(D)/zlib $(ARCHIVE)/$(DROPBEAR_SOURCE)
+$(D)/dropbear: $(D)/bootstrap $(D)/zlib $(ARCHIVE)/$(DROPBEAR_SRC)
 	$(START_BUILD)
 	$(REMOVE)/dropbear-$(DROPBEAR_VER)
-	$(UNTAR)/$(DROPBEAR_SOURCE)
+	$(UNTAR)/$(DROPBEAR_SRC)
 	$(CHDIR)/dropbear-$(DROPBEAR_VER); \
 		$(CONFIGURE) \
 			--prefix=/usr \
@@ -1520,16 +1537,16 @@ $(D)/dropbear: $(D)/bootstrap $(D)/zlib $(ARCHIVE)/$(DROPBEAR_SOURCE)
 # dropbearmulti
 #
 DROPBEARMULTI_VER = c8d852c
-DROPBEARMULTI_SOURCE = dropbearmulti-git-$(DROPBEARMULTI_VER).tar.bz2
+DROPBEARMULTI_SRC = dropbearmulti-git-$(DROPBEARMULTI_VER).tar.bz2
 DROPBEARMULTI_URL = https://github.com/mkj/dropbear.git
 
-$(ARCHIVE)/$(DROPBEARMULTI_SOURCE):
+$(ARCHIVE)/$(DROPBEARMULTI_SRC):
 	$(SCRIPTS_DIR)/get-git-archive.sh $(DROPBEARMULTI_URL) $(DROPBEARMULTI_VER) $(notdir $@) $(ARCHIVE)
 
-$(D)/dropbearmulti: $(D)/bootstrap $(ARCHIVE)/$(DROPBEARMULTI_SOURCE)
+$(D)/dropbearmulti: $(D)/bootstrap $(ARCHIVE)/$(DROPBEARMULTI_SRC)
 	$(START_BUILD)
 	$(REMOVE)/dropbearmulti-git-$(DROPBEARMULTI_VER)
-	$(UNTAR)/$(DROPBEARMULTI_SOURCE)
+	$(UNTAR)/$(DROPBEARMULTI_SRC)
 	$(CHDIR)/dropbearmulti-git-$(DROPBEARMULTI_VER); \
 		$(BUILDENV) \
 		autoreconf -fi; \
@@ -1567,16 +1584,17 @@ $(D)/dropbearmulti: $(D)/bootstrap $(ARCHIVE)/$(DROPBEARMULTI_SOURCE)
 # usb_modeswitch_data
 #
 USB_MODESWITCH_DATA_VER = 20160112
-USB_MODESWITCH_DATA_SOURCE = usb-modeswitch-data-$(USB_MODESWITCH_DATA_VER).tar.bz2
+USB_MODESWITCH_DATA_SRC = usb-modeswitch-data-$(USB_MODESWITCH_DATA_VER).tar.bz2
+
 USB_MODESWITCH_DATA_PATCH = usb-modeswitch-data-$(USB_MODESWITCH_DATA_VER).patch
 
-$(ARCHIVE)/$(USB_MODESWITCH_DATA_SOURCE):
-	$(DOWNLOAD) http://www.draisberghof.de/usb_modeswitch/$(USB_MODESWITCH_DATA_SOURCE)
+$(ARCHIVE)/$(USB_MODESWITCH_DATA_SRC):
+	$(DOWNLOAD) http://www.draisberghof.de/usb_modeswitch/$(USB_MODESWITCH_DATA_SRC)
 
-$(D)/usb_modeswitch_data: $(D)/bootstrap $(ARCHIVE)/$(USB_MODESWITCH_DATA_SOURCE)
+$(D)/usb_modeswitch_data: $(D)/bootstrap $(ARCHIVE)/$(USB_MODESWITCH_DATA_SRC)
 	$(START_BUILD)
 	$(REMOVE)/usb-modeswitch-data-$(USB_MODESWITCH_DATA_VER)
-	$(UNTAR)/$(USB_MODESWITCH_DATA_SOURCE)
+	$(UNTAR)/$(USB_MODESWITCH_DATA_SRC)
 	$(CHDIR)/usb-modeswitch-data-$(USB_MODESWITCH_DATA_VER); \
 		$(call apply_patches, $(USB_MODESWITCH_DATA_PATCH)); \
 		$(MAKE); \
@@ -1588,16 +1606,17 @@ $(D)/usb_modeswitch_data: $(D)/bootstrap $(ARCHIVE)/$(USB_MODESWITCH_DATA_SOURCE
 # usb_modeswitch
 #
 USB_MODESWITCH_VER = 2.3.0
-USB_MODESWITCH_SOURCE = usb-modeswitch-$(USB_MODESWITCH_VER).tar.bz2
+USB_MODESWITCH_SRC = usb-modeswitch-$(USB_MODESWITCH_VER).tar.bz2
+
 USB_MODESWITCH_PATCH = usb-modeswitch-$(USB_MODESWITCH_VER).patch
 
-$(ARCHIVE)/$(USB_MODESWITCH_SOURCE):
-	$(DOWNLOAD) http://www.draisberghof.de/usb_modeswitch/$(USB_MODESWITCH_SOURCE)
+$(ARCHIVE)/$(USB_MODESWITCH_SRC):
+	$(DOWNLOAD) http://www.draisberghof.de/usb_modeswitch/$(USB_MODESWITCH_SRC)
 
-$(D)/usb_modeswitch: $(D)/bootstrap $(D)/libusb $(D)/usb_modeswitch_data $(ARCHIVE)/$(USB_MODESWITCH_SOURCE)
+$(D)/usb_modeswitch: $(D)/bootstrap $(D)/libusb $(D)/usb_modeswitch_data $(ARCHIVE)/$(USB_MODESWITCH_SRC)
 	$(START_BUILD)
 	$(REMOVE)/usb-modeswitch-$(USB_MODESWITCH_VER)
-	$(UNTAR)/$(USB_MODESWITCH_SOURCE)
+	$(UNTAR)/$(USB_MODESWITCH_SRC)
 	$(CHDIR)/usb-modeswitch-$(USB_MODESWITCH_VER); \
 		$(call apply_patches, $(USB_MODESWITCH_PATCH)); \
 		sed -i -e "s/= gcc/= $(TARGET)-gcc/" -e "s/-l usb/-lusb -lusb-1.0 -lpthread -lrt/" -e "s/install -D -s/install -D --strip-program=$(TARGET)-strip -s/" Makefile; \
@@ -1610,7 +1629,7 @@ $(D)/usb_modeswitch: $(D)/bootstrap $(D)/libusb $(D)/usb_modeswitch_data $(ARCHI
 #
 # ofgwrite
 #
-$(D)/ofgwrite: $(D)/bootstrap $(ARCHIVE)/$(OFGWRITE_SOURCE)
+$(D)/ofgwrite: $(D)/bootstrap $(ARCHIVE)/$(OFGWRITE_SRC)
 	$(START_BUILD)
 	$(REMOVE)/ofgwrite-ddt
 	set -e; 
@@ -1634,7 +1653,7 @@ $(D)/ofgwrite: $(D)/bootstrap $(ARCHIVE)/$(OFGWRITE_SOURCE)
 #
 DVB_APPS_PATCH = dvb-apps.patch
 
-$(D)/dvb-apps: $(D)/bootstrap $(ARCHIVE)/$(DVB_APPS_SOURCE)
+$(D)/dvb-apps: $(D)/bootstrap $(ARCHIVE)/$(DVB_APPS_SRC)
 	$(START_BUILD)
 	$(REMOVE)/dvb-apps
 	set -e; 
@@ -1656,7 +1675,7 @@ $(D)/dvb-apps: $(D)/bootstrap $(ARCHIVE)/$(DVB_APPS_SOURCE)
 #
 MINISATIP_PATCH = 
 
-$(D)/minisatip: $(D)/bootstrap $(D)/openssl $(D)/libdvbcsa $(ARCHIVE)/$(MINISATIP_SOURCE)
+$(D)/minisatip: $(D)/bootstrap $(D)/openssl $(D)/libdvbcsa $(ARCHIVE)/$(MINISATIP_SRC)
 	$(START_BUILD)
 	$(REMOVE)/minisatip
 	set -e; 
@@ -1687,7 +1706,8 @@ $(D)/minisatip: $(D)/bootstrap $(D)/openssl $(D)/libdvbcsa $(ARCHIVE)/$(MINISATI
 # djmount
 #
 DJMOUNT_VER = 0.71
-DJMOUNT_SOURCE = djmount-$(DJMOUNT_VER).tar.gz
+DJMOUNT_SRC = djmount-$(DJMOUNT_VER).tar.gz
+
 DJMOUNT_PATCH  = djmount-$(DJMOUNT_VER)-fix-hang-with-asset-upnp.patch
 DJMOUNT_PATCH += djmount-$(DJMOUNT_VER)-fix-incorrect-range-when-retrieving-content-via-HTTP.patch
 DJMOUNT_PATCH += djmount-$(DJMOUNT_VER)-fix-new-autotools.patch
@@ -1696,13 +1716,13 @@ DJMOUNT_PATCH += djmount-$(DJMOUNT_VER)-fixed-crash.patch
 DJMOUNT_PATCH += djmount-$(DJMOUNT_VER)-support-fstab-mounting.patch
 DJMOUNT_PATCH += djmount-$(DJMOUNT_VER)-support-seeking-in-large-2gb-files.patch
 
-$(ARCHIVE)/$(DJMOUNT_SOURCE):
-	$(DOWNLOAD) https://sourceforge.net/projects/djmount/files/djmount/$(DJMOUNT_VER)/$(DJMOUNT_SOURCE)
+$(ARCHIVE)/$(DJMOUNT_SRC):
+	$(DOWNLOAD) https://sourceforge.net/projects/djmount/files/djmount/$(DJMOUNT_VER)/$(DJMOUNT_SRC)
 
-$(D)/djmount: $(D)/bootstrap $(D)/fuse $(ARCHIVE)/$(DJMOUNT_SOURCE)
+$(D)/djmount: $(D)/bootstrap $(D)/fuse $(ARCHIVE)/$(DJMOUNT_SRC)
 	$(START_BUILD)
 	$(REMOVE)/djmount-$(DJMOUNT_VER)
-	$(UNTAR)/$(DJMOUNT_SOURCE)
+	$(UNTAR)/$(DJMOUNT_SRC)
 	$(CHDIR)/djmount-$(DJMOUNT_VER); \
 		touch libupnp/config.aux/config.rpath; \
 		$(call apply_patches, $(DJMOUNT_PATCH)); \
@@ -1747,15 +1767,16 @@ $(D)/xupnpd: $(D)/bootstrap $(D)/openssl $(D)/lua
 # f2fs-tools
 #
 F2FS-TOOLS_VER = 1.16.0
-F2FS-TOOLS_SOURCE = f2fs-tools-$(F2FS-TOOLS_VER).tar.gz
+F2FS-TOOLS_SRC = f2fs-tools-$(F2FS-TOOLS_VER).tar.gz
+
 F2FS-TOOLS_PATCH = f2fs-tools-$(F2FS-TOOLS_VER).patch
 
-$(ARCHIVE)/$(F2FS-TOOLS_SOURCE):
-	$(DOWNLOAD) https://git.kernel.org/pub/scm/linux/kernel/git/jaegeuk/f2fs-tools.git/snapshot/$(F2FS-TOOLS_SOURCE)
+$(ARCHIVE)/$(F2FS-TOOLS_SRC):
+	$(DOWNLOAD) https://git.kernel.org/pub/scm/linux/kernel/git/jaegeuk/f2fs-tools.git/snapshot/$(F2FS-TOOLS_SRC)
 
-$(D)/f2fs-tools: $(D)/bootstrap $(D)/util_linux $(ARCHIVE)/$(F2FS-TOOLS_SOURCE)
+$(D)/f2fs-tools: $(D)/bootstrap $(D)/util_linux $(ARCHIVE)/$(F2FS-TOOLS_SRC)
 	$(REMOVE)/f2fs-tools-$(F2FS-TOOLS_VER)
-	$(UNTAR)/$(F2FS-TOOLS_SOURCE)
+	$(UNTAR)/$(F2FS-TOOLS_SRC)
 	$(CHDIR)/f2fs-tools-$(F2FS-TOOLS_VER); \
 		$(call apply_patches, $(F2FS-TOOLS_PATCH)); \
 		autoreconf -fi; \
@@ -1775,16 +1796,17 @@ $(D)/f2fs-tools: $(D)/bootstrap $(D)/util_linux $(ARCHIVE)/$(F2FS-TOOLS_SOURCE)
 # mc
 #
 MC_VER = 4.8.20
-MC_SOURCE = mc-$(MC_VER).tar.xz
+MC_SRC = mc-$(MC_VER).tar.xz
+
 MC_PATCH = mc-$(MC_VER).patch
 
-$(ARCHIVE)/$(MC_SOURCE):
-	$(DOWNLOAD) ftp.midnight-commander.org/$(MC_SOURCE)
+$(ARCHIVE)/$(MC_SRC):
+	$(DOWNLOAD) ftp.midnight-commander.org/$(MC_SRC)
 
-$(D)/mc: $(D)/bootstrap $(D)/ncurses $(D)/libglib2 $(ARCHIVE)/$(MC_SOURCE)
+$(D)/mc: $(D)/bootstrap $(D)/ncurses $(D)/libglib2 $(ARCHIVE)/$(MC_SRC)
 	$(START_BUILD)
 	$(REMOVE)/mc-$(MC_VER)
-	$(UNTAR)/$(MC_SOURCE)
+	$(UNTAR)/$(MC_SRC)
 	$(CHDIR)/mc-$(MC_VER); \
 		$(call apply_patches, $(MC_PATCH)); \
 		autoreconf -fi; \
@@ -1813,15 +1835,15 @@ $(D)/mc: $(D)/bootstrap $(D)/ncurses $(D)/libglib2 $(ARCHIVE)/$(MC_SOURCE)
 # nano
 #
 NANO_VER = 2.2.6
-NANO_SOURCE = nano-$(NANO_VER).tar.gz
+NANO_SRC = nano-$(NANO_VER).tar.gz
 
-$(ARCHIVE)/$(NANO_SOURCE):
-	$(DOWNLOAD) https://www.nano-editor.org/dist/v2.2/$(NANO_SOURCE)
+$(ARCHIVE)/$(NANO_SRC):
+	$(DOWNLOAD) https://www.nano-editor.org/dist/v2.2/$(NANO_SRC)
 
-$(D)/nano: $(D)/bootstrap $(D)/ncurses $(ARCHIVE)/$(NANO_SOURCE)
+$(D)/nano: $(D)/bootstrap $(D)/ncurses $(ARCHIVE)/$(NANO_SRC)
 	$(START_BUILD)
 	$(REMOVE)/nano-$(NANO_VER)
-	$(UNTAR)/$(NANO_SOURCE)
+	$(UNTAR)/$(NANO_SRC)
 	$(CHDIR)/nano-$(NANO_VER); \
 		$(CONFIGURE) \
 			--target=$(TARGET) \
@@ -1839,16 +1861,17 @@ $(D)/nano: $(D)/bootstrap $(D)/ncurses $(ARCHIVE)/$(NANO_SOURCE)
 # htop
 #
 HTOP_VER = 2.2.0
-HTOP_SOURCE = htop-$(HTOP_VER).tar.gz
+HTOP_SRC = htop-$(HTOP_VER).tar.gz
+
 HTOP_PATCH = htop-$(HTOP_VER).patch
 
-$(ARCHIVE)/$(HTOP_SOURCE):
-	$(DOWNLOAD) http://hisham.hm/htop/releases/$(HTOP_VER)/$(HTOP_SOURCE)
+$(ARCHIVE)/$(HTOP_SRC):
+	$(DOWNLOAD) http://hisham.hm/htop/releases/$(HTOP_VER)/$(HTOP_SRC)
 
-$(D)/htop: $(D)/bootstrap $(D)/ncurses $(ARCHIVE)/$(HTOP_SOURCE)
+$(D)/htop: $(D)/bootstrap $(D)/ncurses $(ARCHIVE)/$(HTOP_SRC)
 	$(START_BUILD)
 	$(REMOVE)/htop-$(HTOP_VER)
-	$(UNTAR)/$(HTOP_SOURCE)
+	$(UNTAR)/$(HTOP_SRC)
 	$(CHDIR)/htop-$(HTOP_VER); \
 		$(call apply_patches, $(HTOP_PATCH)); \
 		autoreconf -fi; \
@@ -1873,17 +1896,18 @@ $(D)/htop: $(D)/bootstrap $(D)/ncurses $(ARCHIVE)/$(HTOP_SOURCE)
 #
 GDB_VER    = 8.1.1
 GDB        = gdb-$(GDB_VER)
-GDB_SOURCE = gdb-$(GDB_VER).tar.xz
+GDB_SRC = gdb-$(GDB_VER).tar.xz
 GDB_URL    = https://sourceware.org/pub/gdb/releases
+
 GDB_PATCH  = gdb-$(GDB_VER)-fix-includes.patch
 
-$(ARCHIVE)/$(GDB_SOURCE):
-	$(DOWNLOAD) $(GDB_URL)/$(GDB_SOURCE)
+$(ARCHIVE)/$(GDB_SRC):
+	$(DOWNLOAD) $(GDB_URL)/$(GDB_SRC)
 
-$(D)/gdb: $(D)/bootstrap $(D)/zlib $(D)/ncurses $(ARCHIVE)/$(GDB_SOURCE)
+$(D)/gdb: $(D)/bootstrap $(D)/zlib $(D)/ncurses $(ARCHIVE)/$(GDB_SRC)
 	$(START_BUILD)
 	$(REMOVE)/$(GDB)
-	$(UNTAR)/$(GDB_SOURCE)
+	$(UNTAR)/$(GDB_SRC)
 	$(CHDIR)/$(GDB); \
 		$(call apply_patches, $(GDB_PATCH)); \
 		$(CONFIGURE) \
@@ -1907,16 +1931,16 @@ $(D)/gdb: $(D)/bootstrap $(D)/zlib $(D)/ncurses $(ARCHIVE)/$(GDB_SOURCE)
 #
 VALGRIND_VER    = 3.13.0
 VALGRIND        = valgrind-$(VALGRIND_VER)
-VALGRIND_SOURCE = valgrind-$(VALGRIND_VER).tar.bz2
+VALGRIND_SRC = valgrind-$(VALGRIND_VER).tar.bz2
 VALGRIND_URL    = ftp://sourceware.org/pub/valgrind
 
-$(ARCHIVE)/$(VALGRIND_SOURCE):
-	$(DOWNLOAD) $(VALGRIND_URL)/$(VALGRIND_SOURCE)
+$(ARCHIVE)/$(VALGRIND_SRC):
+	$(DOWNLOAD) $(VALGRIND_URL)/$(VALGRIND_SRC)
 
-$(D)/valgrind: $(D)/bootstrap $(ARCHIVE)/$(VALGRIND_SOURCE)
+$(D)/valgrind: $(D)/bootstrap $(ARCHIVE)/$(VALGRIND_SRC)
 	$(START_BUILD)
 	$(REMOVE)/$(VALGRIND)
-	$(UNTAR)/$(VALGRIND_SOURCE)
+	$(UNTAR)/$(VALGRIND_SRC)
 	$(CHDIR)/$(VALGRIND); \
 		sed -i -e "s#armv7#arm#g" configure; \
 		$(CONFIGURE) \
@@ -1937,16 +1961,16 @@ $(D)/valgrind: $(D)/bootstrap $(ARCHIVE)/$(VALGRIND_SOURCE)
 #
 STRACE_VER    = 5.1
 STRACE        = strace-$(STRACE_VER)
-STRACE_SOURCE = strace-$(STRACE_VER).tar.xz
+STRACE_SRC = strace-$(STRACE_VER).tar.xz
 STRACE_URL    = https://strace.io/files/$(STRACE_VER)
 
-$(ARCHIVE)/$(STRACE_SOURCE):
-	$(DOWNLOAD) $(STRACE_URL)/$(STRACE_SOURCE)
+$(ARCHIVE)/$(STRACE_SRC):
+	$(DOWNLOAD) $(STRACE_URL)/$(STRACE_SRC)
 
-$(D)/strace: $(D)/bootstrap $(ARCHIVE)/$(STRACE_SOURCE)
+$(D)/strace: $(D)/bootstrap $(ARCHIVE)/$(STRACE_SRC)
 	$(START_BUILD)
 	$(REMOVE)/$(STRACE)
-	$(UNTAR)/$(STRACE_SOURCE)
+	$(UNTAR)/$(STRACE_SRC)
 	$(CHDIR)/$(STRACE); \
 		$(CONFIGURE) \
 			--prefix=/usr \

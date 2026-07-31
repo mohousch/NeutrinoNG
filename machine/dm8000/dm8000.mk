@@ -149,8 +149,8 @@ LOADER_SIZE = 0x100000
 BOOT_SIZE = 0x700000
 ROOT_SIZE = 0xF800000
 
-DM8000_2ND_SOURCE = secondstage-dm8000-84.bin
-DM8000_2ND_URL = https://github.com/oe-mirrors/dreambox/raw/main/$(DM8000_2ND_SOURCE)
+DM8000_2ND_SRC = secondstage-dm8000-84.bin
+DM8000_2ND_URL = https://github.com/oe-mirrors/dreambox/raw/main/$(DM8000_2ND_SRC)
 2ND_FILE = secondstage-dm8000-84.bin
 
 $(ARCHIVE)/$(2ND_FILE):

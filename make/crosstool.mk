@@ -5,17 +5,17 @@ CROSSTOOL_NG_VER = 334f6d6
 GCC_VER = 8.5.0
 CROSSTOOL_NG_PATCH =
 
-CROSSTOOL_NG_SOURCE = crosstool-ng-git-$(CROSSTOOL_NG_VER).tar.bz2
+CROSSTOOL_NG_SRC = crosstool-ng-git-$(CROSSTOOL_NG_VER).tar.bz2
 CROSSTOOL_NG_URL = https://github.com/crosstool-ng/crosstool-ng.git
 
 CROSSTOOL_NG_BACKUP = $(ARCHIVE)/crosstool-ng-$(CROSSTOOL_NG_VER)-$(BOXARCH)-gcc-$(GCC_VER)-kernel-$(KERNEL_VER)-backup.tar.gz
 
-$(ARCHIVE)/$(CROSSTOOL_NG_SOURCE):
+$(ARCHIVE)/$(CROSSTOOL_NG_SRC):
 	$(SCRIPTS_DIR)/get-git-archive.sh $(CROSSTOOL_NG_URL) $(CROSSTOOL_NG_VER) $(notdir $@) $(ARCHIVE)
 
 ifeq ($(wildcard $(CROSS_DIR)/build.log.bz2),)
 CROSSTOOL = crosstool
-crosstool: $(D)/directories $(ARCHIVE)/$(KERNEL_SRC) $(ARCHIVE)/$(CROSSTOOL_NG_SOURCE) kernel.do_prepare
+crosstool: $(D)/directories $(ARCHIVE)/$(KERNEL_SRC) $(ARCHIVE)/$(CROSSTOOL_NG_SRC) kernel.do_prepare
 	if test -e $(CROSSTOOL_NG_BACKUP); then \
 		make crosstool-restore; \
 	else \
@@ -29,13 +29,13 @@ endif
 #
 # crosstool-ng
 #
-crosstool.do_prepare: $(D)/directories $(ARCHIVE)/$(KERNEL_SRC) $(ARCHIVE)/$(CROSSTOOL_NG_SOURCE) kernel.do_prepare
+crosstool.do_prepare: $(D)/directories $(ARCHIVE)/$(KERNEL_SRC) $(ARCHIVE)/$(CROSSTOOL_NG_SRC) kernel.do_prepare
 	make $(BUILD_TMP)
 	if [ ! -e $(CROSS_DIR) ]; then \
 		mkdir -p $(CROSS_DIR); \
 	fi;
 	$(REMOVE)/crosstool-ng-git-$(CROSSTOOL_NG_VER)
-	$(UNTAR)/$(CROSSTOOL_NG_SOURCE)
+	$(UNTAR)/$(CROSSTOOL_NG_SRC)
 	unset CONFIG_SITE LIBRARY_PATH LD_LIBRARY_PATH CPATH C_INCLUDE_PATH PKG_CONFIG_PATH CPLUS_INCLUDE_PATH INCLUDE; \
 	$(CHDIR)/crosstool-ng-git-$(CROSSTOOL_NG_VER); \
 		cp -a $(PATCHES)/ct-ng/crosstool-ng-$(CROSSTOOL_NG_VER)-gcc-$(GCC_VER)-$(BOXARCH).config .config; \
@@ -82,9 +82,9 @@ crosstool-restore: $(CROSSTOOL_NG_BACKUP)
 #
 # crosstool-menuconfig
 #
-crosstool-menuconfig: $(D)/directories $(ARCHIVE)/$(CROSSTOOL_NG_SOURCE)
+crosstool-menuconfig: $(D)/directories $(ARCHIVE)/$(CROSSTOOL_NG_SRC)
 	$(REMOVE)/crosstool-ng-git-$(CROSSTOOL_NG_VER)
-	$(UNTAR)/$(CROSSTOOL_NG_SOURCE)
+	$(UNTAR)/$(CROSSTOOL_NG_SRC)
 	set -e; unset CONFIG_SITE; cd $(BUILD_TMP)/crosstool-ng-git-$(CROSSTOOL_NG_VER); \
 		cp -a $(PATCHES)/ct-ng/crosstool-ng-$(CROSSTOOL_NG_VER)-gcc-$(GCC_VER)-$(BOXARCH).config .config; \
 		$(call apply_patches, $(CROSSTOOL_NG_PATCH)); \

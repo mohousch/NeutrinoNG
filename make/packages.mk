@@ -1,14 +1,14 @@
 #
 # libupnp-ipk
 #
-libupnp-ipk: $(D)/bootstrap $(ARCHIVE)/$(LIBUPNP_SOURCE)
+libupnp-ipk: $(D)/bootstrap $(ARCHIVE)/$(LIBUPNP_SRC)
 	$(START_BUILD)
 	rm -rf $(PKGPREFIX)
 	install -d $(PKGPREFIX)
 	install -d $(PKGS_DIR)
 	install -d $(PKGS_DIR)/$@
 	$(REMOVE)/libupnp-$(LIBUPNP_VER)
-	$(UNTAR)/$(LIBUPNP_SOURCE)
+	$(UNTAR)/$(LIBUPNP_SRC)
 	$(CHDIR)/libupnp-$(LIBUPNP_VER); \
 		$(CONFIGURE) \
 			--prefix=/usr \
@@ -49,14 +49,14 @@ endif
 #
 # libdvbsi-ipk
 #
-libdvbsi-ipk: $(D)/bootstrap $(ARCHIVE)/$(LIBDVBSI_SOURCE)
+libdvbsi-ipk: $(D)/bootstrap $(ARCHIVE)/$(LIBDVBSI_SRC)
 	$(START_BUILD)
 	rm -rf $(PKGPREFIX)
 	install -d $(PKGPREFIX)
 	install -d $(PKGS_DIR)
 	install -d $(PKGS_DIR)/$@
 	$(REMOVE)/libdvbsi-git-$(LIBDVBSI_VER)
-	$(UNTAR)/$(LIBDVBSI_SOURCE)
+	$(UNTAR)/$(LIBDVBSI_SRC)
 	$(CHDIR)/libdvbsi-git-$(LIBDVBSI_VER); \
 		$(call apply_patches, $(LIBDVBSI_PATCH)); \
 		$(CONFIGURE) \
@@ -97,14 +97,14 @@ endif
 #
 # pugixml-ipk
 #
-pugixml-ipk: $(D)/bootstrap $(ARCHIVE)/$(PUGIXML_SOURCE)
+pugixml-ipk: $(D)/bootstrap $(ARCHIVE)/$(PUGIXML_SRC)
 	$(START_BUILD)
 	rm -rf $(PKGPREFIX)
 	install -d $(PKGPREFIX)
 	install -d $(PKGS_DIR)
 	install -d $(PKGS_DIR)/$@
 	$(REMOVE)/pugixml-$(PUGIXML_VER)
-	$(UNTAR)/$(PUGIXML_SOURCE)
+	$(UNTAR)/$(PUGIXML_SRC)
 	$(CHDIR)/pugixml-$(PUGIXML_VER); \
 		$(call apply_patches, $(PUGIXML_PATCH)); \
 		cmake  --no-warn-unused-cli \
@@ -152,14 +152,14 @@ endif
 #
 # libid3tag-ipk
 #
-libid3tag-ipk: $(D)/bootstrap $(D)/zlib $(ARCHIVE)/$(LIBID3TAG_SOURCE)
+libid3tag-ipk: $(D)/bootstrap $(D)/zlib $(ARCHIVE)/$(LIBID3TAG_SRC)
 	$(START_BUILD)
 	rm -rf $(PKGPREFIX)
 	install -d $(PKGPREFIX)
 	install -d $(PKGS_DIR)
 	install -d $(PKGS_DIR)/$@
 	$(REMOVE)/libid3tag-$(LIBID3TAG_VER)
-	$(UNTAR)/$(LIBID3TAG_SOURCE)
+	$(UNTAR)/$(LIBID3TAG_SRC)
 	$(CHDIR)/libid3tag-$(LIBID3TAG_VER); \
 		$(call apply_patches, $(LIBID3TAG_PATCH)); \
 		touch NEWS AUTHORS ChangeLog; \
@@ -203,14 +203,14 @@ endif
 #
 # libmad-ipk
 #
-libmad-ipk: $(D)/bootstrap $(ARCHIVE)/$(LIBMAD_SOURCE)
+libmad-ipk: $(D)/bootstrap $(ARCHIVE)/$(LIBMAD_SRC)
 	$(START_BUILD)
 	rm -rf $(PKGPREFIX)
 	install -d $(PKGPREFIX)
 	install -d $(PKGS_DIR)
 	install -d $(PKGS_DIR)/$@
 	$(REMOVE)/libmad-$(LIBMAD_VER)
-	$(UNTAR)/$(LIBMAD_SOURCE)
+	$(UNTAR)/$(LIBMAD_SRC)
 	$(CHDIR)/libmad-$(LIBMAD_VER); \
 		$(call apply_patches, $(LIBMAD_PATCH)); \
 		touch NEWS AUTHORS ChangeLog; \
@@ -257,14 +257,14 @@ endif
 #
 # libogg-ipk
 #
-libogg-ipk: $(D)/bootstrap $(ARCHIVE)/$(LIBOGG_SOURCE)
+libogg-ipk: $(D)/bootstrap $(ARCHIVE)/$(LIBOGG_SRC)
 	$(START_BUILD)
 	rm -rf $(PKGPREFIX)
 	install -d $(PKGPREFIX)
 	install -d $(PKGS_DIR)
 	install -d $(PKGS_DIR)/$@
 	$(REMOVE)/libogg-$(LIBOGG_VER)
-	$(UNTAR)/$(LIBOGG_SOURCE)
+	$(UNTAR)/$(LIBOGG_SRC)
 	$(CHDIR)/libogg-$(LIBOGG_VER); \
 		$(CONFIGURE) \
 			--prefix=/usr \
@@ -307,14 +307,14 @@ endif
 #
 # libflac-ipk
 #
-libflac-ipk: $(D)/bootstrap $(ARCHIVE)/$(FLAC_SOURCE)
+libflac-ipk: $(D)/bootstrap $(ARCHIVE)/$(FLAC_SRC)
 	$(START_BUILD)
 	rm -rf $(PKGPREFIX)
 	install -d $(PKGPREFIX)
 	install -d $(PKGS_DIR)
 	install -d $(PKGS_DIR)/$@
 	$(REMOVE)/flac-$(FLAC_VER)
-	$(UNTAR)/$(FLAC_SOURCE)
+	$(UNTAR)/$(FLAC_SRC)
 	$(CHDIR)/flac-$(FLAC_VER); \
 		$(call apply_patches, $(FLAC_PATCH)); \
 		touch NEWS AUTHORS ChangeLog; \
@@ -372,14 +372,14 @@ endif
 #
 # libvorbis-ipk
 #
-libvorbis-ipk: $(D)/bootstrap $(D)/libogg $(ARCHIVE)/$(LIBVORBIS_SOURCE)
+libvorbis-ipk: $(D)/bootstrap $(D)/libogg $(ARCHIVE)/$(LIBVORBIS_SRC)
 	$(START_BUILD)
 	rm -rf $(PKGPREFIX)
 	install -d $(PKGPREFIX)
 	install -d $(PKGS_DIR)
 	install -d $(PKGS_DIR)/$@
 	$(REMOVE)/libvorbis-$(LIBVORBIS_VER)
-	$(UNTAR)/$(LIBVORBIS_SOURCE)
+	$(UNTAR)/$(LIBVORBIS_SRC)
 	$(CHDIR)/libvorbis-$(LIBVORBIS_VER); \
 		$(CONFIGURE) \
 			--prefix=/usr \
@@ -424,14 +424,14 @@ endif
 #
 # libsigc-ipk
 #
-libsigc-ipk: $(D)/bootstrap $(ARCHIVE)/$(LIBSIGC_SOURCE)
+libsigc-ipk: $(D)/bootstrap $(ARCHIVE)/$(LIBSIGC_SRC)
 	$(START_BUILD)
 	rm -rf $(PKGPREFIX)
 	install -d $(PKGPREFIX)
 	install -d $(PKGS_DIR)
 	install -d $(PKGS_DIR)/$@
 	$(REMOVE)/libsigc++-$(LIBSIGC_VER)
-	$(UNTAR)/$(LIBSIGC_SOURCE)
+	$(UNTAR)/$(LIBSIGC_SRC)
 	$(CHDIR)/libsigc++-$(LIBSIGC_VER); \
 		$(CONFIGURE) \
 			--prefix=/usr \
@@ -478,14 +478,14 @@ endif
 #
 # libvorbisidec-ipk
 #
-libvorbisidec-ipk: $(D)/bootstrap $(D)/libogg $(ARCHIVE)/$(LIBVORBISIDEC_SOURCE)
+libvorbisidec-ipk: $(D)/bootstrap $(D)/libogg $(ARCHIVE)/$(LIBVORBISIDEC_SRC)
 	$(START_BUILD)
 	rm -rf $(PKGPREFIX)
 	install -d $(PKGPREFIX)
 	install -d $(PKGS_DIR)
 	install -d $(PKGS_DIR)/$@
 	$(REMOVE)/libvorbisidec-$(LIBVORBISIDEC_VER)
-	$(UNTAR)/$(LIBVORBISIDEC_SOURCE)
+	$(UNTAR)/$(LIBVORBISIDEC_SRC)
 	$(CHDIR)/libvorbisidec-$(LIBVORBISIDEC_VER); \
 		$(call apply_patches, $(LIBVORBISIDEC_PATCH)); \
 		ACLOCAL_FLAGS="-I . -I $(TARGET_DIR)/usr/share/aclocal" \
@@ -530,14 +530,14 @@ endif
 #
 # libass-ipk
 #
-libass-ipk: $(D)/bootstrap $(D)/freetype $(D)/libfribidi $(ARCHIVE)/$(LIBASS_SOURCE)
+libass-ipk: $(D)/bootstrap $(D)/freetype $(D)/libfribidi $(ARCHIVE)/$(LIBASS_SRC)
 	$(START_BUILD)
 	rm -rf $(PKGPREFIX)
 	install -d $(PKGPREFIX)
 	install -d $(PKGS_DIR)
 	install -d $(PKGS_DIR)/$@
 	$(REMOVE)/libass-$(LIBASS_VER)
-	$(UNTAR)/$(LIBASS_SOURCE)
+	$(UNTAR)/$(LIBASS_SRC)
 	$(CHDIR)/libass-$(LIBASS_VER); \
 		$(call apply_patches, $(LIBASS_PATCH)); \
 		$(CONFIGURE) \
@@ -583,14 +583,14 @@ endif
 #
 # minidlna-ipk
 #	
-minidlna-ipk: $(D)/bootstrap $(D)/zlib $(D)/sqlite $(D)/libexif $(D)/libjpeg $(D)/libid3tag $(D)/libogg $(D)/libvorbis $(D)/flac $(D)/ffmpeg $(ARCHIVE)/$(MINIDLNA_SOURCE)
+minidlna-ipk: $(D)/bootstrap $(D)/zlib $(D)/sqlite $(D)/libexif $(D)/libjpeg $(D)/libid3tag $(D)/libogg $(D)/libvorbis $(D)/flac $(D)/ffmpeg $(ARCHIVE)/$(MINIDLNA_SRC)
 	$(START_BUILD)
 	rm -rf $(PKGPREFIX)
 	install -d $(PKGPREFIX)
 	install -d $(PKGS_DIR)
 	install -d $(PKGS_DIR)/$@
 	$(REMOVE)/minidlna-$(MINIDLNA_VER)
-	$(UNTAR)/$(MINIDLNA_SOURCE)
+	$(UNTAR)/$(MINIDLNA_SRC)
 	$(CHDIR)/minidlna-$(MINIDLNA_VER); \
 		$(call apply_patches, $(MINIDLNA_PATCH)); \
 		autoreconf -fi; \
@@ -632,14 +632,14 @@ endif
 #
 # fbshot-ipk
 #
-fbshot-ipk: $(D)/bootstrap $(D)/libpng $(ARCHIVE)/$(FBSHOT_SOURCE)
+fbshot-ipk: $(D)/bootstrap $(D)/libpng $(ARCHIVE)/$(FBSHOT_SRC)
 	$(START_BUILD)
 	rm -rf $(PKGPREFIX)
 	install -d $(PKGPREFIX)
 	install -d $(PKGS_DIR)
 	install -d $(PKGS_DIR)/$@
 	$(REMOVE)/fbshot-$(FBSHOT_VER)
-	$(UNTAR)/$(FBSHOT_SOURCE)
+	$(UNTAR)/$(FBSHOT_SRC)
 	$(CHDIR)/fbshot-$(FBSHOT_VER); \
 		$(call apply_patches, $(FBSHOT_PATCH)); \
 		sed -i s~'gcc'~"$(TARGET)-gcc $(TARGET_CFLAGS) $(TARGET_LDFLAGS)"~ Makefile; \
@@ -679,7 +679,7 @@ endif
 #
 # samba-ipk
 #	
-samba-ipk: $(D)/bootstrap $(ARCHIVE)/$(SAMBA_SOURCE)
+samba-ipk: $(D)/bootstrap $(ARCHIVE)/$(SAMBA_SRC)
 	$(START_BUILD)
 	rm -rf $(PKGPREFIX)
 	install -d $(PKGPREFIX)
@@ -687,7 +687,7 @@ samba-ipk: $(D)/bootstrap $(ARCHIVE)/$(SAMBA_SOURCE)
 	install -d $(PKGS_DIR)
 	install -d $(PKGS_DIR)/$@
 	$(REMOVE)/samba-$(SAMBA_VER)
-	$(UNTAR)/$(SAMBA_SOURCE)
+	$(UNTAR)/$(SAMBA_SRC)
 	$(CHDIR)/samba-$(SAMBA_VER); \
 		$(call apply_patches, $(SAMBA_PATCH)); \
 		cd source3; \
@@ -814,7 +814,7 @@ endif
 #
 # ofgwrite-ipk
 #
-ofgwrite-ipk: $(D)/bootstrap $(ARCHIVE)/$(OFGWRITE_SOURCE)
+ofgwrite-ipk: $(D)/bootstrap $(ARCHIVE)/$(OFGWRITE_SRC)
 	$(START_BUILD)
 	rm -rf $(PKGPREFIX)
 	install -d $(PKGPREFIX)
@@ -922,7 +922,7 @@ endif
 #
 # graphlcd-ipk
 #
-graphlcd-ipk: $(D)/bootstrap $(D)/freetype $(D)/libusb $(ARCHIVE)/$(GRAPHLCD_SOURCE)
+graphlcd-ipk: $(D)/bootstrap $(D)/freetype $(D)/libusb $(ARCHIVE)/$(GRAPHLCD_SRC)
 	$(START_BUILD)
 	rm -rf $(PKGPREFIX)
 	install -d $(PKGPREFIX)
@@ -930,7 +930,7 @@ graphlcd-ipk: $(D)/bootstrap $(D)/freetype $(D)/libusb $(ARCHIVE)/$(GRAPHLCD_SOU
 	install -d $(PKGS_DIR)
 	install -d $(PKGS_DIR)/$@
 	$(REMOVE)/graphlcd-git-$(GRAPHLCD_VER)
-	$(UNTAR)/$(GRAPHLCD_SOURCE)
+	$(UNTAR)/$(GRAPHLCD_SRC)
 	$(CHDIR)/graphlcd-git-$(GRAPHLCD_VER); \
 		$(call apply_patches, $(GRAPHLCD_PATCH)); \
 		$(MAKE) -C glcdgraphics all TARGET=$(TARGET)- DESTDIR=$(PKGPREFIX); \
@@ -972,7 +972,7 @@ endif
 #
 # lcd4linux-ipk
 #
-lcd4linux-ipk: $(D)/bootstrap $(D)/libusb_compat $(D)/gd $(D)/libusb $(D)/libdpf $(ARCHIVE)/$(LCD4LINUX_SOURCE)
+lcd4linux-ipk: $(D)/bootstrap $(D)/libusb_compat $(D)/gd $(D)/libusb $(D)/libdpf $(ARCHIVE)/$(LCD4LINUX_SRC)
 	$(START_BUILD)
 	rm -rf $(PKGPREFIX)
 	install -d $(PKGPREFIX)
@@ -980,7 +980,7 @@ lcd4linux-ipk: $(D)/bootstrap $(D)/libusb_compat $(D)/gd $(D)/libusb $(D)/libdpf
 	install -d $(PKGS_DIR)
 	install -d $(PKGS_DIR)/$@
 	$(REMOVE)/lcd4linux-git-$(LCD4LINUX_VER)
-	$(UNTAR)/$(LCD4LINUX_SOURCE)
+	$(UNTAR)/$(LCD4LINUX_SRC)
 	$(CHDIR)/lcd4linux-git-$(LCD4LINUX_VER); \
 		$(call apply_patches, $(LCD4LINUX_PATCH)); \
 		$(BUILDENV) ./bootstrap; \
@@ -1027,14 +1027,14 @@ endif
 #
 # gstreamer-ipk
 #
-gstreamer-ipk: $(D)/bootstrap $(D)/libglib2 $(D)/libxml2 $(ARCHIVE)/$(GSTREAMER_SOURCE)
+gstreamer-ipk: $(D)/bootstrap $(D)/libglib2 $(D)/libxml2 $(ARCHIVE)/$(GSTREAMER_SRC)
 	$(START_BUILD)
 	rm -rf $(PKGPREFIX)
 	install -d $(PKGPREFIX)
 	install -d $(PKGS_DIR)
 	install -d $(PKGS_DIR)/$@
 	$(REMOVE)/gstreamer-$(GSTREAMER_VER)
-	$(UNTAR)/$(GSTREAMER_SOURCE)
+	$(UNTAR)/$(GSTREAMER_SRC)
 	$(CHDIR)/gstreamer-$(GSTREAMER_VER); \
 		$(call apply_patches, $(GSTREAMER_PATCH)); \
 		./autogen.sh --noconfigure; \
@@ -1085,14 +1085,14 @@ endif
 #
 # gst_plugins_base-ipk
 #
-gst_plugins_base-ipk: $(D)/bootstrap $(D)/zlib $(D)/libglib2 $(D)/orc $(D)/gstreamer $(D)/alsa_lib $(D)/libogg $(D)/libvorbis $(ARCHIVE)/$(GST_PLUGINS_BASE_SOURCE)
+gst_plugins_base-ipk: $(D)/bootstrap $(D)/zlib $(D)/libglib2 $(D)/orc $(D)/gstreamer $(D)/alsa_lib $(D)/libogg $(D)/libvorbis $(ARCHIVE)/$(GST_PLUGINS_BASE_SRC)
 	$(START_BUILD)
 	rm -rf $(PKGPREFIX)
 	install -d $(PKGPREFIX)
 	install -d $(PKGS_DIR)
 	install -d $(PKGS_DIR)/$@
 	$(REMOVE)/gst-plugins-base-$(GST_PLUGINS_BASE_VER)
-	$(UNTAR)/$(GST_PLUGINS_BASE_SOURCE)
+	$(UNTAR)/$(GST_PLUGINS_BASE_SRC)
 	$(CHDIR)/gst-plugins-base-$(GST_PLUGINS_BASE_VER); \
 		$(call apply_patches, $(GST_PLUGINS_BASE_PATCH)); \
 		./autogen.sh --noconfigure; \
@@ -1135,14 +1135,14 @@ endif
 #
 # gst_plugins_good-ipk
 #
-gst_plugins_good-ipk: $(D)/bootstrap $(D)/libpng $(D)/libjpeg $(D)/gstreamer $(D)/gst_plugins_base $(D)/flac $(ARCHIVE)/$(GST_PLUGINS_GOOD_SOURCE)
+gst_plugins_good-ipk: $(D)/bootstrap $(D)/libpng $(D)/libjpeg $(D)/gstreamer $(D)/gst_plugins_base $(D)/flac $(ARCHIVE)/$(GST_PLUGINS_GOOD_SRC)
 	$(START_BUILD)
 	rm -rf $(PKGPREFIX)
 	install -d $(PKGPREFIX)
 	install -d $(PKGS_DIR)
 	install -d $(PKGS_DIR)/$@
 	$(REMOVE)/gst-plugins-good-$(GST_PLUGINS_GOOD_VER)
-	$(UNTAR)/$(GST_PLUGINS_GOOD_SOURCE)
+	$(UNTAR)/$(GST_PLUGINS_GOOD_SRC)
 	$(CHDIR)/gst-plugins-good-$(GST_PLUGINS_GOOD_VER); \
 		$(call apply_patches, $(GST_PLUGINS_GOOD_PATCH)); \
 		./autogen.sh --noconfigure; \
@@ -1191,14 +1191,14 @@ endif
 #
 # gst_plugins_bad-ipk
 #
-gst_plugins_bad-ipk: $(D)/bootstrap $(D)/libass $(D)/libcurl $(D)/libxml2 $(D)/openssl $(D)/librtmp $(D)/gstreamer $(D)/gst_plugins_base $(ARCHIVE)/$(GST_PLUGINS_BAD_SOURCE)
+gst_plugins_bad-ipk: $(D)/bootstrap $(D)/libass $(D)/libcurl $(D)/libxml2 $(D)/openssl $(D)/librtmp $(D)/gstreamer $(D)/gst_plugins_base $(ARCHIVE)/$(GST_PLUGINS_BAD_SRC)
 	$(START_BUILD)
 	rm -rf $(PKGPREFIX)
 	install -d $(PKGPREFIX)
 	install -d $(PKGS_DIR)
 	install -d $(PKGS_DIR)/$@
 	$(REMOVE)/gst-plugins-bad-$(GST_PLUGINS_BAD_VER)
-	$(UNTAR)/$(GST_PLUGINS_BAD_SOURCE)
+	$(UNTAR)/$(GST_PLUGINS_BAD_SRC)
 	$(CHDIR)/gst-plugins-bad-$(GST_PLUGINS_BAD_VER); \
 		$(call apply_patches, $(GST_PLUGINS_BAD_PATCH)); \
 		./autogen.sh --noconfigure; \
@@ -1243,14 +1243,14 @@ endif
 #
 # gst_plugins_ugly-ipk
 #
-gst_plugins_ugly-ipk: $(D)/bootstrap $(D)/gstreamer $(D)/gst_plugins_base $(ARCHIVE)/$(GST_PLUGINS_UGLY_SOURCE)
+gst_plugins_ugly-ipk: $(D)/bootstrap $(D)/gstreamer $(D)/gst_plugins_base $(ARCHIVE)/$(GST_PLUGINS_UGLY_SRC)
 	$(START_BUILD)
 	rm -rf $(PKGPREFIX)
 	install -d $(PKGPREFIX)
 	install -d $(PKGS_DIR)
 	install -d $(PKGS_DIR)/$@
 	$(REMOVE)/gst-plugins-ugly-$(GST_PLUGINS_UGLY_VER)
-	$(UNTAR)/$(GST_PLUGINS_UGLY_SOURCE)
+	$(UNTAR)/$(GST_PLUGINS_UGLY_SRC)
 	$(CHDIR)/gst-plugins-ugly-$(GST_PLUGINS_UGLY_VER); \
 		./autogen.sh --noconfigure; \
 		$(CONFIGURE) \
@@ -1404,14 +1404,14 @@ endif
 #
 # ffmpeg
 #
-ffmpeg-ipk: $(D)/bootstrap $(D)/openssl $(D)/bzip2 $(D)/freetype $(D)/libass $(D)/libxml2 $(D)/libroxml $(D)/librtmp $(ARCHIVE)/$(FFMPEG_SOURCE)
+ffmpeg-ipk: $(D)/bootstrap $(D)/openssl $(D)/bzip2 $(D)/freetype $(D)/libass $(D)/libxml2 $(D)/libroxml $(D)/librtmp $(ARCHIVE)/$(FFMPEG_SRC)
 	$(START_BUILD)
 	rm -rf $(PKGPREFIX)
 	install -d $(PKGPREFIX)
 	install -d $(PKGS_DIR)
 	install -d $(PKGS_DIR)/$@
 	$(REMOVE)/ffmpeg-$(FFMPEG_VER)
-	$(UNTAR)/$(FFMPEG_SOURCE)
+	$(UNTAR)/$(FFMPEG_SRC)
 	$(CHDIR)/ffmpeg-$(FFMPEG_VER); \
 		$(call apply_patches, $(FFMPEG_PATCH)); \
 		./configure \
@@ -1743,7 +1743,7 @@ endif
 #
 # lua
 #
-lua-ipk: $(D)/bootstrap $(D)/ncurses $(ARCHIVE)/$(LUAPOSIX_SOURCE) $(ARCHIVE)/$(LUA_SOURCE)
+lua-ipk: $(D)/bootstrap $(D)/ncurses $(ARCHIVE)/$(LUAPOSIX_SRC) $(ARCHIVE)/$(LUA_SRC)
 	$(START_BUILD)
 	rm -rf $(PKGPREFIX)
 	install -d $(PKGPREFIX)
@@ -1751,10 +1751,10 @@ lua-ipk: $(D)/bootstrap $(D)/ncurses $(ARCHIVE)/$(LUAPOSIX_SOURCE) $(ARCHIVE)/$(
 	install -d $(PKGS_DIR)/$@
 	$(REMOVE)/lua-$(LUA_VER)
 	mkdir -p $(PKGPREFIX)/usr/share/lua/$(LUA_VER_SHORT)
-	$(UNTAR)/$(LUA_SOURCE)
+	$(UNTAR)/$(LUA_SRC)
 	$(CHDIR)/lua-$(LUA_VER); \
 		$(call apply_patches, $(LUAPOSIX_PATCH)); \
-		tar xf $(ARCHIVE)/$(LUAPOSIX_SOURCE); \
+		tar xf $(ARCHIVE)/$(LUAPOSIX_SRC); \
 		cd luaposix-git-$(LUAPOSIX_VER)/ext; cp posix/posix.c include/lua52compat.h ../../src/; cd ../..; \
 		cd luaposix-git-$(LUAPOSIX_VER)/lib; cp *.lua $(TARGET_DIR)/usr/share/lua/$(LUA_VER_SHORT); cd ../..; \
 		sed -i 's/<config.h>/"config.h"/' src/posix.c; \
@@ -1790,14 +1790,14 @@ endif
 #
 # luacurl-ipk
 #
-luacurl-ipk: $(D)/bootstrap $(D)/libcurl $(D)/lua $(ARCHIVE)/$(LUACURL_SOURCE)
+luacurl-ipk: $(D)/bootstrap $(D)/libcurl $(D)/lua $(ARCHIVE)/$(LUACURL_SRC)
 	$(START_BUILD)
 	rm -rf $(PKGPREFIX)
 	install -d $(PKGPREFIX)
 	install -d $(PKGS_DIR)
 	install -d $(PKGS_DIR)/$@
 	$(REMOVE)/luacurl-git-$(LUACURL_VER)
-	$(UNTAR)/$(LUACURL_SOURCE)
+	$(UNTAR)/$(LUACURL_SRC)
 	$(CHDIR)/luacurl-git-$(LUACURL_VER); \
 		$(MAKE) CC=$(TARGET)-gcc LDFLAGS="-L$(TARGET_DIR)/usr/lib" \
 			LIBDIR=$(TARGET_DIR)/usr/lib \
@@ -1830,14 +1830,14 @@ endif
 #
 # luaexpat-ipk
 #
-luaexpat-ipk: $(D)/bootstrap $(D)/lua $(D)/expat $(ARCHIVE)/$(LUAEXPAT_SOURCE)
+luaexpat-ipk: $(D)/bootstrap $(D)/lua $(D)/expat $(ARCHIVE)/$(LUAEXPAT_SRC)
 	$(START_BUILD)
 	rm -rf $(PKGPREFIX)
 	install -d $(PKGPREFIX)
 	install -d $(PKGS_DIR)
 	install -d $(PKGS_DIR)/$@
 	$(REMOVE)/luaexpat-$(LUAEXPAT_VER)
-	$(UNTAR)/$(LUAEXPAT_SOURCE)
+	$(UNTAR)/$(LUAEXPAT_SRC)
 	$(CHDIR)/luaexpat-$(LUAEXPAT_VER); \
 		$(call apply_patches, $(LUAEXPAT_PATCH)); \
 		$(MAKE) CC=$(TARGET)-gcc LDFLAGS="-L$(TARGET_DIR)/usr/lib" PREFIX=$(TARGET_DIR)/usr; \
@@ -1869,14 +1869,14 @@ endif
 #
 # luasocket-ipk
 #	
-luasocket-ipk: $(D)/bootstrap $(D)/lua $(ARCHIVE)/$(LUASOCKET_SOURCE)
+luasocket-ipk: $(D)/bootstrap $(D)/lua $(ARCHIVE)/$(LUASOCKET_SRC)
 	$(START_BUILD)
 	rm -rf $(PKGPREFIX)
 	install -d $(PKGPREFIX)
 	install -d $(PKGS_DIR)
 	install -d $(PKGS_DIR)/$@
 	$(REMOVE)/luasocket-git-$(LUASOCKET_VER)
-	$(UNTAR)/$(LUASOCKET_SOURCE)
+	$(UNTAR)/$(LUASOCKET_SRC)
 	$(CHDIR)/luasocket-git-$(LUASOCKET_VER); \
 		sed -i -e "s@LD_linux=gcc@LD_LINUX=$(TARGET)-gcc@" -e "s@CC_linux=gcc@CC_LINUX=$(TARGET)-gcc -L$(TARGET_DIR)/usr/lib@" -e "s@DESTDIR?=@DESTDIR?=$(PKGPREFIX)/usr@" src/makefile; \
 		$(MAKE) CC=$(TARGET)-gcc LD=$(TARGET)-gcc LUAV=$(LUA_VER_SHORT) PLAT=linux COMPAT=COMPAT LUAINC_linux=$(TARGET_DIR)/usr/include LUAPREFIX_linux=; \
@@ -1908,7 +1908,7 @@ endif
 #
 # luafeedparser-ipk
 #
-luafeedparser-ipk: $(D)/bootstrap $(D)/lua $(ARCHIVE)/$(LUAFEEDPARSER_SOURCE)
+luafeedparser-ipk: $(D)/bootstrap $(D)/lua $(ARCHIVE)/$(LUAFEEDPARSER_SRC)
 	$(START_BUILD)
 	rm -rf $(PKGPREFIX)
 	install -d $(PKGPREFIX)
@@ -1916,7 +1916,7 @@ luafeedparser-ipk: $(D)/bootstrap $(D)/lua $(ARCHIVE)/$(LUAFEEDPARSER_SOURCE)
 	install -d $(PKGS_DIR)/$@
 	install -d $(PKGPREFIX)/usr/share/lua/$(LUA_VER_SHORT)
 	$(REMOVE)/luafeedparser-git-$(LUAFEEDPARSER_VER)
-	$(UNTAR)/$(LUAFEEDPARSER_SOURCE)
+	$(UNTAR)/$(LUAFEEDPARSER_SRC)
 	$(CHDIR)/luafeedparser-git-$(LUAFEEDPARSER_VER); \
 		sed -i -e "s/^PREFIX.*//" -e "s/^LUA_DIR.*//" Makefile ; \
 		$(BUILDENV) $(MAKE) install  LUA_DIR=$(PKGPREFIX)/usr/share/lua/$(LUA_VER_SHORT)
@@ -1947,7 +1947,7 @@ endif
 #
 # luasoap-ipk
 #
-luasoap-ipk: $(D)/bootstrap $(D)/lua $(ARCHIVE)/$(LUASOAP_SOURCE)
+luasoap-ipk: $(D)/bootstrap $(D)/lua $(ARCHIVE)/$(LUASOAP_SRC)
 	$(START_BUILD)
 	rm -rf $(PKGPREFIX)
 	install -d $(PKGPREFIX)
@@ -1955,7 +1955,7 @@ luasoap-ipk: $(D)/bootstrap $(D)/lua $(ARCHIVE)/$(LUASOAP_SOURCE)
 	install -d $(PKGS_DIR)/$@
 	install -d $(PKGPREFIX)/usr/share/lua/$(LUA_VER_SHORT)
 	$(REMOVE)/luasoap-$(LUASOAP_VER)
-	$(UNTAR)/$(LUASOAP_SOURCE)
+	$(UNTAR)/$(LUASOAP_SRC)
 	$(CHDIR)/luasoap-$(LUASOAP_VER); \
 		$(call apply_patches, $(LUASOAP_PATCH)); \
 		$(MAKE) install LUA_DIR=$(PKGPREFIX)/usr/share/lua/$(LUA_VER_SHORT)
@@ -2020,14 +2020,14 @@ endif
 #
 # python
 #
-python-ipk: $(D)/bootstrap $(D)/host_python $(D)/ncurses $(D)/zlib $(D)/openssl $(D)/libffi $(D)/bzip2 $(D)/readline $(D)/sqlite $(ARCHIVE)/$(PYTHON_SOURCE)
+python-ipk: $(D)/bootstrap $(D)/host_python $(D)/ncurses $(D)/zlib $(D)/openssl $(D)/libffi $(D)/bzip2 $(D)/readline $(D)/sqlite $(ARCHIVE)/$(PYTHON_SRC)
 	$(START_BUILD)
 	rm -rf $(PKGPREFIX)
 	install -d $(PKGPREFIX)
 	install -d $(PKGS_DIR)
 	install -d $(PKGS_DIR)/$@
 	$(REMOVE)/Python-$(PYTHON_VER)
-	$(UNTAR)/$(PYTHON_SOURCE)
+	$(UNTAR)/$(PYTHON_SRC)
 	$(CHDIR)/Python-$(PYTHON_VER); \
 		$(call apply_patches, $(PYTHON_PATCH)); \
 		CONFIG_SITE= \

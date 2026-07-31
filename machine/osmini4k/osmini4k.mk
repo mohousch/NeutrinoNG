@@ -104,19 +104,19 @@ $(D)/install-v3ddriver: $(ARCHIVE)/$(LIBGLES_SRC)
 #
 WLAN_QCOM_VER    = 4.5.25.55
 WLAN_QCOM_DIR    = qcacld-2.0-$(WLAN_QCOM_VER)
-WLAN_QCOM_SOURCE = qcacld-2.0-$(WLAN_QCOM_VER).tar.gz
+WLAN_QCOM_SRC = qcacld-2.0-$(WLAN_QCOM_VER).tar.gz
 WLAN_QCOM_URL    = https://source.codeaurora.org/external/wlan/qcacld-2.0/snapshot
 
-$(ARCHIVE)/$(WLAN_QCOM_SOURCE):
-	$(DOWNLOAD) $(WLAN_QCOM_URL)/$(WLAN_QCOM_SOURCE)
+$(ARCHIVE)/$(WLAN_QCOM_SRC):
+	$(DOWNLOAD) $(WLAN_QCOM_URL)/$(WLAN_QCOM_SRC)
 
 WLAN_QCOM_PATCH  = \
 	qcacld-2.0-support.patch
 
-$(D)/wlan-qcom: $(D)/bootstrap $(D)/kernel $(D)/wlan-qcom-firmware $(ARCHIVE)/$(WLAN_QCOM_SOURCE)
+$(D)/wlan-qcom: $(D)/bootstrap $(D)/kernel $(D)/wlan-qcom-firmware $(ARCHIVE)/$(WLAN_QCOM_SRC)
 	$(START_BUILD)
 	$(REMOVE)/$(WLAN_QCOM_DIR)
-	$(UNTAR)/$(WLAN_QCOM_SOURCE)
+	$(UNTAR)/$(WLAN_QCOM_SRC)
 	$(CHDIR)/$(WLAN_QCOM_DIR); \
 		$(call apply_patches, $(WLAN_QCOM_PATCH)); \
 		$(MAKE) KERNEL_SRC=$(KERNEL_DIR) ARCH=arm CROSS_COMPILE=$(TARGET)- CROSS_COMPILE_COMPAT=$(TARGET)- all; \
@@ -129,16 +129,16 @@ $(D)/wlan-qcom: $(D)/bootstrap $(D)/kernel $(D)/wlan-qcom-firmware $(ARCHIVE)/$(
 #
 WLAN_QCOM_FIRMWARE_VER    = qca6174_v2
 WLAN_QCOM_FIRMWARE_DIR    = firmware-$(WLAN_QCOM_FIRMWARE_VER)
-WLAN_QCOM_FIRMWARE_SOURCE = firmware-$(WLAN_QCOM_FIRMWARE_VER).zip
+WLAN_QCOM_FIRMWARE_SRC = firmware-$(WLAN_QCOM_FIRMWARE_VER).zip
 WLAN_QCOM_FIRMWARE_URL    = http://source.mynonpublic.com/edision
 
-$(ARCHIVE)/$(WLAN_QCOM_FIRMWARE_SOURCE):
-	$(DOWNLOAD) $(WLAN_QCOM_FIRMWARE_URL)/$(WLAN_QCOM_FIRMWARE_SOURCE)
+$(ARCHIVE)/$(WLAN_QCOM_FIRMWARE_SRC):
+	$(DOWNLOAD) $(WLAN_QCOM_FIRMWARE_URL)/$(WLAN_QCOM_FIRMWARE_SRC)
 
-$(D)/wlan-qcom-firmware: $(D)/bootstrap $(ARCHIVE)/$(WLAN_QCOM_FIRMWARE_SOURCE)
+$(D)/wlan-qcom-firmware: $(D)/bootstrap $(ARCHIVE)/$(WLAN_QCOM_FIRMWARE_SRC)
 	$(START_BUILD)
 	$(REMOVE)/$(WLAN_QCOM_FIRMWARE_DIR)
-	unzip -o $(ARCHIVE)/$(WLAN_QCOM_FIRMWARE_SOURCE) -d $(BUILD_TMP)/$(WLAN_QCOM_FIRMWARE_DIR)
+	unzip -o $(ARCHIVE)/$(WLAN_QCOM_FIRMWARE_SRC) -d $(BUILD_TMP)/$(WLAN_QCOM_FIRMWARE_DIR)
 	$(CHDIR)/$(WLAN_QCOM_FIRMWARE_DIR); \
 		install -d $(TARGET_DIR)/lib/firmware/ath10k/QCA6174/hw3.0; \
 		install -m 644 board.bin $(TARGET_DIR)/lib/firmware/ath10k/QCA6174/hw3.0/board.bin; \

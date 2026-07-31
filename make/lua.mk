@@ -3,27 +3,28 @@
 #
 LUA_VER = 5.2.4
 LUA_VER_SHORT = 5.2
-LUA_SOURCE = lua-$(LUA_VER).tar.gz
+LUA_SRC = lua-$(LUA_VER).tar.gz
 
 LUAPOSIX_VER = 31
-LUAPOSIX_SOURCE = luaposix-git-$(LUAPOSIX_VER).tar.bz2
+LUAPOSIX_SRC = luaposix-git-$(LUAPOSIX_VER).tar.bz2
 LUAPOSIX_URL = https://github.com/luaposix/luaposix.git
+
 LUAPOSIX_PATCH = lua-$(LUA_VER)-luaposix-$(LUAPOSIX_VER).patch
 
-$(ARCHIVE)/$(LUA_SOURCE):
-	$(DOWNLOAD) https://www.lua.org/ftp/$(LUA_SOURCE)
+$(ARCHIVE)/$(LUA_SRC):
+	$(DOWNLOAD) https://www.lua.org/ftp/$(LUA_SRC)
 
-$(ARCHIVE)/$(LUAPOSIX_SOURCE):
+$(ARCHIVE)/$(LUAPOSIX_SRC):
 	$(SCRIPTS_DIR)/get-git-archive.sh $(LUAPOSIX_URL) release-v$(LUAPOSIX_VER) $(notdir $@) $(ARCHIVE)
 
-$(D)/lua: $(D)/bootstrap $(D)/ncurses $(ARCHIVE)/$(LUAPOSIX_SOURCE) $(ARCHIVE)/$(LUA_SOURCE)
+$(D)/lua: $(D)/bootstrap $(D)/ncurses $(ARCHIVE)/$(LUAPOSIX_SRC) $(ARCHIVE)/$(LUA_SRC)
 	$(START_BUILD)
 	$(REMOVE)/lua-$(LUA_VER)
 	mkdir -p $(TARGET_DIR)/usr/share/lua/$(LUA_VER_SHORT)
-	$(UNTAR)/$(LUA_SOURCE)
+	$(UNTAR)/$(LUA_SRC)
 	$(CHDIR)/lua-$(LUA_VER); \
 		$(call apply_patches, $(LUAPOSIX_PATCH)); \
-		tar xf $(ARCHIVE)/$(LUAPOSIX_SOURCE); \
+		tar xf $(ARCHIVE)/$(LUAPOSIX_SRC); \
 		cd luaposix-git-$(LUAPOSIX_VER)/ext; cp posix/posix.c include/lua52compat.h ../../src/; cd ../..; \
 		cd luaposix-git-$(LUAPOSIX_VER)/lib; cp *.lua $(TARGET_DIR)/usr/share/lua/$(LUA_VER_SHORT); cd ../..; \
 		sed -i 's/<config.h>/"config.h"/' src/posix.c; \
@@ -39,16 +40,16 @@ $(D)/lua: $(D)/bootstrap $(D)/ncurses $(ARCHIVE)/$(LUAPOSIX_SOURCE) $(ARCHIVE)/$
 # luacurl
 #
 LUACURL_VER = 9ac72c7
-LUACURL_SOURCE = luacurl-git-$(LUACURL_VER).tar.bz2
+LUACURL_SRC = luacurl-git-$(LUACURL_VER).tar.bz2
 LUACURL_URL = https://github.com/Lua-cURL/Lua-cURLv3.git
 
-$(ARCHIVE)/$(LUACURL_SOURCE):
+$(ARCHIVE)/$(LUACURL_SRC):
 	$(SCRIPTS_DIR)/get-git-archive.sh $(LUACURL_URL) $(LUACURL_VER) $(notdir $@) $(ARCHIVE)
 
-$(D)/luacurl: $(D)/bootstrap $(D)/libcurl $(D)/lua $(ARCHIVE)/$(LUACURL_SOURCE)
+$(D)/luacurl: $(D)/bootstrap $(D)/libcurl $(D)/lua $(ARCHIVE)/$(LUACURL_SRC)
 	$(START_BUILD)
 	$(REMOVE)/luacurl-git-$(LUACURL_VER)
-	$(UNTAR)/$(LUACURL_SOURCE)
+	$(UNTAR)/$(LUACURL_SRC)
 	$(CHDIR)/luacurl-git-$(LUACURL_VER); \
 		$(MAKE) CC=$(TARGET)-gcc LDFLAGS="-L$(TARGET_DIR)/usr/lib" \
 			LIBDIR=$(TARGET_DIR)/usr/lib \
@@ -61,16 +62,16 @@ $(D)/luacurl: $(D)/bootstrap $(D)/libcurl $(D)/lua $(ARCHIVE)/$(LUACURL_SOURCE)
 # luaexpat
 #
 LUAEXPAT_VER = 1.3.0
-LUAEXPAT_SOURCE = luaexpat-$(LUAEXPAT_VER).tar.gz
+LUAEXPAT_SRC = luaexpat-$(LUAEXPAT_VER).tar.gz
 LUAEXPAT_PATCH = luaexpat-$(LUAEXPAT_VER).patch
 
-$(ARCHIVE)/$(LUAEXPAT_SOURCE):
-	$(DOWNLOAD) https://src.fedoraproject.org/lookaside/pkgs/lua-expat/luaexpat-1.3.0.tar.gz/3c20b5795e7107f847f8da844fbfe2da/$(LUAEXPAT_SOURCE)
+$(ARCHIVE)/$(LUAEXPAT_SRC):
+	$(DOWNLOAD) https://src.fedoraproject.org/lookaside/pkgs/lua-expat/luaexpat-1.3.0.tar.gz/3c20b5795e7107f847f8da844fbfe2da/$(LUAEXPAT_SRC)
 
-$(D)/luaexpat: $(D)/bootstrap $(D)/lua $(D)/expat $(ARCHIVE)/$(LUAEXPAT_SOURCE)
+$(D)/luaexpat: $(D)/bootstrap $(D)/lua $(D)/expat $(ARCHIVE)/$(LUAEXPAT_SRC)
 	$(START_BUILD)
 	$(REMOVE)/luaexpat-$(LUAEXPAT_VER)
-	$(UNTAR)/$(LUAEXPAT_SOURCE)
+	$(UNTAR)/$(LUAEXPAT_SRC)
 	$(CHDIR)/luaexpat-$(LUAEXPAT_VER); \
 		$(call apply_patches, $(LUAEXPAT_PATCH)); \
 		$(MAKE) CC=$(TARGET)-gcc LDFLAGS="-L$(TARGET_DIR)/usr/lib" PREFIX=$(TARGET_DIR)/usr; \
@@ -82,16 +83,16 @@ $(D)/luaexpat: $(D)/bootstrap $(D)/lua $(D)/expat $(ARCHIVE)/$(LUAEXPAT_SOURCE)
 # luasocket
 #
 LUASOCKET_VER = 5a17f79
-LUASOCKET_SOURCE = luasocket-git-$(LUASOCKET_VER).tar.bz2
+LUASOCKET_SRC = luasocket-git-$(LUASOCKET_VER).tar.bz2
 LUASOCKET_URL = https://github.com/diegonehab/luasocket.git
 
-$(ARCHIVE)/$(LUASOCKET_SOURCE):
+$(ARCHIVE)/$(LUASOCKET_SRC):
 	$(SCRIPTS_DIR)/get-git-archive.sh $(LUASOCKET_URL) $(LUASOCKET_VER) $(notdir $@) $(ARCHIVE)
 
-$(D)/luasocket: $(D)/bootstrap $(D)/lua $(ARCHIVE)/$(LUASOCKET_SOURCE)
+$(D)/luasocket: $(D)/bootstrap $(D)/lua $(ARCHIVE)/$(LUASOCKET_SRC)
 	$(START_BUILD)
 	$(REMOVE)/luasocket-git-$(LUASOCKET_VER)
-	$(UNTAR)/$(LUASOCKET_SOURCE)
+	$(UNTAR)/$(LUASOCKET_SRC)
 	$(CHDIR)/luasocket-git-$(LUASOCKET_VER); \
 		sed -i -e "s@LD_linux=gcc@LD_LINUX=$(TARGET)-gcc@" -e "s@CC_linux=gcc@CC_LINUX=$(TARGET)-gcc -L$(TARGET_DIR)/usr/lib@" -e "s@DESTDIR?=@DESTDIR?=$(TARGET_DIR)/usr@" src/makefile; \
 		$(MAKE) CC=$(TARGET)-gcc LD=$(TARGET)-gcc LUAV=$(LUA_VER_SHORT) PLAT=linux COMPAT=COMPAT LUAINC_linux=$(TARGET_DIR)/usr/include LUAPREFIX_linux=; \
@@ -103,16 +104,16 @@ $(D)/luasocket: $(D)/bootstrap $(D)/lua $(ARCHIVE)/$(LUASOCKET_SOURCE)
 # luafeedparser
 #
 LUAFEEDPARSER_VER = 9b284bc
-LUAFEEDPARSER_SOURCE = luafeedparser-git-$(LUAFEEDPARSER_VER).tar.bz2
+LUAFEEDPARSER_SRC = luafeedparser-git-$(LUAFEEDPARSER_VER).tar.bz2
 LUAFEEDPARSER_URL = https://github.com/slact/lua-feedparser.git
 
-$(ARCHIVE)/$(LUAFEEDPARSER_SOURCE):
+$(ARCHIVE)/$(LUAFEEDPARSER_SRC):
 	$(SCRIPTS_DIR)/get-git-archive.sh $(LUAFEEDPARSER_URL) $(LUAFEEDPARSER_VER) $(notdir $@) $(ARCHIVE)
 
-$(D)/luafeedparser: $(D)/bootstrap $(D)/lua $(ARCHIVE)/$(LUAFEEDPARSER_SOURCE)
+$(D)/luafeedparser: $(D)/bootstrap $(D)/lua $(ARCHIVE)/$(LUAFEEDPARSER_SRC)
 	$(START_BUILD)
 	$(REMOVE)/luafeedparser-git-$(LUAFEEDPARSER_VER)
-	$(UNTAR)/$(LUAFEEDPARSER_SOURCE)
+	$(UNTAR)/$(LUAFEEDPARSER_SRC)
 	$(CHDIR)/luafeedparser-git-$(LUAFEEDPARSER_VER); \
 		sed -i -e "s/^PREFIX.*//" -e "s/^LUA_DIR.*//" Makefile ; \
 		$(BUILDENV) $(MAKE) install  LUA_DIR=$(TARGET_DIR)/usr/share/lua/$(LUA_VER_SHORT)
@@ -123,16 +124,16 @@ $(D)/luafeedparser: $(D)/bootstrap $(D)/lua $(ARCHIVE)/$(LUAFEEDPARSER_SOURCE)
 # luasoap
 #
 LUASOAP_VER = 3_0_1
-LUASOAP_SOURCE = luasoap-$(LUASOAP_VER).tar.gz
+LUASOAP_SRC = luasoap-$(LUASOAP_VER).tar.gz
 #LUASOAP_PATCH = luasoap-$(LUASOAP_VER).patch
 
-$(ARCHIVE)/$(LUASOAP_SOURCE):
-	$(DOWNLOAD) https://github.com/tomasguisasola/luasoap/archive/refs/tags/v$(LUASOAP_VER).tar.gz -O $(ARCHIVE)/$(LUASOAP_SOURCE)
+$(ARCHIVE)/$(LUASOAP_SRC):
+	$(DOWNLOAD) https://github.com/tomasguisasola/luasoap/archive/refs/tags/v$(LUASOAP_VER).tar.gz -O $(ARCHIVE)/$(LUASOAP_SRC)
 
-$(D)/luasoap: $(D)/bootstrap $(D)/lua $(ARCHIVE)/$(LUASOAP_SOURCE)
+$(D)/luasoap: $(D)/bootstrap $(D)/lua $(ARCHIVE)/$(LUASOAP_SRC)
 	$(START_BUILD)
 	$(REMOVE)/luasoap-$(LUASOAP_VER)
-	$(UNTAR)/$(LUASOAP_SOURCE)
+	$(UNTAR)/$(LUASOAP_SRC)
 	$(CHDIR)/luasoap-$(LUASOAP_VER); \
 		$(call apply_patches, $(LUASOAP_PATCH)); \
 		$(MAKE) install LUA_DIR=$(TARGET_DIR)/usr/share/lua/$(LUA_VER_SHORT)
