@@ -1,5 +1,5 @@
 #
-# MACHINE = Gigablue ultra
+# MACHINE = Gigablue Ultra UE
 # VENDOR = Gigablue
 # OEM = Gigablue
 # SOC = bcm7362
