@@ -95,17 +95,9 @@ driver: $(D)/driver
 $(D)/driver: $(ARCHIVE)/$(DRIVER_SRC) $(D)/bootstrap $(D)/kernel
 	$(START_BUILD)
 	install -d $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra
-#	unzip -o $(ARCHIVE)/$(DRIVER_SRC) -d $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra
+	#unzip -o $(ARCHIVE)/$(DRIVER_SRC) -d $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra
 	#mv $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra/hiko/* $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra
-#	rmdir $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra/hiko
-	#$(MAKE) install-tntfs
-	#$(MAKE) install-wifi
-	#$(MAKE) install-wifi2
-	#$(MAKE) install-hisiplayer-libs
-	#$(MAKE) install-hilib
-	#$(MAKE) install-libjpeg
-	#$(MAKE) install-hihalt
-	#$(MAKE) install-libreader
+	#rmdir $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra/hiko
 	depmod -ae -b $(TARGET_DIR) -r $(KERNEL_VER)
 	$(TOUCH)
 	
@@ -118,5 +110,4 @@ release-gbtrio4k:
 # image
 #
 image-gbtrio4k:
-
 
