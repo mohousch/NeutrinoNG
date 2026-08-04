@@ -66,7 +66,7 @@ $(D)/kernel.do_compile: $(D)/kernel.do_prepare
 	set -e; cd $(KERNEL_DIR); \
 		$(MAKE) -C $(KERNEL_DIR) ARCH=arm oldconfig
 		$(MAKE) -C $(KERNEL_DIR) ARCH=arm CROSS_COMPILE=$(TARGET)- $(KERNEL_DTB) uImage modules
-		$(MAKE) -C $(KERNEL_DIR) ARCH=arm CROSS_COMPILE=$(TARGET)- DEPMOD=$(DEPMOD) INSTALL_MOD_PATH=$(TARGET_DIR) modules_install
+		$(MAKE) -C $(KERNEL_DIR) ARCH=arm CROSS_COMPILE=$(TARGET)- DEPMOD=depmod INSTALL_MOD_PATH=$(TARGET_DIR) modules_install
 	@touch $@
 
 $(D)/kernel: $(D)/bootstrap $(D)/kernel.do_compile
@@ -85,30 +85,8 @@ DRIVER_DATE = 20200731
 DRIVER_SRC = $(BOXTYPE)-drivers-$(DRIVER_VER)-$(DRIVER_DATE).zip
 DRIVER_URL = http://source.mynonpublic.com/gfutures
 
-EXTRA_PLAYERLIB_DATE = 20180912
-EXTRA_PLAYERLIB_SRC = $(BOXTYPE)-libs-$(EXTRA_PLAYERLIB_DATE).zip
-EXTRA_PLAYERLIB_URL = http://source.mynonpublic.com/gfutures
-
-EXTRA_MALILIB_DATE = 20180912
-EXTRA_MALILIB_SRC = $(BOXTYPE)-mali-$(EXTRA_MALILIB_DATE).zip
-EXTRA_MALILIB_URL = http://source.mynonpublic.com/gfutures
-
-EXTRA_MALI_MODULE_VER = DX910-SW-99002-r7p0-00rel0
-EXTRA_MALI_MODULE_SRC = $(EXTRA_MALI_MODULE_VER).tgz
-EXTRA_MALI_MODULE_PATCH = 0001-hi3798mv200-support.patch
-EXTRA_MALI_MODULE_URL = https://developer.arm.com/-/media/Files/downloads/mali-drivers/kernel/mali-utgard-gpu
-
 $(ARCHIVE)/$(DRIVER_SRC):
 	$(DOWNLOAD) $(DRIVER_URL)/$(DRIVER_SRC)
-
-$(ARCHIVE)/$(EXTRA_PLAYERLIB_SRC):
-	$(DOWNLOAD) $(EXTRA_PLAYERLIB_URL)/$(EXTRA_PLAYERLIB_SRC)
-
-$(ARCHIVE)/$(EXTRA_MALILIB_SRC):
-	$(DOWNLOAD) $(EXTRA_MALILIB_URL)/$(EXTRA_MALILIB_SRC)
-
-$(ARCHIVE)/$(EXTRA_MALI_MODULE_SRC):
-	$(DOWNLOAD) $(EXTRA_MALI_MODULE_URL)/$(EXTRA_MALI_MODULE_SRC);name=driver
 
 driver: $(D)/driver
 $(D)/driver: $(ARCHIVE)/$(DRIVER_SRC) $(D)/bootstrap $(D)/kernel
@@ -118,20 +96,44 @@ $(D)/driver: $(ARCHIVE)/$(DRIVER_SRC) $(D)/bootstrap $(D)/kernel
 	mv $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra/turnoff_power $(TARGET_DIR)/bin
 	$(MAKE) install-extra-libs
 	$(MAKE) mali-gpu-modul
-	$(DEPMOD) -ae -b $(TARGET_DIR) -r $(KERNEL_VER)
+	depmod -ae -b $(TARGET_DIR) -r $(KERNEL_VER)
 	$(TOUCH)
 
 #
 # extra-libs
 #
+EXTRA_PLAYERLIB_DATE = 20180912
+EXTRA_PLAYERLIB_SRC = $(BOXTYPE)-libs-$(EXTRA_PLAYERLIB_DATE).zip
+EXTRA_PLAYERLIB_URL = http://source.mynonpublic.com/gfutures
+
+EXTRA_MALILIB_DATE = 20180912
+EXTRA_MALILIB_SRC = $(BOXTYPE)-mali-$(EXTRA_MALILIB_DATE).zip
+EXTRA_MALILIB_URL = http://source.mynonpublic.com/gfutures
+
+$(ARCHIVE)/$(EXTRA_PLAYERLIB_SRC):
+	$(DOWNLOAD) $(EXTRA_PLAYERLIB_URL)/$(EXTRA_PLAYERLIB_SRC)
+	
+$(ARCHIVE)/$(EXTRA_MALILIB_SRC):
+	$(DOWNLOAD) $(EXTRA_MALILIB_URL)/$(EXTRA_MALILIB_SRC)
+
 $(D)/install-extra-libs: $(ARCHIVE)/$(EXTRA_PLAYERLIB_SRC) $(ARCHIVE)/$(EXTRA_MALILIB_SRC) $(D)/zlib $(D)/libpng $(D)/freetype $(D)/libcurl $(D)/libxml2 $(D)/libjpeg_turbo2
-	unzip -o $(PATCHES)/libgles-mali-utgard-headers.zip -d $(TARGET_DIR)/usr/include
 	unzip -o $(ARCHIVE)/$(EXTRA_PLAYERLIB_SRC) -d $(TARGET_DIR)/usr/lib
 	unzip -o $(ARCHIVE)/$(EXTRA_MALILIB_SRC) -d $(TARGET_DIR)/usr/lib
 	ln -sf libMali.so $(TARGET_DIR)/usr/lib/libmali.so
 	ln -sf libMali.so $(TARGET_DIR)/usr/lib/libEGL.so
 	ln -sf libMali.so $(TARGET_DIR)/usr/lib/libGLESv1_CM.so
 	ln -sf libMali.so $(TARGET_DIR)/usr/lib/libGLESv2.so
+	
+#
+# mali-gpu
+#
+EXTRA_MALI_MODULE_VER = DX910-SW-99002-r7p0-00rel0
+EXTRA_MALI_MODULE_SRC = $(EXTRA_MALI_MODULE_VER).tgz
+EXTRA_MALI_MODULE_PATCH = 0001-hi3798mv200-support.patch
+EXTRA_MALI_MODULE_URL = https://developer.arm.com/-/media/Files/downloads/mali-drivers/kernel/mali-utgard-gpu
+
+$(ARCHIVE)/$(EXTRA_MALI_MODULE_SRC):
+	$(DOWNLOAD) $(EXTRA_MALI_MODULE_URL)/$(EXTRA_MALI_MODULE_SRC);name=driver
 
 $(D)/mali-gpu-modul: $(ARCHIVE)/$(EXTRA_MALI_MODULE_SRC) $(D)/bootstrap $(D)/kernel
 	$(START_BUILD)
@@ -163,7 +165,7 @@ $(D)/mali-gpu-modul: $(ARCHIVE)/$(EXTRA_MALI_MODULE_SRC) $(D)/bootstrap $(D)/ker
 		CONFIG_MALI450=y \
 		CONFIG_MALI_DVFS=y \
 		CONFIG_GPU_AVS_ENABLE=y \
-		DEPMOD=$(DEPMOD) INSTALL_MOD_PATH=$(TARGET_DIR) modules_install
+		DEPMOD=depmod INSTALL_MOD_PATH=$(TARGET_DIR) modules_install
 	$(REMOVE)/$(EXTRA_MALI_MODULE_VER)
 	$(TOUCH)
 

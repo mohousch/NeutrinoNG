@@ -71,7 +71,7 @@ $(D)/kernel.do_compile: $(D)/kernel.do_prepare
 	set -e; cd $(KERNEL_DIR); \
 		$(MAKE) -C $(KERNEL_DIR) ARCH=arm oldconfig
 		$(MAKE) -C $(KERNEL_DIR) ARCH=arm CROSS_COMPILE=$(TARGET)- $(KERNEL_DTB) uImage modules
-		$(MAKE) -C $(KERNEL_DIR) ARCH=arm CROSS_COMPILE=$(TARGET)- DEPMOD=$(DEPMOD) INSTALL_MOD_PATH=$(TARGET_DIR) modules_install
+		$(MAKE) -C $(KERNEL_DIR) ARCH=arm CROSS_COMPILE=$(TARGET)- DEPMOD=depmod INSTALL_MOD_PATH=$(TARGET_DIR) modules_install
 	@touch $@
 
 $(D)/kernel: $(D)/bootstrap $(D)/kernel.do_compile
@@ -90,47 +90,9 @@ DRIVER_VER = 4.4.35
 DRIVER_DATE = 20201118
 DRIVER_SRC = $(BOXTYPE)-drivers-$(DRIVER_VER)-$(DRIVER_DATE).zip
 
-HICHIPSET = 3798mv200
-PLAYERLIB_DATE = 20200625
-PLAYERLIB_SRC = zgemma-libs-$(HICHIPSET)-$(PLAYERLIB_DATE).zip
-
-TNTFS_DATE = 20200528
-TNTFS_SRC = $(HICHIPSET)-tntfs-$(TNTFS_DATE).zip
-
-LIBMALI_DATE = 20211026
-LIBMALI_SRC = zgemma-mali-$(HICHIPSET)-$(LIBMALI_DATE).zip
-
-MALI_MODULE_VER = DX910-SW-99002-r7p0-00rel0
-MALI_MODULE_SRC = $(MALI_MODULE_VER).tgz
-MALI_MODULE_PATCH = 0001-hi3798mv200-support.patch
-
-WIFI_DIR = RTL8192EU-master
-WIFI_SRC = master.zip
-WIFI = RTL8192EU.zip
-
-#LIBGLES_HEADERS = hd-v3ddriver-headers.tar.gz
-
 $(ARCHIVE)/$(DRIVER_SRC):
 	$(DOWNLOAD) http://source.mynonpublic.com/zgemma/$(DRIVER_SRC)
-
-$(ARCHIVE)/$(PLAYERLIB_SRC):
-	$(DOWNLOAD) http://source.mynonpublic.com/zgemma/$(PLAYERLIB_SRC)
-
-$(ARCHIVE)/$(LIBMALI_SRC):
-	$(DOWNLOAD) http://source.mynonpublic.com/zgemma/$(LIBMALI_SRC)
-
-$(ARCHIVE)/$(LIBGLES_HEADERS):
-	$(DOWNLOAD) http://downloads.mutant-digital.net/v3ddriver/$(LIBGLES_HEADERS)
-
-$(ARCHIVE)/$(TNTFS_SRC):
-	$(DOWNLOAD) http://source.mynonpublic.com/tntfs/$(TNTFS_SRC)
-
-$(ARCHIVE)/$(WIFI_SRC):
-	$(DOWNLOAD) https://github.com/zukon/RTL8192EU/archive/refs/heads/$(WIFI_SRC) -O $(ARCHIVE)/$(WIFI)
-
-$(ARCHIVE)/$(MALI_MODULE_SRC):
-	$(DOWNLOAD) https://developer.arm.com/-/media/Files/downloads/mali-drivers/kernel/mali-utgard-gpu/$(MALI_MODULE_SRC);name=driver
-
+	
 driver: $(D)/driver
 $(D)/driver: $(ARCHIVE)/$(DRIVER_SRC) $(D)/bootstrap $(D)/kernel
 	$(START_BUILD)
@@ -142,36 +104,18 @@ $(D)/driver: $(ARCHIVE)/$(DRIVER_SRC) $(D)/bootstrap $(D)/kernel
 	mv $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra/turnoff_power $(TARGET_DIR)/bin
 	$(MAKE) install-hisiplayer-libs
 	$(MAKE) install-libmali
-	$(DEPMOD) -ae -b $(TARGET_DIR) -r $(KERNEL_VER)
+	depmod -ae -b $(TARGET_DIR) -r $(KERNEL_VER)
 	$(TOUCH)
 
-$(D)/install-v3ddriver: $(ARCHIVE)/$(LIBGLES_SRC)
-	install -d $(TARGET_LIB_DIR)
-	unzip -o $(ARCHIVE)/$(LIBGLES_SRC) -d $(TARGET_LIB_DIR)
-	#patchelf --set-soname libv3ddriver.so $(TARGET_LIB_DIR)/libv3ddriver.so
-	ln -sf libv3ddriver.so $(TARGET_LIB_DIR)/libEGL.so.1.4
-	ln -sf libEGL.so.1.4 $(TARGET_LIB_DIR)/libEGL.so.1
-	ln -sf libEGL.so.1 $(TARGET_LIB_DIR)/libEGL.so
-	ln -sf libv3ddriver.so $(TARGET_LIB_DIR)/libGLESv1_CM.so.1.1
-	ln -sf libGLESv1_CM.so.1.1 $(TARGET_LIB_DIR)/libGLESv1_CM.so.1
-	ln -sf libGLESv1_CM.so.1 $(TARGET_LIB_DIR)/libGLESv1_CM.so
-	ln -sf libv3ddriver.so $(TARGET_LIB_DIR)/libGLESv2.so.2.0
-	ln -sf libGLESv2.so.2.0 $(TARGET_LIB_DIR)/libGLESv2.so.2
-	ln -sf libGLESv2.so.2 $(TARGET_LIB_DIR)/libGLESv2.so
-	ln -sf libv3ddriver.so $(TARGET_LIB_DIR)/libgbm.so.1
-	ln -sf libgbm.so.1 $(TARGET_LIB_DIR)/libgbm.so
+#
+# playerlib
+#
+PLAYERLIB_DATE = 20200625
+PLAYERLIB_SRC = zgemma-libs-3798mv200-$(PLAYERLIB_DATE).zip
 
-$(D)/install-v3ddriver-header: $(ARCHIVE)/$(LIBGLES_HEADERS)
-	install -d $(TARGET_INCLUDE_DIR)
-	unzip -o $(PATCHES)/$(LIBGLES_HEADERS) -d $(TARGET_INCLUDE_DIR)
-	install -d $(TARGET_LIB_DIR)/pkgconfig
-	cp $(PATCHES)/glesv2.pc $(TARGET_LIB_DIR)/pkgconfig
-	$(REWRITE_PKGCONF) $(PKG_CONFIG_PATH)/glesv2.pc
-	cp $(PATCHES)/glesv1_cm.pc $(TARGET_LIB_DIR)/pkgconfig
-	$(REWRITE_PKGCONF) $(PKG_CONFIG_PATH)/glesv1_cm.pc
-	cp $(PATCHES)/egl.pc $(TARGET_LIB_DIR)/pkgconfig
-	$(REWRITE_PKGCONF) $(PKG_CONFIG_PATH)/egl.pc
-
+$(ARCHIVE)/$(PLAYERLIB_SRC):
+	$(DOWNLOAD) http://source.mynonpublic.com/zgemma/$(PLAYERLIB_SRC)
+	
 $(D)/install-hisiplayer-libs: $(ARCHIVE)/$(PLAYERLIB_SRC)
 	install -d $(BUILD_TMP)/hiplay
 	unzip -o $(ARCHIVE)/$(PLAYERLIB_SRC) -d $(BUILD_TMP)/hiplay
@@ -181,13 +125,16 @@ $(D)/install-hisiplayer-libs: $(ARCHIVE)/$(PLAYERLIB_SRC)
 #	install -m 0755 $(BUILD_TMP)/hiplay/glibc/* $(TARGET_LIB_DIR)/hisilicon
 	ln -sf /lib/ld-linux-armhf.so.3 $(TARGET_LIB_DIR)/hisilicon/ld-linux.so
 	$(REMOVE)/hiplay
+	
+#
+# libmali
+#
+LIBMALI_DATE = 20211026
+LIBMALI_SRC = zgemma-mali-3798mv200-$(LIBMALI_DATE).zip
 
-$(D)/install-tntfs: $(ARCHIVE)/$(TNTFS_SRC)
-	install -d $(BUILD_TMP)/tntfs
-	unzip -o $(ARCHIVE)/$(TNTFS_SRC) -d $(BUILD_TMP)/tntfs
-	install -m 0755 $(BUILD_TMP)/tntfs/tntfs.ko $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra
-	$(REMOVE)/tntfs
-
+$(ARCHIVE)/$(LIBMALI_SRC):
+	$(DOWNLOAD) http://source.mynonpublic.com/zgemma/$(LIBMALI_SRC)
+	
 $(D)/install-libmali: $(ARCHIVE)/$(LIBMALI_SRC)
 	install -d $(BUILD_TMP)/libmali
 	unzip -o $(ARCHIVE)/$(LIBMALI_SRC) -d $(BUILD_TMP)/libmali
@@ -210,6 +157,31 @@ $(D)/install-libmali: $(ARCHIVE)/$(LIBMALI_SRC)
 	ln -sf /usr/lib/hisilicon/libgbm.so.1 $(TARGET_LIB_DIR)/hisilicon/libgbm.so
 	$(REMOVE)/libmali
 
+#
+# tntfs
+#
+TNTFS_DATE = 20200528
+TNTFS_SRC = 3798mv200-tntfs-$(TNTFS_DATE).zip
+
+$(ARCHIVE)/$(TNTFS_SRC):
+	$(DOWNLOAD) http://source.mynonpublic.com/tntfs/$(TNTFS_SRC)
+	
+$(D)/install-tntfs: $(ARCHIVE)/$(TNTFS_SRC)
+	install -d $(BUILD_TMP)/tntfs
+	unzip -o $(ARCHIVE)/$(TNTFS_SRC) -d $(BUILD_TMP)/tntfs
+	install -m 0755 $(BUILD_TMP)/tntfs/tntfs.ko $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra
+	$(REMOVE)/tntfs
+
+#
+# wifi
+#
+WIFI_DIR = RTL8192EU-master
+WIFI_SRC = master.zip
+WIFI = RTL8192EU.zip
+
+$(ARCHIVE)/$(WIFI_SRC):
+	$(DOWNLOAD) https://github.com/zukon/RTL8192EU/archive/refs/heads/$(WIFI_SRC) -O $(ARCHIVE)/$(WIFI)
+	
 $(D)/install-wifi: $(D)/bootstrap $(D)/kernel $(ARCHIVE)/$(WIFI_SRC)
 	$(START_BUILD)
 	$(REMOVE)/$(WIFI_DIR)
@@ -220,6 +192,16 @@ $(D)/install-wifi: $(D)/bootstrap $(D)/kernel $(ARCHIVE)/$(WIFI_SRC)
 		install -m 644 8192eu.ko $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra
 	$(REMOVE)/$(WIFI_DIR)
 	$(TOUCH)
+
+#
+# mali module
+#
+MALI_MODULE_VER = DX910-SW-99002-r7p0-00rel0
+MALI_MODULE_SRC = $(MALI_MODULE_VER).tgz
+MALI_MODULE_PATCH = 0001-hi3798mv200-support.patch
+
+$(ARCHIVE)/$(MALI_MODULE_SRC):
+	$(DOWNLOAD) https://developer.arm.com/-/media/Files/downloads/mali-drivers/kernel/mali-utgard-gpu/$(MALI_MODULE_SRC);name=driver
 
 $(D)/mali-gpu-modul: $(ARCHIVE)/$(MALI_MODULE_SRC) $(D)/bootstrap $(D)/kernel
 	$(START_BUILD)
@@ -251,7 +233,7 @@ $(D)/mali-gpu-modul: $(ARCHIVE)/$(MALI_MODULE_SRC) $(D)/bootstrap $(D)/kernel
 		CONFIG_MALI450=y \
 		CONFIG_MALI_DVFS=y \
 		CONFIG_GPU_AVS_ENABLE=y \
-		DEPMOD=$(DEPMOD) INSTALL_MOD_PATH=$(TARGET_DIR) modules_install
+		DEPMOD=depmod INSTALL_MOD_PATH=$(TARGET_DIR) modules_install
 	$(REMOVE)/$(MALI_MODULE_VER)
 	$(TOUCH)
 

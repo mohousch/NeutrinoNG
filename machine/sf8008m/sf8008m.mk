@@ -65,7 +65,7 @@ $(D)/kernel.do_compile: $(D)/kernel.do_prepare
 	set -e; cd $(KERNEL_DIR); \
 		$(MAKE) -C $(KERNEL_DIR) ARCH=arm oldconfig
 		$(MAKE) -C $(KERNEL_DIR) ARCH=arm CROSS_COMPILE=$(TARGET)- $(KERNEL_DTB) uImage modules
-		$(MAKE) -C $(KERNEL_DIR) ARCH=arm CROSS_COMPILE=$(TARGET)- DEPMOD=$(DEPMOD) INSTALL_MOD_PATH=$(TARGET_DIR) modules_install
+		$(MAKE) -C $(KERNEL_DIR) ARCH=arm CROSS_COMPILE=$(TARGET)- DEPMOD=depmod INSTALL_MOD_PATH=$(TARGET_DIR) modules_install
 	@touch $@
 
 $(D)/kernel: $(D)/bootstrap $(D)/kernel.do_compile
@@ -82,56 +82,10 @@ $(D)/kernel: $(D)/bootstrap $(D)/kernel.do_compile
 #
 DRIVER_VER     = $(KERNEL_VER)
 DRIVER_DATE    = 20220105
-HILIB_DATE     = 20190917
-LIBGLES_DATE   = 20180301
-LIBREADER_DATE = 20200612
-HIHALT_DATE    = 20200601
-TNTFS_DATE     = 20200528
-
-HICHIPSET = 3798mv200
-SOC_FAMILY = hisi3798mv200
-
 DRIVER_SRC = $(BOXTYPE)-hiko-$(DRIVER_DATE).zip
-
-HILIB_SRC = $(BOXTYPE)-hilib-$(HILIB_DATE).tar.gz
-
-LIBGLES_SRC = $(SOC_FAMILY)-opengl-$(LIBGLES_DATE).tar.gz
-
-LIBREADER_SRC = $(BOXTYPE)-libreader-$(LIBREADER_DATE).tar.gz
-
-HIHALT_SRC = $(BOXTYPE)-hihalt-$(HIHALT_DATE).tar.gz
-
-TNTFS_SRC = $(HICHIPSET)-tntfs-$(TNTFS_DATE).zip
-
-LIBJPEG_SRC = libjpeg.so.62.2.0
-
-WIFI_DIR = RTL8192EU-master
-WIFI_SRC = master.zip
-WIFI = RTL8192EU.zip
 
 $(ARCHIVE)/$(DRIVER_SRC):
 	$(DOWNLOAD) http://source.mynonpublic.com/octagon/$(DRIVER_SRC)
-
-$(ARCHIVE)/$(HILIB_SRC):
-	$(DOWNLOAD) http://source.mynonpublic.com/octagon/$(HILIB_SRC)
-
-$(ARCHIVE)/$(LIBGLES_SRC):
-	$(DOWNLOAD) http://source.mynonpublic.com/octagon/$(LIBGLES_SRC)
-
-$(ARCHIVE)/$(LIBREADER_SRC):
-	$(DOWNLOAD) http://source.mynonpublic.com/octagon/$(LIBREADER_SRC)
-
-$(ARCHIVE)/$(HIHALT_SRC):
-	$(DOWNLOAD) http://source.mynonpublic.com/octagon/$(HIHALT_SRC)
-
-$(ARCHIVE)/$(TNTFS_SRC):
-	$(DOWNLOAD) http://source.mynonpublic.com/tntfs/$(TNTFS_SRC)
-
-$(ARCHIVE)/$(LIBJPEG_SRC):	
-	$(DOWNLOAD) https://github.com/oe-alliance/oe-alliance-core/raw/5.3/meta-brands/meta-octagon/recipes-graphics/files/$(LIBJPEG_SRC)
-
-$(ARCHIVE)/$(WIFI_SRC):
-	$(DOWNLOAD) https://github.com/zukon/RTL8192EU/archive/refs/heads/$(WIFI_SRC) -O $(ARCHIVE)/$(WIFI)
 
 driver: $(D)/driver
 $(D)/driver: $(ARCHIVE)/$(DRIVER_SRC) $(D)/bootstrap $(D)/kernel
@@ -148,8 +102,17 @@ $(D)/driver: $(ARCHIVE)/$(DRIVER_SRC) $(D)/bootstrap $(D)/kernel
 	$(MAKE) install-libjpeg
 	$(MAKE) install-hihalt
 	$(MAKE) install-libreader
-	$(DEPMOD) -ae -b $(TARGET_DIR) -r $(KERNEL_VER)
+	depmod -ae -b $(TARGET_DIR) -r $(KERNEL_VER)
 	$(TOUCH)
+
+#
+# hilib
+#
+HILIB_DATE     = 20190917
+HILIB_SRC = $(BOXTYPE)-hilib-$(HILIB_DATE).tar.gz
+
+$(ARCHIVE)/$(HILIB_SRC):
+	$(DOWNLOAD) http://source.mynonpublic.com/octagon/$(HILIB_SRC)
 
 $(D)/install-hilib: $(ARCHIVE)/$(HILIB_SRC)
 	install -d $(BUILD_TMP)/hilib
@@ -157,11 +120,29 @@ $(D)/install-hilib: $(ARCHIVE)/$(HILIB_SRC)
 	cp -R $(BUILD_TMP)/hilib/hilib/* $(TARGET_LIB_DIR)
 	$(REMOVE)/hilib
 
+#
+# libgles
+#
+LIBGLES_DATE   = 20180301
+LIBGLES_SRC = hisi3798mv200-opengl-$(LIBGLES_DATE).tar.gz
+
+$(ARCHIVE)/$(LIBGLES_SRC):
+	$(DOWNLOAD) http://source.mynonpublic.com/octagon/$(LIBGLES_SRC)
+
 $(D)/install-hisiplayer-libs: $(ARCHIVE)/$(LIBGLES_SRC)
 	install -d $(BUILD_TMP)/hiplay
 	tar xzf $(ARCHIVE)/$(LIBGLES_SRC) -C $(BUILD_TMP)/hiplay
 	cp -d $(BUILD_TMP)/hiplay/usr/lib/* $(TARGET_LIB_DIR)
 	$(REMOVE)/hiplay
+
+#
+# libreader
+#
+LIBREADER_DATE = 20200612
+LIBREADER_SRC = $(BOXTYPE)-libreader-$(LIBREADER_DATE).tar.gz
+
+$(ARCHIVE)/$(LIBREADER_SRC):
+	$(DOWNLOAD) http://source.mynonpublic.com/octagon/$(LIBREADER_SRC)
 
 $(D)/install-libreader: $(ARCHIVE)/$(LIBREADER_SRC)
 	install -d $(BUILD_TMP)/libreader
@@ -169,11 +150,29 @@ $(D)/install-libreader: $(ARCHIVE)/$(LIBREADER_SRC)
 	install -m 0755 $(BUILD_TMP)/libreader/libreader $(TARGET_DIR)/usr/bin/libreader
 	$(REMOVE)/libreader
 
+#
+# tntfs
+#
+TNTFS_DATE     = 20200528
+TNTFS_SRC = 3798mv200-tntfs-$(TNTFS_DATE).zip
+
+$(ARCHIVE)/$(TNTFS_SRC):
+	$(DOWNLOAD) http://source.mynonpublic.com/tntfs/$(TNTFS_SRC)
+
 $(D)/install-tntfs: $(ARCHIVE)/$(TNTFS_SRC)
 	install -d $(BUILD_TMP)/tntfs
 	unzip -o $(ARCHIVE)/$(TNTFS_SRC) -d $(BUILD_TMP)/tntfs
 	install -m 0755 $(BUILD_TMP)/tntfs/tntfs.ko $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra
 	$(REMOVE)/tntfs
+
+#
+# hihalt
+#
+HIHALT_DATE    = 20200601
+HIHALT_SRC = $(BOXTYPE)-hihalt-$(HIHALT_DATE).tar.gz
+
+$(ARCHIVE)/$(HIHALT_SRC):
+	$(DOWNLOAD) http://source.mynonpublic.com/octagon/$(HIHALT_SRC)
 
 $(D)/install-hihalt: $(ARCHIVE)/$(HIHALT_SRC)
 	install -d $(BUILD_TMP)/hihalt
@@ -181,8 +180,26 @@ $(D)/install-hihalt: $(ARCHIVE)/$(HIHALT_SRC)
 	install -m 0755 $(BUILD_TMP)/hihalt/hihalt $(TARGET_DIR)/usr/bin/hihalt
 	$(REMOVE)/hihalt
 
+#
+# libjpeg
+#
+LIBJPEG_SRC = libjpeg.so.62.2.0
+
+$(ARCHIVE)/$(LIBJPEG_SRC):	
+	$(DOWNLOAD) https://github.com/oe-alliance/oe-alliance-core/raw/5.3/meta-brands/meta-octagon/recipes-graphics/files/$(LIBJPEG_SRC)
+
 $(D)/install-libjpeg: $(ARCHIVE)/$(LIBJPEG_SRC)
 	cp $(ARCHIVE)/$(LIBJPEG_SRC) $(TARGET_LIB_DIR)
+
+#
+# wifi
+#
+WIFI_DIR = RTL8192EU-master
+WIFI_SRC = master.zip
+WIFI = RTL8192EU.zip
+
+$(ARCHIVE)/$(WIFI_SRC):
+	$(DOWNLOAD) https://github.com/zukon/RTL8192EU/archive/refs/heads/$(WIFI_SRC) -O $(ARCHIVE)/$(WIFI)
 
 $(D)/install-wifi: $(D)/bootstrap $(D)/kernel $(ARCHIVE)/$(WIFI_SRC)
 	$(START_BUILD)

@@ -100,15 +100,15 @@ $(D)/kernel.do_compile: $(D)/kernel.do_prepare
 		$(MAKE) -C $(KERNEL_DIR) ARCH=sh include/asm
 		$(MAKE) -C $(KERNEL_DIR) ARCH=sh include/linux/version.h
 		$(MAKE) -C $(KERNEL_DIR) ARCH=sh CROSS_COMPILE=$(TARGET)- uImage modules
-		$(MAKE) -C $(KERNEL_DIR) ARCH=sh CROSS_COMPILE=$(TARGET)- DEPMOD=$(DEPMOD) INSTALL_MOD_PATH=$(TARGET_DIR) modules_install
-		$(DEPMOD) -ae -b $(TARGET_DIR) -F $(KERNEL_DIR)/System.map -r $(KERNEL_VER)
+		$(MAKE) -C $(KERNEL_DIR) ARCH=sh CROSS_COMPILE=$(TARGET)- DEPMOD=depmod INSTALL_MOD_PATH=$(TARGET_DIR) modules_install
+		depmod -ae -b $(TARGET_DIR) -F $(KERNEL_DIR)/System.map -r $(KERNEL_VER)
 	@touch $@
 
 $(D)/kernel: $(D)/bootstrap $(D)/kernel.do_compile
 	install -m 644 $(KERNEL_DIR)/vmlinux $(TARGET_DIR)/boot/$(KERNEL_FILE)
 	install -m 644 $(KERNEL_DIR)/System.map $(TARGET_DIR)/boot/System.map-$(BOXARCH)-$(KERNEL_VER)
 	cp $(KERNEL_DIR)/arch/sh/boot/uImage $(TARGET_DIR)/boot/
-	$(DEPMOD) -ae -b $(TARGET_DIR) -F $(KERNEL_DIR)/System.map -r $(KERNEL_VER)
+	depmod -ae -b $(TARGET_DIR) -F $(KERNEL_DIR)/System.map -r $(KERNEL_VER)
 	rm $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/build || true
 	rm $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/source || true
 	$(TOUCH)
@@ -139,7 +139,7 @@ $(D)/driver: $(D)/bootstrap $(D)/kernel
 		BIN_DEST=$(TARGET_DIR)/bin \
 		INSTALL_MOD_PATH=$(TARGET_DIR) \
 		modules_install
-	$(DEPMOD) -ae -b $(TARGET_DIR) -F $(KERNEL_DIR)/System.map -r $(KERNEL_VER)
+	depmod -ae -b $(TARGET_DIR) -F $(KERNEL_DIR)/System.map -r $(KERNEL_VER)
 	$(TOUCH)
 
 #

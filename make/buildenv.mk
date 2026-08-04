@@ -258,11 +258,6 @@ CONFIGURE = \
 
 #
 #
-#	
-DEPMOD = $(HOST_DIR)/bin/depmod
-
-#
-#
 #
 ifeq ($(BOXARCH), sh4)
 ifeq ($(WLAN), wlandriver)

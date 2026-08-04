@@ -58,7 +58,7 @@ $(D)/kernel.do_compile: $(D)/kernel.do_prepare
 	set -e; cd $(KERNEL_DIR); \
 		$(MAKE) -C $(KERNEL_DIR) ARCH=arm oldconfig
 		$(MAKE) -C $(KERNEL_DIR) ARCH=arm CROSS_COMPILE=$(TARGET)- $(KERNEL_DTB) uImage modules
-		$(MAKE) -C $(KERNEL_DIR) ARCH=arm CROSS_COMPILE=$(TARGET)- DEPMOD=$(DEPMOD) INSTALL_MOD_PATH=$(TARGET_DIR) modules_install
+		$(MAKE) -C $(KERNEL_DIR) ARCH=arm CROSS_COMPILE=$(TARGET)- DEPMOD=depmod INSTALL_MOD_PATH=$(TARGET_DIR) modules_install
 	@touch $@
 
 $(D)/kernel: $(D)/bootstrap $(D)/kernel.do_compile
@@ -75,49 +75,10 @@ $(D)/kernel: $(D)/bootstrap $(D)/kernel.do_compile
 #
 DRIVER_VER     = $(KERNEL_VER)
 DRIVER_DATE    = 20230616
-HILIB_DATE     = 20221203
-LIBGLES_DATE   = 20221203
-LIBREADER_DATE = 20230217
-HIHALT_DATE    = 20230217
-TNTFS_DATE     = 20230217
-
-HICHIPSET = 3798mv300
-SOC_FAMILY = hisi3798mv300
-
 DRIVER_SRC = $(BOXTYPE)-hiko-$(DRIVER_DATE).zip
-
-HILIB_SRC = $(BOXTYPE)-hilib-$(HILIB_DATE).tar.gz
-
-LIBGLES_SRC = $(SOC_FAMILY)-opengl-$(LIBGLES_DATE).tar.gz
-
-LIBREADER_SRC = $(BOXTYPE)-libreader-$(LIBREADER_DATE).tar.gz
-
-HIHALT_SRC = $(SOC_FAMILY)-hihalt-$(HIHALT_DATE).tar.gz
-
-TNTFS_SRC = $(HICHIPSET)-tntfs-$(TNTFS_DATE).zip
-
-LIBJPEG_SRC = libjpeg.so.8.2.2
 
 $(ARCHIVE)/$(DRIVER_SRC):
 	$(DOWNLOAD) http://source.mynonpublic.com/uclan/$(DRIVER_SRC)
-
-$(ARCHIVE)/$(HILIB_SRC):
-	$(DOWNLOAD) http://source.mynonpublic.com/uclan/$(HILIB_SRC)
-
-$(ARCHIVE)/$(LIBGLES_SRC):
-	$(DOWNLOAD) http://source.mynonpublic.com/uclan/$(LIBGLES_SRC)
-
-$(ARCHIVE)/$(LIBREADER_SRC):
-	$(DOWNLOAD) http://source.mynonpublic.com/uclan/$(LIBREADER_SRC)
-
-$(ARCHIVE)/$(HIHALT_SRC):
-	$(DOWNLOAD) http://source.mynonpublic.com/uclan/$(HIHALT_SRC)
-
-$(ARCHIVE)/$(TNTFS_SRC):
-	$(DOWNLOAD) http://source.mynonpublic.com/tntfs/$(TNTFS_SRC)
-
-$(ARCHIVE)/$(LIBJPEG_SRC):	
-	$(DOWNLOAD) https://github.com/oe-alliance/oe-alliance-core/raw/5.3/meta-brands/meta-uclan/recipes-graphics/files/$(LIBJPEG_SRC)
 
 driver: $(D)/driver
 $(D)/driver: $(ARCHIVE)/$(DRIVER_SRC) $(D)/bootstrap $(D)/kernel
@@ -132,8 +93,17 @@ $(D)/driver: $(ARCHIVE)/$(DRIVER_SRC) $(D)/bootstrap $(D)/kernel
 	$(MAKE) install-libjpeg
 	$(MAKE) install-hihalt
 	$(MAKE) install-libreader
-	$(DEPMOD) -ae -b $(TARGET_DIR) -r $(KERNEL_VER)
+	depmod -ae -b $(TARGET_DIR) -r $(KERNEL_VER)
 	$(TOUCH)
+
+#
+# hi-lib
+#
+HILIB_DATE     = 20221203
+HILIB_SRC = $(BOXTYPE)-hilib-$(HILIB_DATE).tar.gz
+
+$(ARCHIVE)/$(HILIB_SRC):
+	$(DOWNLOAD) http://source.mynonpublic.com/uclan/$(HILIB_SRC)
 
 $(D)/install-hilib: $(ARCHIVE)/$(HILIB_SRC)
 	install -d $(BUILD_TMP)/hilib
@@ -141,11 +111,29 @@ $(D)/install-hilib: $(ARCHIVE)/$(HILIB_SRC)
 	cp -R $(BUILD_TMP)/hilib/hilib/* $(TARGET_LIB_DIR)
 	$(REMOVE)/hilib
 
+#
+# hisiplayer-libs
+#
+LIBGLES_DATE   = 20221203
+LIBGLES_SRC = hisi3798mv300-opengl-$(LIBGLES_DATE).tar.gz
+
+$(ARCHIVE)/$(LIBGLES_SRC):
+	$(DOWNLOAD) http://source.mynonpublic.com/uclan/$(LIBGLES_SRC)
+
 $(D)/install-hisiplayer-libs: $(ARCHIVE)/$(LIBGLES_SRC)
 	install -d $(BUILD_TMP)/hiplay
 	tar xzf $(ARCHIVE)/$(LIBGLES_SRC) -C $(BUILD_TMP)/hiplay
 	cp -d $(BUILD_TMP)/hiplay/usr/lib/* $(TARGET_LIB_DIR)
 	$(REMOVE)/hiplay
+
+#
+# libreader
+#
+LIBREADER_DATE = 20230217
+LIBREADER_SRC = $(BOXTYPE)-libreader-$(LIBREADER_DATE).tar.gz
+
+$(ARCHIVE)/$(LIBREADER_SRC):
+	$(DOWNLOAD) http://source.mynonpublic.com/uclan/$(LIBREADER_SRC)
 
 $(D)/install-libreader: $(ARCHIVE)/$(LIBREADER_SRC)
 	install -d $(BUILD_TMP)/libreader
@@ -153,17 +141,43 @@ $(D)/install-libreader: $(ARCHIVE)/$(LIBREADER_SRC)
 	install -m 0755 $(BUILD_TMP)/libreader/libreader $(TARGET_DIR)/usr/bin/libreader
 	$(REMOVE)/libreader
 
+#
+# tntfs
+#
+TNTFS_DATE     = 20230217
+TNTFS_SRC = 3798mv300-tntfs-$(TNTFS_DATE).zip
+
+$(ARCHIVE)/$(TNTFS_SRC):
+	$(DOWNLOAD) http://source.mynonpublic.com/tntfs/$(TNTFS_SRC)
+
 $(D)/install-tntfs: $(ARCHIVE)/$(TNTFS_SRC)
 	install -d $(BUILD_TMP)/tntfs
 	unzip -o $(ARCHIVE)/$(TNTFS_SRC) -d $(BUILD_TMP)/tntfs
 	install -m 0755 $(BUILD_TMP)/tntfs/tntfs.ko $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra
 	$(REMOVE)/tntfs
 
+#
+# hihalt
+#
+HIHALT_DATE    = 20230217
+HIHALT_SRC = hisi3798mv300-hihalt-$(HIHALT_DATE).tar.gz
+
+$(ARCHIVE)/$(HIHALT_SRC):
+	$(DOWNLOAD) http://source.mynonpublic.com/uclan/$(HIHALT_SRC)
+
 $(D)/install-hihalt: $(ARCHIVE)/$(HIHALT_SRC)
 	install -d $(BUILD_TMP)/hihalt
 	tar xzf $(ARCHIVE)/$(HIHALT_SRC) -C $(BUILD_TMP)/hihalt
 	install -m 0755 $(BUILD_TMP)/hihalt/hihalt $(TARGET_DIR)/usr/bin/hihalt
 	$(REMOVE)/hihalt
+
+#
+# libjpeg
+#
+LIBJPEG_SRC = libjpeg.so.8.2.2
+
+$(ARCHIVE)/$(LIBJPEG_SRC):	
+	$(DOWNLOAD) https://github.com/oe-alliance/oe-alliance-core/raw/5.3/meta-brands/meta-uclan/recipes-graphics/files/$(LIBJPEG_SRC)
 
 $(D)/install-libjpeg: $(ARCHIVE)/$(LIBJPEG_SRC)
 	cp $(ARCHIVE)/$(LIBJPEG_SRC) $(TARGET_LIB_DIR)

@@ -66,7 +66,7 @@ $(D)/kernel.do_compile: $(D)/kernel.do_prepare
 	set -e; cd $(KERNEL_DIR); \
 		$(MAKE) -C $(KERNEL_DIR) ARCH=arm oldconfig
 		$(MAKE) -C $(KERNEL_DIR) ARCH=arm CROSS_COMPILE=$(TARGET)- $(KERNEL_DTB) uImage modules
-		$(MAKE) -C $(KERNEL_DIR) ARCH=arm CROSS_COMPILE=$(TARGET)- DEPMOD=$(DEPMOD) INSTALL_MOD_PATH=$(TARGET_DIR) modules_install
+		$(MAKE) -C $(KERNEL_DIR) ARCH=arm CROSS_COMPILE=$(TARGET)- DEPMOD=depmod INSTALL_MOD_PATH=$(TARGET_DIR) modules_install
 	@touch $@
 
 $(D)/kernel: $(D)/bootstrap $(D)/kernel.do_compile
@@ -83,32 +83,10 @@ $(D)/kernel: $(D)/bootstrap $(D)/kernel.do_compile
 #
 DRIVER_VER     = $(KERNEL_VER)
 DRIVER_DATE    = 20201204
-PLAYERLIB_DATE = 20200622
-LIBGLES_DATE   = 20190104
-
 DRIVER_SRC = multibox-drivers-$(DRIVER_VER)-$(DRIVER_DATE).zip
-
-PLAYERLIB_SRC = maxytec-libs-3798mv200-$(PLAYERLIB_DATE).zip
-
-LIBGLES_SRC = multibox-mali-$(LIBGLES_DATE).zip
-
-LIBGLES_HEADERS = libgles-mali-utgard-headers.zip
-
-MALI_MODULE_VER = DX910-SW-99002-r7p0-00rel0
-MALI_MODULE_SRC = $(MALI_MODULE_VER).tgz
-MALI_MODULE_PATCH = 0001-hi3798mv200-support.patch
 
 $(ARCHIVE)/$(DRIVER_SRC):
 	$(DOWNLOAD) http://source.mynonpublic.com/maxytec/$(DRIVER_SRC)
-
-$(ARCHIVE)/$(PLAYERLIB_SRC):
-	$(DOWNLOAD) http://source.mynonpublic.com/maxytec/$(PLAYERLIB_SRC)
-
-$(ARCHIVE)/$(LIBGLES_SRC):
-	$(DOWNLOAD) http://downloads.mutant-digital.net/maxytec/$(LIBGLES_SRC)
-
-$(ARCHIVE)/$(MALI_MODULE_SRC):
-	$(DOWNLOAD) https://developer.arm.com/-/media/Files/downloads/mali-drivers/kernel/mali-utgard-gpu/$(MALI_MODULE_SRC);name=driver
 
 driver: $(D)/driver
 $(D)/driver: $(ARCHIVE)/$(DRIVER_SRC) $(D)/bootstrap $(D)/kernel
@@ -116,29 +94,19 @@ $(D)/driver: $(ARCHIVE)/$(DRIVER_SRC) $(D)/bootstrap $(D)/kernel
 	install -d $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra
 	unzip -o $(ARCHIVE)/$(DRIVER_SRC) -d $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra
 	mv $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra/turnoff_power $(TARGET_DIR)/bin
-	#$(MAKE) install-v3ddriver
-	$(MAKE) install-v3ddriver-header
 	$(MAKE) install-hisiplayer-libs
 	$(MAKE) mali-gpu-modul
-	$(DEPMOD) -ae -b $(TARGET_DIR) -r $(KERNEL_VER)
+	depmod -ae -b $(TARGET_DIR) -r $(KERNEL_VER)
 	$(TOUCH)
 
-$(D)/install-v3ddriver: $(ARCHIVE)/$(LIBGLES_SRC)
-	unzip -o $(ARCHIVE)/$(LIBGLES_SRC) -d $(TARGET_LIB_DIR)
-	ln -sf libMali.so $(TARGET_LIB_DIR)/libmali.so
-	ln -sf libMali.so $(TARGET_LIB_DIR)/libEGL.so.1.4
-	ln -sf libEGL.so.1.4 $(TARGET_LIB_DIR)/libEGL.so.1
-	ln -sf libEGL.so.1 $(TARGET_LIB_DIR)/libEGL.so
-	ln -sf libMali.so $(TARGET_LIB_DIR)/libGLESv1_CM.so.1.1
-	ln -sf libGLESv1_CM.so.1.1 $(TARGET_LIB_DIR)/libGLESv1_CM.so.1
-	ln -sf libGLESv1_CM.so.1 $(TARGET_LIB_DIR)/libGLESv1_CM.so
-	ln -sf libMali.so $(TARGET_LIB_DIR)/libGLESv2.so.2.0
-	ln -sf libGLESv2.so.2.0 $(TARGET_LIB_DIR)/libGLESv2.so.2
-	ln -sf libGLESv2.so.2 $(TARGET_LIB_DIR)/libGLESv2.so
-	ln -sf libMali.so $(TARGET_LIB_DIR)/libgbm.so
+#
+# hisiplayer-libs
+#
+PLAYERLIB_DATE = 20200622
+PLAYERLIB_SRC = maxytec-libs-3798mv200-$(PLAYERLIB_DATE).zip
 
-$(D)/install-v3ddriver-header: $(PATCHES)/$(LIBGLES_HEADERS)
-	unzip -o $(PATCHES)/$(LIBGLES_HEADERS) -d $(TARGET_INCLUDE_DIR)
+$(ARCHIVE)/$(PLAYERLIB_SRC):
+	$(DOWNLOAD) http://source.mynonpublic.com/maxytec/$(PLAYERLIB_SRC)
 
 $(D)/install-hisiplayer-libs: $(ARCHIVE)/$(PLAYERLIB_SRC) $(D)/zlib $(D)/libpng $(D)/freetype $(D)/libcurl $(D)/libxml2 $(D)/libjpeg_turbo2 $(D)/harfbuzz
 	install -d $(BUILD_TMP)/hiplay
@@ -149,6 +117,16 @@ $(D)/install-hisiplayer-libs: $(ARCHIVE)/$(PLAYERLIB_SRC) $(D)/zlib $(D)/libpng 
 	#install -m 0755 $(BUILD_TMP)/hiplay/glibc/* $(TARGET_LIB_DIR)/hisilicon
 	ln -sf /lib/ld-linux-armhf.so.3 $(TARGET_LIB_DIR)/hisilicon/ld-linux.so
 	$(REMOVE)/hiplay
+
+#
+# mali-gpu
+#
+MALI_MODULE_VER = DX910-SW-99002-r7p0-00rel0
+MALI_MODULE_SRC = $(MALI_MODULE_VER).tgz
+MALI_MODULE_PATCH = 0001-hi3798mv200-support.patch
+
+$(ARCHIVE)/$(MALI_MODULE_SRC):
+	$(DOWNLOAD) https://developer.arm.com/-/media/Files/downloads/mali-drivers/kernel/mali-utgard-gpu/$(MALI_MODULE_SRC);name=driver
 
 $(D)/mali-gpu-modul: $(ARCHIVE)/$(MALI_MODULE_SRC) $(D)/bootstrap $(D)/kernel
 	$(START_BUILD)
@@ -180,7 +158,7 @@ $(D)/mali-gpu-modul: $(ARCHIVE)/$(MALI_MODULE_SRC) $(D)/bootstrap $(D)/kernel
 		CONFIG_MALI450=y \
 		CONFIG_MALI_DVFS=y \
 		CONFIG_GPU_AVS_ENABLE=y \
-		DEPMOD=$(DEPMOD) INSTALL_MOD_PATH=$(TARGET_DIR) modules_install
+		DEPMOD=depmod INSTALL_MOD_PATH=$(TARGET_DIR) modules_install
 	$(REMOVE)/$(MALI_MODULE_VER)
 	$(TOUCH)
 

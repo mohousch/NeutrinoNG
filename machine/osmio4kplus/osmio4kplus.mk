@@ -46,7 +46,7 @@ $(D)/kernel.do_compile: $(D)/kernel.do_prepare
 	set -e; cd $(KERNEL_DIR); \
 		$(MAKE) -C $(KERNEL_DIR) ARCH=arm oldconfig
 		$(MAKE) -C $(KERNEL_DIR) ARCH=arm CROSS_COMPILE=$(TARGET)- zImage modules
-		$(MAKE) -C $(KERNEL_DIR) ARCH=arm CROSS_COMPILE=$(TARGET)- DEPMOD=$(DEPMOD) INSTALL_MOD_PATH=$(TARGET_DIR) modules_install
+		$(MAKE) -C $(KERNEL_DIR) ARCH=arm CROSS_COMPILE=$(TARGET)- DEPMOD=depmod INSTALL_MOD_PATH=$(TARGET_DIR) modules_install
 	@touch $@
 
 $(D)/kernel: $(D)/bootstrap $(D)/kernel.do_compile
@@ -62,20 +62,11 @@ $(D)/kernel: $(D)/bootstrap $(D)/kernel.do_compile
 #
 DRIVER_VER = 5.15.0
 DRIVER_DATE = 20211228
-DRIVER_REV =
 DRIVER_SRC = $(BOXTYPE)-drivers-$(DRIVER_VER)-$(DRIVER_DATE).zip
 DRIVER_URL = http://source.mynonpublic.com/edision
 
-LIBGLES_VER = 2.0
-LIBGLES_DIR = edision-libv3d-$(LIBGLES_VER)
-LIBGLES_SRC = edision-libv3d-$(LIBGLES_VER).tar.xz
-LIBGLES_URL = http://source.mynonpublic.com/edision
-
 $(ARCHIVE)/$(DRIVER_SRC):
 	$(DOWNLOAD) $(DRIVER_URL)/$(DRIVER_SRC)
-
-$(ARCHIVE)/$(LIBGLES_SRC):
-	$(DOWNLOAD) $(LIBGLES_URL)/$(LIBGLES_SRC)
 
 driver: $(D)/driver
 $(D)/driver: $(ARCHIVE)/$(DRIVER_SRC) $(D)/bootstrap $(D)/kernel
@@ -84,8 +75,19 @@ $(D)/driver: $(ARCHIVE)/$(DRIVER_SRC) $(D)/bootstrap $(D)/kernel
 	unzip -o $(ARCHIVE)/$(DRIVER_SRC) -d $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra
 	$(MAKE) install-v3ddriver
 #	$(MAKE) wlan-qcom
-	$(DEPMOD) -ae -b $(TARGET_DIR) -r $(KERNEL_VER)
+	depmod -ae -b $(TARGET_DIR) -r $(KERNEL_VER)
 	$(TOUCH)
+
+#
+# libgles
+#
+LIBGLES_VER = 2.0
+LIBGLES_DIR = edision-libv3d-$(LIBGLES_VER)
+LIBGLES_SRC = edision-libv3d-$(LIBGLES_VER).tar.xz
+LIBGLES_URL = http://source.mynonpublic.com/edision
+
+$(ARCHIVE)/$(LIBGLES_SRC):
+	$(DOWNLOAD) $(LIBGLES_URL)/$(LIBGLES_SRC)
 
 $(D)/install-v3ddriver: $(ARCHIVE)/$(LIBGLES_SRC)
 	install -d $(TARGET_LIB_DIR)

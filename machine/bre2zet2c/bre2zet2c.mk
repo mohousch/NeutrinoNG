@@ -81,7 +81,7 @@ $(D)/kernel.do_compile: $(D)/kernel.do_prepare
 	set -e; cd $(KERNEL_DIR); \
 		$(MAKE) EXTRA_CFLAGS=-Wno-attribute-alias -C $(KERNEL_DIR) ARCH=mips oldconfig
 		$(MAKE) EXTRA_CFLAGS=-Wno-attribute-alias -C $(KERNEL_DIR) ARCH=mips CROSS_COMPILE=$(TARGET)- vmlinux modules
-		$(MAKE) EXTRA_CFLAGS=-Wno-attribute-alias -C $(KERNEL_DIR) ARCH=mips CROSS_COMPILE=$(TARGET)- DEPMOD=$(DEPMOD) INSTALL_MOD_PATH=$(TARGET_DIR) modules_install
+		$(MAKE) EXTRA_CFLAGS=-Wno-attribute-alias -C $(KERNEL_DIR) ARCH=mips CROSS_COMPILE=$(TARGET)- DEPMOD=depmod INSTALL_MOD_PATH=$(TARGET_DIR) modules_install
 	@touch $@
 
 $(D)/kernel: $(D)/bootstrap $(D)/kernel.do_compile
@@ -97,8 +97,8 @@ $(D)/kernel: $(D)/bootstrap $(D)/kernel.do_compile
 #
 DRIVER_VER = 4.1.24
 DRIVER_DATE = 20170623
-DRIVER_SRC 		= bre2zet2c-drivers-$(DRIVER_VER)-6.3.0-$(DRIVER_DATE).zip
-DRIVER_URL		= http://source.mynonpublic.com/broadmedia
+DRIVER_SRC = bre2zet2c-drivers-$(DRIVER_VER)-6.3.0-$(DRIVER_DATE).zip
+DRIVER_URL = http://source.mynonpublic.com/broadmedia
 
 $(ARCHIVE)/$(DRIVER_SRC):
 	$(DOWNLOAD) $(DRIVER_URL)/$(DRIVER_SRC)
@@ -108,7 +108,7 @@ $(D)/driver: $(ARCHIVE)/$(DRIVER_SRC) $(D)/bootstrap $(D)/kernel
 	$(START_BUILD)
 	install -d $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra
 	unzip -o $(ARCHIVE)/$(DRIVER_SRC) -d $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra
-	$(DEPMOD) -ae -b $(TARGET_DIR) -r $(KERNEL_VER)
+	depmod -ae -b $(TARGET_DIR) -r $(KERNEL_VER)
 	$(TOUCH)
 
 #

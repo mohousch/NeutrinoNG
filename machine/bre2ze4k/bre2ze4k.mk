@@ -67,7 +67,7 @@ $(D)/kernel.do_compile: $(D)/kernel.do_prepare
 	set -e; cd $(KERNEL_DIR); \
 		$(MAKE) -C $(KERNEL_DIR) ARCH=arm oldconfig
 		$(MAKE) -C $(KERNEL_DIR) ARCH=arm CROSS_COMPILE=$(TARGET)- $(KERNEL_DTB) zImage modules
-		$(MAKE) -C $(KERNEL_DIR) ARCH=arm CROSS_COMPILE=$(TARGET)- DEPMOD=$(DEPMOD) INSTALL_MOD_PATH=$(TARGET_DIR) modules_install
+		$(MAKE) -C $(KERNEL_DIR) ARCH=arm CROSS_COMPILE=$(TARGET)- DEPMOD=depmod INSTALL_MOD_PATH=$(TARGET_DIR) modules_install
 	@touch $@
 
 $(D)/kernel: $(D)/bootstrap $(D)/kernel.do_compile
@@ -87,19 +87,8 @@ DRIVER_DATE = 20191120
 DRIVER_SRC = bre2ze4k-drivers-$(DRIVER_VER)-$(DRIVER_DATE).zip
 DRIVER_URL = http://source.mynonpublic.com/gfutures
 
-LIBGLES_DATE = 20191101
-LIBGLES_SRC = bre2ze4k-v3ddriver-$(LIBGLES_DATE).zip
-LIBGLES_HEADERS = hd-v3ddriver-headers.tar.gz
-LIBGLES_URL = http://downloads.mutant-digital.net/v3ddriver
-
 $(ARCHIVE)/$(DRIVER_SRC):
 	$(DOWNLOAD) $(DRIVER_URL)/$(DRIVER_SRC)
-
-$(ARCHIVE)/$(LIBGLES_SRC):
-	$(DOWNLOAD) $(LIBGLES_URL)/$(LIBGLES_SRC)
-
-$(ARCHIVE)/$(LIBGLES_HEADERS):
-	$(DOWNLOAD) $(LIBGLES_URL)/$(LIBGLES_HEADERS)
 
 driver: $(D)/driver
 $(D)/driver: $(ARCHIVE)/$(DRIVER_SRC) $(D)/bootstrap $(D)/kernel
@@ -108,12 +97,19 @@ $(D)/driver: $(ARCHIVE)/$(DRIVER_SRC) $(D)/bootstrap $(D)/kernel
 	unzip -o $(ARCHIVE)/$(DRIVER_SRC) -d $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra
 	$(MAKE) install-v3ddriver
 	$(MAKE) install-v3ddriver-header
-	$(DEPMOD) -ae -b $(TARGET_DIR) -r $(KERNEL_VER)
+	depmod -ae -b $(TARGET_DIR) -r $(KERNEL_VER)
 	$(TOUCH)
 
 #
-# v3drivers
+# libgles
 #
+LIBGLES_DATE = 20191101
+LIBGLES_SRC = bre2ze4k-v3ddriver-$(LIBGLES_DATE).zip
+LIBGLES_URL = http://downloads.mutant-digital.net/v3ddriver
+
+$(ARCHIVE)/$(LIBGLES_SRC):
+	$(DOWNLOAD) $(LIBGLES_URL)/$(LIBGLES_SRC)
+
 $(D)/install-v3ddriver: $(ARCHIVE)/$(LIBGLES_SRC)
 	install -d $(TARGET_LIB_DIR)
 	unzip -o $(ARCHIVE)/$(LIBGLES_SRC) -d $(TARGET_LIB_DIR)
@@ -130,9 +126,17 @@ $(D)/install-v3ddriver: $(ARCHIVE)/$(LIBGLES_SRC)
 	ln -sf libv3ddriver.so $(TARGET_LIB_DIR)/libgbm.so.1
 	ln -sf libgbm.so.1 $(TARGET_LIB_DIR)/libgbm.so
 
-$(D)/install-v3ddriver-header: $(ARCHIVE)/$(LIBGLES_HEADERS)
+#
+# libgles headers
+#
+LIBGLES_HEADERS_SRC = hd-v3ddriver-headers.tar.gz
+
+$(ARCHIVE)/$(LIBGLES_HEADERS_SRC):
+	$(DOWNLOAD) $(LIBGLES_URL)/$(LIBGLES_HEADERS_SRC)
+	
+$(D)/install-v3ddriver-header: $(ARCHIVE)/$(LIBGLES_HEADERS_SRC)
 	install -d $(TARGET_INCLUDE_DIR)
-	tar -xf $(ARCHIVE)/$(LIBGLES_HEADERS) -C $(TARGET_INCLUDE_DIR)
+	tar -xf $(ARCHIVE)/$(LIBGLES_HEADERS_SRC) -C $(TARGET_INCLUDE_DIR)
 
 #
 # release

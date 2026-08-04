@@ -91,8 +91,8 @@ $(D)/kernel.do_compile: $(D)/kernel.do_prepare
 	set -e; cd $(KERNEL_DIR); \
 		$(MAKE) -C $(KERNEL_DIR) ARCH=arm oldconfig
 		$(MAKE) -C $(KERNEL_DIR) ARCH=arm CROSS_COMPILE=$(TARGET)- $(KERNEL_DTB) zImage modules
-		$(MAKE) -C $(KERNEL_DIR) ARCH=arm CROSS_COMPILE=$(TARGET)- DEPMOD=$(DEPMOD) INSTALL_MOD_PATH=$(TARGET_DIR) modules_install
-		$(DEPMOD) -ae -b $(TARGET_DIR) -F $(KERNEL_DIR)/System.map -r $(KERNEL_VER)
+		$(MAKE) -C $(KERNEL_DIR) ARCH=arm CROSS_COMPILE=$(TARGET)- DEPMOD=depmod INSTALL_MOD_PATH=$(TARGET_DIR) modules_install
+		depmod -ae -b $(TARGET_DIR) -F $(KERNEL_DIR)/System.map -r $(KERNEL_VER)
 	@touch $@
 
 $(D)/kernel: $(D)/bootstrap $(D)/kernel.do_compile
@@ -114,17 +114,10 @@ DRIVER_URL = http://source.mynonpublic.com/gigablue/drivers
 
 LIBGLES_DATE = 20200723
 LIBGLES_SRC  = gb7252-v3ddriver-$(LIBGLES_DATE).r0.zip
-LIBGLES_HEADERS = gb-nexus-headers.zip
 LIBGLES_URL  = https://source.mynonpublic.com/gigablue/v3ddriver
 
 $(ARCHIVE)/$(DRIVER_SRC):
 	$(DOWNLOAD) $(DRIVER_URL)/$(DRIVER_SRC)
-	
-$(ARCHIVE)/$(LIBGLES_SRC):
-	$(DOWNLOAD) $(LIBGLES_URL)/$(LIBGLES_SRC)
-
-$(ARCHIVE)/$(LIBGLES_HEADERS):
-	$(DOWNLOAD) $(LIBGLES_URL)/$(LIBGLES_HEADERS)
 
 driver: $(D)/driver
 $(D)/driver: $(ARCHIVE)/$(DRIVER_SRC) $(D)/bootstrap $(D)/kernel
@@ -138,18 +131,36 @@ $(D)/driver: $(ARCHIVE)/$(DRIVER_SRC) $(D)/bootstrap $(D)/kernel
 	install -m 0755 $(TARGET_DIR)/usr/share/platform/nxserver $(TARGET_DIR)/usr/bin/nxserver
 	install -m 0755 $(TARGET_DIR)/usr/share/platform/dvb_init $(TARGET_DIR)/usr/bin/dvb_init
 	$(REMOVE)/platform-util-$(BOXTYPE)
-	$(DEPMOD) -ae -b $(TARGET_DIR) -r $(KERNEL_VER)
+	depmod -ae -b $(TARGET_DIR) -r $(KERNEL_VER)
 	$(MAKE) install-v3ddriver
 	$(MAKE) install-v3ddriver-header
 	$(TOUCH)
+
+#
+# libgles
+#
+LIBGLES_DATE = 20200723
+LIBGLES_SRC  = gb7252-v3ddriver-$(LIBGLES_DATE).r0.zip
+LIBGLES_URL  = https://source.mynonpublic.com/gigablue/v3ddriver
+
+$(ARCHIVE)/$(LIBGLES_SRC):
+	$(DOWNLOAD) $(LIBGLES_URL)/$(LIBGLES_SRC)
 	
 $(D)/install-v3ddriver: $(ARCHIVE)/$(LIBGLES_SRC)
 	install -d $(TARGET_LIB_DIR)
 	unzip -o $(ARCHIVE)/$(LIBGLES_SRC) -d $(TARGET_LIB_DIR)
 
-$(D)/install-v3ddriver-header: $(ARCHIVE)/$(LIBGLES_HEADERS)
+#
+# libgles headers
+#
+LIBGLES_HEADERS_SRC = gb-nexus-headers.zip
+
+$(ARCHIVE)/$(LIBGLES_HEADERS_SRC):
+	$(DOWNLOAD) $(LIBGLES_URL)/$(LIBGLES_HEADERS_SRC)
+
+$(D)/install-v3ddriver-header: $(ARCHIVE)/$(LIBGLES_HEADERS_SRC)
 	install -d $(TARGET_INCLUDE_DIR)
-	unzip -o $(ARCHIVE)/$(LIBGLES_HEADERS) -d $(TARGET_INCLUDE_DIR)
+	unzip -o $(ARCHIVE)/$(LIBGLES_HEADERS_SRC) -d $(TARGET_INCLUDE_DIR)
 
 #
 # release

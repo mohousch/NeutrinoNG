@@ -74,7 +74,7 @@ $(D)/kernel.do_compile: $(D)/kernel.do_prepare
 	set -e; cd $(KERNEL_DIR); \
 		$(MAKE) -C $(KERNEL_DIR) ARCH=arm oldconfig
 		$(MAKE) -C $(KERNEL_DIR) ARCH=arm CROSS_COMPILE=$(TARGET)- zImage modules
-		$(MAKE) -C $(KERNEL_DIR) ARCH=arm CROSS_COMPILE=$(TARGET)- DEPMOD=$(DEPMOD) INSTALL_MOD_PATH=$(TARGET_DIR) modules_install
+		$(MAKE) -C $(KERNEL_DIR) ARCH=arm CROSS_COMPILE=$(TARGET)- DEPMOD=depmod INSTALL_MOD_PATH=$(TARGET_DIR) modules_install
 	@touch $@
 
 $(D)/kernel: $(D)/bootstrap $(D)/kernel.do_compile
@@ -93,20 +93,8 @@ DRIVER_VER = 4.10.12-$(DRIVER_DATE)
 DRIVER_SRC = protek4k-drivers-$(DRIVER_VER).zip
 DRIVER_URL = http://source.mynonpublic.com/ceryon
 
-LIBGLES_DATE = 20191101
-LIBGLES_SRC  = 8100s-v3ddriver-$(LIBGLES_DATE).zip
-LIBGLES_URL  = https://source.mynonpublic.com/ceryon
-
-LIBGLES_HEADERS = hd-v3ddriver-headers.tar.gz
-
 $(ARCHIVE)/$(DRIVER_SRC):
 	$(DOWNLOAD) $(DRIVER_URL)/$(DRIVER_SRC)
-
-$(ARCHIVE)/$(LIBGLES_SRC):
-	$(DOWNLOAD) $(LIBGLES_URL)/$(LIBGLES_SRC)
-
-$(ARCHIVE)/$(LIBGLES_HEADERS):
-	$(DOWNLOAD) $(LIBGLES_URL)/$(LIBGLES_HEADERS)
 
 driver: $(D)/driver
 $(D)/driver: $(ARCHIVE)/$(DRIVER_SRC) $(D)/bootstrap $(D)/kernel
@@ -115,8 +103,18 @@ $(D)/driver: $(ARCHIVE)/$(DRIVER_SRC) $(D)/bootstrap $(D)/kernel
 	unzip -o $(ARCHIVE)/$(DRIVER_SRC) -d $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra
 	$(MAKE) install-v3ddriver
 	$(MAKE) install-v3ddriver-header
-	$(DEPMOD) -ae -b $(TARGET_DIR) -r $(KERNEL_VER)
+	depmod -ae -b $(TARGET_DIR) -r $(KERNEL_VER)
 	$(TOUCH)
+
+#
+# libgles
+#
+LIBGLES_DATE = 20191101
+LIBGLES_SRC  = 8100s-v3ddriver-$(LIBGLES_DATE).zip
+LIBGLES_URL  = https://source.mynonpublic.com/ceryon
+
+$(ARCHIVE)/$(LIBGLES_SRC):
+	$(DOWNLOAD) $(LIBGLES_URL)/$(LIBGLES_SRC)
 
 $(D)/install-v3ddriver: $(ARCHIVE)/$(LIBGLES_SRC)
 	unzip -o $(ARCHIVE)/$(LIBGLES_SRC) -d $(TARGET_LIB_DIR)
@@ -132,6 +130,14 @@ $(D)/install-v3ddriver: $(ARCHIVE)/$(LIBGLES_SRC)
 	ln -sf libGLESv2.so.2 $(TARGET_LIB_DIR)/libGLESv2.so
 	ln -sf libv3ddriver.so $(TARGET_LIB_DIR)/libgbm.so.1
 	ln -sf libgbm.so.1 $(TARGET_LIB_DIR)/libgbm.so
+
+#
+# libgles headers
+#
+LIBGLES_HEADERS = hd-v3ddriver-headers.tar.gz
+
+$(ARCHIVE)/$(LIBGLES_HEADERS):
+	$(DOWNLOAD) $(LIBGLES_URL)/$(LIBGLES_HEADERS)
 
 $(D)/install-v3ddriver-header: $(ARCHIVE)/$(LIBGLES_HEADERS)
 	tar -xf $(ARCHIVE)/$(LIBGLES_HEADERS) -C $(TARGET_INCLUDE_DIR)

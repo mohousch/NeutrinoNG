@@ -9,7 +9,7 @@ BOXARCH = arm
 MACHINE_OPTS = --enable-ci --enable-fkeys --enable-lcd --enable-lcd-color-bitorder-rgb565 --enable-scart --enable-4k --enable-cec
 
 #
-#
+# kernel
 #
 KERNEL_VER             = 3.14-1.17
 KERNEL_SRC_VER         = 3.14.79
@@ -72,8 +72,8 @@ $(D)/kernel.do_compile: $(D)/kernel.do_prepare
 	set -e; cd $(KERNEL_DIR); \
 		$(MAKE) -C $(KERNEL_DIR) ARCH=arm oldconfig
 		$(MAKE) -C $(KERNEL_DIR) ARCH=arm CROSS_COMPILE=$(TARGET)- $(KERNEL_DTB) zImage modules
-		$(MAKE) -C $(KERNEL_DIR) ARCH=arm CROSS_COMPILE=$(TARGET)- DEPMOD=$(DEPMOD) INSTALL_MOD_PATH=$(TARGET_DIR) modules_install
-		$(DEPMOD) -ae -b $(TARGET_DIR) -F $(KERNEL_DIR)/System.map -r $(KERNEL_VER)-$(BOXTYPE)
+		$(MAKE) -C $(KERNEL_DIR) ARCH=arm CROSS_COMPILE=$(TARGET)- DEPMOD=depmod INSTALL_MOD_PATH=$(TARGET_DIR) modules_install
+		depmod -ae -b $(TARGET_DIR) -F $(KERNEL_DIR)/System.map -r $(KERNEL_VER)-$(BOXTYPE)
 	@touch $@
 
 $(D)/kernel: $(D)/bootstrap $(D)/kernel.do_compile
@@ -94,7 +94,7 @@ DRIVER_DATE = 20200321
 DRIVER_SRC = dreambox-dvb-modules_$(DRIVER_VER)-$(BOXTYPE)-$(DRIVER_DATE)_$(BOXTYPE).tar.xz
 
 $(ARCHIVE)/$(DRIVER_SRC):
-	$(DOWNLOAD) https://source.mynonpublic.com/dreambox/$(DRIVER_SRC) #https://github.com/oe-mirrors/dreambox/raw/main/$(DRIVER_SRC)
+	$(DOWNLOAD) https://source.mynonpublic.com/dreambox/$(DRIVER_SRC)
 
 driver: $(D)/driver	
 $(D)/driver: $(ARCHIVE)/$(DRIVER_SRC) $(D)/bootstrap $(D)/kernel
@@ -102,7 +102,7 @@ $(D)/driver: $(ARCHIVE)/$(DRIVER_SRC) $(D)/bootstrap $(D)/kernel
 	install -d $(TARGET_DIR)/lib/modules/$(KERNEL_VER)-$(BOXTYPE)/extra
 	tar -xf $(ARCHIVE)/$(DRIVER_SRC) -C $(TARGET_DIR)/lib/modules/$(KERNEL_VER)-$(BOXTYPE)/extra --transform='s/.*\///'
 	find $(TARGET_DIR)/lib/modules/$(KERNEL_VER)-$(BOXTYPE)/extra -type d -empty -delete
-	$(DEPMOD) -ae -b $(TARGET_DIR) -r $(KERNEL_VER)-$(BOXTYPE)
+	depmod -ae -b $(TARGET_DIR) -r $(KERNEL_VER)-$(BOXTYPE)
 	$(TOUCH)
 
 #
