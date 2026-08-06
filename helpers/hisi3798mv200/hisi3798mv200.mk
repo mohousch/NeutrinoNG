@@ -2,7 +2,7 @@
 # hisi3798mv200-disk-image
 #
 FLASH_IMAGE_NAME = disk
-ROOTFS_SIZE = 320k #2*128k + 64k
+ROOTFS_SIZE = $(IMAGE_ROOTFS_SIZE)
 
 hisi3798mv200-disk-image-$(BOXTYPE): $(ARCHIVE)/$(FLASH_PARTITONS_SRC)
 	rm -rf $(IMAGE_BUILD_DIR) || true
