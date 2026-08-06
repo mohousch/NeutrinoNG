@@ -302,6 +302,24 @@ $(D)/host_octagon_buildimage: $(ARCHIVE)/$(BUILDIMAGE_SRC)
 	cp -ra $(BUILD_TMP)/buildimage/mkupdate $(HOST_DIR)/bin/mkupdate
 	$(REMOVE)/buildimage
 	$(TOUCH)
+	
+#
+# host_gigablue_buildimage
+#
+BUILDIMAGE_SRC = buildimage.zip
+
+$(ARCHIVE)/$(BUILDIMAGE_SRC):
+	$(DOWNLOAD) https://github.com/oe-alliance/oe-alliance-core/raw/5.0/meta-brands/meta-gigablue/recipes-bsp/gigablue-buildimage/$(BUILDIMAGE_SRC)
+	
+$(D)/host_gigablue_buildimage: $(ARCHIVE)/$(BUILDIMAGE_SRC)
+	$(START_BUILD)
+	$(REMOVE)/buildimage
+	unzip -o $(ARCHIVE)/$(BUILDIMAGE_SRC) -d $(BUILD_TMP)/buildimage
+	cd $(BUILD_TMP)/buildimage; \
+	make; \
+	cp -ra $(BUILD_TMP)/buildimage/mkupdate $(HOST_DIR)/bin/mkupdate
+	$(REMOVE)/buildimage
+	$(TOUCH)
 
 #
 # host_android tools
@@ -506,6 +524,9 @@ BOOTSTRAP += $(D)/host_atools
 endif
 ifeq ($(BOXTYPE), $(filter $(BOXTYPE), sf8008 sf8008m ustym4kpro ustym4ks2ottx))
 BOOTSTRAP += $(D)/host_octagon_buildimage
+endif
+ifeq ($(BOXTYPE), gbtrio4k)
+BOOTSTRAP += $(D)/host_gigablue_buildimage
 endif
 ifeq ($(BOXARCH), $(filter $(BOXARCH), arm mips x86_64))	
 BOOTSTRAP += $(D)/host_python 

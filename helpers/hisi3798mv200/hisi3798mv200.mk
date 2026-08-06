@@ -1,10 +1,10 @@
 #
-# octagon-disk-image
+# hisi3798mv200-disk-image
 #
 FLASH_IMAGE_NAME = disk
 ROOTFS_SIZE = 320k #2*128k + 64k
 
-octagon-disk-image-$(BOXTYPE): $(ARCHIVE)/$(FLASH_PARTITONS_SRC)
+hisi3798mv200-disk-image-$(BOXTYPE): $(ARCHIVE)/$(FLASH_PARTITONS_SRC)
 	rm -rf $(IMAGE_BUILD_DIR) || true
 	mkdir -p $(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)
 	# kernel
@@ -42,9 +42,9 @@ endif
 	rm -rf $(IMAGE_BUILD_DIR)
 
 #
-# octagon-rootfs-image
+# hisi3798mv200-rootfs-image
 #	
-octagon-rootfs-image-$(BOXTYPE):
+hisi3798mv200-rootfs-image-$(BOXTYPE):
 	rm -rf $(IMAGE_BUILD_DIR) || true
 	mkdir -p $(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)
 	# kernel

@@ -241,8 +241,8 @@ FLASH_PARTITONS_SRC = $(BOXTYPE)-partitions-$(FLASH_PARTITONS_DATE).zip
 $(ARCHIVE)/$(FLASH_PARTITONS_SRC):
 	$(DOWNLOAD) http://source.mynonpublic.com/octagon/$(FLASH_PARTITONS_SRC)
 
--include $(HELPERS_DIR)/octagon/octagon.mk
+-include $(HELPERS_DIR)/hisi3798mv200/hisi3798mv200.mk
 
 image-sf8008m:
-	$(MAKE) octagon-disk-image-$(BOXTYPE) octagon-rootfs-image-$(BOXTYPE)
+	$(MAKE) hisi3798mv200-disk-image-$(BOXTYPE) hisi3798mv200-rootfs-image-$(BOXTYPE)
 

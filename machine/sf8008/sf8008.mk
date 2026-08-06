@@ -121,7 +121,7 @@ $(D)/install-hilib: $(ARCHIVE)/$(HILIB_SRC)
 	$(REMOVE)/hilib
 
 #
-# hisiplayer-libs
+# libgles
 #
 LIBGLES_DATE   = 20180301
 LIBGLES_SRC = hisi3798mv200-opengl-$(LIBGLES_DATE).tar.gz
@@ -153,7 +153,7 @@ $(D)/install-libreader: $(ARCHIVE)/$(LIBREADER_SRC)
 #
 # tntfs
 #
-TNTFS_DATE     = 20200528
+TNTFS_DATE = 20200528
 TNTFS_SRC = 3798mv200-tntfs-$(TNTFS_DATE).zip
 
 $(ARCHIVE)/$(TNTFS_SRC):
@@ -168,7 +168,7 @@ $(D)/install-tntfs: $(ARCHIVE)/$(TNTFS_SRC)
 #
 # hihalt
 #
-HIHALT_DATE    = 20200601
+HIHALT_DATE = 20200601
 HIHALT_SRC = $(BOXTYPE)-hihalt-$(HIHALT_DATE).tar.gz
 
 $(ARCHIVE)/$(HIHALT_SRC):
@@ -262,8 +262,8 @@ FLASH_PARTITONS_SRC = $(BOXTYPE)-partitions-$(FLASH_PARTITONS_DATE).zip
 $(ARCHIVE)/$(FLASH_PARTITONS_SRC):
 	$(DOWNLOAD) http://source.mynonpublic.com/octagon/$(FLASH_PARTITONS_SRC)
 
--include $(HELPERS_DIR)/octagon/octagon.mk
+-include $(HELPERS_DIR)/hisi3798mv200/hisi3798mv200.mk
 
 image-sf8008:
-	$(MAKE) octagon-disk-image-$(BOXTYPE) octagon-rootfs-image-$(BOXTYPE)
+	$(MAKE) hisi3798mv200-disk-image-$(BOXTYPE) hisi3798mv200-rootfs-image-$(BOXTYPE)
 

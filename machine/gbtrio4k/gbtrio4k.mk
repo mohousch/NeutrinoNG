@@ -1,5 +1,5 @@
 #
-# MACHINE = Gigablue Trio 4K (Pro)
+# MACHINE = Gigablue Trio 4K
 # VENDOR = Gigablue
 # OEM = Gigablue
 # SOC = hisi3798mv200
@@ -86,28 +86,144 @@ $(D)/kernel: $(D)/bootstrap $(D)/kernel.do_compile
 #
 DRIVER_VER = 4.4.35
 DRIVER_DATE = 20230224
-DRIVER_SRC = gbtrio4k-$(DRIVER_DATE).zip
+DRIVER_SRC = gbtrio4k-hiko-$(DRIVER_DATE).zip
 
 $(ARCHIVE)/$(DRIVER_SRC):
-#	$(DOWNLOAD) http://source.mynonpublic.com/gigablue/mv200/$(DRIVER_SRC)
+	$(DOWNLOAD) http://source.mynonpublic.com/gigablue/mv200/$(DRIVER_SRC)
 	
 driver: $(D)/driver
 $(D)/driver: $(ARCHIVE)/$(DRIVER_SRC) $(D)/bootstrap $(D)/kernel
 	$(START_BUILD)
 	install -d $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra
-	#unzip -o $(ARCHIVE)/$(DRIVER_SRC) -d $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra
-	#mv $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra/hiko/* $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra
-	#rmdir $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra/hiko
+	unzip -o $(ARCHIVE)/$(DRIVER_SRC) -d $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra
+	mv $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra/hiko/* $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra
+	rmdir $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra/hiko
+	#$(MAKE) install-hisiplayer-libs
+	#$(MAKE) install-hilib
+	$(MAKE) install-libreader
+	$(MAKE) install-libjpeg
+	#$(MAKE) install-hihalt
+	$(MAKE) install-tntfs
 	depmod -ae -b $(TARGET_DIR) -r $(KERNEL_VER)
 	$(TOUCH)
 	
 #
+# libgles
+#
+LIBGLES_DATE = 20180301
+LIBGLES_SRC = gbtrio4k-opengl-$(LIBGLES_DATE).tar.gz
+
+$(ARCHIVE)/$(LIBGLES_SRC):
+	$(DOWNLOAD) https://source.mynonpublic.com/gigablue/mv200/$(LIBGLES_SRC)
+
+$(D)/install-hisiplayer-libs: $(ARCHIVE)/$(LIBGLES_SRC)
+	install -d $(BUILD_TMP)/hiplay
+	tar xzf $(ARCHIVE)/$(LIBGLES_SRC) -C $(BUILD_TMP)/hiplay
+	cp -d $(BUILD_TMP)/hiplay/usr/lib/* $(TARGET_LIB_DIR)
+	$(REMOVE)/hiplay
+	
+#
+# hilib
+#
+HILIB_DATE = 20230530
+HILIB_SRC = $(BOXTYPE)-hilib-$(HILIB_DATE).tar.gz
+
+$(ARCHIVE)/$(HILIB_SRC):
+	$(DOWNLOAD) http://source.mynonpublic.com/gigablue/mv200/$(HILIB_SRC)
+
+$(D)/install-hilib: $(ARCHIVE)/$(HILIB_SRC)
+	install -d $(BUILD_TMP)/hilib
+	tar xzf $(ARCHIVE)/$(HILIB_SRC) -C $(BUILD_TMP)/hilib
+	cp -R $(BUILD_TMP)/hilib/hilib/* $(TARGET_LIB_DIR)
+	$(REMOVE)/hilib
+	
+#
+# libreader
+#
+LIBREADER_DATE = 20200612
+LIBREADER_SRC = $(BOXTYPE)-libreader-$(LIBREADER_DATE).tar.gz
+
+$(ARCHIVE)/$(LIBREADER_SRC):
+	$(DOWNLOAD) https://source.mynonpublic.com/gigablue/mv200/$(LIBREADER_SRC)
+
+$(D)/install-libreader: $(ARCHIVE)/$(LIBREADER_SRC)
+	install -d $(BUILD_TMP)/libreader
+	tar xzf $(ARCHIVE)/$(LIBREADER_SRC) -C $(BUILD_TMP)/libreader
+	install -m 0755 $(BUILD_TMP)/libreader/libreader $(TARGET_DIR)/usr/bin/libreader
+	$(REMOVE)/libreader
+	
+#
+# libjpeg
+#
+LIBJPEG_SRC = libjpeg.so.62.2.0
+
+$(ARCHIVE)/$(LIBJPEG_SRC):	
+	$(DOWNLOAD) https://github.com/oe-alliance/oe-alliance-core/raw/5.3/meta-brands/meta-gigablue/recipes-graphics/files/$(LIBJPEG_SRC)
+
+$(D)/install-libjpeg: $(ARCHIVE)/$(LIBJPEG_SRC)
+	cp $(ARCHIVE)/$(LIBJPEG_SRC) $(TARGET_LIB_DIR)
+	
+#
+# hihalt
+#
+HIHALT_DATE = 20190907
+HIHALT_SRC = $(BOXTYPE)-hihalt-$(HIHALT_DATE).tar.gz
+
+$(ARCHIVE)/$(HIHALT_SRC):
+	$(DOWNLOAD) https://source.mynonpublic.com/gigablue/mv200/$(HIHALT_SRC)
+
+$(D)/install-hihalt: $(ARCHIVE)/$(HIHALT_SRC)
+	install -d $(BUILD_TMP)/hihalt
+	tar xzf $(ARCHIVE)/$(HIHALT_SRC) -C $(BUILD_TMP)/hihalt
+	install -m 0755 $(BUILD_TMP)/hihalt/hihalt $(TARGET_DIR)/usr/bin/hihalt
+	$(REMOVE)/hihalt
+	
+#
+# tntfs
+#
+TNTFS_DATE = 20200528
+TNTFS_SRC = 3798mv200-tntfs-$(TNTFS_DATE).zip
+
+$(ARCHIVE)/$(TNTFS_SRC):
+	$(DOWNLOAD) http://source.mynonpublic.com/tntfs/$(TNTFS_SRC)
+
+$(D)/install-tntfs: $(ARCHIVE)/$(TNTFS_SRC)
+	install -d $(BUILD_TMP)/tntfs
+	unzip -o $(ARCHIVE)/$(TNTFS_SRC) -d $(BUILD_TMP)/tntfs
+	install -m 0755 $(BUILD_TMP)/tntfs/tntfs.ko $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra
+	$(REMOVE)/tntfs
+
+#
 # release
 #
 release-gbtrio4k:
+	cp -pa $(TARGET_DIR)/lib/modules/$(KERNEL_VER) $(RELEASE_DIR)/lib/modules
+	install -m 0755 $(SKEL_ROOT)/etc/init.d/mmcblk-by-name $(RELEASE_DIR)/etc/init.d/mmcblk-by-name
+	install -m 0755 $(BASE_DIR)/machine/$(BOXTYPE)/files/halt $(RELEASE_DIR)/etc/init.d/
+	cp -f $(BASE_DIR)/machine/$(BOXTYPE)/files/fstab $(RELEASE_DIR)/etc/
+	install -m 0755 $(BASE_DIR)/machine/$(BOXTYPE)/files/showiframe $(RELEASE_DIR)/bin
+	install -m 0755 $(BASE_DIR)/machine/$(BOXTYPE)/files/libreader.sh  $(RELEASE_DIR)/usr/bin/libreader.sh
+	install -m 0755 $(BASE_DIR)/machine/$(BOXTYPE)/files/root  $(RELEASE_DIR)/var/spool/cron/crontabs/root
+	touch $(RELEASE_DIR)/var/tuxbox/config/.crond
+	install -m 0755 $(BASE_DIR)/machine/$(BOXTYPE)/files/suspend  $(RELEASE_DIR)/etc/init.d/suspend
+	install -m 0755 $(BASE_DIR)/machine/$(BOXTYPE)/files/rcS $(RELEASE_DIR)/etc/init.d/rcS
+	install -m 0755 $(BASE_DIR)/machine/$(BOXTYPE)/files/libreader $(RELEASE_DIR)/etc/init.d/
+	cd $(RELEASE_DIR)/etc/rc.d/rc0.d; ln -sf ../../init.d/libreader ./S05libreader
+	cd $(RELEASE_DIR)/etc/rc.d/rc6.d; ln -sf ../../init.d/libreader ./S05libreader
 
 #
 # image
 #
+FLASHIMAGE_PREFIX = $(BOXTYPE)
+
+FLASH_PARTITONS_DATE = 20221111
+FLASH_PARTITONS_SRC = $(BOXTYPE)-partitions-$(FLASH_PARTITONS_DATE).zip
+
+$(ARCHIVE)/$(FLASH_PARTITONS_SRC):
+	$(DOWNLOAD) http://source.mynonpublic.com/gigablue/mv200/$(FLASH_PARTITONS_SRC)
+	
+-include $(HELPERS_DIR)/hisi3798mv200/hisi3798mv200.mk
+
 image-gbtrio4k:
+	$(MAKE) hisi3798mv200-disk-image-$(BOXTYPE) hisi3798mv200-rootfs-image-$(BOXTYPE)
 
