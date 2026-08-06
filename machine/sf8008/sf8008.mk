@@ -108,7 +108,7 @@ $(D)/driver: $(ARCHIVE)/$(DRIVER_SRC) $(D)/bootstrap $(D)/kernel
 #
 # hilib
 #
-HILIB_DATE     = 20190917
+HILIB_DATE = 20190917
 HILIB_SRC = $(BOXTYPE)-hilib-$(HILIB_DATE).tar.gz
 
 $(ARCHIVE)/$(HILIB_SRC):
@@ -123,7 +123,7 @@ $(D)/install-hilib: $(ARCHIVE)/$(HILIB_SRC)
 #
 # libgles
 #
-LIBGLES_DATE   = 20180301
+LIBGLES_DATE = 20180301
 LIBGLES_SRC = hisi3798mv200-opengl-$(LIBGLES_DATE).tar.gz
 
 $(ARCHIVE)/$(LIBGLES_SRC):

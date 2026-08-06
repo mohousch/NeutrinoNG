@@ -98,11 +98,11 @@ $(D)/driver: $(ARCHIVE)/$(DRIVER_SRC) $(D)/bootstrap $(D)/kernel
 	unzip -o $(ARCHIVE)/$(DRIVER_SRC) -d $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra
 	mv $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra/hiko/* $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra
 	rmdir $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra/hiko
-	#$(MAKE) install-hisiplayer-libs
-	#$(MAKE) install-hilib
+	$(MAKE) install-hisiplayer-libs
+	$(MAKE) install-hilib
 	$(MAKE) install-libreader
 	$(MAKE) install-libjpeg
-	#$(MAKE) install-hihalt
+	$(MAKE) install-hihalt
 	$(MAKE) install-tntfs
 	depmod -ae -b $(TARGET_DIR) -r $(KERNEL_VER)
 	$(TOUCH)
@@ -111,7 +111,7 @@ $(D)/driver: $(ARCHIVE)/$(DRIVER_SRC) $(D)/bootstrap $(D)/kernel
 # libgles
 #
 LIBGLES_DATE = 20180301
-LIBGLES_SRC = gbtrio4k-opengl-$(LIBGLES_DATE).tar.gz
+LIBGLES_SRC = gbmv200-opengl-$(LIBGLES_DATE).tar.gz
 
 $(ARCHIVE)/$(LIBGLES_SRC):
 	$(DOWNLOAD) https://source.mynonpublic.com/gigablue/mv200/$(LIBGLES_SRC)
@@ -126,7 +126,7 @@ $(D)/install-hisiplayer-libs: $(ARCHIVE)/$(LIBGLES_SRC)
 # hilib
 #
 HILIB_DATE = 20230530
-HILIB_SRC = $(BOXTYPE)-hilib-$(HILIB_DATE).tar.gz
+HILIB_SRC = gbmv200-hilib-$(HILIB_DATE).tar.gz
 
 $(ARCHIVE)/$(HILIB_SRC):
 	$(DOWNLOAD) http://source.mynonpublic.com/gigablue/mv200/$(HILIB_SRC)
@@ -167,7 +167,7 @@ $(D)/install-libjpeg: $(ARCHIVE)/$(LIBJPEG_SRC)
 # hihalt
 #
 HIHALT_DATE = 20190907
-HIHALT_SRC = $(BOXTYPE)-hihalt-$(HIHALT_DATE).tar.gz
+HIHALT_SRC = gbmv200-hihalt-$(HIHALT_DATE).tar.gz
 
 $(ARCHIVE)/$(HIHALT_SRC):
 	$(DOWNLOAD) https://source.mynonpublic.com/gigablue/mv200/$(HIHALT_SRC)
