@@ -288,15 +288,15 @@ $(D)/host_dm_buildimage:
 #
 # host_octagon_buildimage
 #
-BUILDIMAGE_SRC = buildimage.zip
+BUILDIMAGE_OCTAGON_SRC = buildimage.zip
 
-$(ARCHIVE)/$(BUILDIMAGE_SRC):
-	$(DOWNLOAD) https://github.com/oe-alliance/oe-alliance-core/raw/5.0/meta-brands/meta-octagon/recipes-bsp/octagon-buildimage/$(BUILDIMAGE_SRC)
+$(ARCHIVE)/$(BUILDIMAGE_OCTAGON_SRC):
+	$(DOWNLOAD) https://github.com/oe-alliance/oe-alliance-core/raw/5.0/meta-brands/meta-octagon/recipes-bsp/octagon-buildimage/$(BUILDIMAGE_OCTAGON_SRC)
 	
-$(D)/host_octagon_buildimage: $(ARCHIVE)/$(BUILDIMAGE_SRC)
+$(D)/host_octagon_buildimage: $(ARCHIVE)/$(BUILDIMAGE_OCTAGON_SRC)
 	$(START_BUILD)
 	$(REMOVE)/buildimage
-	unzip -o $(ARCHIVE)/$(BUILDIMAGE_SRC) -d $(BUILD_TMP)/buildimage
+	unzip -o $(ARCHIVE)/$(BUILDIMAGE_OCTAGON_SRC) -d $(BUILD_TMP)/buildimage
 	cd $(BUILD_TMP)/buildimage; \
 	make; \
 	cp -ra $(BUILD_TMP)/buildimage/mkupdate $(HOST_DIR)/bin/mkupdate
@@ -306,15 +306,15 @@ $(D)/host_octagon_buildimage: $(ARCHIVE)/$(BUILDIMAGE_SRC)
 #
 # host_gigablue_buildimage
 #
-BUILDIMAGE_SRC = buildimage.zip
+BUILDIMAGE_GIGABLUE_SRC = buildimage.zip
 
-$(ARCHIVE)/$(BUILDIMAGE_SRC):
-	$(DOWNLOAD) https://github.com/oe-alliance/oe-alliance-core/raw/5.0/meta-brands/meta-gigablue/recipes-bsp/gigablue-buildimage/$(BUILDIMAGE_SRC)
+$(ARCHIVE)/$(BUILDIMAGE_GIGABLUE_SRC):
+	$(DOWNLOAD) https://github.com/oe-alliance/oe-alliance-core/raw/5.0/meta-brands/meta-gigablue/recipes-bsp/gigablue-buildimage/$(BUILDIMAGE_GIGABLUE_SRC)
 	
-$(D)/host_gigablue_buildimage: $(ARCHIVE)/$(BUILDIMAGE_SRC)
+$(D)/host_gigablue_buildimage: $(ARCHIVE)/$(BUILDIMAGE_GIGABLUE_SRC)
 	$(START_BUILD)
 	$(REMOVE)/buildimage
-	unzip -o $(ARCHIVE)/$(BUILDIMAGE_SRC) -d $(BUILD_TMP)/buildimage
+	unzip -o $(ARCHIVE)/$(BUILDIMAGE_GIGABLUE_SRC) -d $(BUILD_TMP)/buildimage
 	cd $(BUILD_TMP)/buildimage; \
 	make; \
 	cp -ra $(BUILD_TMP)/buildimage/mkupdate $(HOST_DIR)/bin/mkupdate
