@@ -77,6 +77,7 @@ config:
 	@echo "   70)  gb800se"
 	@echo "   71)  gbue4k"
 	@echo "   72)  gbultraue"
+	@echo "   73)  gbtrio4k"
 	@echo "  WWIO"
 	@echo "   80)  WWIO BRE2ZE 4K"
 	@echo "   81)  WWIO BRE2ZE T2C"
@@ -145,6 +146,7 @@ config:
 		70) BOXTYPE="gb800se";; \
 		71) BOXTYPE="gbue4k";; \
 		72) BOXTYPE="gbultraue";; \
+		73) BOXTYPE="gbtrio4k";; \
 		80) BOXTYPE="bre2ze4k";; \
 		81) BOXTYPE="bre2zet2c";; \
 		90) BOXTYPE="h7";; \
