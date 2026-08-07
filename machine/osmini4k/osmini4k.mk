@@ -74,7 +74,7 @@ $(D)/driver: $(ARCHIVE)/$(DRIVER_SRC) $(D)/bootstrap $(D)/kernel
 	install -d $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra
 	unzip -o $(ARCHIVE)/$(DRIVER_SRC) -d $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra
 	$(MAKE) install-v3ddriver
-#	$(MAKE) wlan-qcom
+	$(MAKE) wlan-qcom
 	depmod -ae -b $(TARGET_DIR) -r $(KERNEL_VER)
 	$(TOUCH)
 
@@ -104,13 +104,12 @@ $(D)/install-v3ddriver: $(ARCHIVE)/$(LIBGLES_SRC)
 WLAN_QCOM_VER = 4.5.25.55
 WLAN_QCOM_DIR = qcacld-2.0-$(WLAN_QCOM_VER)
 WLAN_QCOM_SRC = qcacld-2.0-$(WLAN_QCOM_VER).tar.gz
-WLAN_QCOM_URL = https://source.codeaurora.org/external/wlan/qcacld-2.0/snapshot
+WLAN_QCOM_URL = https://downloads.openpli.org/archive/edision
 
 $(ARCHIVE)/$(WLAN_QCOM_SRC):
 	$(DOWNLOAD) $(WLAN_QCOM_URL)/$(WLAN_QCOM_SRC)
 
-WLAN_QCOM_PATCH = \
-	qcacld-2.0-support.patch
+WLAN_QCOM_PATCH = qcacld-2.0-support.patch
 
 $(D)/wlan-qcom: $(D)/bootstrap $(D)/kernel $(D)/wlan-qcom-firmware $(ARCHIVE)/$(WLAN_QCOM_SRC)
 	$(START_BUILD)
