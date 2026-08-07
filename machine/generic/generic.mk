@@ -57,21 +57,8 @@ $(D)/kernel: $(D)/bootstrap $(D)/kernel.do_compile
 #
 # driver
 #
-DRIVER_VER 		=
-DRIVER_DATE 		=
-DRIVER_SRC 		= 
-DRIVER_URL		= 
-
-$(ARCHIVE)/$(DRIVER_SRC):
-#	$(DOWNLOAD) $(DRIVER_URL)/$(DRIVER_SRC)
-
 driver: $(D)/driver
-$(D)/driver: $(ARCHIVE)/$(DRIVER_SRC) $(D)/bootstrap $(D)/kernel
-	$(START_BUILD)
-#	install -d $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra
-#	unzip -o $(ARCHIVE)/$(DRIVER_SRC) -d $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/extra
-	depmod -ae -b $(TARGET_DIR) -r $(KERNEL_VER)
-	$(TOUCH)
+$(D)/driver:
 
 #
 # release

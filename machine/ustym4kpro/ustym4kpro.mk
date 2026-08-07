@@ -168,7 +168,7 @@ $(D)/install-tntfs: $(ARCHIVE)/$(TNTFS_SRC)
 #
 # hihalt
 #
-HIHALT_DATE    = 20220326
+HIHALT_DATE = 20220326
 HIHALT_SRC = $(BOXTYPE)-hihalt-$(HIHALT_DATE).tar.gz
 
 $(ARCHIVE)/$(HIHALT_SRC):

@@ -110,8 +110,8 @@ $(D)/driver: $(ARCHIVE)/$(DRIVER_SRC) $(D)/bootstrap $(D)/kernel
 # libgles
 #
 LIBGLES_DATE = 20191101
-LIBGLES_SRC  = 8100s-v3ddriver-$(LIBGLES_DATE).zip
-LIBGLES_URL  = https://source.mynonpublic.com/ceryon
+LIBGLES_SRC = 8100s-v3ddriver-$(LIBGLES_DATE).zip
+LIBGLES_URL = https://source.mynonpublic.com/ceryon
 
 $(ARCHIVE)/$(LIBGLES_SRC):
 	$(DOWNLOAD) $(LIBGLES_URL)/$(LIBGLES_SRC)

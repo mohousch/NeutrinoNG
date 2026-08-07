@@ -84,7 +84,7 @@ $(D)/kernel: $(D)/bootstrap $(D)/kernel.do_compile
 #
 DRIVER_VER = 4.10.12
 DRIVER_DATE = 20191123
-DRIVER_SRC = h7-drivers-$(DRIVER_VER)-$(DRIVER_DATE).zip
+DRIVER_SRC = $(BOXTYPE)-drivers-$(DRIVER_VER)-$(DRIVER_DATE).zip
 DRIVER_URL = http://source.mynonpublic.com/zgemma
 
 $(ARCHIVE)/$(DRIVER_SRC):
@@ -104,7 +104,7 @@ $(D)/driver: $(ARCHIVE)/$(DRIVER_SRC) $(D)/bootstrap $(D)/kernel
 # libgles
 #
 LIBGLES_DATE = 20191110
-LIBGLES_SRC = h7-v3ddriver-$(LIBGLES_DATE).zip
+LIBGLES_SRC = $(BOXTYPE)-v3ddriver-$(LIBGLES_DATE).zip
 LIBGLES_URL = http://downloads.mutant-digital.net/v3ddriver
 
 $(ARCHIVE)/$(LIBGLES_SRC):

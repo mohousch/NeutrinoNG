@@ -101,15 +101,15 @@ $(D)/install-v3ddriver: $(ARCHIVE)/$(LIBGLES_SRC)
 #
 # wlan-qcom osmio4k | osmio4kplus | osmini4
 #
-WLAN_QCOM_VER    = 4.5.25.55
-WLAN_QCOM_DIR    = qcacld-2.0-$(WLAN_QCOM_VER)
+WLAN_QCOM_VER = 4.5.25.55
+WLAN_QCOM_DIR = qcacld-2.0-$(WLAN_QCOM_VER)
 WLAN_QCOM_SRC = qcacld-2.0-$(WLAN_QCOM_VER).tar.gz
-WLAN_QCOM_URL    = https://source.codeaurora.org/external/wlan/qcacld-2.0/snapshot
+WLAN_QCOM_URL = https://source.codeaurora.org/external/wlan/qcacld-2.0/snapshot
 
 $(ARCHIVE)/$(WLAN_QCOM_SRC):
 	$(DOWNLOAD) $(WLAN_QCOM_URL)/$(WLAN_QCOM_SRC)
 
-WLAN_QCOM_PATCH  = \
+WLAN_QCOM_PATCH = \
 	qcacld-2.0-support.patch
 
 $(D)/wlan-qcom: $(D)/bootstrap $(D)/kernel $(D)/wlan-qcom-firmware $(ARCHIVE)/$(WLAN_QCOM_SRC)
@@ -126,10 +126,10 @@ $(D)/wlan-qcom: $(D)/bootstrap $(D)/kernel $(D)/wlan-qcom-firmware $(ARCHIVE)/$(
 #
 # wlan-qcom-firmware
 #
-WLAN_QCOM_FIRMWARE_VER    = qca6174_v2
-WLAN_QCOM_FIRMWARE_DIR    = firmware-$(WLAN_QCOM_FIRMWARE_VER)
+WLAN_QCOM_FIRMWARE_VER = qca6174_v2
+WLAN_QCOM_FIRMWARE_DIR = firmware-$(WLAN_QCOM_FIRMWARE_VER)
 WLAN_QCOM_FIRMWARE_SRC = firmware-$(WLAN_QCOM_FIRMWARE_VER).zip
-WLAN_QCOM_FIRMWARE_URL    = http://source.mynonpublic.com/edision
+WLAN_QCOM_FIRMWARE_URL = http://source.mynonpublic.com/edision
 
 $(ARCHIVE)/$(WLAN_QCOM_FIRMWARE_SRC):
 	$(DOWNLOAD) $(WLAN_QCOM_FIRMWARE_URL)/$(WLAN_QCOM_FIRMWARE_SRC)

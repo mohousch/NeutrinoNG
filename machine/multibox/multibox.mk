@@ -81,8 +81,8 @@ $(D)/kernel: $(D)/bootstrap $(D)/kernel.do_compile
 #
 # driver
 #
-DRIVER_VER     = $(KERNEL_VER)
-DRIVER_DATE    = 20201204
+DRIVER_VER = $(KERNEL_VER)
+DRIVER_DATE = 20201204
 DRIVER_SRC = $(BOXTYPE)-drivers-$(DRIVER_VER)-$(DRIVER_DATE).zip
 
 $(ARCHIVE)/$(DRIVER_SRC):

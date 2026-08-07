@@ -79,10 +79,10 @@ $(D)/kernel: $(D)/bootstrap $(D)/kernel.do_compile
 #
 # driver
 #
-DRIVER_VER     = $(KERNEL_VER)
-DRIVER_DATE    = 20200731
+DRIVER_VER = $(KERNEL_VER)
+DRIVER_DATE = 20200731
 
-DRIVER_SRC = hd61-drivers-$(DRIVER_VER)-$(DRIVER_DATE).zip
+DRIVER_SRC = $(BOXTYPE)-drivers-$(DRIVER_VER)-$(DRIVER_DATE).zip
 
 $(ARCHIVE)/$(DRIVER_SRC):
 	$(DOWNLOAD) http://source.mynonpublic.com/gfutures/$(DRIVER_SRC)
@@ -103,7 +103,7 @@ $(D)/driver: $(ARCHIVE)/$(DRIVER_SRC) $(D)/bootstrap $(D)/kernel
 # libgles
 #
 LIBGLES_DATE = 20181201
-LIBGLES_SRC = hd61-mali-$(LIBGLES_DATE).zip
+LIBGLES_SRC = $(BOXTYPE)-mali-$(LIBGLES_DATE).zip
 
 $(ARCHIVE)/$(LIBGLES_SRC):
 	$(DOWNLOAD) http://downloads.mutant-digital.net/$(BOXTYPE)/$(LIBGLES_SRC)
