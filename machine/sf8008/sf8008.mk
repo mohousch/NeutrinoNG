@@ -81,7 +81,7 @@ $(D)/kernel: $(D)/bootstrap $(D)/kernel.do_compile
 # driver
 #
 DRIVER_VER = 4.4.35
-DRIVER_DATE    = 20220105
+DRIVER_DATE = 20220105
 DRIVER_SRC = $(BOXTYPE)-hiko-$(DRIVER_DATE).zip
 
 $(ARCHIVE)/$(DRIVER_SRC):

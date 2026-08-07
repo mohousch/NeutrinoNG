@@ -73,8 +73,8 @@ $(D)/kernel: $(D)/bootstrap $(D)/kernel.do_compile
 #
 # driver
 #
-DRIVER_VER     = $(KERNEL_VER)
-DRIVER_DATE    = 20230616
+DRIVER_VER = $(KERNEL_VER)
+DRIVER_DATE = 20230616
 DRIVER_SRC = $(BOXTYPE)-hiko-$(DRIVER_DATE).zip
 
 $(ARCHIVE)/$(DRIVER_SRC):
@@ -99,7 +99,7 @@ $(D)/driver: $(ARCHIVE)/$(DRIVER_SRC) $(D)/bootstrap $(D)/kernel
 #
 # hi-lib
 #
-HILIB_DATE     = 20221203
+HILIB_DATE = 20221203
 HILIB_SRC = $(BOXTYPE)-hilib-$(HILIB_DATE).tar.gz
 
 $(ARCHIVE)/$(HILIB_SRC):
@@ -114,7 +114,7 @@ $(D)/install-hilib: $(ARCHIVE)/$(HILIB_SRC)
 #
 # hisiplayer-libs
 #
-LIBGLES_DATE   = 20221203
+LIBGLES_DATE = 20221203
 LIBGLES_SRC = hisi3798mv300-opengl-$(LIBGLES_DATE).tar.gz
 
 $(ARCHIVE)/$(LIBGLES_SRC):
@@ -144,7 +144,7 @@ $(D)/install-libreader: $(ARCHIVE)/$(LIBREADER_SRC)
 #
 # tntfs
 #
-TNTFS_DATE     = 20230217
+TNTFS_DATE = 20230217
 TNTFS_SRC = 3798mv300-tntfs-$(TNTFS_DATE).zip
 
 $(ARCHIVE)/$(TNTFS_SRC):
@@ -159,7 +159,7 @@ $(D)/install-tntfs: $(ARCHIVE)/$(TNTFS_SRC)
 #
 # hihalt
 #
-HIHALT_DATE    = 20230217
+HIHALT_DATE = 20230217
 HIHALT_SRC = hisi3798mv300-hihalt-$(HIHALT_DATE).tar.gz
 
 $(ARCHIVE)/$(HIHALT_SRC):

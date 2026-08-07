@@ -83,7 +83,7 @@ $(D)/kernel: $(D)/bootstrap $(D)/kernel.do_compile
 #
 DRIVER_VER     = $(KERNEL_VER)
 DRIVER_DATE    = 20201204
-DRIVER_SRC = multibox-drivers-$(DRIVER_VER)-$(DRIVER_DATE).zip
+DRIVER_SRC = $(BOXTYPE)-drivers-$(DRIVER_VER)-$(DRIVER_DATE).zip
 
 $(ARCHIVE)/$(DRIVER_SRC):
 	$(DOWNLOAD) http://source.mynonpublic.com/maxytec/$(DRIVER_SRC)

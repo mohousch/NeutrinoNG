@@ -100,8 +100,8 @@ config:
 	@echo "   117)  dm7080"
 	@echo "   118)  dm8000"
 	@echo "  Maxytec"
-	@echo "   120)  multiboxse"
-	@echo "   121)  multibox"
+	@echo "   120)  multibox"
+	@echo "   121)  multiboxse"
 	@echo "  Octagon"
 	@echo "   130)  sf8008"
 	@echo "   131   sf8008m"
@@ -166,8 +166,8 @@ config:
 		116) BOXTYPE="dm7020hdv2";; \
 		117) BOXTYPE="dm7080";; \
 		118) BOXTYPE="dm8000";; \
-		120) BOXTYPE="multiboxse";; \
-		121) BOXTYPE="multibox";; \
+		120) BOXTYPE="multibox";; \
+		121) BOXTYPE="multiboxse";; \
 		130) BOXTYPE="sf8008";; \
 		131) BOXTYPE="sf8008m";; \
 		140) BOXTYPE="protek4k";; \

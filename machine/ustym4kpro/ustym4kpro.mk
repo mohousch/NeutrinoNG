@@ -80,8 +80,8 @@ $(D)/kernel: $(D)/bootstrap $(D)/kernel.do_compile
 #
 # driver
 #
-DRIVER_VER     = $(KERNEL_VER)
-DRIVER_DATE    = 20230804
+DRIVER_VER = $(KERNEL_VER)
+DRIVER_DATE = 20230804
 DRIVER_SRC = $(BOXTYPE)-hiko-$(DRIVER_DATE).zip
 
 $(ARCHIVE)/$(DRIVER_SRC):
@@ -108,7 +108,7 @@ $(D)/driver: $(ARCHIVE)/$(DRIVER_SRC) $(D)/bootstrap $(D)/kernel
 #
 # hi-lib
 #
-HILIB_DATE     = 20190603
+HILIB_DATE = 20190603
 HILIB_SRC = $(BOXTYPE)-hilib-$(HILIB_DATE).tar.gz
 
 $(ARCHIVE)/$(HILIB_SRC):
@@ -123,7 +123,7 @@ $(D)/install-hilib: $(ARCHIVE)/$(HILIB_SRC)
 #
 # hisiplayer-libs
 #
-LIBGLES_DATE   = 20180301
+LIBGLES_DATE = 20180301
 LIBGLES_SRC = $(BOXTYPE)-opengl-$(LIBGLES_DATE).tar.gz
 
 $(ARCHIVE)/$(LIBGLES_SRC):
