@@ -286,35 +286,17 @@ $(D)/host_dm_buildimage:
 	$(TOUCH)
 	
 #
-# host_octagon_buildimage
+# host_hisi3798mv200_buildimage
 #
-BUILDIMAGE_OCTAGON_SRC = buildimage.zip
+BUILDIMAGE_SRC = buildimage.zip
 
-$(ARCHIVE)/$(BUILDIMAGE_OCTAGON_SRC):
-	$(DOWNLOAD) https://github.com/oe-alliance/oe-alliance-core/raw/5.0/meta-brands/meta-octagon/recipes-bsp/octagon-buildimage/$(BUILDIMAGE_OCTAGON_SRC)
+$(ARCHIVE)/$(BUILDIMAGE_SRC):
+	$(DOWNLOAD) https://github.com/oe-alliance/oe-alliance-core/raw/5.0/meta-brands/meta-octagon/recipes-bsp/octagon-buildimage/$(BUILDIMAGE_SRC)
 	
-$(D)/host_octagon_buildimage: $(ARCHIVE)/$(BUILDIMAGE_OCTAGON_SRC)
+$(D)/host_hisi3798mv200_buildimage: $(ARCHIVE)/$(BUILDIMAGE_SRC)
 	$(START_BUILD)
 	$(REMOVE)/buildimage
-	unzip -o $(ARCHIVE)/$(BUILDIMAGE_OCTAGON_SRC) -d $(BUILD_TMP)/buildimage
-	cd $(BUILD_TMP)/buildimage; \
-	make; \
-	cp -ra $(BUILD_TMP)/buildimage/mkupdate $(HOST_DIR)/bin/mkupdate
-	$(REMOVE)/buildimage
-	$(TOUCH)
-	
-#
-# host_gigablue_buildimage
-#
-BUILDIMAGE_GIGABLUE_SRC = buildimage.zip
-
-$(ARCHIVE)/$(BUILDIMAGE_GIGABLUE_SRC):
-	$(DOWNLOAD) https://github.com/oe-alliance/oe-alliance-core/raw/5.0/meta-brands/meta-gigablue/recipes-bsp/gigablue-buildimage/$(BUILDIMAGE_GIGABLUE_SRC)
-	
-$(D)/host_gigablue_buildimage: $(ARCHIVE)/$(BUILDIMAGE_GIGABLUE_SRC)
-	$(START_BUILD)
-	$(REMOVE)/buildimage
-	unzip -o $(ARCHIVE)/$(BUILDIMAGE_GIGABLUE_SRC) -d $(BUILD_TMP)/buildimage
+	unzip -o $(ARCHIVE)/$(BUILDIMAGE_SRC) -d $(BUILD_TMP)/buildimage
 	cd $(BUILD_TMP)/buildimage; \
 	make; \
 	cp -ra $(BUILD_TMP)/buildimage/mkupdate $(HOST_DIR)/bin/mkupdate
@@ -522,11 +504,8 @@ endif
 ifeq ($(BOXTYPE), $(filter $(BOXTYPE), hd60 hd61 hd66se multibox multiboxse))
 BOOTSTRAP += $(D)/host_atools
 endif
-ifeq ($(BOXTYPE), $(filter $(BOXTYPE), sf8008 sf8008m ustym4kpro ustym4ks2ottx))
-BOOTSTRAP += $(D)/host_octagon_buildimage
-endif
-ifeq ($(BOXTYPE), gbtrio4k)
-BOOTSTRAP += $(D)/host_gigablue_buildimage
+ifeq ($(BOXTYPE), $(filter $(BOXTYPE), sf8008 sf8008m ustym4kpro ustym4ks2ottx gbtrio4k gbtrio4kpro gbip4k))
+BOOTSTRAP += $(D)/host_hisi3798mv200_buildimage
 endif
 ifeq ($(BOXARCH), $(filter $(BOXARCH), arm mips x86_64))	
 BOOTSTRAP += $(D)/host_python 

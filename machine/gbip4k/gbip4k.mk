@@ -1,5 +1,5 @@
 #
-# MACHINE = Gigablue Trio 4K
+# MACHINE = Gigablue IP 4K
 # VENDOR = Gigablue
 # OEM = Gigablue
 # SOC = hisi3798mv200
@@ -85,7 +85,7 @@ $(D)/kernel: $(D)/bootstrap $(D)/kernel.do_compile
 # driver
 #
 DRIVER_VER = 4.4.35
-DRIVER_DATE = 20230224
+DRIVER_DATE = 20230112
 DRIVER_SRC = $(BOXTYPE)-hiko-$(DRIVER_DATE).zip
 
 $(ARCHIVE)/$(DRIVER_SRC):
@@ -140,7 +140,7 @@ $(D)/install-hilib: $(ARCHIVE)/$(HILIB_SRC)
 #
 # libreader
 #
-LIBREADER_DATE = 20200612
+LIBREADER_DATE = 20221220
 LIBREADER_SRC = $(BOXTYPE)-libreader-$(LIBREADER_DATE).tar.gz
 
 $(ARCHIVE)/$(LIBREADER_SRC):
@@ -196,7 +196,7 @@ $(D)/install-tntfs: $(ARCHIVE)/$(TNTFS_SRC)
 #
 # release
 #
-release-gbtrio4k:
+release-gbip4k:
 	cp -pa $(TARGET_DIR)/lib/modules/$(KERNEL_VER) $(RELEASE_DIR)/lib/modules
 	install -m 0755 $(SKEL_ROOT)/etc/init.d/mmcblk-by-name $(RELEASE_DIR)/etc/init.d/mmcblk-by-name
 	install -m 0755 $(BASE_DIR)/machine/$(BOXTYPE)/files/halt $(RELEASE_DIR)/etc/init.d/
@@ -214,11 +214,11 @@ release-gbtrio4k:
 #
 # image
 #
-FLASHIMAGE_PREFIX = gigablue/trio4k
+FLASHIMAGE_PREFIX = gigablue/ip4k
 
 IMAGE_ROOTFS_SIZE ?= 524288
 
-FLASH_PARTITONS_DATE = 20221111
+FLASH_PARTITONS_DATE = 20201218
 FLASH_PARTITONS_SRC = $(BOXTYPE)-partitions-$(FLASH_PARTITONS_DATE).zip
 
 $(ARCHIVE)/$(FLASH_PARTITONS_SRC):
@@ -226,6 +226,6 @@ $(ARCHIVE)/$(FLASH_PARTITONS_SRC):
 	
 -include $(HELPERS_DIR)/hisi3798mv200/hisi3798mv200.mk
 
-image-gbtrio4k:
+image-gbip4k:
 	$(MAKE) hisi3798mv200-disk-image-$(BOXTYPE) hisi3798mv200-rootfs-image-$(BOXTYPE)
 
