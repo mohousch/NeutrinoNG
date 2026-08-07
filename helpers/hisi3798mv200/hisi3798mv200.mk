@@ -11,7 +11,7 @@ hisi3798mv200-disk-image-$(BOXTYPE): $(ARCHIVE)/$(FLASH_PARTITONS_SRC)
 	cp $(TARGET_DIR)/boot/uImage $(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)/
 	#
 	unzip -o $(ARCHIVE)/$(FLASH_PARTITONS_SRC) -d $(IMAGE_BUILD_DIR)
-ifeq ($(BOXTYPE), ustym4ks2ottx)
+ifeq ($(BOXTYPE), $(filter $(BOXTYPE), ustym4ks2ottx gbtrio4kpro))
 	mv $(IMAGE_BUILD_DIR)/partitions $(IMAGE_BUILD_DIR)/patitions
 endif
 	install -m 0755 $(IMAGE_BUILD_DIR)/patitions/apploader.bin $(RELEASE_DIR)/usr/share/apploader.bin

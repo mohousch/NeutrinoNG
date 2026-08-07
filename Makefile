@@ -150,7 +150,7 @@ config:
 		72) BOXTYPE="gbultraue";; \
 		73) BOXTYPE="gbtrio4k";; \
 		74) BOXTYPE="gbtrio4kpro";; \
-		75 BOXTYPE="gbip4k";; \
+		75) BOXTYPE="gbip4k";; \
 		80) BOXTYPE="bre2ze4k";; \
 		81) BOXTYPE="bre2zet2c";; \
 		90) BOXTYPE="h7";; \
