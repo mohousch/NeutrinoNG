@@ -104,7 +104,7 @@ config:
 	@echo "   121)  multiboxse"
 	@echo "  Octagon"
 	@echo "   130)  sf8008"
-	@echo "   131   sf8008m"
+	@echo "   131)   sf8008m"
 	@echo "  Protek"
 	@echo "   140)  protek4k"
 	@echo "  Uclan"
