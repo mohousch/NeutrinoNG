@@ -29,7 +29,7 @@ find /sys/ -name modalias -print0 | xargs -0 sort -u | tr '\n' '\0' | xargs -0 m
 
 #
 echo "[rcS] `date +'%d.%m.%Y %H:%M:%S'` load modules"
-insmod /lib/modules/$(uname -r)/extra/linuxdvb.ko
+modprobe linuxdvb
 
 echo "[rcS] starting mountall"
 /etc/init.d/mountall start
