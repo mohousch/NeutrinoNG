@@ -52,53 +52,53 @@ config:
 	@echo "  Fulan"
 	@echo "   30)  Spark"
 	@echo "   31)  Spark7162"
-	@echo "  VU Plus"
-	@echo "   40)  VU+ Duo"
-	@echo "   41)  VU+ Duo2"
-	@echo "   42)  VU+ Duo4k"
-	@echo "   43)  VU+ Ultimo4k"
-	@echo "   44)  VU+ Uno4k"
-	@echo "   45)  VU+ Uno4kse"
-	@echo "   46)  VU+ Zero4k"
-	@echo "   47)  Vu+ Solo4K"
-	@echo "  AX Mutant"
-	@echo "   50)  Mut@nt HD51"
-	@echo "   51)  Mut@nt HD60"
-	@echo "   52)  Mut@nt HD61"
-	@echo "   53)  Mut@nt HD66se"
-	@echo "  Edision"
-	@echo "   60)  osnino"
-	@echo "   61)  osninoplus" 
-	@echo "   62)  osninopro" 
-	@echo "   63)  osmio4k"
-	@echo "   64)  osmio4kplus"
-	@echo "   65)  osmini4k"  
-	@echo "  Gigablue"
-	@echo "   70)  gb800se"
-	@echo "   71)  gbue4k"
-	@echo "   72)  gbultraue"
-	@echo "   73)  gbtrio4k"
-	@echo "   74)  gbtrio4kpro"
-	@echo "   75)  gbip4k"
-	@echo "  WWIO"
-	@echo "   80)  WWIO BRE2ZE 4K"
-	@echo "   81)  WWIO BRE2ZE T2C"
-	@echo "  Air Digital"
-	@echo "   90)  Zgemma h7"
-	@echo "   91)  Zgemma h9"
-	@echo "   92)  Zgemma h9combo"
-	@echo "  AXAS"
-	@echo "   100)  AXAS E4HD 4K Ultra"
 	@echo "  Dream Media"
-	@echo "   110)  dm800se"
-	@echo "   111)  dm800sev2"
-	@echo "   112)  dm820"
-	@echo "   113)  dm900"
-	@echo "   114)  dm920"
-	@echo "   115)  dm7020hd"
-	@echo "   116)  dm7020hdv2"
-	@echo "   117)  dm7080"
-	@echo "   118)  dm8000"
+	@echo "   40)  dm800se"
+	@echo "   41)  dm800sev2"
+	@echo "   42)  dm820"
+	@echo "   43)  dm900"
+	@echo "   44)  dm920"
+	@echo "   45)  dm7020hd"
+	@echo "   46)  dm7020hdv2"
+	@echo "   47)  dm7080"
+	@echo "   48)  dm8000"
+	@echo "  VU Plus"
+	@echo "   50)  VU+ Duo"
+	@echo "   51)  VU+ Duo2"
+	@echo "   52)  VU+ Duo4k"
+	@echo "   53)  VU+ Ultimo4k"
+	@echo "   54)  VU+ Uno4k"
+	@echo "   55)  VU+ Uno4kse"
+	@echo "   56)  VU+ Zero4k"
+	@echo "   57)  Vu+ Solo4K"
+	@echo "  AX Mutant"
+	@echo "   60)  Mut@nt HD51"
+	@echo "   61)  Mut@nt HD60"
+	@echo "   62)  Mut@nt HD61"
+	@echo "   63)  Mut@nt HD66se"
+	@echo "  Edision"
+	@echo "   70)  osnino"
+	@echo "   71)  osninoplus" 
+	@echo "   72)  osninopro" 
+	@echo "   73)  osmio4k"
+	@echo "   74)  osmio4kplus"
+	@echo "   75)  osmini4k"  
+	@echo "  Gigablue"
+	@echo "   80)  gb800se"
+	@echo "   81)  gbue4k"
+	@echo "   82)  gbultraue"
+	@echo "   83)  gbtrio4k"
+	@echo "   84)  gbtrio4kpro"
+	@echo "   85)  gbip4k"
+	@echo "  WWIO"
+	@echo "   90)  WWIO BRE2ZE 4K"
+	@echo "   91)  WWIO BRE2ZE T2C"
+	@echo "  Air Digital"
+	@echo "   100)  Zgemma h7"
+	@echo "   101)  Zgemma h9"
+	@echo "   102)  Zgemma h9combo"
+	@echo "  AXAS"
+	@echo "   110)  AXAS E4HD 4K Ultra"
 	@echo "  Maxytec"
 	@echo "   120)  multibox"
 	@echo "   121)  multiboxse"
@@ -127,45 +127,45 @@ config:
 		23) BOXTYPE="cuberevo_2000hd";; \
 		30) BOXTYPE="spark";; \
 		31) BOXTYPE="spark7162";; \
-		40) BOXTYPE="vuduo";; \
-		41) BOXTYPE="vuduo2";; \
-		42) BOXTYPE="vuduo4k";; \
-		43) BOXTYPE="vuultimo4k";; \
-		44) BOXTYPE="vuuno4k";; \
-		45) BOXTYPE="vuuno4kse";; \
-		46) BOXTYPE="vuzero4k";; \
-		47) BOXTYPE="vusolo4k";; \
-		50) BOXTYPE="hd51";; \
-		51) BOXTYPE="hd60";; \
-		52) BOXTYPE="hd61";; \
-		53) BOXTYPE="hd66se";; \
-		60) BOXTYPE="osnino";; \
-		61) BOXTYPE="osninoplus";; \
-		62) BOXTYPE="osninopro";; \
-		63) BOXTYPE="osmio4k";; \
-		64) BOXTYPE="osmio4kplus";; \
-		65) BOXTYPE="osmini4k";; \
-		70) BOXTYPE="gb800se";; \
-		71) BOXTYPE="gbue4k";; \
-		72) BOXTYPE="gbultraue";; \
-		73) BOXTYPE="gbtrio4k";; \
-		74) BOXTYPE="gbtrio4kpro";; \
-		75) BOXTYPE="gbip4k";; \
-		80) BOXTYPE="bre2ze4k";; \
-		81) BOXTYPE="bre2zet2c";; \
-		90) BOXTYPE="h7";; \
-		91) BOXTYPE="h9";; \
-		92) BOXTYPE="h9combo";; \
-		100) BOXTYPE="e4hdultra";; \
-		110) BOXTYPE="dm800se";; \
-		111) BOXTYPE="dm800sev2";; \
-		112) BOXTYPE="dm820";; \
-		113) BOXTYPE="dm900";; \
-		114) BOXTYPE="dm920";; \
-		115) BOXTYPE="dm7020hd";; \
-		116) BOXTYPE="dm7020hdv2";; \
-		117) BOXTYPE="dm7080";; \
-		118) BOXTYPE="dm8000";; \
+		40) BOXTYPE="dm800se";; \
+		41) BOXTYPE="dm800sev2";; \
+		42) BOXTYPE="dm820";; \
+		43) BOXTYPE="dm900";; \
+		44) BOXTYPE="dm920";; \
+		45) BOXTYPE="dm7020hd";; \
+		46) BOXTYPE="dm7020hdv2";; \
+		47) BOXTYPE="dm7080";; \
+		48) BOXTYPE="dm8000";; \
+		50) BOXTYPE="vuduo";; \
+		51) BOXTYPE="vuduo2";; \
+		52) BOXTYPE="vuduo4k";; \
+		53) BOXTYPE="vuultimo4k";; \
+		54) BOXTYPE="vuuno4k";; \
+		55) BOXTYPE="vuuno4kse";; \
+		56) BOXTYPE="vuzero4k";; \
+		57) BOXTYPE="vusolo4k";; \
+		60) BOXTYPE="hd51";; \
+		61) BOXTYPE="hd60";; \
+		62) BOXTYPE="hd61";; \
+		63) BOXTYPE="hd66se";; \
+		70) BOXTYPE="osnino";; \
+		71) BOXTYPE="osninoplus";; \
+		72) BOXTYPE="osninopro";; \
+		73) BOXTYPE="osmio4k";; \
+		74) BOXTYPE="osmio4kplus";; \
+		75) BOXTYPE="osmini4k";; \
+		80) BOXTYPE="gb800se";; \
+		81) BOXTYPE="gbue4k";; \
+		82) BOXTYPE="gbultraue";; \
+		83) BOXTYPE="gbtrio4k";; \
+		84) BOXTYPE="gbtrio4kpro";; \
+		85) BOXTYPE="gbip4k";; \
+		90) BOXTYPE="bre2ze4k";; \
+		91) BOXTYPE="bre2zet2c";; \
+		100) BOXTYPE="h7";; \
+		101) BOXTYPE="h9";; \
+		102) BOXTYPE="h9combo";; \
+		110) BOXTYPE="e4hdultra";; \
 		120) BOXTYPE="multibox";; \
 		121) BOXTYPE="multiboxse";; \
 		130) BOXTYPE="sf8008";; \
