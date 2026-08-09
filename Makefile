@@ -175,8 +175,18 @@ config:
 		151) BOXTYPE="ustym4ks2ottx";; \
 		*) BOXTYPE="generic";; \
 	esac; \
-	echo "BOXTYPE?=$$BOXTYPE" > .config
-	@echo ""		
+	echo "BOXTYPE?=$$BOXTYPE" > .config; \
+	if [ $$BOXTYPE == 'bre2ze4k' -o $$BOXTYPE == 'hd51' -o $$BOXTYPE == 'e4hdultra' -o $$BOXTYPE == 'h7' -o $$BOXTYPE == 'protek4k' -o $$BOXTYPE == 'h9combo' ]; then \
+		echo -e "\nFlash LAYOUT"; \
+		echo "   1) multiboot"; \
+		echo -e "   \033[01;32m2) multi\033[00m"; \
+		read -p "Select Flash LAYOUT (1-2)?" LAYOUT; \
+		LAYOUT=$${LAYOUT}; \
+		case "$$LAYOUT" in \
+			1) echo "LAYOUT=multiboot" >> .config;; \
+			2|*) echo "LAYOUT=multi" >> .config;; \
+		esac; \
+	fi	
 # Gstreamer
 	@echo -e "\nGstreamer as mediaplayer for neutrino2 (only for mipsel / arm)"
 	@echo "   1) yes"
@@ -271,6 +281,9 @@ endif
 	@echo "GCC              : $(GCC_VER)"
 	@echo "KERNEL_VERSION   : $(KERNEL_VER)"
 	@echo "PARALLEL_JOBS    : $(PARALLEL_JOBS)"
+ifeq ($(BOXTYPE), $(filter $(BOXTYPE), bre2ze4k e4hdultra h7 h9combo hd51 protek4k))
+	@echo "LAYOUT           : $(LAYOUT)"
+endif
 	@echo '================================================================================'
 	@echo "Neutrino2 extra configuration:"
 	@echo "Gstreamer        :$(GSTREAMER)"
@@ -281,9 +294,6 @@ endif
 	@echo "Graphlcd         :$(GRAPHLCD)"
 	@echo "LCD4Linux        :$(LCD4LINUX)"
 	@echo
-ifeq ($(BOXTYPE), $(filter $(BOXTYPE), bre2ze4k e4hdultra h7 h9combo hd51 protek4k))
-	@echo -e "\033[01;33mDefault Flash LAYOUT is standard if you want multiboot layout set LAYOUT := multiboot in config.local\033[0m"
-endif
 	@echo
 	@echo '================================================================================'
 	@make --no-print-directory toolcheck
