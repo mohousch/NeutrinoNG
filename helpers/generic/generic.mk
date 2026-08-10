@@ -32,7 +32,7 @@ generic-disk-image:
 	# install syslinux
 	syslinux.mtools -i $(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)/boot.fat
 	# copy files
-	mcopy -i $(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)/boot.fat -o $(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)/bzImage ::/KERNEL
+	mcopy -i $(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)/boot.fat -o $(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)/bzImage ::/bzImage
 	#
 	mmd -i $(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)/boot.fat EFI EFI/BOOT
 	mcopy -i $(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)/boot.fat -o $(BASE_DIR)/machine/$(BOXTYPE)/files/bootx64.efi ::/EFI/BOOT
