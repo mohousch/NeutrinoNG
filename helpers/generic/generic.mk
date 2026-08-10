@@ -27,13 +27,12 @@ generic-disk-image:
 	dd if=$(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)/disk.ext4 of=$(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)/disk.img bs=512 seek=2099200 conv=fsync,notrunc
 	# boot.fat
 	dd if=/dev/zero of=$(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)/boot.fat bs=1M count=1024
-	mformat -i $(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)/boot.fat -v $(BS_NAME) ::
+	mformat -i $(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)/boot.fat -v NEUTRINONG ::
 	mcopy -i $(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)/boot.fat -o $(BASE_DIR)/machine/$(BOXTYPE)/files/syslinux.cfg ::
 	# install syslinux
 	syslinux.mtools -i $(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)/boot.fat
 	# copy files
 	mcopy -i $(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)/boot.fat -o $(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)/bzImage ::/KERNEL
-#	mcopy -i $(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)/boot.fat -o "${TARGET_IMG}/${BUILD_NAME}.system" ::/SYSTEM
 	#
 	mmd -i $(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)/boot.fat EFI EFI/BOOT
 	mcopy -i $(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)/boot.fat -o $(BASE_DIR)/machine/$(BOXTYPE)/files/bootx64.efi ::/EFI/BOOT
@@ -42,7 +41,7 @@ generic-disk-image:
 	mcopy -i $(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)/boot.fat -o $(BASE_DIR)/machine/$(BOXTYPE)/files/grub.cfg ::/EFI/BOOT
 	#
 	sync
-#	fsck.fat -n $(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)/boot.fat
+	fsck.fat -n $(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)/boot.fat
 	# merge boot.fat in disk.img
 	dd if=$(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)/boot.fat of=$(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)/disk.img bs=512 seek=2048 conv=fsync,notrunc
 	#
