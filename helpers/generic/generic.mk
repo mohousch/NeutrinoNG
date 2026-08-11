@@ -86,10 +86,12 @@ generic-efi-disk-image:
 	--inputpath $(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)  \
 	--outputpath $(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX) \
 	--config $(BASE_DIR)/machine/$(BOXTYPE)/files/genimage-efi.cfg
+	#
 	rm -rf $(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)/rootfs.ext2
 	rm -rf $(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)/efi-part.vfat
 	rm -rf $(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)/efi-part
 	rm -rf $(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)/bzImage
+	rm -rf $(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)/genimage-efi.cfg
 	#
 	echo $(BS_NAME)_$(BS_CYCLE)_$(BOXTYPE)_$(shell date '+%d.%m.%Y-%H.%M') > $(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)/imageversion
 	cd $(IMAGE_BUILD_DIR) && \

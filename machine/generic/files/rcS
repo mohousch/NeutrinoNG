@@ -60,7 +60,7 @@ fi
 /sbin/ifconfig lo 127.0.0.1 up
 
 # get net-time
-#(ntpd -n -q -p time.fu-berlin.de) &
+(ntpd -n -q -p time.fu-berlin.de) &
 
 /etc/init.d/hostname start
 /etc/init.d/portmap start
@@ -74,16 +74,16 @@ mkdir -p /var/run/lirc
 /usr/bin/lircd -u
 
 # set dummy time
-#NTPDATE=`date +"%Y%m%d"`
-#if [ "$SYSDATE" == "$NTPDATE" ];then
-#	date -s "2017-01-01 00:00"
-#	echo "no ntp-date"
-#	killall -9 ntpd
-#	rm -f /tmp/ntpd.pid
-#else
-#	echo "[rcS] ntp-date is set > `date +'%d.%m.%Y %H:%M'`"
-#	rm -f /tmp/ntpd.pid
-#fi
+NTPDATE=`date +"%Y%m%d"`
+if [ "$SYSDATE" == "$NTPDATE" ];then
+	date -s "2017-01-01 00:00"
+	echo "no ntp-date"
+	killall -9 ntpd
+	rm -f /tmp/ntpd.pid
+else
+	echo "[rcS] ntp-date is set > `date +'%d.%m.%Y %H:%M'`"
+	rm -f /tmp/ntpd.pid
+fi
 
 # rcS.local
 if [ -e /etc/init.d/rcS.local ]; then 
