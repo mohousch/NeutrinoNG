@@ -5,6 +5,7 @@ generic-efi-disk-image:
 	rm -rf $(IMAGE_BUILD_DIR) || true
 	mkdir -p $(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)
 	#
+	cp -a $(TARGET_DIR)/boot/bzImage $(RELEASE_DIR)/boot/
 	cp -a $(TARGET_DIR)/boot/bzImage $(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)/
 	cp -a $(BASE_DIR)/machine/$(BOXTYPE)/files/efi-part $(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)
 	cp -a $(BASE_DIR)/machine/$(BOXTYPE)/files/genimage-efi.cfg $(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)/
@@ -27,7 +28,7 @@ generic-efi-disk-image:
 	genimage \
 	--rootpath $(RELEASE_DIR) \
 	--tmppath $(IMAGE_BUILD_DIR)/tmp \
-	--inputpath $(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)  \
+	--inputpath $(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX) \
 	--outputpath $(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX) \
 	--config $(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)/genimage-efi.cfg
 	#
