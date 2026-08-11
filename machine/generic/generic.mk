@@ -77,6 +77,5 @@ FLASHIMAGE_PREFIX = generic
 -include $(HELPERS_DIR)/generic/generic.mk
 
 image-generic:
-#	$(MAKE) generic-disk-image
 	$(MAKE) generic-efi-disk-image
 

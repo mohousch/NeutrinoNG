@@ -189,7 +189,7 @@ $(D)/host_mksquashfs_lzma: directories $(ARCHIVE)/$(LZMA_SRC) $(ARCHIVE)/$(HOST_
 #
 # host_e2fsprogs
 #
-HOST_E2FSPROGS_VER = 1.47.2
+HOST_E2FSPROGS_VER = 1.47.4
 HOST_E2FSPROGS_SRC = e2fsprogs-$(HOST_E2FSPROGS_VER).tar.gz
 
 $(ARCHIVE)/$(HOST_E2FSPROGS_SRC):
@@ -200,9 +200,10 @@ $(D)/host_e2fsprogs: $(D)/directories $(ARCHIVE)/$(HOST_E2FSPROGS_SRC)
 	$(UNTAR)/$(HOST_E2FSPROGS_SRC)
 	$(CHDIR)/e2fsprogs-$(HOST_E2FSPROGS_VER); \
 		./configure; \
-		$(MAKE)
+		$(MAKE);
 	install -D -m 0755 $(BUILD_TMP)/e2fsprogs-$(HOST_E2FSPROGS_VER)/resize/resize2fs $(HOST_DIR)/bin/
 	install -D -m 0755 $(BUILD_TMP)/e2fsprogs-$(HOST_E2FSPROGS_VER)/misc/mke2fs $(HOST_DIR)/bin/
+	install -D -m 0755 $(BUILD_TMP)/e2fsprogs-$(HOST_E2FSPROGS_VER)/misc/dumpe2fs $(HOST_DIR)/bin/
 	ln -sf mke2fs $(HOST_DIR)/bin/mkfs.ext2
 	ln -sf mke2fs $(HOST_DIR)/bin/mkfs.ext3
 	ln -sf mke2fs $(HOST_DIR)/bin/mkfs.ext4
@@ -494,7 +495,7 @@ $(D)/host_libconfuse: $(ARCHIVE)/$(HOST_LIBCONFUSE_SRC)
 	$(CHDIR)/confuse-$(HOST_LIBCONFUSE_VER); \
 		./configure \
 			--prefix=/usr \
-#			--disable-rpath \
+			--disable-rpath \
 		; \
 		$(MAKE) all; \
 		$(MAKE) install DESTDIR=$(HOST_DIR)
@@ -557,6 +558,9 @@ BOOTSTRAP += $(D)/host_hisi3798mv200_buildimage
 endif
 ifeq ($(BOXARCH), $(filter $(BOXARCH), arm mips x86_64))	
 BOOTSTRAP += $(D)/host_python 
+endif
+ifeq ($(BOXARCH), x86_64)
+BOOTSTRAP += $(D)/host_genimage
 endif
 
 $(D)/bootstrap: $(BOOTSTRAP)
