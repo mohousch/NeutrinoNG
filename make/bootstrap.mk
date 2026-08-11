@@ -478,6 +478,54 @@ $(D)/host_flashtool-pad: $(D)/directories
 	$(TOUCH)
 
 #
+# host_libconfuse
+#
+HOST_LIBCONFUSE_VER = 3.3
+HOST_LIBCONFUSE_SRC = confuse-$(HOST_LIBCONFUSE_VER).tar.xz
+HOST_LIBCONFUSE_URL = https://github.com/libconfuse/libconfuse/releases/download/v$(HOST_LIBCONFUSE_VER)
+
+$(ARCHIVE)/$(HOST_LIBCONFUSE_SRC):
+	$(DOWNLOAD) $(HOST_LIBCONFUSE_URL)/$(HOST_LIBCONFUSE_SRC)
+	
+$(D)/host_libconfuse: $(ARCHIVE)/$(HOST_LIBCONFUSE_SRC)
+	$(START_BUILD)
+	$(REMOVE)/confuse-$(HOST_LIBCONFUSE_VER)
+	$(UNTAR)/$(HOST_LIBCONFUSE_SRC)
+	$(CHDIR)/confuse-$(HOST_LIBCONFUSE_VER); \
+		./configure \
+			--prefix=/usr \
+#			--disable-rpath \
+		; \
+		$(MAKE) all; \
+		$(MAKE) install DESTDIR=$(HOST_DIR)
+	$(REMOVE)/confuse-$(HOST_LIBCONFUSE_VER)
+	$(TOUCH)
+	
+#
+# genimage
+#
+HOST_GENIMAGE_VER = 20
+HOST_GENIMAGE_SRC = genimage-$(HOST_GENIMAGE_VER).tar.xz
+GENIMAGE_URL = https://github.com/pengutronix/genimage/releases/download/v$(HOST_GENIMAGE_VER)
+
+$(ARCHIVE)/$(HOST_GENIMAGE_SRC):
+	$(DOWNLOAD) $(GENIMAGE_URL)/$(HOST_GENIMAGE_SRC)
+	
+$(D)/host_genimage: $(ARCHIVE)/$(HOST_GENIMAGE_SRC) $(D)/host_libconfuse
+	$(START_BUILD)
+	$(REMOVE)/genimage-$(HOST_GENIMAGE_VER)
+	$(UNTAR)/$(HOST_GENIMAGE_SRC)
+	$(CHDIR)/genimage-$(HOST_GENIMAGE_VER); \
+		./configure \
+			--prefix=$(HOST_DIR) \
+			PKG_CONFIG_PATH=$(HOST_DIR)/usr/lib/pkgconfig \
+		; \
+		$(MAKE); \
+		$(MAKE) install
+	$(REMOVE)/genimage-$(HOST_GENIMAGE_VER)
+	$(TOUCH)
+
+#
 # bootstrap
 #
 BOOTSTRAP  = $(D)/directories

@@ -130,6 +130,7 @@ PACKAGES="\
 	${UBUNTU:+libtool-bin} 											      \
 	${UBUNTU:+gtk-doc-tools}										      \
 	${UBUNTU:+libelf-dev}											      \
+	${UBUNTU:+libconfuse-dev}										      \
 	${UBUNTU:+bc}
 	";
 
