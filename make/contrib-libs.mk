@@ -524,9 +524,9 @@ $(D)/freetype: $(D)/bootstrap $(D)/zlib $(D)/libpng $(ARCHIVE)/$(FREETYPE_SRC)
 #
 ifeq ($(BOXARCH), $(filter $(BOXARCH), x86_64))
 LIRC_VER = 0.10.2
-LIRC_OPTS = --enable-devinput \
-                          --enable-uinput \
-                          --with-gnu-ld \
+LIRC_OPTS =  --with-kerneldir=$(KERNEL_DIR) \
+			  --enable-uinput \
+			  --with-gnu-ld \
                           --without-x \
                           --runstatedir=/run \
                           --with-lockdir=/var/lock

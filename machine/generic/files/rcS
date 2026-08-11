@@ -70,8 +70,8 @@ fi
 
 #
 echo "init lircd"
-#mkdir -p /var/run/lirc
-#/usr/bin/lircd -u
+mkdir -p /var/run/lirc
+/usr/bin/lircd -u
 
 # set dummy time
 #NTPDATE=`date +"%Y%m%d"`
