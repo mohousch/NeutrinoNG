@@ -189,6 +189,14 @@ endif
 	echo "forum=https://forum.mbremer.de" >> $(RELEASE_DIR)/.version
 	echo "git=`git log | grep "^commit" | wc -l`" >> $(RELEASE_DIR)/.version
 #
+# os-release
+#
+	echo "PRETY_NAME="${BS_NAME} GNU/Linux ${BS_CYCLE}"" > $(RELEASE_DIR)/etc/os-release
+	echo "NAME="${BS_NAME}"" >> $(RELEASE_DIR)/etc/os-release
+	echo "VERSION_ID="${BS_CYCLE}"" >> $(RELEASE_DIR)/etc/os-release
+	echo "VERSION="${BS_CYCLE}"" >> $(RELEASE_DIR)/etc/os-release
+	echo "ID="${BS_NAME}"" >> $(RELEASE_DIR)/etc/os-release
+#
 # base-files
 #
 	cp -aR $(SKEL_ROOT)/etc/mdev/* $(RELEASE_DIR)/etc/mdev/
