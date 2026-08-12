@@ -15,9 +15,6 @@ BASE_DIR             := $(shell pwd)
 # version
 #
 -include $(BASE_DIR)/version
-export BS_NAME
-export BS_CYCLE
-export BS_TYPE
 
 #
 ARCHIVE               = $(HOME)/Archive

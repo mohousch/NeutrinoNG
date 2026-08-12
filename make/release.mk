@@ -191,10 +191,11 @@ endif
 #
 # os-release
 #
-	echo "PRETY_NAME="${BS_NAME} GNU/Linux ${BS_CYCLE}"" > $(RELEASE_DIR)/etc/os-release
-	echo "NAME="${BS_NAME}"" >> $(RELEASE_DIR)/etc/os-release
+	echo "PRETTY_NAME="${BS_NAME} GNU/Linux ${BS_CYCLE} "(${BS_ALIAS})""" > $(RELEASE_DIR)/etc/os-release
+	echo "NAME="${BS_NAME} GNU/Linux"" >> $(RELEASE_DIR)/etc/os-release
 	echo "VERSION_ID="${BS_CYCLE}"" >> $(RELEASE_DIR)/etc/os-release
-	echo "VERSION="${BS_CYCLE}"" >> $(RELEASE_DIR)/etc/os-release
+	echo "VERSION="${BS_CYCLE} "(${BS_ALIAS})""" >> $(RELEASE_DIR)/etc/os-release
+	echo "VERSION_CODENAME="${BS_ALIAS}"" >> $(RELEASE_DIR)/etc/os-release
 	echo "ID="${BS_NAME}"" >> $(RELEASE_DIR)/etc/os-release
 #
 # base-files
@@ -236,6 +237,9 @@ ifeq ($(BOXARCH), sh4)
 	cp -dp $(SKEL_ROOT)/sbin/hotplug $(RELEASE_DIR)/sbin/
 endif
 	ln -sf ../../bin/busybox $(RELEASE_DIR)/usr/bin/ether-wake
+ifeq ($(BOXARCH), x86_64)	
+	ln -sf ../../bin/busybox $(RELEASE_DIR)/linuxrc
+endif
 ifeq ($(LAYOUT), multiboot)
 	mv $(RELEASE_DIR)/sbin/init $(RELEASE_DIR)/sbin/init.sysvinit
 	install -m 0755 $(SKEL_ROOT)/sbin/init $(RELEASE_DIR)/sbin/
