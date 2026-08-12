@@ -126,6 +126,13 @@ ifeq ($(LCD4LINUX), lcd4linux)
 RELEASE_DEPS += $(D)/lcd4linux
 endif
 #
+# x86_64 graphic
+#
+ifeq ($(BOXARCH), x86_64)
+RELEASE_DEPS += $(D)/directfb
+RELEASE_DEPS += $(D)/glew
+endif
+#
 # neutrino / neutrino2 deps (optional)
 #
 RELEASE_DEPS += $(D)/ncurses  

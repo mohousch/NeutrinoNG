@@ -4,6 +4,8 @@
 DIRECTFB_VER = 1.7.7
 DIRECTFB_SRC = DirectFB-$(DIRECTFB_VER).tar.gz
 
+DIRECTFB_PATCH =
+
 $(ARCHIVE)/$(DIRECTFB_SRC):
 	$(DOWNLOAD) http://sources.buildroot.net/$(DIRECTFB_SRC)
 
@@ -12,7 +14,7 @@ $(D)/directfb: $(D)/bootstrap $(ARCHIVE)/$(DIRECTFB_SRC)
 	$(REMOVE)/DirectFB-$(DIRECTFB_VER)
 	$(UNTAR)/$(DIRECTFB_SRC)
 	$(CHDIR)/DirectFB-$(DIRECTFB_VER); \
-		$(call apply_patches, $(PKG_PATCH)); \
+		$(call apply_patches, $(DIRECTFB_PATCH)); \
 		$(BUILDENV) \
 		autoreconf -fi; \
 		EGL_CFLAGS=-I$(TARGET_INCLUDE_DIR)/EGL -I$(TARGET_INCLUDE_DIR)/GLES2 \
