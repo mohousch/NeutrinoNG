@@ -13,6 +13,13 @@ NEUTRINO2_DEPS += $(D)/ffmpeg
 NEUTRINO2_DEPS += $(D)/libfribidi
 NEUTRINO2_DEPS += $(D)/libopenthreads
 NEUTRINO2_DEPS += $(D)/openssl
+NEUTRINO2_DEPS += $(D)/lua 
+NEUTRINO2_DEPS += $(D)/luaexpat 
+NEUTRINO2_DEPS += $(D)/luacurl 
+NEUTRINO2_DEPS += $(D)/luasocket 
+NEUTRINO2_DEPS += $(D)/luafeedparser 
+NEUTRINO2_DEPS += $(D)/luasoap 
+NEUTRINO2_DEPS += $(D)/luajson
 
 #
 # CFLAGS / CPPFLAGS
@@ -37,14 +44,7 @@ ifeq ($(BOXTYPE), $(filter $(BOXTYPE), spark spark7162))
 NEUTRINO2_CPPFLAGS += -I$(DRIVER_DIR)/frontcontroller/aotom_spark
 endif
 
-NEUTRINO2_DEPS += $(D)/lua 
-NEUTRINO2_DEPS += $(D)/luaexpat 
-NEUTRINO2_DEPS += $(D)/luacurl 
-NEUTRINO2_DEPS += $(D)/luasocket 
-NEUTRINO2_DEPS += $(D)/luafeedparser 
-NEUTRINO2_DEPS += $(D)/luasoap 
-NEUTRINO2_DEPS += $(D)/luajson
-NEUTRINO2_CONFIG_OPTS = --enable-lua
+NEUTRINO2_CONFIG_OPTS += --enable-lua
 
 ifeq ($(BOXARCH), $(filter $(BOXARCH), arm mips))
 ifeq ($(GSTREAMER), gstreamer)
@@ -101,11 +101,6 @@ endif
 
 ifeq ($(FKEYS), fkeys)
 NEUTRINO2_CONFIG_OPTS += --enable-functionkeys
-endif
-
-ifeq ($(BOXARCH), x86_64)
-#NEUTRINO2_CONFIG_OPTS += enable-opengl
-NEUTRINO2_CONFIG_OPTS += --enable-lirc
 endif
 
 NEUTRINO2_PATCHES =
