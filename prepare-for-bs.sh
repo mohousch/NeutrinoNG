@@ -91,6 +91,10 @@ PACKAGES="\
 	zip \
 	unzip \
 	cpio \
+	meson \
+	rustc \
+	glslang-tools \
+	bindgen \
 	\
 	${UBUNTU:+rpm}                                               ${FEDORA:+rpm-build}      ${GENTOO:+rpm}         \
 	${UBUNTU:+lsb-release}          ${SUSE:+lsb-release}				       ${GENTOO:+lsb-release} \
