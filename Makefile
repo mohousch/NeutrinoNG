@@ -85,8 +85,8 @@ config:
 	@echo "   75)  osmini4k"  
 	@echo "  Gigablue"
 	@echo "   80)  gb800se"
-	@echo "   81)  gbue4k"
-	@echo "   82)  gbultraue"
+	@echo "   81)  gbultraue"
+	@echo "   82)  gbue4k"
 	@echo "   83)  gbtrio4k"
 	@echo "   84)  gbtrio4kpro"
 	@echo "   85)  gbip4k"
@@ -110,7 +110,7 @@ config:
 	@echo "  Uclan"
 	@echo "   150)  ustym4kpro"
 	@echo "   151)  ustym4ks2ottx"
-	@echo ""
+	@echo "  PC"
 	@echo -e "\033[01;32m   *)  generic\033[00m"
 	@echo ""
 	@read -p "Select target (1-150)? " BOXTYPE; \
@@ -155,8 +155,8 @@ config:
 		74) BOXTYPE="osmio4kplus";; \
 		75) BOXTYPE="osmini4k";; \
 		80) BOXTYPE="gb800se";; \
-		81) BOXTYPE="gbue4k";; \
-		82) BOXTYPE="gbultraue";; \
+		81) BOXTYPE="gbultraue";; \
+		82) BOXTYPE="gbue4k";; \
 		83) BOXTYPE="gbtrio4k";; \
 		84) BOXTYPE="gbtrio4kpro";; \
 		85) BOXTYPE="gbip4k";; \

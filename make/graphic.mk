@@ -17,13 +17,13 @@ $(D)/directfb: $(D)/bootstrap $(ARCHIVE)/$(DIRECTFB_SRC)
 		$(call apply_patches, $(DIRECTFB_PATCH)); \
 		$(BUILDENV) \
 		autoreconf -fi; \
-		EGL_CFLAGS=-I$(TARGET_INCLUDE_DIR)/EGL -I$(TARGET_INCLUDE_DIR)/GLES2 \
-		EGL_LIBS=-lEGL -lGLESv2 -L$(TARGET_LIB_DIR) \
+#		EGL_CFLAGS=-I$(TARGET_INCLUDE_DIR)/EGL -I$(TARGET_INCLUDE_DIR)/GLES2 \
+#		EGL_LIBS=-lEGL -lGLESv2 -L$(TARGET_LIB_DIR) \
 		$(CONFIGURE) \
 			--prefix=/usr \
 			--sysconfdir=/etc \
-			--enable-egl \
-			--with-gfxdrivers=gles2 \
+			--enable-gl \
+			--with-gfxdrivers=gl \
 			--enable-freetype=yes \
 			--enable-zlib \
 			--disable-imlib2 \
