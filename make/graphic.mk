@@ -78,6 +78,41 @@ $(D)/glew: $(ARCHIVE)/$(GLEW_SRC)
 	$(TOUCH)
 	
 #
+# libfreeglut
+#
+FREEGLUT_VER = 3.8.0
+FREEGLUT_SRC = freeglut-$(FREEGLUT_VER).tar.gz
+FREEGLUT_URL = https://github.com/FreeGLUTProject/freeglut/releases/download/v$(FREEGLUT_VER)
+
+FREEGLUT_PATCH =
+
+$(ARCHIVE)/$(FREEGLUT_SRC):
+	$(DOWNLOAD) $(FREEGLUT_URL)/$(FREEGLUT_SRC)
+	
+$(D)/freeglut: $(ARCHIVE)/$(FREEGLUT_SRC)
+	$(START_BUILD)
+	$(REMOVE)/freeglut-$(FREEGLUT_VER)
+	$(UNTAR)/$(FREEGLUT_SRC)
+	$(CHDIR)/freeglut-$(FREEGLUT_VER); \
+		$(call apply_patches, $(FREEGLUT_PATCH)); \
+		rm CMakeFiles/* -rf CMakeCache.txt cmake_install.cmake; \
+		cmake . -DCMAKE_INSTALL_PREFIX=/usr \
+			-DCMAKE_C_COMPILER=$(TARGET)-gcc \
+			-DCMAKE_CXX_COMPILER=$(TARGET)-g++ \
+			-DFREEGLUT_WAYLAND=ON \
+			-DFREEGLUT_GLES=OFF \
+			-DFREEGLUT_X11=OFF \
+			-DFREEGLUT_BUILD_SHARED_LIBS=ON \
+			-DFREEGLUT_BUILD_STATIC_LIBS=ON
+#		make ; \
+#		make install DESTDIR=$(TARGET_DIR)
+#		$(MAKE) install FREEGLUT_DEST="/usr" LIBDIR="/usr/lib" DESTDIR=$(TARGET_DIR)
+#		$(REWRITE_LIBTOOL)/libGLEW.a
+#		$(REWRITE_PKGCONF) $(PKG_CONFIG_PATH)/freeglut.pc
+#	$(REMOVE)/freeglut-$(FREEGLUT_VER)
+#	$(TOUCH)
+	
+#
 # mesa
 #
 MESA_VER = 26.2.0
