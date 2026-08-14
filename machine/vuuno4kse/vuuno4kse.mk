@@ -6,7 +6,7 @@
 #
 
 BOXARCH = arm
-MACHINE_OPTS = --enable-ci --enable-fkeys --enable-lcd --enable-4k --enable-cec
+MACHINE_OPTS = --enable-ci --enable-fkeys --enable-lcd400 --enable-4k --enable-cec
 
 #
 # kernel
