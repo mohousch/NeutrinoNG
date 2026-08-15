@@ -131,7 +131,8 @@ $(D)/mesa: $(D)/bootstrap $(ARCHIVE)/$(MESA_SRC) $(D)/libxml2 $(D)/libarchive $(
 	$(CHDIR)/mesa-$(MESA_VER); \
 		$(call apply_patches, $(MESA_PATCH)); \
 		meson setup \
-			-Dprefix=/usr \
+			--prefix=/usr \
+			--buildtype=release \
 			-Dgallium-extra-hud=false \
 			-Dgallium-rusticl=false \
 			-Dshader-cache=enabled \
@@ -169,6 +170,8 @@ $(D)/glu: $(D)/bootstrap $(ARCHIVE)/$(GLU_SRC) $(D)/mesa
 	$(CHDIR)/glu-$(GLU_VER); \
 		$(call apply_patches, $(GLU_PATCH)); \
 		meson setup \
+			-prefix=/usr \
+			--buildtype=release \
 			-Dprefix=/usr \
 			-Dgl_provider=glvnd; \
 		$(MAKE);
@@ -194,7 +197,8 @@ $(D)/libdrm: $(D)/bootstrap $(ARCHIVE)/$(LIBDRM_SRC)
 	$(CHDIR)/libdrm-$(LIBDRM_VER); \
 		$(call apply_patches, $(LIBDRM_PATCH)); \
 		meson setup \
-			-Dprefix=/usr \
+			--prefix=/usr \
+			--buildtype=release \
 			-Dcairo-tests=disabled \
 			-Dman-pages=disabled \
 			-Damdgpu=enabled \

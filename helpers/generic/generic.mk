@@ -1,6 +1,8 @@
 #
 # generic image
-#	
+#
+UUID = 5de43a58-dac9-42d2-b86e-b7e56c020670
+	
 generic-efi-disk-image:
 	rm -rf $(IMAGE_BUILD_DIR) || true
 	mkdir -p $(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)
@@ -16,10 +18,10 @@ generic-efi-disk-image:
 	fsck.ext2 -pvfD $(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)/rootfs.ext2 || [ $? -le 3 ]
 	# resize
 	resize2fs $(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)/rootfs.ext2 1048576k
-	#
-	UUID=$(shell dumpe2fs "${IMAGE_BUILD_DIR}/${FLASHIMAGE_PREFIX}/rootfs.ext2" 2>/dev/null | sed -n 's/^Filesystem UUID: *\(.*\)/\1/p'); \
-	sed -i "s/UUID_TMP/$$UUID/g" "$(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)/efi-part/EFI/BOOT/grub.cfg"; \
-	sed -i "s/UUID_TMP/$$UUID/g" "$(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)/genimage-efi.cfg"
+	# FIXME:
+#	@UUID=$(shell dumpe2fs "${IMAGE_BUILD_DIR}/${FLASHIMAGE_PREFIX}/rootfs.ext2" 2>/dev/null | sed -n 's/^Filesystem UUID: *\(.*\)/\1/p')
+	sed -i "s/UUID_TMP/${UUID}/g" "$(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)/efi-part/EFI/BOOT/grub.cfg"
+	sed -i "s/UUID_TMP/${UUID}/g" "$(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)/genimage-efi.cfg"
 	#
 	genimage \
 	--rootpath $(RELEASE_DIR) \
