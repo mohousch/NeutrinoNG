@@ -130,8 +130,7 @@ $(D)/mesa: $(D)/bootstrap $(ARCHIVE)/$(MESA_SRC) $(D)/libxml2 $(D)/libarchive $(
 	$(UNTAR)/$(MESA_SRC)
 	$(CHDIR)/mesa-$(MESA_VER); \
 		$(call apply_patches, $(MESA_PATCH)); \
-			meson setup \
-			--reconfigure ${BUILD} \
+		meson setup \
 			-Dprefix=/usr \
 			-Dgallium-extra-hud=false \
 			-Dgallium-rusticl=false \
@@ -170,7 +169,6 @@ $(D)/glu: $(D)/bootstrap $(ARCHIVE)/$(GLU_SRC) $(D)/mesa
 	$(CHDIR)/glu-$(GLU_VER); \
 		$(call apply_patches, $(GLU_PATCH)); \
 		meson setup \
-			--reconfigure ${BUILD} \
 			-Dprefix=/usr \
 			-Dgl_provider=glvnd; \
 		$(MAKE);
@@ -194,8 +192,8 @@ $(D)/libdrm: $(D)/bootstrap $(ARCHIVE)/$(LIBDRM_SRC)
 	$(REMOVE)/libdrm-$(LIBDRM_VER)
 	$(UNTAR)/$(LIBDRM_SRC)
 	$(CHDIR)/libdrm-$(LIBDRM_VER); \
-		$(call apply_patches, $(LIBDRM_PATCH))
-		meson --reconfigure ${BUILD} \
+		$(call apply_patches, $(LIBDRM_PATCH)); \
+		meson setup \
 			-Dprefix=/usr \
 			-Dcairo-tests=disabled \
 			-Dman-pages=disabled \
@@ -206,5 +204,58 @@ $(D)/libdrm: $(D)/bootstrap $(ARCHIVE)/$(LIBDRM_SRC)
 			-Dvalgrind=disabled \
 		$(MAKE);
 	$(REMOVE)/libdrm-$(LIBDRM_VER)
+#	$(TOUCH)
+
+#
+# sdl2
+#
+SDL2_VER = 2.32.10
+SDL2_SRC = SDL2-$(SDL2_VER).tar.gz
+SDL2_URL = http://www.libsdl.org/release
+
+SDL2_PATCH =
+
+$(ARCHIVE)/$(SDL2_SRC):
+	$(DOWNLOAD) $(SDL2_URL)/$(SDL2_SRC)
+	
+$(D)/sdl2: $(D)/bootstrap $(ARCHIVE)/$(SDL2_SRC)
+	$(START_BUILD)
+	$(REMOVE)/SDL2-$(SDL2_VER)
+	$(UNTAR)/$(SDL2_SRC)
+	$(CHDIR)/SDL2-$(SDL2_VER); \
+		$(call apply_patches, $(SDL2_PATCH)); \
+		$(BUILDENV); \
+		autoreconf -fi; \
+		$(CONFIGURE) \
+			-target=$(TARGET) \
+			--prefix=/usr \
+			--disable-rpath \
+			--disable-arts \
+			--disable-esd \
+			--disable-dbus \
+			--disable-pulseaudio \
+			--disable-video-vivante \
+			--disable-video-cocoa \
+			--disable-video-metal \
+			--disable-video-dummy \
+			--disable-video-offscreen \
+			--disable-video-vulkan \
+			--disable-video-directfb \
+			--disable-video-rpi \
+			--disable-ime \
+			--disable-ibus \
+			--disable-fcitx \
+			--disable-joystick-mfi \
+			--disable-directx \
+			--disable-xinput \
+			--disable-wasapi \
+			--disable-hidapi-joystick \
+			--disable-hidapi-libusb \
+			--disable-joystick-virtual \
+			--disable-render-d3d \
+		; \
+		$(MAKE); \
+		$(MAKE) install DESTDIR=$(TARGET_DIR)
+	$(REMOVE)/SDL2-$(SDL2_VER)
 #	$(TOUCH)
 
