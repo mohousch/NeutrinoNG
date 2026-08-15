@@ -3,11 +3,12 @@
 #
 DIRECTFB_VER = 1.7.7
 DIRECTFB_SRC = DirectFB-$(DIRECTFB_VER).tar.gz
+DIRECTFB_URL = http://sources.buildroot.net
 
 DIRECTFB_PATCH =
 
 $(ARCHIVE)/$(DIRECTFB_SRC):
-	$(DOWNLOAD) http://sources.buildroot.net/$(DIRECTFB_SRC)
+	$(DOWNLOAD) $(DIRECTFB_URL)/$(DIRECTFB_SRC)
 
 $(D)/directfb: $(D)/bootstrap $(ARCHIVE)/$(DIRECTFB_SRC)
 	$(START_BUILD)
@@ -22,7 +23,7 @@ $(D)/directfb: $(D)/bootstrap $(ARCHIVE)/$(DIRECTFB_SRC)
 		$(CONFIGURE) \
 			--prefix=/usr \
 			--sysconfdir=/etc \
-			--enable-gl \
+			--enable-egl \
 			--with-gfxdrivers=gl \
 			--enable-freetype=yes \
 			--enable-zlib \
@@ -63,7 +64,7 @@ GLEW_PATCH =
 $(ARCHIVE)/$(GLEW_SRC):
 	$(DOWNLOAD) $(GLEW_URL)/$(GLEW_SRC)
 	
-$(D)/glew: $(ARCHIVE)/$(GLEW_SRC)
+$(D)/glew: $(D)/bootstrap $(ARCHIVE)/$(GLEW_SRC)
 	$(START_BUILD)
 	$(REMOVE)/glew-$(GLEW_VER)
 	$(UNTAR)/$(GLEW_SRC)
@@ -89,7 +90,7 @@ FREEGLUT_PATCH =
 $(ARCHIVE)/$(FREEGLUT_SRC):
 	$(DOWNLOAD) $(FREEGLUT_URL)/$(FREEGLUT_SRC)
 	
-$(D)/freeglut: $(ARCHIVE)/$(FREEGLUT_SRC)
+$(D)/freeglut: $(D)/bootstrap $(ARCHIVE)/$(FREEGLUT_SRC)
 	$(START_BUILD)
 	$(REMOVE)/freeglut-$(FREEGLUT_VER)
 	$(UNTAR)/$(FREEGLUT_SRC)
@@ -107,9 +108,8 @@ $(D)/freeglut: $(ARCHIVE)/$(FREEGLUT_SRC)
 #		make ; \
 #		make install DESTDIR=$(TARGET_DIR)
 #		$(MAKE) install FREEGLUT_DEST="/usr" LIBDIR="/usr/lib" DESTDIR=$(TARGET_DIR)
-#		$(REWRITE_LIBTOOL)/libGLEW.a
 #		$(REWRITE_PKGCONF) $(PKG_CONFIG_PATH)/freeglut.pc
-#	$(REMOVE)/freeglut-$(FREEGLUT_VER)
+	$(REMOVE)/freeglut-$(FREEGLUT_VER)
 #	$(TOUCH)
 	
 #
@@ -124,13 +124,14 @@ MESA_PATCH =
 $(ARCHIVE)/$(MESA_SRC):
 	$(DOWNLOAD) $(MESA_URL)/$(MESA_SRC)
 	
-$(D)/mesa: $(ARCHIVE)/$(MESA_SRC) $(D)/libxml2 $(D)/libarchive $(D)/lua
+$(D)/mesa: $(D)/bootstrap $(ARCHIVE)/$(MESA_SRC) $(D)/libxml2 $(D)/libarchive $(D)/lua
 	$(START_BUILD)
 	$(REMOVE)/mesa-$(MESA_VER)
 	$(UNTAR)/$(MESA_SRC)
 	$(CHDIR)/mesa-$(MESA_VER); \
 		$(call apply_patches, $(MESA_PATCH)); \
-			meson --reconfigure ${BUILD} \
+			meson setup \
+			--reconfigure ${BUILD} \
 			-Dprefix=/usr \
 			-Dgallium-extra-hud=false \
 			-Dgallium-rusticl=false \
@@ -147,10 +148,7 @@ $(D)/mesa: $(ARCHIVE)/$(MESA_SRC) $(D)/libxml2 $(D)/libarchive $(D)/lua
 			-Dglx=disabled \
 			-Dglvnd=disabled
 		$(MAKE);
-#		$(MAKE) install GLEW_DEST="/usr" LIBDIR="/usr/lib" DESTDIR=$(TARGET_DIR)
-#		$(REWRITE_LIBTOOL)/libGLEW.a
-#		$(REWRITE_PKGCONF) $(PKG_CONFIG_PATH)/glew.pc
-#	$(REMOVE)/glew-$(GLEW_VER)
+	$(REMOVE)/mesa-$(MESA_VER)
 #	$(TOUCH)
 	
 #
@@ -165,19 +163,48 @@ GLU_PATCH =
 $(ARCHIVE)/$(GLU_SRC):
 	$(DOWNLOAD) $(GLU_URL)/$(GLU_SRC)
 	
-$(D)/glu: $(ARCHIVE)/$(GLU_SRC) $(D)/mesa
+$(D)/glu: $(D)/bootstrap $(ARCHIVE)/$(GLU_SRC) $(D)/mesa
 	$(START_BUILD)
 	$(REMOVE)/glu-$(GLU_VER)
 	$(UNTAR)/$(GLU_SRC)
 	$(CHDIR)/glu-$(GLU_VER); \
 		$(call apply_patches, $(GLU_PATCH)); \
-		meson meson --reconfigure ${BUILD} \
+		meson setup \
+			--reconfigure ${BUILD} \
 			-Dprefix=/usr \
 			-Dgl_provider=glvnd; \
 		$(MAKE);
-#		$(MAKE) install GLEW_DEST="/usr" LIBDIR="/usr/lib" DESTDIR=$(TARGET_DIR)
-#		$(REWRITE_LIBTOOL)/libGLEW.a
-#		$(REWRITE_PKGCONF) $(PKG_CONFIG_PATH)/glew.pc
-#	$(REMOVE)/glew-$(GLEW_VER)
+	$(REMOVE)/glu-$(GLEW_VER)
+#	$(TOUCH)
+
+#
+# libdrm
+#
+LIBDRM_VER = 2.4.134
+LIBDRM_SRC = libdrm-$(LIBDRM_VER).tar.xz
+LIBDRM_URL = https://dri.freedesktop.org/libdrm
+
+LIBDRM_PATCH =
+
+$(ARCHIVE)/$(LIBDRM_SRC):
+	$(DOWNLOAD) $(LIBDRM_URL)/$(LIBDRM_SRC)
+	
+$(D)/libdrm: $(D)/bootstrap $(ARCHIVE)/$(LIBDRM_SRC)
+	$(START_BUILD)
+	$(REMOVE)/libdrm-$(LIBDRM_VER)
+	$(UNTAR)/$(LIBDRM_SRC)
+	$(CHDIR)/libdrm-$(LIBDRM_VER); \
+		$(call apply_patches, $(LIBDRM_PATCH))
+		meson --reconfigure ${BUILD} \
+			-Dprefix=/usr \
+			-Dcairo-tests=disabled \
+			-Dman-pages=disabled \
+			-Damdgpu=enabled \
+			-Dnouveau=enabled \
+			-Dtests=false \
+			-Dudev=false \
+			-Dvalgrind=disabled \
+		$(MAKE);
+	$(REMOVE)/libdrm-$(LIBDRM_VER)
 #	$(TOUCH)
 
