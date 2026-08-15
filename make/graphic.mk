@@ -227,8 +227,10 @@ $(D)/sdl2: $(D)/bootstrap $(ARCHIVE)/$(SDL2_SRC)
 		$(BUILDENV); \
 		autoreconf -fi; \
 		$(CONFIGURE) \
-			-target=$(TARGET) \
+			--target=$(TARGET) \
+			--host=$(TARGET) \
 			--prefix=/usr \
+			--enable-libc \
 			--disable-rpath \
 			--disable-arts \
 			--disable-esd \
