@@ -19,7 +19,7 @@ generic-efi-disk-image:
 	# resize
 	resize2fs $(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)/rootfs.ext2 1048576k
 	#
-	$(SCRIPTS_DIR)/post-image-efi.sh $(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)
+	$(HELPERS_DIR)/generic/post-image-efi.sh $(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)
 	#
 	genimage \
 	--rootpath $(RELEASE_DIR) \
