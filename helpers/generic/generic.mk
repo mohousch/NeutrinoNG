@@ -18,10 +18,8 @@ generic-efi-disk-image:
 	fsck.ext2 -pvfD $(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)/rootfs.ext2 || [ $? -le 3 ]
 	# resize
 	resize2fs $(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)/rootfs.ext2 1048576k
-	# FIXME:
-#	@UUID=$(shell dumpe2fs "${IMAGE_BUILD_DIR}/${FLASHIMAGE_PREFIX}/rootfs.ext2" 2>/dev/null | sed -n 's/^Filesystem UUID: *\(.*\)/\1/p')
-	sed -i "s/UUID_TMP/${UUID}/g" "$(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)/efi-part/EFI/BOOT/grub.cfg"
-	sed -i "s/UUID_TMP/${UUID}/g" "$(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)/genimage-efi.cfg"
+	#
+	$(SCRIPTS_DIR)/post-image-efi.sh $(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)
 	#
 	genimage \
 	--rootpath $(RELEASE_DIR) \
