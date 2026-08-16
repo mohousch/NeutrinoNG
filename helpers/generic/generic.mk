@@ -1,8 +1,6 @@
 #
 # generic image
-#
-UUID = 5de43a58-dac9-42d2-b86e-b7e56c020670
-	
+#	
 generic-efi-disk-image:
 	rm -rf $(IMAGE_BUILD_DIR) || true
 	mkdir -p $(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)
