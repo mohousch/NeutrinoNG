@@ -37,17 +37,6 @@ RELEASE_DEPS += $(D)/dvbsnoop
 #RELEASE_DEPS += $(D)/samba
 endif
 #
-# lirc
-#
-ifeq ($(BOXARCH), $(filter $(BOXARCH), sh4))
-ifeq ($(BOXTYPE), $(filter $(BOXTYPE), spark spark7162 hl101))
-RELEASE_DEPS += $(D)/lirc
-endif
-endif
-ifeq ($(BOXARCH), x86_64)
-RELEASE_DEPS += $(D)/lirc
-endif
-#
 # tools
 #
 ifeq ($(BOXARCH), $(filter $(BOXARCH), sh4 mips arm))
@@ -126,14 +115,7 @@ ifeq ($(LCD4LINUX), lcd4linux)
 RELEASE_DEPS += $(D)/lcd4linux
 endif
 #
-# x86_64 graphic
-#
-ifeq ($(BOXARCH), x86_64)
-RELEASE_DEPS += $(D)/directfb
-RELEASE_DEPS += $(D)/glew
-endif
-#
-# neutrino / neutrino2 deps (optional)
+# neutrino common
 #
 RELEASE_DEPS += $(D)/ncurses  
 RELEASE_DEPS += $(D)/libcurl
@@ -155,7 +137,7 @@ RELEASE_DEPS += $(D)/openssl
 RELEASE_DEPS += $(D)/libass
 RELEASE_DEPS += $(D)/libdvbcsa
 
-release-common: $(RELEASE_DEPS)
+release-common: $(RELEASE_DEPS) $(MACHINE_DEPS)
 	rm -rf $(RELEASE_DIR) || true
 	install -d $(RELEASE_DIR)
 	install -d $(RELEASE_DIR)/{bin,boot,dev,dev.static,etc,lib,media,mnt,proc,ram,root,sbin,sys,tmp,usr,var}

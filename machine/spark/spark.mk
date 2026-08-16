@@ -6,6 +6,7 @@
 
 BOXARCH = sh4
 MACHINE_OPTS = --enable-ci --enable-scart --enable-vfd --enable-cec
+MACHINE_DEPS = $(D)/lirc
 
 #
 # kernel

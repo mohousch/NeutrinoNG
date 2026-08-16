@@ -36,7 +36,7 @@ $(D)/directfb: $(D)/bootstrap $(ARCHIVE)/$(DIRECTFB_SRC)
 			--with-inputdrivers=linuxinput \
 			--enable-fusion \
 		; \
-		$(MAKE) ; \
+		$(MAKE); \
 		$(MAKE) install DESTDIR=$(TARGET_DIR)
 		$(REWRITE_LIBTOOL)/libdirect.la
 		$(REWRITE_LIBTOOLDEP)/libfusion.la
@@ -71,7 +71,7 @@ $(D)/glew: $(D)/bootstrap $(ARCHIVE)/$(GLEW_SRC)
 	$(CHDIR)/glew-$(GLEW_VER); \
 		$(call apply_patches, $(GLEW_PATCH)); \
 		$(BUILDENV) \
-		$(MAKE) ; \
+		$(MAKE); \
 		$(MAKE) install GLEW_DEST="/usr" LIBDIR="/usr/lib" DESTDIR=$(TARGET_DIR)
 		$(REWRITE_LIBTOOL)/libGLEW.a
 		$(REWRITE_PKGCONF) $(PKG_CONFIG_PATH)/glew.pc
@@ -79,7 +79,7 @@ $(D)/glew: $(D)/bootstrap $(ARCHIVE)/$(GLEW_SRC)
 	$(TOUCH)
 	
 #
-# libfreeglut
+# freeglut
 #
 FREEGLUT_VER = 3.8.0
 FREEGLUT_SRC = freeglut-$(FREEGLUT_VER).tar.gz
@@ -100,15 +100,15 @@ $(D)/freeglut: $(D)/bootstrap $(ARCHIVE)/$(FREEGLUT_SRC)
 		cmake . -DCMAKE_INSTALL_PREFIX=/usr \
 			-DCMAKE_C_COMPILER=$(TARGET)-gcc \
 			-DCMAKE_CXX_COMPILER=$(TARGET)-g++ \
-			-DFREEGLUT_WAYLAND=ON \
+			-DFREEGLUT_WAYLAND=OFF \
 			-DFREEGLUT_GLES=OFF \
 			-DFREEGLUT_X11=OFF \
 			-DFREEGLUT_BUILD_SHARED_LIBS=ON \
-			-DFREEGLUT_BUILD_STATIC_LIBS=ON
-#		make ; \
-#		make install DESTDIR=$(TARGET_DIR)
-#		$(MAKE) install FREEGLUT_DEST="/usr" LIBDIR="/usr/lib" DESTDIR=$(TARGET_DIR)
-#		$(REWRITE_PKGCONF) $(PKG_CONFIG_PATH)/freeglut.pc
+			-DFREEGLUT_BUILD_STATIC_LIBS=ON \
+		; \
+		$(MAKE); \
+		$(MAKE) install DESTDIR=$(TARGET_DIR)
+		$(REWRITE_PKGCONF) $(PKG_CONFIG_PATH)/freeglut.pc
 	$(REMOVE)/freeglut-$(FREEGLUT_VER)
 #	$(TOUCH)
 	
@@ -146,7 +146,8 @@ $(D)/mesa: $(D)/bootstrap $(ARCHIVE)/$(MESA_SRC) $(D)/libxml2 $(D)/libarchive $(
 			-Dmicrosoft-clc=disabled \
 			-Dplatforms="" \
 			-Dglx=disabled \
-			-Dglvnd=disabled
+			-Dglvnd=disabled \
+		; \
 		$(MAKE);
 	$(REMOVE)/mesa-$(MESA_VER)
 #	$(TOUCH)
@@ -163,17 +164,16 @@ GLU_PATCH =
 $(ARCHIVE)/$(GLU_SRC):
 	$(DOWNLOAD) $(GLU_URL)/$(GLU_SRC)
 	
-$(D)/glu: $(D)/bootstrap $(ARCHIVE)/$(GLU_SRC) $(D)/mesa
+$(D)/glu: $(D)/bootstrap $(ARCHIVE)/$(GLU_SRC)
 	$(START_BUILD)
 	$(REMOVE)/glu-$(GLU_VER)
 	$(UNTAR)/$(GLU_SRC)
 	$(CHDIR)/glu-$(GLU_VER); \
 		$(call apply_patches, $(GLU_PATCH)); \
 		meson setup \
-			-prefix=/usr \
-			--buildtype=release \
 			-Dprefix=/usr \
-			-Dgl_provider=glvnd; \
+			-Dgl_provider=glvnd \
+		; \
 		$(MAKE);
 	$(REMOVE)/glu-$(GLEW_VER)
 #	$(TOUCH)
@@ -206,6 +206,7 @@ $(D)/libdrm: $(D)/bootstrap $(ARCHIVE)/$(LIBDRM_SRC)
 			-Dtests=false \
 			-Dudev=false \
 			-Dvalgrind=disabled \
+		; \
 		$(MAKE);
 	$(REMOVE)/libdrm-$(LIBDRM_VER)
 #	$(TOUCH)
@@ -231,11 +232,7 @@ $(D)/sdl2: $(D)/bootstrap $(ARCHIVE)/$(SDL2_SRC)
 		$(BUILDENV); \
 		autoreconf -fi; \
 		$(CONFIGURE) \
-			--target=$(TARGET) \
-			--host=$(TARGET) \
 			--prefix=/usr \
-			--enable-libc \
-			--disable-rpath \
 			--disable-arts \
 			--disable-esd \
 			--disable-dbus \
@@ -260,7 +257,7 @@ $(D)/sdl2: $(D)/bootstrap $(ARCHIVE)/$(SDL2_SRC)
 			--disable-joystick-virtual \
 			--disable-render-d3d \
 		; \
-		$(MAKE); \
+		$(MAKE) CFLAGS="$(TARGET_CFLAGS)"; \
 		$(MAKE) install DESTDIR=$(TARGET_DIR)
 	$(REMOVE)/SDL2-$(SDL2_VER)
 #	$(TOUCH)
