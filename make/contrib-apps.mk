@@ -1475,9 +1475,10 @@ $(D)/openvpn: $(D)/bootstrap $(D)/openssl $(D)/lzo $(ARCHIVE)/$(OPENVPN_SRC)
 #
 OPENSSH_VER = 7.7p1
 OPENSSH_SRC = openssh-$(OPENSSH_VER).tar.gz
+OPENSSH_URL = https://artfiles.org/openbsd/OpenSSH/portable
 
 $(ARCHIVE)/$(OPENSSH_SRC):
-	$(DOWNLOAD) https://artfiles.org/openbsd/OpenSSH/portable/$(OPENSSH_SRC)
+	$(DOWNLOAD) $(OPENSSH_URL)/$(OPENSSH_SRC)
 
 $(D)/openssh: $(D)/bootstrap $(D)/zlib $(D)/openssl $(ARCHIVE)/$(OPENSSH_SRC)
 	$(START_BUILD)
@@ -1797,11 +1798,12 @@ $(D)/f2fs-tools: $(D)/bootstrap $(D)/util_linux $(ARCHIVE)/$(F2FS-TOOLS_SRC)
 #
 MC_VER = 4.8.20
 MC_SRC = mc-$(MC_VER).tar.xz
+MC_URL = ftp.midnight-commander.org
 
 MC_PATCH = mc-$(MC_VER).patch
 
 $(ARCHIVE)/$(MC_SRC):
-	$(DOWNLOAD) ftp.midnight-commander.org/$(MC_SRC)
+	$(DOWNLOAD) $(MC_URL)$(MC_SRC)
 
 $(D)/mc: $(D)/bootstrap $(D)/ncurses $(D)/libglib2 $(ARCHIVE)/$(MC_SRC)
 	$(START_BUILD)
@@ -1836,9 +1838,10 @@ $(D)/mc: $(D)/bootstrap $(D)/ncurses $(D)/libglib2 $(ARCHIVE)/$(MC_SRC)
 #
 NANO_VER = 2.2.6
 NANO_SRC = nano-$(NANO_VER).tar.gz
+NANO_URL = https://www.nano-editor.org/dist/v2.2
 
 $(ARCHIVE)/$(NANO_SRC):
-	$(DOWNLOAD) https://www.nano-editor.org/dist/v2.2/$(NANO_SRC)
+	$(DOWNLOAD) $(NANO_URL)/$(NANO_SRC)
 
 $(D)/nano: $(D)/bootstrap $(D)/ncurses $(ARCHIVE)/$(NANO_SRC)
 	$(START_BUILD)
@@ -1862,11 +1865,12 @@ $(D)/nano: $(D)/bootstrap $(D)/ncurses $(ARCHIVE)/$(NANO_SRC)
 #
 HTOP_VER = 2.2.0
 HTOP_SRC = htop-$(HTOP_VER).tar.gz
+HTOP_URL = http://hisham.hm/htop/releases/$(HTOP_VER)
 
 HTOP_PATCH = htop-$(HTOP_VER).patch
 
 $(ARCHIVE)/$(HTOP_SRC):
-	$(DOWNLOAD) http://hisham.hm/htop/releases/$(HTOP_VER)/$(HTOP_SRC)
+	$(DOWNLOAD) $(HTOP_URL)/$(HTOP_SRC)
 
 $(D)/htop: $(D)/bootstrap $(D)/ncurses $(ARCHIVE)/$(HTOP_SRC)
 	$(START_BUILD)
@@ -1894,10 +1898,9 @@ $(D)/htop: $(D)/bootstrap $(D)/ncurses $(ARCHIVE)/$(HTOP_SRC)
 #
 # gdb
 #
-GDB_VER    = 8.1.1
-GDB        = gdb-$(GDB_VER)
+GDB_VER = 8.1.1
 GDB_SRC = gdb-$(GDB_VER).tar.xz
-GDB_URL    = https://sourceware.org/pub/gdb/releases
+GDB_URL = https://sourceware.org/pub/gdb/releases
 
 GDB_PATCH  = gdb-$(GDB_VER)-fix-includes.patch
 
@@ -1906,9 +1909,9 @@ $(ARCHIVE)/$(GDB_SRC):
 
 $(D)/gdb: $(D)/bootstrap $(D)/zlib $(D)/ncurses $(ARCHIVE)/$(GDB_SRC)
 	$(START_BUILD)
-	$(REMOVE)/$(GDB)
+	$(REMOVE)/gdb-$(GDB_VER)
 	$(UNTAR)/$(GDB_SRC)
-	$(CHDIR)/$(GDB); \
+	$(CHDIR)/gdb-$(GDB_VER); \
 		$(call apply_patches, $(GDB_PATCH)); \
 		$(CONFIGURE) \
 			--prefix=/usr \
@@ -1923,25 +1926,24 @@ $(D)/gdb: $(D)/bootstrap $(D)/zlib $(D)/ncurses $(ARCHIVE)/$(GDB_SRC)
 		; \
 		$(MAKE) all-gdb; \
 		$(MAKE) install-gdb DESTDIR=$(TARGET_DIR)
-	$(REMOVE)/$(GDB)
+	$(REMOVE)/gdb-$(GDB_VER)
 	$(TOUCH)
 
 #
 # valgrind
 #
-VALGRIND_VER    = 3.13.0
-VALGRIND        = valgrind-$(VALGRIND_VER)
+VALGRIND_VER = 3.13.0
 VALGRIND_SRC = valgrind-$(VALGRIND_VER).tar.bz2
-VALGRIND_URL    = ftp://sourceware.org/pub/valgrind
+VALGRIND_URL = ftp://sourceware.org/pub/valgrind
 
 $(ARCHIVE)/$(VALGRIND_SRC):
 	$(DOWNLOAD) $(VALGRIND_URL)/$(VALGRIND_SRC)
 
 $(D)/valgrind: $(D)/bootstrap $(ARCHIVE)/$(VALGRIND_SRC)
 	$(START_BUILD)
-	$(REMOVE)/$(VALGRIND)
+	$(REMOVE)/valgrind-$(VALGRIND_VER)
 	$(UNTAR)/$(VALGRIND_SRC)
-	$(CHDIR)/$(VALGRIND); \
+	$(CHDIR)/valgrind-$(VALGRIND_VER); \
 		sed -i -e "s#armv7#arm#g" configure; \
 		$(CONFIGURE) \
 			--prefix=/usr \
@@ -1953,25 +1955,24 @@ $(D)/valgrind: $(D)/bootstrap $(ARCHIVE)/$(VALGRIND_SRC)
 		$(MAKE) install DESTDIR=$(TARGET_DIR)
 	rm -f $(addprefix $(TARGET_LIB_DIR)/valgrind/,*.a *.xml)
 	rm -f $(addprefix $(TARGET_DIR)/usr/bin/,cg_* callgrind_* ms_print)
-	$(REMOVE)/$(VALGRIND)
+	$(REMOVE)/valgrind-$(VALGRIND_VER)
 	$(TOUCH)
 
 #
 # strace
 #
-STRACE_VER    = 5.1
-STRACE        = strace-$(STRACE_VER)
+STRACE_VER = 5.1
 STRACE_SRC = strace-$(STRACE_VER).tar.xz
-STRACE_URL    = https://strace.io/files/$(STRACE_VER)
+STRACE_URL = https://strace.io/files/$(STRACE_VER)
 
 $(ARCHIVE)/$(STRACE_SRC):
 	$(DOWNLOAD) $(STRACE_URL)/$(STRACE_SRC)
 
 $(D)/strace: $(D)/bootstrap $(ARCHIVE)/$(STRACE_SRC)
 	$(START_BUILD)
-	$(REMOVE)/$(STRACE)
+	$(REMOVE)/strace-$(STRACE_VER)
 	$(UNTAR)/$(STRACE_SRC)
-	$(CHDIR)/$(STRACE); \
+	$(CHDIR)/strace-$(STRACE_VER); \
 		$(CONFIGURE) \
 			--prefix=/usr \
 			--mandir=/.remove \
@@ -1980,6 +1981,6 @@ $(D)/strace: $(D)/bootstrap $(ARCHIVE)/$(STRACE_SRC)
 		$(MAKE) all; \
 		$(MAKE) install DESTDIR=$(TARGET_DIR)
 	rm -f $(addprefix $(TARGET_DIR)/usr/bin/,strace-graph strace-log-merge)
-	$(REMOVE)/$(STRACE)
+	$(REMOVE)/strace-$(STRACE_VER)
 	$(TOUCH)
 

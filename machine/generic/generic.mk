@@ -7,7 +7,7 @@
 
 BOXARCH = x86_64
 MACHINE_OPTS = --enable-lirc
-MACHINE_DEPS = $(D)/lirc $(D)/directfb $(D)/glew
+MACHINE_DEPS = $(D)/lirc $(D)/directfb $(D)/glew $(D)/nano $(D)/htop $(D)/mc $(D)/openssh
 
 #
 # kernel
