@@ -36,9 +36,10 @@ endif
 #
 HOST_PKGCONFIG_VER = 0.29.2
 HOST_PKGCONFIG_SRC = pkg-config-$(HOST_PKGCONFIG_VER).tar.gz
+HOST_PKGCONFIG_URL = https://pkgconfig.freedesktop.org/releases
 
 $(ARCHIVE)/$(HOST_PKGCONFIG_SRC):
-	$(DOWNLOAD) https://pkgconfig.freedesktop.org/releases/$(HOST_PKGCONFIG_SRC)
+	$(DOWNLOAD) $(HOST_PKGCONFIG_URL)/$(HOST_PKGCONFIG_SRC)
 
 $(D)/host_pkgconfig: $(D)/directories $(ARCHIVE)/$(HOST_PKGCONFIG_SRC)
 	$(START_BUILD)
@@ -63,11 +64,12 @@ $(D)/host_pkgconfig: $(D)/directories $(ARCHIVE)/$(HOST_PKGCONFIG_SRC)
 #
 HOST_MODULE_INIT_TOOLS_VER = 3.16
 HOST_MODULE_INIT_TOOLS_SRC = module-init-tools-$(HOST_MODULE_INIT_TOOLS_VER).tar.bz2
+HOST_MODULE_INIT_TOOLS_URL = http://distro.ibiblio.org/fatdog/source/600/m
 
 HOST_MODULE_INIT_TOOLS_PATCH = module-init-tools-$(HOST_MODULE_INIT_TOOLS_VER).patch
 
 $(ARCHIVE)/$(HOST_MODULE_INIT_TOOLS_SRC):
-	$(DOWNLOAD) http://distro.ibiblio.org/fatdog/source/600/m/$(HOST_MODULE_INIT_TOOLS_SRC)
+	$(DOWNLOAD) $(HOST_MODULE_INIT_TOOLS_URL)/$(HOST_MODULE_INIT_TOOLS_SRC)
 
 $(D)/host_module_init_tools: $(D)/directories $(ARCHIVE)/$(HOST_MODULE_INIT_TOOLS_SRC)
 	$(START_BUILD)
@@ -90,12 +92,13 @@ $(D)/host_module_init_tools: $(D)/directories $(ARCHIVE)/$(HOST_MODULE_INIT_TOOL
 #
 HOST_MTD_UTILS_VER = 1.5.2
 HOST_MTD_UTILS_SRC = mtd-utils-$(HOST_MTD_UTILS_VER).tar.bz2
+HOST_MTD_UTILS_URL = ftp://ftp.infradead.org/pub/mtd-utils
 
 HOST_MTD_UTILS_PATCH = host-mtd-utils-$(HOST_MTD_UTILS_VER).patch
 HOST_MTD_UTILS_PATCH += host-mtd-utils-$(HOST_MTD_UTILS_VER)-sysmacros.patch
 
 $(ARCHIVE)/$(HOST_MTD_UTILS_SRC):
-	$(DOWNLOAD) ftp://ftp.infradead.org/pub/mtd-utils/$(HOST_MTD_UTILS_SRC)
+	$(DOWNLOAD) $(HOST_MTD_UTILS_URL)/$(HOST_MTD_UTILS_SRC)
 
 $(D)/host_mtd_utils: $(D)/directories $(ARCHIVE)/$(HOST_MTD_UTILS_SRC)
 	$(START_BUILD)
@@ -113,11 +116,12 @@ $(D)/host_mtd_utils: $(D)/directories $(ARCHIVE)/$(HOST_MTD_UTILS_SRC)
 #
 HOST_MKCRAMFS_VER = 1.1
 HOST_MKCRAMFS_SRC = cramfs-$(HOST_MKCRAMFS_VER).tar.gz
+HOST_MKCRAMFS_URL = https://sourceforge.net/projects/cramfs/files/cramfs/$(HOST_MKCRAMFS_VER)
 
 HOST_MKCRAMFS_PATCH = cramfs-$(HOST_MKCRAMFS_VER)-sysmacros.patch
 
 $(ARCHIVE)/$(HOST_MKCRAMFS_SRC):
-	$(DOWNLOAD) https://sourceforge.net/projects/cramfs/files/cramfs/$(HOST_MKCRAMFS_VER)/$(HOST_MKCRAMFS_SRC)
+	$(DOWNLOAD) $(HOST_MKCRAMFS_URL)/$(HOST_MKCRAMFS_SRC)
 
 $(D)/host_mkcramfs: $(D)/directories $(ARCHIVE)/$(HOST_MKCRAMFS_SRC)
 	$(START_BUILD)
@@ -136,9 +140,10 @@ $(D)/host_mkcramfs: $(D)/directories $(ARCHIVE)/$(HOST_MKCRAMFS_SRC)
 #
 HOST_MKSQUASHFS_VER = 3.3
 HOST_MKSQUASHFS_SRC = squashfs$(HOST_MKSQUASHFS_VER).tar.gz
+HOST_MKSQUASHFS_URL = https://sourceforge.net/projects/squashfs/files/OldFiles
 
 $(ARCHIVE)/$(HOST_MKSQUASHFS_SRC):
-	$(DOWNLOAD) https://sourceforge.net/projects/squashfs/files/OldFiles/$(HOST_MKSQUASHFS_SRC)
+	$(DOWNLOAD) $(HOST_MKSQUASHFS_URL)/$(HOST_MKSQUASHFS_SRC)
 
 $(D)/host_mksquashfs: directories $(ARCHIVE)/$(HOST_MKSQUASHFS_SRC)
 	$(START_BUILD)
@@ -156,17 +161,19 @@ $(D)/host_mksquashfs: directories $(ARCHIVE)/$(HOST_MKSQUASHFS_SRC)
 #
 HOST_MKSQUASHFS_LZMA_VER = 4.2
 HOST_MKSQUASHFS_LZMA_SRC = squashfs$(HOST_MKSQUASHFS_LZMA_VER).tar.gz
+HOST_MKSQUASHFS_LZMA_URL = https://sourceforge.net/projects/squashfs/files/squashfs/squashfs$(HOST_MKSQUASHFS_LZMA_VER)
 
 HOST_MKSQUASHFS_LZMA_PATCH = squashfs-$(HOST_MKSQUASHFS_LZMA_VER)-sysmacros.patch
 
 LZMA_VER = 4.65
 LZMA_SRC = lzma-$(LZMA_VER).tar.bz2
+LZMA_URL = http://downloads.openwrt.org/sources
 
 $(ARCHIVE)/$(HOST_MKSQUASHFS_LZMA_SRC):
-	$(DOWNLOAD) https://sourceforge.net/projects/squashfs/files/squashfs/squashfs$(HOST_MKSQUASHFS_LZMA_VER)/$(HOST_MKSQUASHFS_LZMA_SRC)
+	$(DOWNLOAD) $(HOST_MKSQUASHFS_LZMA_URL)/$(HOST_MKSQUASHFS_LZMA_SRC)
 
 $(ARCHIVE)/$(LZMA_SRC):
-	$(DOWNLOAD) http://downloads.openwrt.org/sources/$(LZMA_SRC)
+	$(DOWNLOAD) $(LZMA_URL)/$(LZMA_SRC)
 
 $(D)/host_mksquashfs_lzma: directories $(ARCHIVE)/$(LZMA_SRC) $(ARCHIVE)/$(HOST_MKSQUASHFS_LZMA_SRC)
 	$(START_BUILD)
@@ -191,9 +198,10 @@ $(D)/host_mksquashfs_lzma: directories $(ARCHIVE)/$(LZMA_SRC) $(ARCHIVE)/$(HOST_
 #
 HOST_E2FSPROGS_VER = 1.47.4
 HOST_E2FSPROGS_SRC = e2fsprogs-$(HOST_E2FSPROGS_VER).tar.gz
+HOST_E2FSPROGS_URL = https://sourceforge.net/projects/e2fsprogs/files/e2fsprogs/v$(HOST_E2FSPROGS_VER)
 
 $(ARCHIVE)/$(HOST_E2FSPROGS_SRC):
-	$(DOWNLOAD) https://sourceforge.net/projects/e2fsprogs/files/e2fsprogs/v$(HOST_E2FSPROGS_VER)/$(HOST_E2FSPROGS_SRC)
+	$(DOWNLOAD) $(HOST_E2FSPROGS_URL)/$(HOST_E2FSPROGS_SRC)
 
 $(D)/host_e2fsprogs: $(D)/directories $(ARCHIVE)/$(HOST_E2FSPROGS_SRC)
 	$(START_BUILD)
@@ -221,11 +229,12 @@ $(D)/host_e2fsprogs: $(D)/directories $(ARCHIVE)/$(HOST_E2FSPROGS_SRC)
 #
 HOST_PARTED_VER = 3.2
 HOST_PARTED_SRC = parted-$(HOST_PARTED_VER).tar.xz
+HOST_PARTED_URL = https://ftp.gnu.org/gnu/parted
 
 HOST_PARTED_PATCH = parted-$(HOST_PARTED_VER)-device-mapper.patch
 
 $(ARCHIVE)/$(HOST_PARTED_SRC):
-	$(DOWNLOAD) https://ftp.gnu.org/gnu/parted/$(HOST_PARTED_SRC)
+	$(DOWNLOAD) $(HOST_PARTED_URL)/$(HOST_PARTED_SRC)
 
 $(D)/host_parted: $(D)/directories $(ARCHIVE)/$(HOST_PARTED_SRC)
 	$(START_BUILD)
@@ -277,7 +286,7 @@ $(D)/host_cortex_strings: $(D)/directories $(ARCHIVE)/$(CORTEX_STRINGS_SRC)
 #
 BUILDIMAGE_PATCH = buildimage.patch
 
-$(D)/host_dm_buildimage:
+$(D)/host_dm_buildimage: $(D)/directories
 	$(START_BUILD)
 	set -e; cd $(TOOLS_DIR)/buildimage.git; \
 		autoreconf -fi; \
@@ -290,11 +299,12 @@ $(D)/host_dm_buildimage:
 # host_hisi3798mv200_buildimage
 #
 BUILDIMAGE_SRC = buildimage.zip
+BUILDIMAGE_URL = https://github.com/oe-alliance/oe-alliance-core/raw/5.0/meta-brands/meta-octagon/recipes-bsp/octagon-buildimage
 
 $(ARCHIVE)/$(BUILDIMAGE_SRC):
-	$(DOWNLOAD) https://github.com/oe-alliance/oe-alliance-core/raw/5.0/meta-brands/meta-octagon/recipes-bsp/octagon-buildimage/$(BUILDIMAGE_SRC)
+	$(DOWNLOAD) $(BUILDIMAGE_URL)/$(BUILDIMAGE_SRC)
 	
-$(D)/host_hisi3798mv200_buildimage: $(ARCHIVE)/$(BUILDIMAGE_SRC)
+$(D)/host_hisi3798mv200_buildimage: $(D)/directories $(ARCHIVE)/$(BUILDIMAGE_SRC)
 	$(START_BUILD)
 	$(REMOVE)/buildimage
 	unzip -o $(ARCHIVE)/$(BUILDIMAGE_SRC) -d $(BUILD_TMP)/buildimage
@@ -352,14 +362,15 @@ HOST_PYTHON_VER_MAJOR = 2.7
 HOST_PYTHON_VER_MINOR = 18
 HOST_PYTHON_VER = $(HOST_PYTHON_VER_MAJOR).$(HOST_PYTHON_VER_MINOR)
 HOST_PYTHON_SRC = Python-$(HOST_PYTHON_VER).tar.xz
+HOST_PYTHON_URL = https://www.python.org/ftp/python/$(HOST_PYTHON_VER)
 
 HOST_PYTHON_PATCH = python-$(HOST_PYTHON_VER).patch
 HOST_PYTHON_PATCH += python-$(HOST_PYTHON_VER)-support_64bit.patch
 
 $(ARCHIVE)/$(HOST_PYTHON_SRC):
-	$(DOWNLOAD) https://www.python.org/ftp/python/$(HOST_PYTHON_VER)/$(HOST_PYTHON_SRC)
+	$(DOWNLOAD) $(HOST_PYTHON_URL)/$(HOST_PYTHON_SRC)
 
-$(D)/host_python: $(ARCHIVE)/$(HOST_PYTHON_SRC)
+$(D)/host_python: $(D)/directories $(ARCHIVE)/$(HOST_PYTHON_SRC)
 	$(START_BUILD)
 	$(REMOVE)/Python-$(HOST_PYTHON_VER)
 	$(UNTAR)/$(HOST_PYTHON_SRC)
@@ -393,9 +404,10 @@ $(D)/host_python: $(ARCHIVE)/$(HOST_PYTHON_SRC)
 #
 HOST_MTOOLS_VER = 4.0.49
 HOST_MTOOLS_SRC = mtools-$(HOST_MTOOLS_VER).tar.gz
+HOST_MTOOLS_URL = http://ftp.gnu.org/gnu/mtools
 
 $(ARCHIVE)/$(HOST_MTOOLS_SRC):
-	$(DOWNLOAD) http://ftp.gnu.org/gnu/mtools/$(HOST_MTOOLS_SRC)
+	$(DOWNLOAD) $(HOST_MTOOLS_URL)/$(HOST_MTOOLS_SRC)
 
 $(D)/host_mtools: $(D)/directories $(ARCHIVE)/$(HOST_MTOOLS_SRC)
 	$(START_BUILD)
@@ -418,9 +430,10 @@ $(D)/host_mtools: $(D)/directories $(ARCHIVE)/$(HOST_MTOOLS_SRC)
 #
 HOST_DOSFSTOOLS_VER = 4.2
 HOST_DOSFSTOOLS_SRC = dosfstools-$(HOST_DOSFSTOOLS_VER).tar.gz
+HOST_DOSFSTOOLS_URL = https://github.com/dosfstools/dosfstools/releases/download/v$(HOST_DOSFSTOOLS_VER)
 
 $(ARCHIVE)/$(HOST_DOSFSTOOLS_SRC):
-	$(DOWNLOAD) https://github.com/dosfstools/dosfstools/releases/download/v$(HOST_DOSFSTOOLS_VER)/$(HOST_DOSFSTOOLS_SRC)
+	$(DOWNLOAD) $(HOST_DOSFSTOOLS_URL)/$(HOST_DOSFSTOOLS_SRC)
 
 $(D)/host_dosfstools: $(D)/directories $(ARCHIVE)/$(HOST_DOSFSTOOLS_SRC)
 	$(START_BUILD)
@@ -488,7 +501,7 @@ HOST_LIBCONFUSE_URL = https://github.com/libconfuse/libconfuse/releases/download
 $(ARCHIVE)/$(HOST_LIBCONFUSE_SRC):
 	$(DOWNLOAD) $(HOST_LIBCONFUSE_URL)/$(HOST_LIBCONFUSE_SRC)
 	
-$(D)/host_libconfuse: $(ARCHIVE)/$(HOST_LIBCONFUSE_SRC)
+$(D)/host_libconfuse: $(D)/directories $(ARCHIVE)/$(HOST_LIBCONFUSE_SRC)
 	$(START_BUILD)
 	$(REMOVE)/confuse-$(HOST_LIBCONFUSE_VER)
 	$(UNTAR)/$(HOST_LIBCONFUSE_SRC)
@@ -512,7 +525,7 @@ GENIMAGE_URL = https://github.com/pengutronix/genimage/releases/download/v$(HOST
 $(ARCHIVE)/$(HOST_GENIMAGE_SRC):
 	$(DOWNLOAD) $(GENIMAGE_URL)/$(HOST_GENIMAGE_SRC)
 	
-$(D)/host_genimage: $(ARCHIVE)/$(HOST_GENIMAGE_SRC) $(D)/host_libconfuse
+$(D)/host_genimage: $(D)/directories $(ARCHIVE)/$(HOST_GENIMAGE_SRC) $(D)/host_libconfuse
 	$(START_BUILD)
 	$(REMOVE)/genimage-$(HOST_GENIMAGE_VER)
 	$(UNTAR)/$(HOST_GENIMAGE_SRC)
