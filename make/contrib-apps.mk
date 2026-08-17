@@ -846,14 +846,21 @@ $(D)/autofs: $(D)/bootstrap $(D)/e2fsprogs $(AUTOFS_LIBNSL) $(ARCHIVE)/$(AUTOFS_
 #
 # shairport
 #
-$(D)/shairport: $(D)/bootstrap $(D)/openssl $(D)/howl $(D)/alsa_lib
+SHAIRPORT_SRC = shairport.git
+SHAIRPORT_URL = https://github.com/abrasive/shairport.git
+
+$(ARCHIVE)/$(SHAIRPORT_SRC):
+	set -e; 
+	if [ -d $(ARCHIVE)/$(SHAIRPORT_SRC) ]; then \
+		cd $(ARCHIVE)/$(SHAIRPORT_SRC); git pull; \
+	else \
+		cd $(ARCHIVE); git clone -b 1.0-dev $(SHAIRPORT_URL) $(SHAIRPORT_SRC); \
+	fi
+
+$(D)/shairport: $(D)/bootstrap $(D)/openssl $(D)/howl $(D)/alsa_lib $(ARCHIVE)/$(SHAIRPORT_SRC)
 	$(START_BUILD)
 	$(REMOVE)/shairport
-	set -e; if [ -d $(ARCHIVE)/shairport.git ]; \
-		then cd $(ARCHIVE)/shairport.git; git pull; \
-		else cd $(ARCHIVE); git clone -b 1.0-dev https://github.com/abrasive/shairport.git shairport.git; \
-		fi
-	cp -ra $(ARCHIVE)/shairport.git $(BUILD_TMP)/shairport
+	cp -ra $(ARCHIVE)/$(SHAIRPORT_SRC) $(BUILD_TMP)/shairport
 	$(CHDIR)/shairport; \
 		sed -i 's|pkg-config|$$PKG_CONFIG|g' configure; \
 		PKG_CONFIG=$(PKG_CONFIG) \
@@ -866,14 +873,21 @@ $(D)/shairport: $(D)/bootstrap $(D)/openssl $(D)/howl $(D)/alsa_lib
 #
 # shairport-sync
 #
+SHAIRPORT_SYNC_SRC = shairport-sync.git
+SHAIRPORT_SYNC_URL = https://github.com/mikebrady/shairport-sync.git
+
+$(ARCHIVE)/$(SHAIRPORT_SYNC_SRC):
+	set -e; 
+	if [ -d $(ARCHIVE)/$(SHAIRPORT_SYNC_SRC) ]; then \
+		cd $(ARCHIVE)/$(SHAIRPORT_SYNC_SRC); git pull; \
+	else \
+		cd $(ARCHIVE); git clone $(SHAIRPORT_SYNC_URL) $(SHAIRPORT_SYNC_SRC); \
+	fi
+
 $(D)/shairport-sync: $(D)/bootstrap $(D)/libdaemon $(D)/libpopt $(D)/libconfig $(D)/openssl $(D)/alsa_lib
 	$(START_BUILD)
 	$(REMOVE)/shairport-sync
-	set -e; if [ -d $(ARCHIVE)/shairport-sync.git ]; \
-		then cd $(ARCHIVE)/shairport-sync.git; git pull; \
-		else cd $(ARCHIVE); git clone https://github.com/mikebrady/shairport-sync.git shairport-sync.git; \
-		fi
-	cp -ra $(ARCHIVE)/shairport-sync.git $(BUILD_TMP)/shairport-sync
+	cp -ra $(ARCHIVE)/$(SHAIRPORT_SYNC_SRC) $(BUILD_TMP)/shairport-sync
 	$(CHDIR)/shairport-sync; \
 		autoreconf -fi; \
 		PKG_CONFIG=$(PKG_CONFIG) \
@@ -1669,15 +1683,21 @@ $(D)/usb_modeswitch: $(D)/bootstrap $(D)/libusb $(D)/usb_modeswitch_data $(ARCHI
 #
 # ofgwrite
 #
+OFGWRITE_SRC = ofgwrite-ddt.git
+OFGWRITE_URL = https://github.com/Duckbox-Developers/ofgwrite-ddt.git
+
+$(ARCHIVE)/$(OFGWRITE_SRC):
+	set -e; 
+	if [ -d $(ARCHIVE)/$(OFGWRITE_SRC) ]; then \
+		cd $(ARCHIVE)/$(OFGWRITE_SRC); git pull; \
+	else \
+		cd $(ARCHIVE); git clone $(OFGWRITE_URL) $(OFGWRITE_SRC); \
+	fi
+
 $(D)/ofgwrite: $(D)/bootstrap $(ARCHIVE)/$(OFGWRITE_SRC)
 	$(START_BUILD)
 	$(REMOVE)/ofgwrite-ddt
-	set -e; 
-	[ -d "$(ARCHIVE)/ofgwrite-ddt.git" ] && \
-	(cd $(ARCHIVE)/ofgwrite-ddt.git; git pull;); \
-	[ -d "$(ARCHIVE)/ofgwrite-ddt.git" ] || \
-	git clone https://github.com/Duckbox-Developers/ofgwrite-ddt.git $(ARCHIVE)/ofgwrite-ddt.git; \
-	cp -ra $(ARCHIVE)/ofgwrite-ddt.git $(BUILD_TMP)/ofgwrite-ddt
+	cp -ra $(ARCHIVE)/$(OFGWRITE_SRC) $(BUILD_TMP)/ofgwrite-ddt
 	$(CHDIR)/ofgwrite-ddt; \
 		$(call apply_patches,$(OFGWRITE_PATCH)); \
 		$(BUILDENV) \
@@ -1691,17 +1711,23 @@ $(D)/ofgwrite: $(D)/bootstrap $(ARCHIVE)/$(OFGWRITE_SRC)
 #
 # dvb-apps
 #
+DVB_APPS_SRC = dvb-apps.git
+DVB_APPS_URL = https://github.com/openpli-arm/dvb-apps.git
+
 DVB_APPS_PATCH = dvb-apps.patch
+
+$(ARCHIVE)/$(DVB_APPS_SRC):
+	set -e; 
+	if [ -d $(ARCHIVE)/$(DVB_APPS_SRC) ]; then \
+		cd $(ARCHIVE)/$(DVB_APPS_SRC); git pull; \
+	else \
+		cd $(ARCHIVE); git clone $(DVB_APPS_URL) $(DVB_APPS_SRC); \
+	fi
 
 $(D)/dvb-apps: $(D)/bootstrap $(ARCHIVE)/$(DVB_APPS_SRC)
 	$(START_BUILD)
 	$(REMOVE)/dvb-apps
-	set -e; 
-	[ -d "$(ARCHIVE)/dvb-apps.git" ] && \
-	(cd $(ARCHIVE)/dvb-apps.git; git pull;); \
-	[ -d "$(ARCHIVE)/dvb-apps.git" ] || \
-	git clone https://github.com/openpli-arm/dvb-apps.git $(ARCHIVE)/dvb-apps.git; \
-	cp -ra $(ARCHIVE)/dvb-apps.git $(BUILD_TMP)/dvb-apps
+	cp -ra $(ARCHIVE)/$(DVB_APPS_SRC) $(BUILD_TMP)/dvb-apps
 	$(CHDIR)/dvb-apps; \
 		$(call apply_patches,$(DVB_APPS_PATCH)); \
 		$(BUILDENV) \
@@ -1713,17 +1739,23 @@ $(D)/dvb-apps: $(D)/bootstrap $(ARCHIVE)/$(DVB_APPS_SRC)
 #
 # ministaip
 #
+MINISATIP_SRC = minisatip.git
+MINISATIP_URL = https://github.com/catalinii/minisatip.git
+
 MINISATIP_PATCH = 
+
+$(ARCHIVE)/$(MINISATIP_SRC):
+	set -e; 
+	if [ -d $(ARCHIVE)/$(MINISATIP_SRC) ]; then \
+		cd $(ARCHIVE)/$(MINISATIP__SRC); git pull; \
+	else \
+		cd $(ARCHIVE); git clone $(MINISATIP_URL) $(MINISATIP_SRC); \
+	fi
 
 $(D)/minisatip: $(D)/bootstrap $(D)/openssl $(D)/libdvbcsa $(ARCHIVE)/$(MINISATIP_SRC)
 	$(START_BUILD)
 	$(REMOVE)/minisatip
-	set -e; 
-	[ -d "$(ARCHIVE)/minisatip.git" ] && \
-	(cd $(ARCHIVE)/minisatip.git; git pull;); \
-	[ -d "$(ARCHIVE)/minisatip.git" ] || \
-	git clone https://github.com/catalinii/minisatip.git $(ARCHIVE)/minisatip.git; \
-	cp -ra $(ARCHIVE)/minisatip.git $(BUILD_TMP)/minisatip
+	cp -ra $(ARCHIVE)/$(MINISATIP_SRC) $(BUILD_TMP)/minisatip
 	$(CHDIR)/minisatip; \
 		$(call apply_patches,$(MINISATIP_PATCH)); \
 		$(BUILDENV) \
@@ -1780,18 +1812,24 @@ $(D)/djmount: $(D)/bootstrap $(D)/fuse $(ARCHIVE)/$(DJMOUNT_SRC)
 #
 # xupnpd
 #
+XUPNPD_SRC = xupnpd.git
+XUPNPD_URL = https://github.com/clark15b/xupnpd.git
 XUPNPD_BRANCH = 25d6d44c045
+
 XUPNPD_PATCH = xupnpd.patch
 
-$(D)/xupnpd: $(D)/bootstrap $(D)/openssl $(D)/lua
+$(ARCHIVE)/$(XUPNPD_SRC):
+	set -e; 
+	if [ -d $(ARCHIVE)/$(XUPNPD_SRC) ]; then \
+		cd $(ARCHIVE)/$(XUPNPD_SRC); git pull; \
+	else \
+		cd $(ARCHIVE); git clone $(XUPNPD_URL) $(XUPNPD_SRC); \
+	fi
+
+$(D)/xupnpd: $(D)/bootstrap $(D)/openssl $(D)/lua $(ARCHIVE)/$(XUPNPD_SRC)
 	$(START_BUILD)
 	$(REMOVE)/xupnpd
-	set -e; 
-	[ -d "$(ARCHIVE)/xupnpd.git" ] && \
-	(cd $(ARCHIVE)/xupnpd.git; git pull;); \
-	[ -d "$(ARCHIVE)/xupnpd.git" ] || \
-	git clone https://github.com/clark15b/xupnpd.git $(ARCHIVE)/xupnpd.git; \
-	cp -ra $(ARCHIVE)/xupnpd.git $(BUILD_TMP)/xupnpd
+	cp -ra $(ARCHIVE)/$(XUPNPD_SRC) $(BUILD_TMP)/xupnpd
 	($(CHDIR)/xupnpd; git checkout -q $(XUPNPD_BRANCH);)
 	$(CHDIR)/xupnpd; \
 		$(call apply_patches, $(XUPNPD_PATCH))
