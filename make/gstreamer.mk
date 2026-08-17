@@ -282,15 +282,21 @@ $(D)/gst_plugins_ugly: $(D)/bootstrap $(D)/gstreamer $(D)/gst_plugins_base $(ARC
 # gst_plugins_subsink
 #
 GST_PLUGINS_SUBSINK_VER = 1.0
+GST_PLUGINS_SUBSINK_SRC = gstreamer$(GST_PLUGINS_SUBSINK_VER)-plugin-subsink.git
+GST_PLUGINS_SUBSINK_URL = https://github.com/christophecvr/gstreamer$(GST_PLUGINS_SUBSINK_VER)-plugin-subsink.git
 
-$(D)/gst_plugins_subsink: $(D)/bootstrap $(D)/gstreamer $(D)/gst_plugins_base $(D)/gst_plugins_good $(D)/gst_plugins_bad $(D)/gst_plugins_ugly
+$(ARCHIVE)/$(GST_PLUGINS_SUBSINK_SRC):
+	set -e; 
+	if [ -d $(ARCHIVE)/$(GST_PLUGINS_SUBSINK_SRC) ]; then \
+		cd $(ARCHIVE)/$(GST_PLUGINS_SUBSINK_SRC); git pull; \
+	else \
+		cd $(ARCHIVE); git clone $(GST_PLUGINS_SUBSINK_URL) $(GST_PLUGINS_SUBSINK_SRC); \
+	fi
+
+$(D)/gst_plugins_subsink: $(D)/bootstrap $(D)/gstreamer $(D)/gst_plugins_base $(D)/gst_plugins_good $(D)/gst_plugins_bad $(D)/gst_plugins_ugly $(ARCHIVE)/$(GST_PLUGINS_SUBSINK_SRC)
 	$(START_BUILD)
 	$(REMOVE)/gstreamer-$(GST_PLUGINS_SUBSINK_VER)-plugin-subsink
-	set -e; if [ -d $(ARCHIVE)/gstreamer$(GST_PLUGINS_SUBSINK_VER)-plugin-subsink.git ]; \
-		then cd $(ARCHIVE)/gstreamer$(GST_PLUGINS_SUBSINK_VER)-plugin-subsink.git; git pull; \
-		else cd $(ARCHIVE); git clone https://github.com/christophecvr/gstreamer$(GST_PLUGINS_SUBSINK_VER)-plugin-subsink.git gstreamer$(GST_PLUGINS_SUBSINK_VER)-plugin-subsink.git; \
-		fi
-	cp -ra $(ARCHIVE)/gstreamer$(GST_PLUGINS_SUBSINK_VER)-plugin-subsink.git $(BUILD_TMP)/gstreamer$(GST_PLUGINS_SUBSINK_VER)-plugin-subsink
+	cp -ra $(ARCHIVE)/$(GST_PLUGINS_SUBSINK_SRC) $(BUILD_TMP)/gstreamer$(GST_PLUGINS_SUBSINK_VER)-plugin-subsink
 	$(CHDIR)/gstreamer$(GST_PLUGINS_SUBSINK_VER)-plugin-subsink; \
 		aclocal --force -I m4; \
 		libtoolize --copy --ltdl --force; \
@@ -312,15 +318,21 @@ $(D)/gst_plugins_subsink: $(D)/bootstrap $(D)/gstreamer $(D)/gst_plugins_base $(
 # gst_plugins_dvbmediasink
 #
 GST_PLUGINS_DVBMEDIASINK_VER = 1.0
+GST_PLUGINS_DVBMEDIASINK_SRC = gstreamer$(GST_PLUGINS_DVBMEDIASINK_VER)-plugin-dvbmediasink.git
+GST_PLUGINS_DVBMEDIASINK_URL = https://github.com/OpenPLi/gst-plugin-dvbmediasink.git
 
-$(D)/gst_plugins_dvbmediasink: $(D)/bootstrap $(D)/gstreamer $(D)/gst_plugins_base $(D)/gst_plugins_good $(D)/gst_plugins_bad $(D)/gst_plugins_ugly $(D)/gst_plugins_subsink $(D)/libdca
+$(ARCHIVE)/$(GST_PLUGINS_DVBMEDIASINK_SRC):
+	set -e; 
+	if [ -d $(ARCHIVE)/$(GST_PLUGINS_DVBMEDIASINK_SRC) ]; then \
+		cd $(ARCHIVE)/$(GST_PLUGINS_DVBMEDIASINK_SRC); git pull; \
+	else \
+		cd $(ARCHIVE); git clone -b gst-1.0 $(GST_PLUGINS_DVBMEDIASINK_URL) $(GST_PLUGINS_DVBMEDIASINK_SRC); \
+	fi
+
+$(D)/gst_plugins_dvbmediasink: $(D)/bootstrap $(D)/gstreamer $(D)/gst_plugins_base $(D)/gst_plugins_good $(D)/gst_plugins_bad $(D)/gst_plugins_ugly $(D)/gst_plugins_subsink $(D)/libdca $(ARCHIVE)/$(GST_PLUGINS_DVBMEDIASINK_SRC)
 	$(START_BUILD)
 	$(REMOVE)/gstreamer$(GST_PLUGINS_DVBMEDIASINK_VER)-plugin-dvbmediasink
-	set -e; if [ -d $(ARCHIVE)/gstreamer$(GST_PLUGINS_DVBMEDIASINK_VER)-plugin-dvbmediasink.git ]; \
-		then cd $(ARCHIVE)/gstreamer$(GST_PLUGINS_DVBMEDIASINK_VER)-plugin-dvbmediasink.git; git pull; \
-		else cd $(ARCHIVE); git clone -b gst-1.0 https://github.com/OpenPLi/gst-plugin-dvbmediasink.git gstreamer$(GST_PLUGINS_DVBMEDIASINK_VER)-plugin-dvbmediasink.git; \
-		fi
-	cp -ra $(ARCHIVE)/gstreamer$(GST_PLUGINS_DVBMEDIASINK_VER)-plugin-dvbmediasink.git $(BUILD_TMP)/gstreamer$(GST_PLUGINS_DVBMEDIASINK_VER)-plugin-dvbmediasink
+	cp -ra $(ARCHIVE)/$(GST_PLUGINS_DVBMEDIASINK_SRC) $(BUILD_TMP)/gstreamer$(GST_PLUGINS_DVBMEDIASINK_VER)-plugin-dvbmediasink
 	$(CHDIR)/gstreamer$(GST_PLUGINS_DVBMEDIASINK_VER)-plugin-dvbmediasink; \
 		aclocal --force -I m4; \
 		libtoolize --copy --ltdl --force; \
