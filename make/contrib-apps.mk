@@ -535,9 +535,10 @@ $(D)/jfsutils: $(D)/bootstrap $(D)/e2fsprogs $(ARCHIVE)/$(JFSUTILS_SRC)
 #
 NTFS_3G_VER = 2022.10.3
 NTFS_3G_SRC = ntfs-3g_ntfsprogs-$(NTFS_3G_VER).tgz
+NTFS_3G_URL = http://tuxera.com/opensource
 
 $(ARCHIVE)/$(NTFS_3G_SRC):
-	$(DOWNLOAD) http://tuxera.com/opensource/$(NTFS_3G_SRC)
+	$(DOWNLOAD) $(NTFS_3G_URL)/$(NTFS_3G_SRC)
 
 $(D)/ntfs_3g: $(D)/bootstrap $(ARCHIVE)/$(NTFS_3G_SRC)
 	$(START_BUILD)
@@ -570,9 +571,10 @@ $(D)/ntfs_3g: $(D)/bootstrap $(ARCHIVE)/$(NTFS_3G_SRC)
 #
 RSYNC_VER = 3.1.3
 RSYNC_SRC = rsync-$(RSYNC_VER).tar.gz
+RSYNC_URL = https://ftp.samba.org/pub/rsync
 
 $(ARCHIVE)/$(RSYNC_SRC):
-	$(DOWNLOAD) https://ftp.samba.org/pub/rsync/$(RSYNC_SRC)
+	$(DOWNLOAD) $(RSYNC_URL)/$(RSYNC_SRC)
 
 $(D)/rsync: $(D)/bootstrap $(ARCHIVE)/$(RSYNC_SRC)
 	$(START_BUILD)
@@ -596,9 +598,10 @@ $(D)/rsync: $(D)/bootstrap $(ARCHIVE)/$(RSYNC_SRC)
 #
 FUSE_VER = 2.9.7
 FUSE_SRC = fuse-$(FUSE_VER).tar.gz
+FUSE_URL = https://github.com/libfuse/libfuse/releases/download/fuse-$(FUSE_VER)
 
 $(ARCHIVE)/$(FUSE_SRC):
-	$(DOWNLOAD) https://github.com/libfuse/libfuse/releases/download/fuse-$(FUSE_VER)/$(FUSE_SRC)
+	$(DOWNLOAD) $(FUSE_URL)/$(FUSE_SRC)
 
 $(D)/fuse: $(D)/bootstrap $(ARCHIVE)/$(FUSE_SRC)
 	$(START_BUILD)
@@ -628,11 +631,12 @@ $(D)/fuse: $(D)/bootstrap $(ARCHIVE)/$(FUSE_SRC)
 #
 CURLFTPFS_VER = 0.9.2
 CURLFTPFS_SRC = curlftpfs-$(CURLFTPFS_VER).tar.gz
+CURLFTPFS_URL = https://sourceforge.net/projects/curlftpfs/files/latest/download
 
 CURLFTPFS_PATCH = curlftpfs-$(CURLFTPFS_VER).patch
 
 $(ARCHIVE)/$(CURLFTPFS_SRC):
-	$(DOWNLOAD) https://sourceforge.net/projects/curlftpfs/files/latest/download/$(CURLFTPFS_SRC)
+	$(DOWNLOAD) $(CURLFTPFS_URL)/$(CURLFTPFS_SRC)
 
 $(D)/curlftpfs: $(D)/bootstrap $(D)/libcurl $(D)/fuse $(D)/libglib2 $(ARCHIVE)/$(CURLFTPFS_SRC)
 	$(START_BUILD)
@@ -658,9 +662,10 @@ $(D)/curlftpfs: $(D)/bootstrap $(D)/libcurl $(D)/fuse $(D)/libglib2 $(ARCHIVE)/$
 #
 SDPARM_VER = 1.10
 SDPARM_SRC = sdparm-$(SDPARM_VER).tgz
+SDPARM_URL = http://sg.danny.cz/sg/p
 
 $(ARCHIVE)/$(SDPARM_SRC):
-	$(DOWNLOAD) http://sg.danny.cz/sg/p/$(SDPARM_SRC)
+	$(DOWNLOAD) $(SDPARM_URL)/$(SDPARM_SRC)
 
 $(D)/sdparm: $(D)/bootstrap $(ARCHIVE)/$(SDPARM_SRC)
 	$(START_BUILD)
@@ -683,9 +688,10 @@ $(D)/sdparm: $(D)/bootstrap $(ARCHIVE)/$(SDPARM_SRC)
 #
 HDDTEMP_VER = 0.3-beta15
 HDDTEMP_SRC = hddtemp-$(HDDTEMP_VER).tar.bz2
+HDDTEMP_URL = http://savannah.c3sl.ufpr.br/hddtemp
 
 $(ARCHIVE)/$(HDDTEMP_SRC):
-	$(DOWNLOAD) http://savannah.c3sl.ufpr.br/hddtemp/$(HDDTEMP_SRC)
+	$(DOWNLOAD) $(HDDTEMP_URL)/$(HDDTEMP_SRC)
 
 $(D)/hddtemp: $(D)/bootstrap $(ARCHIVE)/$(HDDTEMP_SRC)
 	$(START_BUILD)
@@ -710,9 +716,10 @@ $(D)/hddtemp: $(D)/bootstrap $(ARCHIVE)/$(HDDTEMP_SRC)
 #
 HDPARM_VER = 9.54
 HDPARM_SRC = hdparm-$(HDPARM_VER).tar.gz
+HDPARM_URL = https://sourceforge.net/projects/hdparm/files/hdparm
 
 $(ARCHIVE)/$(HDPARM_SRC):
-	$(DOWNLOAD) https://sourceforge.net/projects/hdparm/files/hdparm/$(HDPARM_SRC)
+	$(DOWNLOAD) $(HDPARM_URL)/$(HDPARM_SRC)
 
 $(D)/hdparm: $(D)/bootstrap $(ARCHIVE)/$(HDPARM_SRC)
 	$(START_BUILD)
@@ -730,11 +737,12 @@ $(D)/hdparm: $(D)/bootstrap $(ARCHIVE)/$(HDPARM_SRC)
 #
 HDIDLE_VER = 1.05
 HDIDLE_SRC = hd-idle-$(HDIDLE_VER).tgz
+HDIDLE_URL = https://sourceforge.net/projects/hd-idle/files
 
 HDIDLE_PATCH = hd-idle-$(HDIDLE_VER).patch
 
 $(ARCHIVE)/$(HDIDLE_SRC):
-	$(DOWNLOAD) https://sourceforge.net/projects/hd-idle/files/$(HDIDLE_SRC)
+	$(DOWNLOAD) $(HDIDLE_URL)/$(HDIDLE_SRC)
 
 $(D)/hdidle: $(D)/bootstrap $(ARCHIVE)/$(HDIDLE_SRC)
 	$(START_BUILD)
@@ -753,11 +761,12 @@ $(D)/hdidle: $(D)/bootstrap $(ARCHIVE)/$(HDIDLE_SRC)
 #
 FBSHOT_VER = 0.3
 FBSHOT_SRC = fbshot-$(FBSHOT_VER).tar.gz
+FBSHOT_URL = http://distro.ibiblio.org/amigolinux/download/Utils/fbshot
 
 FBSHOT_PATCH = fbshot-$(FBSHOT_VER)-$(BOXARCH).patch
 
 $(ARCHIVE)/$(FBSHOT_SRC):
-	$(DOWNLOAD) http://distro.ibiblio.org/amigolinux/download/Utils/fbshot/$(FBSHOT_SRC)
+	$(DOWNLOAD) $(FBSHOT_URL)/$(FBSHOT_SRC)
 
 $(D)/fbshot: $(D)/bootstrap $(D)/libpng $(ARCHIVE)/$(FBSHOT_SRC)
 	$(START_BUILD)
@@ -777,9 +786,10 @@ $(D)/fbshot: $(D)/bootstrap $(D)/libpng $(ARCHIVE)/$(FBSHOT_SRC)
 #
 SYSSTAT_VER = 12.6.1
 SYSSTAT_SRC = sysstat-$(SYSSTAT_VER).tar.xz
+SYSSTAT_URL = https://ftp.wrz.de/pub/BLFS/conglomeration/sysstat
 
 $(ARCHIVE)/$(SYSSTAT_SRC):
-	$(DOWNLOAD) https://ftp.wrz.de/pub/BLFS/conglomeration/sysstat/$(SYSSTAT_SRC)
+	$(DOWNLOAD) $(SYSSTAT_URL)/$(SYSSTAT_SRC)
 
 $(D)/sysstat: $(D)/bootstrap $(ARCHIVE)/$(SYSSTAT_SRC)
 	$(START_BUILD)
@@ -800,11 +810,12 @@ $(D)/sysstat: $(D)/bootstrap $(ARCHIVE)/$(SYSSTAT_SRC)
 #
 AUTOFS_VER = 4.1.4
 AUTOFS_SRC = autofs-$(AUTOFS_VER).tar.gz
+AUTOFS_URL = https://www.kernel.org/pub/linux/daemons/autofs/v4
 
 AUTOFS_PATCH = autofs-$(AUTOFS_VER).patch
 
 $(ARCHIVE)/$(AUTOFS_SRC):
-	$(DOWNLOAD) https://www.kernel.org/pub/linux/daemons/autofs/v4/$(AUTOFS_SRC)
+	$(DOWNLOAD) $(AUTOFS_URL)/$(AUTOFS_SRC)
 
 ifeq ($(BOXARCH), $(filter $(BOXARCH), arm mips))
 AUTOFS_LIBNSL = $(D)/libnsl
@@ -886,9 +897,10 @@ $(D)/shairport-sync: $(D)/bootstrap $(D)/libdaemon $(D)/libpopt $(D)/libconfig $
 #
 DBUS_VER = 1.12.6
 DBUS_SRC = dbus-$(DBUS_VER).tar.gz
+DBUS_URL = https://dbus.freedesktop.org/releases/dbus
 
 $(ARCHIVE)/$(DBUS_SRC):
-	$(DOWNLOAD) https://dbus.freedesktop.org/releases/dbus/$(DBUS_SRC)
+	$(DOWNLOAD) $(DBUS_URL)/$(DBUS_SRC)
 
 $(D)/dbus: $(D)/bootstrap $(D)/expat $(ARCHIVE)/$(DBUS_SRC)
 	$(START_BUILD)
@@ -919,9 +931,10 @@ $(D)/dbus: $(D)/bootstrap $(D)/expat $(ARCHIVE)/$(DBUS_SRC)
 #
 AVAHI_VER = 0.7
 AVAHI_SRC = avahi-$(AVAHI_VER).tar.gz
+AVAHI_URL = https://github.com/lathiat/avahi/releases/download/v$(AVAHI_VER)
 
 $(ARCHIVE)/$(AVAHI_SRC):
-	$(DOWNLOAD) https://github.com/lathiat/avahi/releases/download/v$(AVAHI_VER)/$(AVAHI_SRC)
+	$(DOWNLOAD) $(AVAHI_URL)/$(AVAHI_SRC)
 
 $(D)/avahi: $(D)/bootstrap $(D)/expat $(D)/libdaemon $(D)/dbus $(ARCHIVE)/$(AVAHI_SRC)
 	$(START_BUILD)
@@ -985,9 +998,10 @@ $(D)/avahi: $(D)/bootstrap $(D)/expat $(D)/libdaemon $(D)/dbus $(ARCHIVE)/$(AVAH
 #
 WGET_VER = 1.19.5
 WGET_SRC = wget-$(WGET_VER).tar.gz
+WGET_URL = https://ftp.gnu.org/gnu/wget
 
 $(ARCHIVE)/$(WGET_SRC):
-	$(DOWNLOAD) https://ftp.gnu.org/gnu/wget/$(WGET_SRC)
+	$(DOWNLOAD) $(WGET_URL)/$(WGET_SRC)
 
 $(D)/wget: $(D)/bootstrap $(D)/openssl $(ARCHIVE)/$(WGET_SRC)
 	$(START_BUILD)
@@ -1017,11 +1031,12 @@ $(D)/wget: $(D)/bootstrap $(D)/openssl $(ARCHIVE)/$(WGET_SRC)
 #
 COREUTILS_VER = 8.23
 COREUTILS_SRC = coreutils-$(COREUTILS_VER).tar.xz
+COREUTILS_URL = https://ftp.gnu.org/gnu/coreutils
 
 COREUTILS_PATCH = coreutils-$(COREUTILS_VER).patch
 
 $(ARCHIVE)/$(COREUTILS_SRC):
-	$(DOWNLOAD) https://ftp.gnu.org/gnu/coreutils/$(COREUTILS_SRC)
+	$(DOWNLOAD) $(COREUTILS_URL)/$(COREUTILS_SRC)
 
 $(D)/coreutils: $(D)/bootstrap $(D)/openssl $(ARCHIVE)/$(COREUTILS_SRC)
 	$(START_BUILD)
@@ -1044,9 +1059,10 @@ $(D)/coreutils: $(D)/bootstrap $(D)/openssl $(ARCHIVE)/$(COREUTILS_SRC)
 #
 SMARTMONTOOLS_VER = 6.6
 SMARTMONTOOLS_SRC = smartmontools-$(SMARTMONTOOLS_VER).tar.gz
+SMARTMONTOOLS_URL = https://sourceforge.net/projects/smartmontools/files/smartmontools/$(SMARTMONTOOLS_VER)
 
 $(ARCHIVE)/$(SMARTMONTOOLS_SRC):
-	$(DOWNLOAD) https://sourceforge.net/projects/smartmontools/files/smartmontools/$(SMARTMONTOOLS_VER)/$(SMARTMONTOOLS_SRC)
+	$(DOWNLOAD) $(SMARTMONTOOLS_URL)/$(SMARTMONTOOLS_SRC)
 
 $(D)/smartmontools: $(D)/bootstrap $(ARCHIVE)/$(SMARTMONTOOLS_SRC)
 	$(START_BUILD)
@@ -1066,11 +1082,12 @@ $(D)/smartmontools: $(D)/bootstrap $(ARCHIVE)/$(SMARTMONTOOLS_SRC)
 #
 NFS_UTILS_VER = 2.5.3
 NFS_UTILS_SRC = nfs-utils-$(NFS_UTILS_VER).tar.bz2
+NFS_UTILS_URL = https://sourceforge.net/projects/nfs/files/nfs-utils/$(NFS_UTILS_VER)
 
 NFS_UTILS_PATCH = nfs-utils-$(NFS_UTILS_VER).patch
 
 $(ARCHIVE)/$(NFS_UTILS_SRC):
-	$(DOWNLOAD) https://sourceforge.net/projects/nfs/files/nfs-utils/$(NFS_UTILS_VER)/$(NFS_UTILS_SRC)
+	$(DOWNLOAD) $(NFS_UTILS_URL)/$(NFS_UTILS_SRC)
 
 $(D)/nfs_utils: $(D)/bootstrap $(D)/e2fsprogs $(ARCHIVE)/$(NFS_UTILS_SRC)
 	$(START_BUILD)
@@ -1106,9 +1123,10 @@ $(D)/nfs_utils: $(D)/bootstrap $(D)/e2fsprogs $(ARCHIVE)/$(NFS_UTILS_SRC)
 #
 PROCPS_NG_VER = 3.3.12
 PROCPS_NG_SRC = procps-ng-$(PROCPS_NG_VER).tar.xz
+PROCPS_NG_URL = http://sourceforge.net/projects/procps-ng/files/Production
 
 $(ARCHIVE)/$(PROCPS_NG_SRC):
-	$(DOWNLOAD) http://sourceforge.net/projects/procps-ng/files/Production/$(PROCPS_NG_SRC)
+	$(DOWNLOAD) $(PROCPS_NG_URL)/$(PROCPS_NG_SRC)
 
 $(D)/procps_ng: $(D)/bootstrap $(D)/ncurses $(ARCHIVE)/$(PROCPS_NG_SRC)
 	$(START_BUILD)
@@ -1133,9 +1151,10 @@ $(D)/procps_ng: $(D)/bootstrap $(D)/ncurses $(ARCHIVE)/$(PROCPS_NG_SRC)
 #
 ETHTOOL_VER = 4.17
 ETHTOOL_SRC = ethtool-$(ETHTOOL_VER).tar.xz
+ETHTOOL_URL = https://www.kernel.org/pub/software/network/ethtool 
 
 $(ARCHIVE)/$(ETHTOOL_SRC):
-	$(DOWNLOAD) https://www.kernel.org/pub/software/network/ethtool/$(ETHTOOL_SRC)
+	$(DOWNLOAD) $(ETHTOOL_URL)/$(ETHTOOL_SRC)
 
 $(D)/ethtool: $(D)/bootstrap $(ARCHIVE)/$(ETHTOOL_SRC)
 	$(START_BUILD)
@@ -1157,6 +1176,7 @@ $(D)/ethtool: $(D)/bootstrap $(ARCHIVE)/$(ETHTOOL_SRC)
 #
 SAMBA_VER = 3.6.25
 SAMBA_SRC = samba-$(SAMBA_VER).tar.gz
+SAMBA_URL = https://ftp.samba.org/pub/samba/stable
 
 SAMBA_PATCH = \
 	010-patch-cve-2015-5252.patch \
@@ -1193,7 +1213,7 @@ SAMBA_PATCH = \
 	samba-3.6.25.patch
 
 $(ARCHIVE)/$(SAMBA_SRC):
-	$(DOWNLOAD) https://ftp.samba.org/pub/samba/stable/$(SAMBA_SRC)
+	$(DOWNLOAD) $(SAMBA_URL)/$(SAMBA_SRC)
 
 $(D)/samba: $(D)/bootstrap $(ARCHIVE)/$(SAMBA_SRC)
 	$(START_BUILD)
@@ -1307,11 +1327,12 @@ $(D)/samba: $(D)/bootstrap $(ARCHIVE)/$(SAMBA_SRC)
 #
 NTP_VER = 4.2.8p10
 NTP_SRC = ntp-$(NTP_VER).tar.gz
+NTP_URL = https://www.eecis.udel.edu/~ntp/ntp_spool/ntp4/ntp-4.2
 
 NTP_PATCH = ntp-$(NTP_VER).patch
 
 $(ARCHIVE)/$(NTP_SRC):
-	$(DOWNLOAD) https://www.eecis.udel.edu/~ntp/ntp_spool/ntp4/ntp-4.2/$(NTP_SRC)
+	$(DOWNLOAD) $(NTP_URL)/$(NTP_SRC)
 
 $(D)/ntp: $(D)/bootstrap $(ARCHIVE)/$(NTP_SRC)
 	$(START_BUILD)
@@ -1338,11 +1359,12 @@ $(D)/ntp: $(D)/bootstrap $(ARCHIVE)/$(NTP_SRC)
 #
 WIRELESS_TOOLS_VER = 29
 WIRELESS_TOOLS_SRC = wireless_tools.$(WIRELESS_TOOLS_VER).tar.gz
+WIRELESS_TOOLS_URL = https://src.fedoraproject.org/repo/pkgs/wireless-tools/$(WIRELESS_TOOLS_SRC)/e06c222e186f7cc013fd272d023710cb
 
 WIRELESS_TOOLS_PATCH = wireless-tools.$(WIRELESS_TOOLS_VER).patch
 
 $(ARCHIVE)/$(WIRELESS_TOOLS_SRC):
-	$(DOWNLOAD) https://src.fedoraproject.org/repo/pkgs/wireless-tools/wireless_tools.29.tar.gz/e06c222e186f7cc013fd272d023710cb/$(WIRELESS_TOOLS_SRC)
+	$(DOWNLOAD) $(WIRELESS_TOOLS_URL)/$(WIRELESS_TOOLS_SRC)
 
 $(D)/wireless_tools: $(D)/bootstrap $(ARCHIVE)/$(WIRELESS_TOOLS_SRC)
 	$(START_BUILD)
@@ -1360,9 +1382,10 @@ $(D)/wireless_tools: $(D)/bootstrap $(ARCHIVE)/$(WIRELESS_TOOLS_SRC)
 #
 WPA_SUPPLICANT_VER = 0.7.3
 WPA_SUPPLICANT_SRC = wpa_supplicant-$(WPA_SUPPLICANT_VER).tar.gz
+WPA_SUPPLICANT_URL = https://w1.fi/releases
 
 $(ARCHIVE)/$(WPA_SUPPLICANT_SRC):
-	$(DOWNLOAD) https://w1.fi/releases/$(WPA_SUPPLICANT_SRC)
+	$(DOWNLOAD) $(WPA_SUPPLICANT_URL)/$(WPA_SUPPLICANT_SRC)
 
 $(D)/wpa_supplicant: $(D)/bootstrap $(D)/openssl $(D)/wireless_tools $(ARCHIVE)/$(WPA_SUPPLICANT_SRC)
 	$(START_BUILD)
@@ -1447,10 +1470,12 @@ $(D)/udpxy: $(D)/bootstrap $(ARCHIVE)/$(UDPXY_SRC)
 #
 OPENVPN_VER = 2.4.6
 OPENVPN_SRC = openvpn-$(OPENVPN_VER).tar.xz
+OPENVPN_URL1 = http://swupdate.openvpn.org/community/releases
+OPENVPN_URL2 = http://build.openvpn.net/downloads/releases
 
 $(ARCHIVE)/$(OPENVPN_SRC):
-	$(DOWNLOAD) http://swupdate.openvpn.org/community/releases/$(OPENVPN_SRC) || \
-	$(DOWNLOAD) http://build.openvpn.net/downloads/releases/$(OPENVPN_SRC)
+	$(DOWNLOAD) $(OPENVPN_URL1)/$(OPENVPN_SRC) || \
+	$(DOWNLOAD) $(OPENVPN_URL2)/$(OPENVPN_SRC)
 
 $(D)/openvpn: $(D)/bootstrap $(D)/openssl $(D)/lzo $(ARCHIVE)/$(OPENVPN_SRC)
 	$(START_BUILD)
@@ -1519,9 +1544,10 @@ $(D)/openssh: $(D)/bootstrap $(D)/zlib $(D)/openssl $(ARCHIVE)/$(OPENSSH_SRC)
 #
 DROPBEAR_VER = 2018.76
 DROPBEAR_SRC = dropbear-$(DROPBEAR_VER).tar.bz2
+DROPBEAR_URL = http://matt.ucc.asn.au/dropbear/releases
 
 $(ARCHIVE)/$(DROPBEAR_SRC):
-	$(DOWNLOAD) http://matt.ucc.asn.au/dropbear/releases/$(DROPBEAR_SRC)
+	$(DOWNLOAD) $(DROPBEAR_URL)/$(DROPBEAR_SRC)
 
 $(D)/dropbear: $(D)/bootstrap $(D)/zlib $(ARCHIVE)/$(DROPBEAR_SRC)
 	$(START_BUILD)
@@ -1597,11 +1623,12 @@ $(D)/dropbearmulti: $(D)/bootstrap $(ARCHIVE)/$(DROPBEARMULTI_SRC)
 #
 USB_MODESWITCH_DATA_VER = 20160112
 USB_MODESWITCH_DATA_SRC = usb-modeswitch-data-$(USB_MODESWITCH_DATA_VER).tar.bz2
+USB_MODESWITCH_DATA_URL = http://www.draisberghof.de/usb_modeswitch
 
 USB_MODESWITCH_DATA_PATCH = usb-modeswitch-data-$(USB_MODESWITCH_DATA_VER).patch
 
 $(ARCHIVE)/$(USB_MODESWITCH_DATA_SRC):
-	$(DOWNLOAD) http://www.draisberghof.de/usb_modeswitch/$(USB_MODESWITCH_DATA_SRC)
+	$(DOWNLOAD) $(USB_MODESWITCH_DATA_URL)/$(USB_MODESWITCH_DATA_SRC)
 
 $(D)/usb_modeswitch_data: $(D)/bootstrap $(ARCHIVE)/$(USB_MODESWITCH_DATA_SRC)
 	$(START_BUILD)
@@ -1619,11 +1646,12 @@ $(D)/usb_modeswitch_data: $(D)/bootstrap $(ARCHIVE)/$(USB_MODESWITCH_DATA_SRC)
 #
 USB_MODESWITCH_VER = 2.3.0
 USB_MODESWITCH_SRC = usb-modeswitch-$(USB_MODESWITCH_VER).tar.bz2
+USB_MODESWITCH_URL = http://www.draisberghof.de/usb_modeswitch
 
 USB_MODESWITCH_PATCH = usb-modeswitch-$(USB_MODESWITCH_VER).patch
 
 $(ARCHIVE)/$(USB_MODESWITCH_SRC):
-	$(DOWNLOAD) http://www.draisberghof.de/usb_modeswitch/$(USB_MODESWITCH_SRC)
+	$(DOWNLOAD) $(USB_MODESWITCH_URL)/$(USB_MODESWITCH_SRC)
 
 $(D)/usb_modeswitch: $(D)/bootstrap $(D)/libusb $(D)/usb_modeswitch_data $(ARCHIVE)/$(USB_MODESWITCH_SRC)
 	$(START_BUILD)
@@ -1719,6 +1747,7 @@ $(D)/minisatip: $(D)/bootstrap $(D)/openssl $(D)/libdvbcsa $(ARCHIVE)/$(MINISATI
 #
 DJMOUNT_VER = 0.71
 DJMOUNT_SRC = djmount-$(DJMOUNT_VER).tar.gz
+DJMOUNT_URL = https://sourceforge.net/projects/djmount/files/djmount/$(DJMOUNT_VER)
 
 DJMOUNT_PATCH  = djmount-$(DJMOUNT_VER)-fix-hang-with-asset-upnp.patch
 DJMOUNT_PATCH += djmount-$(DJMOUNT_VER)-fix-incorrect-range-when-retrieving-content-via-HTTP.patch
@@ -1729,7 +1758,7 @@ DJMOUNT_PATCH += djmount-$(DJMOUNT_VER)-support-fstab-mounting.patch
 DJMOUNT_PATCH += djmount-$(DJMOUNT_VER)-support-seeking-in-large-2gb-files.patch
 
 $(ARCHIVE)/$(DJMOUNT_SRC):
-	$(DOWNLOAD) https://sourceforge.net/projects/djmount/files/djmount/$(DJMOUNT_VER)/$(DJMOUNT_SRC)
+	$(DOWNLOAD) $(DJMOUNT_URL)/$(DJMOUNT_SRC)
 
 $(D)/djmount: $(D)/bootstrap $(D)/fuse $(ARCHIVE)/$(DJMOUNT_SRC)
 	$(START_BUILD)
@@ -1780,11 +1809,12 @@ $(D)/xupnpd: $(D)/bootstrap $(D)/openssl $(D)/lua
 #
 F2FS-TOOLS_VER = 1.16.0
 F2FS-TOOLS_SRC = f2fs-tools-$(F2FS-TOOLS_VER).tar.gz
+F2FS-TOOLS_URL = https://git.kernel.org/pub/scm/linux/kernel/git/jaegeuk/f2fs-tools.git/snapshot
 
 F2FS-TOOLS_PATCH = f2fs-tools-$(F2FS-TOOLS_VER).patch
 
 $(ARCHIVE)/$(F2FS-TOOLS_SRC):
-	$(DOWNLOAD) https://git.kernel.org/pub/scm/linux/kernel/git/jaegeuk/f2fs-tools.git/snapshot/$(F2FS-TOOLS_SRC)
+	$(DOWNLOAD) $(F2FS-TOOLS_URL)/$(F2FS-TOOLS_SRC)
 
 $(D)/f2fs-tools: $(D)/bootstrap $(D)/util_linux $(ARCHIVE)/$(F2FS-TOOLS_SRC)
 	$(REMOVE)/f2fs-tools-$(F2FS-TOOLS_VER)
