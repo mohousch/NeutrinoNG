@@ -372,7 +372,7 @@ update:
 		
 # print all supported boards ...
 print-boards:
-	@ls -1C machine | sed 's/.mk//g'
+	@ls -1C machine
 	
 # print all builds
 print-builds:
