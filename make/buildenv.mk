@@ -71,7 +71,6 @@ GIT_NAME             ?= mohousch
 # backwards compatibility
 DEPDIR                = $(D)
 
-#SUDOCMD               = echo $(SUDOPASSWD) | sudo -S
 SUDOCMD			= fakeroot
 MAINTAINER           ?= $(shell whoami)
 
