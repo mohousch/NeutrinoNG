@@ -1882,7 +1882,7 @@ MC_URL = ftp.midnight-commander.org
 MC_PATCH = mc-$(MC_VER).patch
 
 $(ARCHIVE)/$(MC_SRC):
-	$(DOWNLOAD) $(MC_URL)$(MC_SRC)
+	$(DOWNLOAD) $(MC_URL)/$(MC_SRC)
 
 $(D)/mc: $(D)/bootstrap $(D)/ncurses $(D)/libglib2 $(ARCHIVE)/$(MC_SRC)
 	$(START_BUILD)
