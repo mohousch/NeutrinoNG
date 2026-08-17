@@ -520,10 +520,10 @@ $(D)/host_libconfuse: $(D)/directories $(ARCHIVE)/$(HOST_LIBCONFUSE_SRC)
 #
 HOST_GENIMAGE_VER = 20
 HOST_GENIMAGE_SRC = genimage-$(HOST_GENIMAGE_VER).tar.xz
-GENIMAGE_URL = https://github.com/pengutronix/genimage/releases/download/v$(HOST_GENIMAGE_VER)
+HOST_GENIMAGE_URL = https://github.com/pengutronix/genimage/releases/download/v$(HOST_GENIMAGE_VER)
 
 $(ARCHIVE)/$(HOST_GENIMAGE_SRC):
-	$(DOWNLOAD) $(GENIMAGE_URL)/$(HOST_GENIMAGE_SRC)
+	$(DOWNLOAD) $(HOST_GENIMAGE_URL)/$(HOST_GENIMAGE_SRC)
 	
 $(D)/host_genimage: $(D)/directories $(ARCHIVE)/$(HOST_GENIMAGE_SRC) $(D)/host_libconfuse
 	$(START_BUILD)

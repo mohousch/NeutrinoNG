@@ -3,6 +3,7 @@
 #
 BUSYBOX_VER = 1.36.1
 BUSYBOX_SRC = busybox-$(BUSYBOX_VER).tar.bz2
+BUSYBOX_URL = https://busybox.net/downloads
 
 BUSYBOX_PATCH  = busybox-$(BUSYBOX_VER)-nandwrite.patch
 BUSYBOX_PATCH += busybox-$(BUSYBOX_VER)-unicode.patch
@@ -15,7 +16,7 @@ BUSYBOX_PATCH += busybox-$(BUSYBOX_VER)-recursive_action-fix.patch
 BUSYBOX_CONFIG = busybox-$(BUSYBOX_VER).config
 
 $(ARCHIVE)/$(BUSYBOX_SRC):
-	wget -P $(ARCHIVE) https://busybox.net/downloads/$(BUSYBOX_SRC)
+	$(DOWNLOAD) $(BUSYBOX_URL)/$(BUSYBOX_SRC)
 
 $(D)/busybox: $(D)/bootstrap $(ARCHIVE)/$(BUSYBOX_SRC) $(PATCHES)/$(BUSYBOX_CONFIG)
 	$(START_BUILD)
@@ -51,13 +52,14 @@ busybox-menuconfig: $(D)/bootstrap $(ARCHIVE)/$(BUSYBOX_SRC) $(PATCHES)/$(BUSYBO
 #
 SYSVINIT_VER = 3.06
 SYSVINIT_SRC = sysvinit-$(SYSVINIT_VER).tar.xz
+SYSVINIT_URL = https://github.com/slicer69/sysvinit/releases/download/$(SYSVINIT_VER)
 
 SYSVINIT_PATCH  = sysvinit-$(SYSVINIT_VER)-crypt-lib.patch
 SYSVINIT_PATCH += sysvinit-$(SYSVINIT_VER)-change-INIT_FIFO.patch
 SYSVINIT_PATCH += sysvinit-$(SYSVINIT_VER)-remove-killall5.patch
 
 $(ARCHIVE)/$(SYSVINIT_SRC):
-	$(DOWNLOAD) https://github.com/slicer69/sysvinit/releases/download/$(SYSVINIT_VER)/$(SYSVINIT_SRC)
+	$(DOWNLOAD) $(SYSVINIT_URL)/$(SYSVINIT_SRC)
 
 $(D)/sysvinit: $(D)/bootstrap $(ARCHIVE)/$(SYSVINIT_SRC)
 	$(START_BUILD)
@@ -136,6 +138,7 @@ $(D)/module_init_tools: $(D)/bootstrap $(ARCHIVE)/$(HOST_MODULE_INIT_TOOLS_SRC)
 #
 E2FSPROGS_VER = 1.47.3
 E2FSPROGS_SRC = e2fsprogs-$(E2FSPROGS_VER).tar.gz
+E2FSPROGS_URL = https://sourceforge.net/projects/e2fsprogs/files/e2fsprogs/v$(E2FSPROGS_VER)
 
 E2FSPROGS_PATCH = e2fsprogs-$(E2FSPROGS_VER).patch
 
@@ -146,7 +149,7 @@ E2FSPROGS_ARGS = --disable-resizer
 endif
 
 $(ARCHIVE)/$(E2FSPROGS_SRC):
-	$(DOWNLOAD) https://sourceforge.net/projects/e2fsprogs/files/e2fsprogs/v$(E2FSPROGS_VER)/$(E2FSPROGS_SRC)
+	$(DOWNLOAD) $(E2FSPROGS_URL)/$(E2FSPROGS_SRC)
 
 $(D)/e2fsprogs: $(D)/bootstrap $(D)/util_linux $(ARCHIVE)/$(E2FSPROGS_SRC)
 	$(START_BUILD)
@@ -207,12 +210,13 @@ $(D)/e2fsprogs: $(D)/bootstrap $(D)/util_linux $(ARCHIVE)/$(E2FSPROGS_SRC)
 # util_linux
 #
 UTIL_LINUX_MAJOR = 2.41
-UTIL_LINUX_MINOR = .2
-UTIL_LINUX_VER = $(UTIL_LINUX_MAJOR)$(UTIL_LINUX_MINOR)
+UTIL_LINUX_MINOR = 2
+UTIL_LINUX_VER = $(UTIL_LINUX_MAJOR).$(UTIL_LINUX_MINOR)
 UTIL_LINUX_SRC = util-linux-$(UTIL_LINUX_VER).tar.xz
+UTIL_LINUX_URL = https://www.kernel.org/pub/linux/utils/util-linux/v$(UTIL_LINUX_MAJOR)
 
 $(ARCHIVE)/$(UTIL_LINUX_SRC):
-	$(DOWNLOAD) https://www.kernel.org/pub/linux/utils/util-linux/v$(UTIL_LINUX_MAJOR)/$(UTIL_LINUX_SRC)
+	$(DOWNLOAD) $(UTIL_LINUX_URL)/$(UTIL_LINUX_SRC)
 
 $(D)/util_linux: $(D)/bootstrap $(D)/zlib $(ARCHIVE)/$(UTIL_LINUX_SRC)
 	$(START_BUILD)
@@ -303,12 +307,13 @@ $(D)/util_linux: $(D)/bootstrap $(D)/zlib $(ARCHIVE)/$(UTIL_LINUX_SRC)
 #
 VSFTPD_VER = 3.0.5
 VSFTPD_SRC = vsftpd-$(VSFTPD_VER).tar.gz
+VSFTPD_URL = https://security.appspot.com/downloads
 
 VSFTPD_PATCH  = vsftpd-$(VSFTPD_VER).patch
 VSFTPD_PATCH += vsftpd-$(VSFTPD_VER)-find_libs.patch
 
 $(ARCHIVE)/$(VSFTPD_SRC):
-	$(DOWNLOAD) https://security.appspot.com/downloads/$(VSFTPD_SRC)
+	$(DOWNLOAD) $(VSFTPD_URL)/$(VSFTPD_SRC)
 
 $(D)/vsftpd: $(D)/bootstrap $(D)/openssl $(ARCHIVE)/$(VSFTPD_SRC)
 	$(START_BUILD)
@@ -329,11 +334,12 @@ $(D)/vsftpd: $(D)/bootstrap $(D)/openssl $(ARCHIVE)/$(VSFTPD_SRC)
 #
 OPKG_VER = 0.3.3
 OPKG_SRC = opkg-$(OPKG_VER).tar.gz
+OPKG_URL = https://downloads.yoctoproject.org/releases/opkg
 
 OPKG_PATCH = opkg-$(OPKG_VER).patch
 
 $(ARCHIVE)/$(OPKG_SRC):
-	$(DOWNLOAD) https://downloads.yoctoproject.org/releases/opkg/$(OPKG_SRC)
+	$(DOWNLOAD) $(OPKG_URL)/$(OPKG_SRC)
 	
 $(D)/opkg: $(D)/bootstrap $(D)/libarchive $(ARCHIVE)/$(OPKG_SRC)
 	$(START_BUILD)
@@ -367,9 +373,10 @@ LSB_MAJOR = 3.2
 LSB_MINOR = 20
 LSB_VER = $(LSB_MAJOR)-$(LSB_MINOR)
 LSB_SRC = lsb_$(LSB_VER).tar.gz
+LSB_URL = https://debian.sdinet.de/etch/sdinet/lsb
 
 $(ARCHIVE)/$(LSB_SRC):
-	$(DOWNLOAD) https://debian.sdinet.de/etch/sdinet/lsb/$(LSB_SRC)
+	$(DOWNLOAD) $(LSB_URL)/$(LSB_SRC)
 
 $(D)/lsb: $(D)/bootstrap $(ARCHIVE)/$(LSB_SRC)
 	$(START_BUILD)
@@ -385,11 +392,12 @@ $(D)/lsb: $(D)/bootstrap $(ARCHIVE)/$(LSB_SRC)
 #
 PORTMAP_VER = 6.0.0
 PORTMAP_SRC = portmap_$(PORTMAP_VER).orig.tar.gz
+PORTMAP_URL = https://debian-archive.anexia.at/debian/pool/main/p/portmap
 
 PORTMAP_PATCH = portmap-$(PORTMAP_VER).patch
 
 $(ARCHIVE)/$(PORTMAP_SRC):
-	$(DOWNLOAD) https://debian-archive.anexia.at/debian/pool/main/p/portmap/$(PORTMAP_SRC)
+	$(DOWNLOAD) $(PORTMAP_URL)/$(PORTMAP_SRC)
 
 $(D)/portmap: $(D)/bootstrap $(ARCHIVE)/$(PORTMAP_SRC) $(PATCHES)/portmap_$(PORTMAP_VER)-3.diff.gz
 	$(START_BUILD)
@@ -414,9 +422,10 @@ $(D)/portmap: $(D)/bootstrap $(ARCHIVE)/$(PORTMAP_SRC) $(PATCHES)/portmap_$(PORT
 #
 GPTFDISK_VER = 1.0.4
 GPTFDISK_SRC = gptfdisk-$(GPTFDISK_VER).tar.gz
+GPTFDISK_URL = https://sourceforge.net/projects/gptfdisk/files/gptfdisk/$(GPTFDISK_VER)
 
 $(ARCHIVE)/$(GPTFDISK_SRC):
-	$(DOWNLOAD) https://sourceforge.net/projects/gptfdisk/files/gptfdisk/$(GPTFDISK_VER)/$(GPTFDISK_SRC)
+	$(DOWNLOAD) $(GPTFDISK_URL)/$(GPTFDISK_SRC)
 
 $(D)/gptfdisk: $(D)/bootstrap $(D)/e2fsprogs $(D)/ncurses $(D)/libpopt $(ARCHIVE)/$(GPTFDISK_SRC)
 	$(START_BUILD)
@@ -463,9 +472,10 @@ $(D)/parted: $(D)/bootstrap $(D)/e2fsprogs $(ARCHIVE)/$(HOST_PARTED_SRC)
 #
 DOSFSTOOLS_VER = 4.1
 DOSFSTOOLS_SRC = dosfstools-$(DOSFSTOOLS_VER).tar.xz
+DOSFSTOOLS_URL = https://github.com/dosfstools/dosfstools/releases/download/v$(DOSFSTOOLS_VER)
 
 $(ARCHIVE)/$(DOSFSTOOLS_SRC):
-	$(DOWNLOAD) https://github.com/dosfstools/dosfstools/releases/download/v$(DOSFSTOOLS_VER)/$(DOSFSTOOLS_SRC)
+	$(DOWNLOAD) $(DOSFSTOOLS_URL)/$(DOSFSTOOLS_SRC)
 
 DOSFSTOOLS_CFLAGS = $(TARGET_CFLAGS) -D_GNU_SRC -fomit-frame-pointer -D_FILE_OFFSET_BITS=64
 
@@ -493,12 +503,13 @@ $(D)/dosfstools: bootstrap $(ARCHIVE)/$(DOSFSTOOLS_SRC)
 #
 JFSUTILS_VER = 1.1.15
 JFSUTILS_SRC = jfsutils-$(JFSUTILS_VER).tar.gz
+JFSUTILS_URL = http://jfs.sourceforge.net/project/pub
 
 JFSUTILS_PATCH = jfsutils-$(JFSUTILS_VER).patch
 JFSUTILS_PATCH += jfsutils-$(JFSUTILS_VER)-gcc10_fix.patch
 
 $(ARCHIVE)/$(JFSUTILS_SRC):
-	$(DOWNLOAD) http://jfs.sourceforge.net/project/pub/$(JFSUTILS_SRC)
+	$(DOWNLOAD) $(JFSUTILS_URL)/$(JFSUTILS_SRC)
 
 $(D)/jfsutils: $(D)/bootstrap $(D)/e2fsprogs $(ARCHIVE)/$(JFSUTILS_SRC)
 	$(START_BUILD)

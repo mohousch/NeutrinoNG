@@ -16,12 +16,13 @@ endif
 #
 GSTREAMER_VER = 1.12.3
 GSTREAMER_SRC = gstreamer-$(GSTREAMER_VER).tar.xz
+GSTREAMER_URL = https://gstreamer.freedesktop.org/src/gstreamer
 
 GSTREAMER_PATCH = gstreamer-$(GSTREAMER_VER)-revert-use-new-gst-adapter-get-buffer.patch 
 GSTREAMER_PATCH += gstreamer-fix-builds-with-make-4.3.patch
 
 $(ARCHIVE)/$(GSTREAMER_SRC):
-	$(DOWNLOAD) https://gstreamer.freedesktop.org/src/gstreamer/$(GSTREAMER_SRC)
+	$(DOWNLOAD) $(GSTREAMER_URL)/$(GSTREAMER_SRC)
 
 $(D)/gstreamer: $(D)/bootstrap $(D)/libglib2 $(D)/libxml2 $(ARCHIVE)/$(GSTREAMER_SRC)
 	$(START_BUILD)
@@ -68,6 +69,8 @@ $(D)/gstreamer: $(D)/bootstrap $(D)/libglib2 $(D)/libxml2 $(ARCHIVE)/$(GSTREAMER
 #
 GST_PLUGINS_BASE_VER = $(GSTREAMER_VER)
 GST_PLUGINS_BASE_SRC = gst-plugins-base-$(GST_PLUGINS_BASE_VER).tar.xz
+GST_PLUGINS_BASE_URL = https://gstreamer.freedesktop.org/src/gst-plugins-base
+
 GST_PLUGINS_BASE_PATCH  = gst-plugins-base-$(GST_PLUGINS_BASE_VER)-Makefile.am-don-t-hardcode-libtool-name-when-running.patch
 GST_PLUGINS_BASE_PATCH += gst-plugins-base-$(GST_PLUGINS_BASE_VER)-riff-media-added-fourcc-to-all-ffmpeg-mpeg4-video-caps.patch
 GST_PLUGINS_BASE_PATCH += gst-plugins-base-$(GST_PLUGINS_BASE_VER)-subparse-avoid-false-negatives-dealing-with-UTF-8.patch
@@ -75,7 +78,7 @@ GST_PLUGINS_BASE_PATCH += gst-plugins-base-$(GST_PLUGINS_BASE_VER)-rtsp-drop-inc
 GST_PLUGINS_BASE_PATCH += gst-plugins-base-1.12.3-fix-build-with-make-4.3.patch
 
 $(ARCHIVE)/$(GST_PLUGINS_BASE_SRC):
-	$(DOWNLOAD) https://gstreamer.freedesktop.org/src/gst-plugins-base/$(GST_PLUGINS_BASE_SRC)
+	$(DOWNLOAD) $(GST_PLUGINS_BASE_URL)/$(GST_PLUGINS_BASE_SRC)
 
 $(D)/gst_plugins_base: $(D)/bootstrap $(D)/zlib $(D)/libglib2 $(D)/gstreamer $(D)/alsa_lib $(D)/libogg $(D)/libvorbis $(ARCHIVE)/$(GST_PLUGINS_BASE_SRC)
 	$(START_BUILD)
@@ -140,10 +143,12 @@ $(D)/gst_plugins_base: $(D)/bootstrap $(D)/zlib $(D)/libglib2 $(D)/gstreamer $(D
 #
 GST_PLUGINS_GOOD_VER = $(GSTREAMER_VER)
 GST_PLUGINS_GOOD_SRC = gst-plugins-good-$(GST_PLUGINS_GOOD_VER).tar.xz
+GST_PLUGINS_GOOD_URL = https://gstreamer.freedesktop.org/src/gst-plugins-good
+
 GST_PLUGINS_GOOD_PATCH  = gst-plugins-good-$(GST_PLUGINS_GOOD_VER)-gstrtpmp4gpay-set-dafault-value-for-MPEG4-without-co.patch
 
 $(ARCHIVE)/$(GST_PLUGINS_GOOD_SRC):
-	$(DOWNLOAD) https://gstreamer.freedesktop.org/src/gst-plugins-good/$(GST_PLUGINS_GOOD_SRC)
+	$(DOWNLOAD) $(GST_PLUGINS_GOOD_URL)/$(GST_PLUGINS_GOOD_SRC)
 
 $(D)/gst_plugins_good: $(D)/bootstrap $(D)/libpng $(D)/libjpeg $(D)/gstreamer $(D)/gst_plugins_base $(D)/flac $(D)/libsoup $(ARCHIVE)/$(GST_PLUGINS_GOOD_SRC)
 	$(START_BUILD)
@@ -178,6 +183,8 @@ $(D)/gst_plugins_good: $(D)/bootstrap $(D)/libpng $(D)/libjpeg $(D)/gstreamer $(
 #
 GST_PLUGINS_BAD_VER = $(GSTREAMER_VER)
 GST_PLUGINS_BAD_SRC = gst-plugins-bad-$(GST_PLUGINS_BAD_VER).tar.xz
+GST_PLUGINS_BAD_URL = https://gstreamer.freedesktop.org/src/gst-plugins-bad
+
 GST_PLUGINS_BAD_PATCH  = gst-plugins-bad-$(GST_PLUGINS_BAD_VER)-Makefile.am-don-t-hardcode-libtool-name-when-running-pbad.patch
 GST_PLUGINS_BAD_PATCH += gst-plugins-bad-$(GST_PLUGINS_BAD_VER)-rtmp-fix-seeking-and-potential-segfault.patch
 GST_PLUGINS_BAD_PATCH += gst-plugins-bad-$(GST_PLUGINS_BAD_VER)-rtmp-hls-tsdemux-fix.patch
@@ -187,7 +194,7 @@ GST_PLUGINS_BAD_PATCH += gst-plugins-bad-$(GST_PLUGINS_BAD_VER)-hls-main-thread-
 GST_PLUGINS_BAD_PATCH += gst-plugins-bad-1.12.3-fix-build-with-make-4.3.patch
 
 $(ARCHIVE)/$(GST_PLUGINS_BAD_SRC):
-	$(DOWNLOAD) https://gstreamer.freedesktop.org/src/gst-plugins-bad/$(GST_PLUGINS_BAD_SRC)
+	$(DOWNLOAD) $(GST_PLUGINS_BAD_URL)/$(GST_PLUGINS_BAD_SRC)
 
 $(D)/gst_plugins_bad: $(D)/bootstrap $(D)/libass $(D)/libcurl $(D)/libxml2 $(D)/openssl $(D)/librtmp $(D)/gstreamer $(D)/gst_plugins_base $(ARCHIVE)/$(GST_PLUGINS_BAD_SRC)
 	$(START_BUILD)
@@ -244,9 +251,10 @@ $(D)/gst_plugins_bad: $(D)/bootstrap $(D)/libass $(D)/libcurl $(D)/libxml2 $(D)/
 #
 GST_PLUGINS_UGLY_VER = $(GSTREAMER_VER)
 GST_PLUGINS_UGLY_SRC = gst-plugins-ugly-$(GST_PLUGINS_UGLY_VER).tar.xz
+GST_PLUGINS_UGLY_URL = https://gstreamer.freedesktop.org/src/gst-plugins-ugly
 
 $(ARCHIVE)/$(GST_PLUGINS_UGLY_SRC):
-	$(DOWNLOAD) https://gstreamer.freedesktop.org/src/gst-plugins-ugly/$(GST_PLUGINS_UGLY_SRC)
+	$(DOWNLOAD) $(GST_PLUGINS_UGLY_URL)/$(GST_PLUGINS_UGLY_SRC)
 
 $(D)/gst_plugins_ugly: $(D)/bootstrap $(D)/gstreamer $(D)/gst_plugins_base $(ARCHIVE)/$(GST_PLUGINS_UGLY_SRC)
 	$(START_BUILD)

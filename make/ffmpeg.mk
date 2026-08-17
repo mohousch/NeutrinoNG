@@ -3,6 +3,7 @@
 #
 FFMPEG_VER = 4.3.2
 FFMPEG_SRC = ffmpeg-$(FFMPEG_VER).tar.xz
+FFMPEG_URL = http://www.ffmpeg.org/releases
 
 FFMPEG_PATCH  = ffmpeg-$(FFMPEG_VER)-aac.patch
 FFMPEG_PATCH += ffmpeg-$(FFMPEG_VER)-allow_to_choose_rtmp_impl_at_runtime.patch
@@ -38,10 +39,8 @@ endif
 
 FFMPEG_EXTRA_CFLAGS  = -I$(TARGET_INCLUDE_DIR)/libxml2
 
-FFMPEG_SRC = ffmpeg-$(FFMPEG_VER).tar.xz
-
 $(ARCHIVE)/$(FFMPEG_SRC):
-	$(DOWNLOAD) http://www.ffmpeg.org/releases/$(FFMPEG_SRC)
+	$(DOWNLOAD) $(FFMPEG_URL)/$(FFMPEG_SRC)
 
 $(D)/ffmpeg: $(D)/bootstrap $(FFMPEG_DEPS) $(ARCHIVE)/$(FFMPEG_SRC)
 	$(START_BUILD)

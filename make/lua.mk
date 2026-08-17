@@ -4,6 +4,7 @@
 LUA_VER = 5.2.4
 LUA_VER_SHORT = 5.2
 LUA_SRC = lua-$(LUA_VER).tar.gz
+LUA_URL = https://www.lua.org/ftp
 
 LUAPOSIX_VER = 31
 LUAPOSIX_SRC = luaposix-git-$(LUAPOSIX_VER).tar.bz2
@@ -12,7 +13,7 @@ LUAPOSIX_URL = https://github.com/luaposix/luaposix.git
 LUAPOSIX_PATCH = lua-$(LUA_VER)-luaposix-$(LUAPOSIX_VER).patch
 
 $(ARCHIVE)/$(LUA_SRC):
-	$(DOWNLOAD) https://www.lua.org/ftp/$(LUA_SRC)
+	$(DOWNLOAD) $(LUA_URL)/$(LUA_SRC)
 
 $(ARCHIVE)/$(LUAPOSIX_SRC):
 	$(SCRIPTS_DIR)/get-git-archive.sh $(LUAPOSIX_URL) release-v$(LUAPOSIX_VER) $(notdir $@) $(ARCHIVE)
@@ -63,10 +64,12 @@ $(D)/luacurl: $(D)/bootstrap $(D)/libcurl $(D)/lua $(ARCHIVE)/$(LUACURL_SRC)
 #
 LUAEXPAT_VER = 1.3.0
 LUAEXPAT_SRC = luaexpat-$(LUAEXPAT_VER).tar.gz
+LUAEXPAT_URL = https://src.fedoraproject.org/lookaside/pkgs/lua-expat/luaexpat-1.3.0.tar.gz/3c20b5795e7107f847f8da844fbfe2da
+
 LUAEXPAT_PATCH = luaexpat-$(LUAEXPAT_VER).patch
 
 $(ARCHIVE)/$(LUAEXPAT_SRC):
-	$(DOWNLOAD) https://src.fedoraproject.org/lookaside/pkgs/lua-expat/luaexpat-1.3.0.tar.gz/3c20b5795e7107f847f8da844fbfe2da/$(LUAEXPAT_SRC)
+	$(DOWNLOAD) $(LUAEXPAT_URL)/$(LUAEXPAT_SRC)
 
 $(D)/luaexpat: $(D)/bootstrap $(D)/lua $(D)/expat $(ARCHIVE)/$(LUAEXPAT_SRC)
 	$(START_BUILD)
@@ -125,10 +128,12 @@ $(D)/luafeedparser: $(D)/bootstrap $(D)/lua $(ARCHIVE)/$(LUAFEEDPARSER_SRC)
 #
 LUASOAP_VER = 3_0_1
 LUASOAP_SRC = luasoap-$(LUASOAP_VER).tar.gz
+LUASOAP_URL = https://github.com/tomasguisasola/luasoap/archive/refs/tags
+
 #LUASOAP_PATCH = luasoap-$(LUASOAP_VER).patch
 
 $(ARCHIVE)/$(LUASOAP_SRC):
-	$(DOWNLOAD) https://github.com/tomasguisasola/luasoap/archive/refs/tags/v$(LUASOAP_VER).tar.gz -O $(ARCHIVE)/$(LUASOAP_SRC)
+	$(DOWNLOAD) $(LUASOAP_URL)/v$(LUASOAP_VER).tar.gz -O $(ARCHIVE)/$(LUASOAP_SRC)
 
 $(D)/luasoap: $(D)/bootstrap $(D)/lua $(ARCHIVE)/$(LUASOAP_SRC)
 	$(START_BUILD)
@@ -143,11 +148,14 @@ $(D)/luasoap: $(D)/bootstrap $(D)/lua $(ARCHIVE)/$(LUASOAP_SRC)
 #
 # luajson
 #
-$(ARCHIVE)/json.lua:
-	$(DOWNLOAD) https://github.com/swiboe/swiboe/raw/master/term_gui/json.lua
+LUA_JSON_SRC = json.lua
+LUA_JSON_URL = https://github.com/swiboe/swiboe/raw/master/term_gui
 
-$(D)/luajson: $(D)/bootstrap $(D)/lua $(ARCHIVE)/json.lua
+$(ARCHIVE)/$(LUA_JSON_SRC):
+	$(DOWNLOAD) $(LUA_JSON_URL)/$(LUA_JSON_SRC)
+
+$(D)/luajson: $(D)/bootstrap $(D)/lua $(ARCHIVE)/$(LUA_JSON_SRC)
 	$(START_BUILD)
-	cp $(ARCHIVE)/json.lua $(TARGET_DIR)/usr/share/lua/$(LUA_VER_SHORT)/json.lua
+	cp $(ARCHIVE)/$(LUA_JSON_SRC) $(TARGET_DIR)/usr/share/lua/$(LUA_VER_SHORT)/json.lua
 	$(TOUCH)
 
