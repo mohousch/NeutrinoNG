@@ -186,7 +186,18 @@ config:
 			1) echo "LAYOUT=multiboot" >> .config;; \
 			2|*) echo "LAYOUT=multi" >> .config;; \
 		esac; \
-	fi	
+	fi; \
+	if [ $$BOXTYPE == 'generic' ]; then \
+		echo -e "\nBoot"; \
+		echo "   1) Legacy BIOS"; \
+		echo -e "   \033[01;32m2) UEFI\033[00m"; \
+		read -p "Select Boot (1-2)?" BOOT; \
+		BOOT=$${BOOT}; \
+		case "$$BOOT" in \
+			1) echo "BOOT=bios" >> .config;; \
+			2|*) echo "BOOT=uefi" >> .config;; \
+		esac; \
+	fi;	
 # Gstreamer
 	@echo -e "\nGstreamer as mediaplayer for neutrino2 (only for mipsel / arm)"
 	@echo "   1) yes"
