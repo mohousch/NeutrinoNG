@@ -350,6 +350,131 @@ $(D)/mesa: $(D)/bootstrap $(ARCHIVE)/$(MESA_SRC) $(D)/libxml2 $(D)/libarchive $(
 #	$(TOUCH)
 
 #
+# libxfont
+#
+#https://xorg.freedesktop.org/archive/individual/lib/libXfont2-2.0.9.tar.xz
+XFONT2_VER = 2.0.9
+XFONT2_SRC = libXfont2-$(XFONT2_VER).tar.xz
+XFONT2_URL = https://xorg.freedesktop.org/archive/individual/lib
+
+XFONT2_PATCH =
+
+$(ARCHIVE)/$(XFONT2_SRC):
+	$(DOWNLOAD) $(XFONT2_URL)/$(XFONT2_SRC)
+	
+$(D)/xfont2: $(D)/bootstrap $(D)/xmacros $(ARCHIVE)/$(XFONT2_SRC)
+	$(START_BUILD)
+	$(REMOVE)/libXfont2-$(XFONT2_VER)
+	$(UNTAR)/$(XFONT2_SRC)
+	$(CHDIR)/libXfont2-$(XFONT2_VER); \
+		$(call apply_patches, $(XFONT2_PATCH)); \
+		$(BUILDENV); \
+		autoreconf -fi; \
+		$(CONFIGURE) \
+			--build=$(BUILD) \
+			--host=$(TARGET) \
+			--prefix=/usr \
+			--disable-dependency-tracking \
+		; \
+		$(MAKE) all; \
+		$(MAKE) install DESTDIR=$(TARGET_DIR)
+#	$(REMOVE)/libXfont2-$(XFONT2_VER)
+#	$(TOUCH)
+
+#
+# xorg macros
+#
+XMACROS_VER = 1.20.2
+XMACROS_SRC = util-macros-$(XMACROS_VER).tar.xz
+XMACROS_URL = https://xorg.freedesktop.org/archive/individual/util
+
+$(ARCHIVE)/$(XMACROS_SRC):
+	$(DOWNLOAD) $(XMACROS_URL)/$(XMACROS_SRC)
+	
+$(D)/xmacros: $(D)/bootstrap $(ARCHIVE)/$(XMACROS_SRC)
+	$(REMOVE)/util-macros-$(XMACROS_VER)
+	$(UNTAR)/$(XMACROS_SRC)
+	$(CHDIR)/util-macros-$(XMACROS_VER); \
+		$(call apply_patches, $(XMACROS_PATCH)); \
+		$(BUILDENV); \
+		autoreconf -fi; \
+		$(CONFIGURE) \
+			--prefix=$(HOST_DIR) \
+		; \
+		$(MAKE) all; \
+		$(MAKE) install
+	$(REMOVE)/util-macros-$(XMACROS_VER)
+	$(TOUCH)
+
+#
+# tinyX
+#
+#https://github.com/idunham/tinyxserver.git
+#https://github.com/tinycorelinux/tinyx.git
+TINYX_VER = 
+TINYX_SRC = tinyx.git
+TINYX_URL = https://github.com/tinycorelinux/tinyx.git
+
+TINYX_PATCH = 
+
+$(ARCHIVE)/$(TINYX_SRC):
+	set -e; 
+	if [ -d $(ARCHIVE)/$(TINYX_SRC) ]; then \
+		cd $(ARCHIVE)/$(TINYX_SRC); git pull; \
+	else \
+		cd $(ARCHIVE); git clone $(TINYX_URL) $(TINYX_SRC); \
+	fi
+
+$(D)/tinyX: $(D)/bootstrap $(D)/xfont2 $(ARCHIVE)/$(TINYX_SRC)
+	$(START_BUILD)
+	$(REMOVE)/tinyx
+	cp -ra $(ARCHIVE)/$(TINYX_SRC) $(BUILD_TMP)/tinyx
+	$(CHDIR)/tinyx; \
+		$(call apply_patches, $(TINYX_PATCH)); \
+		$(BUILDENV) \
+		autoreconf -fi; \
+		$(CONFIGURE) \
+			--prefix=/usr \
+		; \
+		$(MAKE) all; \
+		$(MAKE) install DESTDIR=$(TARGET_DIR)
+#	$(REMOVE)/tinyx
+#	$(TOUCH)
+
+#
+# libgbm
+#
+#https://github.com/glfs-book/libgbm.git
+LIBGBM_VER = 
+LIBGBM_SRC = libgbm.git
+LIBGBM_URL = https://github.com/glfs-book/libgbm.git
+
+LIBGBM_PATCH =
+
+$(ARCHIVE)/$(LIBGBM_SRC):
+	set -e; 
+	if [ -d $(ARCHIVE)/$(LIBGBM_SRC) ]; then \
+		cd $(ARCHIVE)/$(LIBGBM_SRC); git pull; \
+	else \
+		cd $(ARCHIVE); git clone $(LIBGBM_URL) $(LIBGBM_SRC); \
+	fi
+
+$(D)/libgbm: $(D)/bootstrap $(ARCHIVE)/$(LIBGBM_SRC)
+	$(START_BUILD)
+	$(REMOVE)/libgbm
+	cp -ra $(ARCHIVE)/$(LIBGBM_SRC) $(BUILD_TMP)/libgbm
+	$(CHDIR)/libgbm; \
+		$(call apply_patches, $(LIBGBM_PATCH)); \
+		meson setup build \
+			--prefix=/usr \
+			--buildtype=release \
+		; \
+		cd build; ninja; \
+		ninja install;
+#	$(REMOVE)/libgbm
+#	$(TOUCH)
+
+#
 # sdl2
 #
 SDL2_VER = 2.32.10
