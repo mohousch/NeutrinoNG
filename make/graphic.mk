@@ -144,6 +144,75 @@ $(D)/libdrm: $(D)/bootstrap $(D)/libpciaccess $(ARCHIVE)/$(LIBDRM_SRC)
 	$(TOUCH)
 	
 #
+# libX11
+#
+LIBX11_VER = 1.8.13
+LIBX11_SRC = libX11-$(LIBX11_VER).tar.gz
+LIBX11_URL = https://xorg.freedesktop.org/archive/individual/lib
+
+LIBX11_PATCH = 0001-disable-nls-tests.patch
+
+$(ARCHIVE)/$(LIBX11_SRC):
+	$(DOWNLOAD) $(LIBX11_URL)/$(LIBX11_SRC)
+	
+$(D)/libX11: $(D)/bootstrap $(D)/xproto $(ARCHIVE)/$(LIBX11_SRC)
+	$(START_BUILD)
+	$(REMOVE)/libX11-$(LIBX11_VER)
+	$(UNTAR)/$(LIBX11_SRC)
+	$(CHDIR)/libX11-$(LIBX11_VER); \
+		$(call apply_patches, $(LIBX11_PATCH)); \
+		$(CONFIGURE) \
+			--prefix=/usr \
+			--disable-loadable-i18n \
+			--disable-loadable-xcursor \
+			--enable-xthreads \
+			--disable-xcms \
+			--enable-xlocale \
+			--disable-xlocaledir \
+			--enable-xkb \
+			--with-keysymdefdir=$(TARGET_DIR)/usr/include/X11 \
+			--disable-xf86bigfont \
+			--enable-malloc0returnsnull \
+			--disable-specs \
+			--without-xmlto \
+			--without-fop \
+			--enable-composecache \
+			--disable-lint-library \
+			--disable-ipv6 \
+			--without-launchd \
+			--without-lint \
+		; \
+		$(MAKE);
+	
+#	$(TOUCH)
+
+#
+# xproto
+#
+XPROTO_VER = 2025.1
+XPROTO_SRC = xorgproto-$(XPROTO_VER).tar.xz
+XPROTO_URL = https://xorg.freedesktop.org/archive/individual/proto
+
+XPROTO_PATCH =
+
+$(ARCHIVE)/$(XPROTO_SRC):
+	$(DOWNLOAD) $(XPROTO_URL)/$(XPROTO_SRC)
+	
+$(D)/xproto: $(D)/bootstrap $(ARCHIVE)/$(XPROTO_SRC)
+	$(START_BUILD)
+	$(REMOVE)/xorgproto-$(XPROTO_VER)
+	$(UNTAR)/$(XPROTO_SRC)
+	$(CHDIR)/xorgproto-$(XPROTO_VER); \
+		$(call apply_patches, $(XPROTO_PATCH)); \
+		$(CONFIGURE) \
+			--prefix=/usr \
+		; \
+		$(MAKE); \
+		$(MAKE) install DESTDIR=$(TARGET_DIR)
+	$(REMOVE)/xorgproto-$(XPROTO_VER)
+	$(TOUCH)
+	
+#
 # glvnd
 #
 GLVND_VER = 1.7.0
@@ -165,8 +234,8 @@ $(D)/glvnd: $(D)/bootstrap $(ARCHIVE)/$(GLVND_SRC)
 			--prefix=$(TARGET_DIR)/usr \
 			--libdir=$(TARGET_DIR)/usr/lib \
 			--buildtype=release \
-			-Dx11=disabled \
-			-Dglx=disabled \
+			-Dx11=enabled \
+			-Dglx=enabled \
 			-Degl=false \
 			-Dgles1=false -Dgles2=false \
 		; \
@@ -272,7 +341,7 @@ $(D)/mesa: $(D)/bootstrap $(ARCHIVE)/$(MESA_SRC) $(D)/libxml2 $(D)/libarchive $(
 			-Dmicrosoft-clc=disabled \
 			-Dplatforms="" \
 			-Dglx=disabled \
-			-Dglvnd=enabled \
+			-Dglvnd=true \
 			-Dllvm=disabled \
 		; \
 		cd build; ninja; \
