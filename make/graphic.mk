@@ -262,7 +262,6 @@ $(D)/mesa: $(D)/bootstrap $(ARCHIVE)/$(MESA_SRC) $(D)/libxml2 $(D)/libarchive $(
 			--buildtype=release \
 			-Dgallium-drivers=auto \
 			-Dgallium-extra-hud=false \
-			-Dgallium-rusticl=false \
 			-Dopengl=true \
 			-Dgbm=enabled \
 			-Degl=enabled \
