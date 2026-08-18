@@ -20,9 +20,7 @@ else
 	mkdir -p $(RELEASE_DIR)/boot/grub
 	cp -a $(BASE_DIR)/machine/$(BOXTYPE)/files/grub-bios.cfg $(RELEASE_DIR)/boot/grub/grub.cfg
 	cp -a $(BASE_DIR)/machine/$(BOXTYPE)/files/genimage-bios.cfg $(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)/
-	# boot.img
-#	dd if=/dev/zero of=$(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)/boot.img bs=512 count=2097152
-	# grub.img
+	# boot.img & grub.img
 	cp -a $(BASE_DIR)/machine/$(BOXTYPE)/files/boot.img $(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)/
 	cp -a $(BASE_DIR)/machine/$(BOXTYPE)/files/grub.img $(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)/
 endif
