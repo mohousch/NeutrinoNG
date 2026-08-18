@@ -130,7 +130,7 @@ $(D)/mesa: $(D)/bootstrap $(ARCHIVE)/$(MESA_SRC) $(D)/libxml2 $(D)/libarchive $(
 	$(UNTAR)/$(MESA_SRC)
 	$(CHDIR)/mesa-$(MESA_VER); \
 		$(call apply_patches, $(MESA_PATCH)); \
-		meson setup \
+		meson setup build \
 			--prefix=/usr \
 			--buildtype=release \
 			-Dgallium-extra-hud=false \
@@ -170,7 +170,7 @@ $(D)/glu: $(D)/bootstrap $(ARCHIVE)/$(GLU_SRC)
 	$(UNTAR)/$(GLU_SRC)
 	$(CHDIR)/glu-$(GLU_VER); \
 		$(call apply_patches, $(GLU_PATCH)); \
-		meson setup \
+		meson setup build \
 			-Dprefix=/usr \
 			-Dgl_provider=glvnd \
 		; \
@@ -196,8 +196,9 @@ $(D)/libdrm: $(D)/bootstrap $(ARCHIVE)/$(LIBDRM_SRC)
 	$(UNTAR)/$(LIBDRM_SRC)
 	$(CHDIR)/libdrm-$(LIBDRM_VER); \
 		$(call apply_patches, $(LIBDRM_PATCH)); \
-		meson setup \
-			--prefix=/usr \
+		meson setup build \
+			--prefix=$(TARGET_DIR)/usr \
+			--libdir=$(TARGET_DIR)/usr/lib \
 			--buildtype=release \
 			-Dcairo-tests=disabled \
 			-Dman-pages=disabled \
@@ -207,7 +208,8 @@ $(D)/libdrm: $(D)/bootstrap $(ARCHIVE)/$(LIBDRM_SRC)
 			-Dudev=false \
 			-Dvalgrind=disabled \
 		; \
-		$(MAKE);
+		cd build; ninja; \
+		ninja install;
 	$(REMOVE)/libdrm-$(LIBDRM_VER)
 #	$(TOUCH)
 

@@ -21,8 +21,10 @@ else
 	cp -a $(BASE_DIR)/machine/$(BOXTYPE)/files/grub-bios.cfg $(RELEASE_DIR)/boot/grub/grub.cfg
 	cp -a $(BASE_DIR)/machine/$(BOXTYPE)/files/genimage-bios.cfg $(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)/
 	# boot.img
-	dd if=/dev/zero of=$(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)/boot.img bs=512 count=2097152
+#	dd if=/dev/zero of=$(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)/boot.img bs=512 count=2097152
 	# grub.img
+	cp -a $(BASE_DIR)/machine/$(BOXTYPE)/files/boot.img $(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)/
+	cp -a $(BASE_DIR)/machine/$(BOXTYPE)/files/grub.img $(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)/
 endif
 	# rootfs
 	dd if=/dev/zero of=$(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)/rootfs.ext2 bs=512 count=2097152
@@ -49,6 +51,8 @@ endif
 	rm -rf $(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)/bzImage
 	rm -rf $(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)/genimage-efi.cfg
 	rm -rf $(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)/genimage-bios.cfg
+	rm -rf $(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)/boot.img
+	rm -rf $(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)/grub.img
 	#
 	echo $(BS_NAME)_$(BS_CYCLE)_$(BOXTYPE)_$(shell date '+%d.%m.%Y-%H.%M') > $(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)/imageversion
 	cd $(IMAGE_BUILD_DIR) && \
