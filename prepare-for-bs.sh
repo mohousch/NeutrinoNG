@@ -92,6 +92,7 @@ PACKAGES="\
 	unzip \
 	cpio \
 	meson \
+	ninja-build \
 	rustc \
 	glslang-tools \
 	bindgen \

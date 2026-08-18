@@ -79,105 +79,34 @@ $(D)/glew: $(D)/bootstrap $(ARCHIVE)/$(GLEW_SRC)
 	$(TOUCH)
 	
 #
-# freeglut
+# libpciaccess
 #
-FREEGLUT_VER = 3.8.0
-FREEGLUT_SRC = freeglut-$(FREEGLUT_VER).tar.gz
-FREEGLUT_URL = https://github.com/FreeGLUTProject/freeglut/releases/download/v$(FREEGLUT_VER)
+LIBPCIACCESS_VER = 0.19
+LIBPCIACCESS_SRC = libpciaccess-$(LIBPCIACCESS_VER).tar.xz
+LIBPCIACCESS_URL = http://xorg.freedesktop.org/releases/individual/lib
 
-FREEGLUT_PATCH =
+LIBPCIACCESS_PATCH = 
 
-$(ARCHIVE)/$(FREEGLUT_SRC):
-	$(DOWNLOAD) $(FREEGLUT_URL)/$(FREEGLUT_SRC)
-	
-$(D)/freeglut: $(D)/bootstrap $(ARCHIVE)/$(FREEGLUT_SRC)
+$(ARCHIVE)/$(LIBPCIACCESS_SRC):
+	$(DOWNLOAD) $(LIBPCIACCESS_URL)/$(LIBPCIACCESS_SRC)
+
+$(D)/libpciaccess: $(D)/bootstrap $(D)/zlib $(ARCHIVE)/$(LIBPCIACCESS_SRC)
 	$(START_BUILD)
-	$(REMOVE)/freeglut-$(FREEGLUT_VER)
-	$(UNTAR)/$(FREEGLUT_SRC)
-	$(CHDIR)/freeglut-$(FREEGLUT_VER); \
-		$(call apply_patches, $(FREEGLUT_PATCH)); \
-		rm CMakeFiles/* -rf CMakeCache.txt cmake_install.cmake; \
-		cmake . -DCMAKE_INSTALL_PREFIX=/usr \
-			-DCMAKE_C_COMPILER=$(TARGET)-gcc \
-			-DCMAKE_CXX_COMPILER=$(TARGET)-g++ \
-			-DFREEGLUT_WAYLAND=OFF \
-			-DFREEGLUT_GLES=OFF \
-			-DFREEGLUT_X11=OFF \
-			-DFREEGLUT_BUILD_SHARED_LIBS=ON \
-			-DFREEGLUT_BUILD_STATIC_LIBS=ON \
-		; \
-		$(MAKE); \
-		$(MAKE) install DESTDIR=$(TARGET_DIR)
-		$(REWRITE_PKGCONF) $(PKG_CONFIG_PATH)/freeglut.pc
-	$(REMOVE)/freeglut-$(FREEGLUT_VER)
-#	$(TOUCH)
-	
-#
-# mesa
-#
-MESA_VER = 26.2.0
-MESA_SRC = mesa-$(MESA_VER).tar.xz
-MESA_URL = https://mesa.freedesktop.org/archive
-
-MESA_PATCH =
-
-$(ARCHIVE)/$(MESA_SRC):
-	$(DOWNLOAD) $(MESA_URL)/$(MESA_SRC)
-	
-$(D)/mesa: $(D)/bootstrap $(ARCHIVE)/$(MESA_SRC) $(D)/libxml2 $(D)/libarchive $(D)/lua
-	$(START_BUILD)
-	$(REMOVE)/mesa-$(MESA_VER)
-	$(UNTAR)/$(MESA_SRC)
-	$(CHDIR)/mesa-$(MESA_VER); \
-		$(call apply_patches, $(MESA_PATCH)); \
+	$(REMOVE)/libpciaccess-$(LIBPCIACCESS_VER)
+	$(UNTAR)/$(LIBPCIACCESS_SRC)
+	$(CHDIR)/libpciaccess-$(LIBPCIACCESS_VER); \
+		$(call apply_patches, $(LIBPCIACCESS_PATCH)); \
 		meson setup build \
-			--prefix=/usr \
+			--prefix=$(TARGET_DIR)/usr \
+			--libdir=$(TARGET_DIR)/usr/lib \
 			--buildtype=release \
-			-Dgallium-extra-hud=false \
-			-Dgallium-rusticl=false \
-			-Dshader-cache=enabled \
-			-Dopengl=true \
-			-Dgbm=enabled \
-			-Degl=enabled \
-			-Dvalgrind=disabled \
-			-Dlibunwind=disabled \
-			-Dlmsensors=disabled \
-			-Dbuild-tests=false \
-			-Dmicrosoft-clc=disabled \
-			-Dplatforms="" \
-			-Dglx=disabled \
-			-Dglvnd=disabled \
+			-Dzlib=enabled \
 		; \
-		$(MAKE);
-	$(REMOVE)/mesa-$(MESA_VER)
-#	$(TOUCH)
+		cd build; ninja; \
+		ninja install;
+	$(REMOVE)/libpciaccess-$(LIBPCIACCESS_VER)
+	$(TOUCH)
 	
-#
-# glu
-#
-GLU_VER = 9.0.3
-GLU_SRC = glu-$(GLU_VER).tar.xz
-GLU_URL = https://mesa.freedesktop.org/archive/glu
-
-GLU_PATCH =
-
-$(ARCHIVE)/$(GLU_SRC):
-	$(DOWNLOAD) $(GLU_URL)/$(GLU_SRC)
-	
-$(D)/glu: $(D)/bootstrap $(ARCHIVE)/$(GLU_SRC)
-	$(START_BUILD)
-	$(REMOVE)/glu-$(GLU_VER)
-	$(UNTAR)/$(GLU_SRC)
-	$(CHDIR)/glu-$(GLU_VER); \
-		$(call apply_patches, $(GLU_PATCH)); \
-		meson setup build \
-			-Dprefix=/usr \
-			-Dgl_provider=glvnd \
-		; \
-		$(MAKE);
-	$(REMOVE)/glu-$(GLEW_VER)
-#	$(TOUCH)
-
 #
 # libdrm
 #
@@ -190,7 +119,7 @@ LIBDRM_PATCH =
 $(ARCHIVE)/$(LIBDRM_SRC):
 	$(DOWNLOAD) $(LIBDRM_URL)/$(LIBDRM_SRC)
 	
-$(D)/libdrm: $(D)/bootstrap $(ARCHIVE)/$(LIBDRM_SRC)
+$(D)/libdrm: $(D)/bootstrap $(D)/libpciaccess $(ARCHIVE)/$(LIBDRM_SRC)
 	$(START_BUILD)
 	$(REMOVE)/libdrm-$(LIBDRM_VER)
 	$(UNTAR)/$(LIBDRM_SRC)
@@ -204,6 +133,7 @@ $(D)/libdrm: $(D)/bootstrap $(ARCHIVE)/$(LIBDRM_SRC)
 			-Dman-pages=disabled \
 			-Damdgpu=enabled \
 			-Dnouveau=enabled \
+			-Dintel=enabled \
 			-Dtests=false \
 			-Dudev=false \
 			-Dvalgrind=disabled \
@@ -211,6 +141,144 @@ $(D)/libdrm: $(D)/bootstrap $(ARCHIVE)/$(LIBDRM_SRC)
 		cd build; ninja; \
 		ninja install;
 	$(REMOVE)/libdrm-$(LIBDRM_VER)
+	$(TOUCH)
+	
+#
+# glvnd
+#
+GLVND_VER = 1.7.0
+GLVND_SRC = v$(GLVND_VER).tar.gz
+GLVND_URL = https://github.com/NVIDIA/libglvnd/archive
+
+GLVND_PATCH = 
+
+$(ARCHIVE)/$(GLVND_SRC):
+	$(DOWNLOAD) $(GLVND_URL)/$(GLVND_SRC) 
+	
+$(D)/glvnd: $(D)/bootstrap $(ARCHIVE)/$(GLVND_SRC)
+	$(START_BUILD)
+	$(REMOVE)/libglvnd-$(GLVND_VER)
+	$(UNTAR)/$(GLVND_SRC)
+	$(CHDIR)/libglvnd-$(GLVND_VER); \
+		$(call apply_patches, $(GLVND_PATCH)); \
+		meson setup build \
+			--prefix=$(TARGET_DIR)/usr \
+			--libdir=$(TARGET_DIR)/usr/lib \
+			--buildtype=release \
+			-Dx11=disabled \
+			-Dglx=disabled \
+			-Degl=false \
+			-Dgles1=false -Dgles2=false \
+		; \
+		cd build; ninja; \
+		ninja install;
+	$(REMOVE)/libglvnd-$(GLVND_VER)
+	$(TOUCH)
+	
+#
+# glu
+#
+GLU_VER = 9.0.3
+GLU_SRC = glu-$(GLU_VER).tar.xz
+GLU_URL = https://mesa.freedesktop.org/archive/glu
+
+GLU_PATCH =
+
+$(ARCHIVE)/$(GLU_SRC):
+	$(DOWNLOAD) $(GLU_URL)/$(GLU_SRC)
+	
+$(D)/glu: $(D)/bootstrap $(ARCHIVE)/$(GLU_SRC) $(D)/glvnd
+	$(START_BUILD)
+	$(REMOVE)/glu-$(GLU_VER)
+	$(UNTAR)/$(GLU_SRC)
+	$(CHDIR)/glu-$(GLU_VER); \
+		$(call apply_patches, $(GLU_PATCH)); \
+		meson setup build \
+			--prefix=$(TARGET_DIR)/usr \
+			--libdir=$(TARGET_DIR)/usr/lib \
+			--buildtype=release \
+			-Dgl_provider=glvnd \
+		; \
+		cd build; ninja; \
+		ninja install;
+	$(REMOVE)/glu-$(GLEW_VER)
+	$(TOUCH)
+	
+#
+# freeglut
+#
+FREEGLUT_VER = 3.8.0
+FREEGLUT_SRC = freeglut-$(FREEGLUT_VER).tar.gz
+FREEGLUT_URL = https://github.com/FreeGLUTProject/freeglut/releases/download/v$(FREEGLUT_VER)
+
+FREEGLUT_PATCH =
+
+$(ARCHIVE)/$(FREEGLUT_SRC):
+	$(DOWNLOAD) $(FREEGLUT_URL)/$(FREEGLUT_SRC)
+	
+$(D)/freeglut: $(D)/bootstrap $(ARCHIVE)/$(FREEGLUT_SRC) $(D)/glu
+	$(START_BUILD)
+	$(REMOVE)/freeglut-$(FREEGLUT_VER)
+	$(UNTAR)/$(FREEGLUT_SRC)
+	$(CHDIR)/freeglut-$(FREEGLUT_VER); \
+		$(call apply_patches, $(FREEGLUT_PATCH)); \
+		rm CMakeFiles/* -rf CMakeCache.txt cmake_install.cmake; \
+		cmake . -DCMAKE_INSTALL_PREFIX=/usr \
+			-DCMAKE_C_COMPILER=$(TARGET)-gcc \
+			-DCMAKE_CXX_COMPILER=$(TARGET)-g++ \
+			-DFREEGLUT_BUILD_DEMOS=OFF \
+#			-DFREEGLUT_WAYLAND=OFF \
+#			-DFREEGLUT_GLES=OFF \
+#			-DFREEGLUT_X11=OFF \
+#			-DFREEGLUT_BUILD_SHARED_LIBS=ON \
+#			-DFREEGLUT_BUILD_STATIC_LIBS=ON \
+		; \
+		$(MAKE); \
+		$(MAKE) install DESTDIR=$(TARGET_DIR)
+		$(REWRITE_PKGCONF) $(PKG_CONFIG_PATH)/freeglut.pc
+	$(REMOVE)/freeglut-$(FREEGLUT_VER)
+#	$(TOUCH)
+	
+#
+# mesa
+#
+MESA_VER = 24.0.0
+MESA_SRC = mesa-$(MESA_VER).tar.xz
+MESA_URL = https://mesa.freedesktop.org/archive
+
+MESA_PATCH =
+
+$(ARCHIVE)/$(MESA_SRC):
+	$(DOWNLOAD) $(MESA_URL)/$(MESA_SRC)
+	
+$(D)/mesa: $(D)/bootstrap $(ARCHIVE)/$(MESA_SRC) $(D)/libxml2 $(D)/libarchive $(D)/lua $(D)/libdrm $(D)/zlib $(D)/libpciaccess
+	$(START_BUILD)
+	$(REMOVE)/mesa-$(MESA_VER)
+	$(UNTAR)/$(MESA_SRC)
+	$(CHDIR)/mesa-$(MESA_VER); \
+		$(call apply_patches, $(MESA_PATCH)); \
+		meson setup build \
+			--prefix=/usr \
+			--buildtype=release \
+			-Dgallium-drivers=auto \
+			-Dgallium-extra-hud=false \
+			-Dgallium-rusticl=false \
+			-Dopengl=true \
+			-Dgbm=enabled \
+			-Degl=enabled \
+			-Dvalgrind=disabled \
+			-Dlibunwind=disabled \
+			-Dlmsensors=disabled \
+			-Dbuild-tests=false \
+			-Dmicrosoft-clc=disabled \
+			-Dplatforms="" \
+			-Dglx=disabled \
+			-Dglvnd=enabled \
+			-Dllvm=disabled \
+		; \
+		cd build; ninja; \
+		ninja install;
+	$(REMOVE)/mesa-$(MESA_VER)
 #	$(TOUCH)
 
 #
