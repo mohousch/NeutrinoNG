@@ -7,7 +7,9 @@
 
 BOXARCH = x86_64
 MACHINE_OPTS = --enable-lirc
-MACHINE_DEPS = $(D)/lirc $(D)/glvnd $(D)/glew $(D)/glu $(D)/libao $(D)/nano $(D)/htop $(D)/mc $(D)/openssh
+MACHINE_DEPS = $(D)/lirc $(D)/nano $(D)/htop $(D)/mc $(D)/openssh
+#MACHINE_OPTS += --enable-opengl
+#MACHINE_DEPS += $(D)/glvnd $(D)/glew $(D)/glu $(D)/libao
 
 #
 # kernel

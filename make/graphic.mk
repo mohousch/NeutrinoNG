@@ -234,8 +234,8 @@ $(D)/glvnd: $(D)/bootstrap $(ARCHIVE)/$(GLVND_SRC)
 			--prefix=$(TARGET_DIR)/usr \
 			--libdir=$(TARGET_DIR)/usr/lib \
 			--buildtype=release \
-			-Dx11=enabled \
-			-Dglx=enabled \
+			-Dx11=disabled \
+			-Dglx=disabled \
 			-Degl=false \
 			-Dgles1=false -Dgles2=false \
 		; \
