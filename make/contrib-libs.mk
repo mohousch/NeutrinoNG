@@ -536,18 +536,20 @@ $(D)/freetype: $(D)/bootstrap $(D)/zlib $(D)/libpng $(ARCHIVE)/$(FREETYPE_SRC)
 #
 # lirc
 #
-ifeq ($(BOXARCH), $(filter $(BOXARCH), x86_64))
-LIRC_VER = 0.10.2
-LIRC_OPTS =  --with-kerneldir=$(KERNEL_DIR) \
-			  --enable-uinput \
-			  --with-gnu-ld \
-                          --without-x \
-                          --runstatedir=/run \
-                          --with-lockdir=/var/lock
-else
+ifeq ($(BOXARCH), sh4)
 LIRC_VER = 0.9.0
+else
+LIRC_VER = 0.10.2
+endif
+LIRC_SRC = lirc-$(LIRC_VER).tar.bz2
+LIRC_URL = https://sourceforge.net/projects/lirc/files/LIRC/$(LIRC_VER)
+
+ifeq ($(BOXARCH), sh4)
 LIRC_PATCH = lirc-$(LIRC_VER).patch
+endif
+
 LIRC_OPTS = --with-kerneldir=$(KERNEL_DIR) \
+			--enable-uinput \
 			--without-x \
 			--with-devdir=/dev \
 			--with-moduledir=/lib/modules \
@@ -556,9 +558,6 @@ LIRC_OPTS = --with-kerneldir=$(KERNEL_DIR) \
 			--enable-debug \
 			--with-syslog=LOG_DAEMON \
 			--enable-sandboxed
-endif
-LIRC_SRC = lirc-$(LIRC_VER).tar.bz2
-LIRC_URL = https://sourceforge.net/projects/lirc/files/LIRC/$(LIRC_VER)
 
 $(ARCHIVE)/$(LIRC_SRC):
 	$(DOWNLOAD) $(LIRC_URL)/$(LIRC_SRC)
