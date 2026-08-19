@@ -342,7 +342,7 @@ XPROTO_PATCH =
 $(ARCHIVE)/$(XPROTO_SRC):
 	$(DOWNLOAD) $(XPROTO_URL)/$(XPROTO_SRC)
 	
-$(D)/xorgproto: $(D)/bootstrap $(ARCHIVE)/$(XPROTO_SRC)
+$(D)/xorgproto: $(D)/bootstrap $(D)/util-macros $(ARCHIVE)/$(XPROTO_SRC)
 	$(START_BUILD)
 	$(REMOVE)/xorgproto-$(XPROTO_VER)
 	$(UNTAR)/$(XPROTO_SRC)
@@ -353,12 +353,11 @@ $(D)/xorgproto: $(D)/bootstrap $(ARCHIVE)/$(XPROTO_SRC)
 			--build=$(BUILD) \
 			--host=$(TARGET) \
 			--prefix=$(TARGET_DIR)/usr \
+			--datadir=$(TARGET_DIR)/usr/lib \
 			--enable-legacy \
-			PKG_CONFIG_PATH=$(PKG_CONFIG_PATH) \
 		; \
 		$(MAKE); \
 		$(MAKE) install
-		cp -a $(TARGET_DIR)/usr/share/pkgconfig/*.pc $(TARGET_DIR)/usr/lib/
 		$(REWRITE_PKGCONF) $(PKG_CONFIG_PATH)/xproto.pc
 	$(REMOVE)/xorgproto-$(XPROTO_VER)
 	$(TOUCH)
@@ -407,13 +406,17 @@ $(D)/util-macros: $(D)/bootstrap $(ARCHIVE)/$(XMACROS_SRC)
 	$(UNTAR)/$(XMACROS_SRC)
 	$(CHDIR)/util-macros-$(XMACROS_VER); \
 		$(call apply_patches, $(XMACROS_PATCH)); \
+		autoreconf -i; \
+		export PKG_CONFIG_PATH=$(PKG_CONFIG_PATH); \
 		$(CONFIGURE) \
 			--build=$(BUILD) \
 			--host=$(TARGET) \
 			--prefix=$(TARGET_DIR)/usr \
+			--datadir=/usr/lib \
 		; \
 		$(MAKE) all; \
-		$(MAKE) install
+		$(MAKE) install DESTDIR=$(TARGET_DIR)
+		$(REWRITE_PKGCONF) $(PKG_CONFIG_PATH)/xorg-macros.pc
 	$(REMOVE)/util-macros-$(XMACROS_VER)
 	$(TOUCH)
 	
@@ -494,12 +497,12 @@ $(D)/xtrans: $(D)/bootstrap $(ARCHIVE)/$(XTRANS_SRC)
 			--build=$(BUILD) \
 			--host=$(TARGET) \
 			--prefix=$(TARGET_DIR)/usr \
+			--datadir=$(TARGET_DIR)/usr/lib \
 			--without-xmlto \
-			PKG_CONFIG_PATH=$(PKG_CONFIG_PATH) \
 		; \
 		$(MAKE) all; \
 		$(MAKE) install
-		cp -a $(TARGET_DIR)/usr/share/pkgconfig/xtrans.pc $(TARGET_DIR)/usr/lib/
+		$(REWRITE_PKGCONF) $(PKG_CONFIG_PATH)/xtrans.pc
 	$(REMOVE)/xtrans-$(XTRANS_VER)
 	$(TOUCH)
 
@@ -522,19 +525,18 @@ $(D)/xcb-proto: $(D)/bootstrap $(ARCHIVE)/$(XCBPROTO_SRC)
 	$(CHDIR)/xcb-proto-$(XCBPROTO_VER); \
 		$(call apply_patches, $(XCBPROTO_PATCH)); \
 		export PKG_CONFIG_PATH=$(PKG_CONFIG_PATH); \
+		autoreconf -i; \
 		$(CONFIGURE) \
 			--build=$(BUILD) \
 			--host=$(TARGET) \
 			--prefix=$(TARGET_DIR)/usr \
-			PKG_CONFIG_PATH=$(PKG_CONFIG_PATH) \
+			--datarootdir=$(TARGET_DIR)/usr/lib \
 		; \
 		$(MAKE) all; \
 		$(MAKE) install
-		cp -a $(TARGET_DIR)/usr/share/pkgconfig/xcb-proto.pc $(TARGET_DIR)/usr/lib/
-#		$(REWRITE_LIBTOOL)/xcb-proto.a
 		$(REWRITE_PKGCONF) $(PKG_CONFIG_PATH)/xcb-proto.pc
 	$(REMOVE)/xcb-proto-$(XCBPROTO_VER)
-#	$(TOUCH)
+	$(TOUCH)
 
 #
 # libXau
@@ -580,7 +582,7 @@ LIBXCB_PATCH =
 $(ARCHIVE)/$(LIBXCB_SRC):
 	$(DOWNLOAD) $(LIBXCB_URL)/$(LIBXCB_SRC)
 
-$(D)/libxcb: $(D)/bootstrap $(ARCHIVE)/$(LIBXCB_SRC)
+$(D)/libxcb: $(D)/bootstrap $(D)/xcb-proto $(ARCHIVE)/$(LIBXCB_SRC)
 	$(START_BUILD)
 	$(REMOVE)/libxcb-$(LIBXCB_VER)
 	$(UNTAR)/$(LIBXCB_SRC)
@@ -694,7 +696,7 @@ $(D)/libgbm: $(D)/bootstrap $(ARCHIVE)/$(LIBGBM_SRC)
 		; \
 		cd build; ninja; \
 		ninja install;
-#	$(REMOVE)/libgbm
+	$(REMOVE)/libgbm
 #	$(TOUCH)
 
 #
