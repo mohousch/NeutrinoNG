@@ -587,6 +587,7 @@ $(D)/lirc: $(D)/bootstrap $(ARCHIVE)/$(LIRC_SRC)
 		$(MAKE) install DESTDIR=$(TARGET_DIR)
 	$(REWRITE_LIBTOOL)/liblirc_client.la
 	rm -f $(addprefix $(TARGET_DIR)/usr/bin/,lircmd ircat irpty irrecord irsend irw lircrcd mode2 pronto2lirc)
+	rm -rf $(TARGET_DIR)/usr/var
 	$(REMOVE)/lirc-$(LIRC_VER)
 	$(TOUCH)
 

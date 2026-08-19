@@ -298,7 +298,6 @@ $(D)/libX11: $(D)/bootstrap $(D)/xorgproto $(D)/util-macros $(D)/xtrans $(D)/lib
 	$(UNTAR)/$(LIBX11_SRC)
 	$(CHDIR)/libX11-$(LIBX11_VER); \
 		$(call apply_patches, $(LIBX11_PATCH)); \
-		export PKG_CONFIG_PATH=$(PKG_CONFIG_PATH); \
 		$(CONFIGURE) \
 			--build=$(BUILD) \
 			--host=$(TARGET) \
@@ -307,7 +306,7 @@ $(D)/libX11: $(D)/bootstrap $(D)/xorgproto $(D)/util-macros $(D)/xtrans $(D)/lib
 			--disable-loadable-xcursor \
 			--enable-xthreads \
 			--disable-xcms \
-			--enable-xlocale \
+			--disable-xlocale \
 			--disable-xlocaledir \
 			--enable-xkb \
 			--with-keysymdefdir=$(TARGET_DIR)/usr/include/X11 \
@@ -600,7 +599,7 @@ $(D)/libxcb: $(D)/bootstrap $(D)/xcb-proto $(ARCHIVE)/$(LIBXCB_SRC)
 			PKG_CONFIG="${PKG_CONFIG} --define-variable=xcbincludedir=${TARGET_DIR}/usr/share/xcb" \
 		; \
 		$(MAKE) all; \
-		$(MAKE) install
+		$(MAKE) install DESTDIR=$(TARGET_DIR)
 		$(REWRITE_LIBTOOL)/libxcb.la
 		$(REWRITE_PKGCONF) $(PKG_CONFIG_PATH)/xcb.pc
 	$(REMOVE)/libxcb-$(LIBXCB_VER)
