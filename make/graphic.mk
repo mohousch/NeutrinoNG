@@ -144,75 +144,6 @@ $(D)/libdrm: $(D)/bootstrap $(D)/libpciaccess $(ARCHIVE)/$(LIBDRM_SRC)
 	$(TOUCH)
 	
 #
-# libX11
-#
-LIBX11_VER = 1.8.13
-LIBX11_SRC = libX11-$(LIBX11_VER).tar.gz
-LIBX11_URL = https://xorg.freedesktop.org/archive/individual/lib
-
-LIBX11_PATCH = 0001-disable-nls-tests.patch
-
-$(ARCHIVE)/$(LIBX11_SRC):
-	$(DOWNLOAD) $(LIBX11_URL)/$(LIBX11_SRC)
-	
-$(D)/libX11: $(D)/bootstrap $(D)/xproto $(ARCHIVE)/$(LIBX11_SRC)
-	$(START_BUILD)
-	$(REMOVE)/libX11-$(LIBX11_VER)
-	$(UNTAR)/$(LIBX11_SRC)
-	$(CHDIR)/libX11-$(LIBX11_VER); \
-		$(call apply_patches, $(LIBX11_PATCH)); \
-		$(CONFIGURE) \
-			--prefix=/usr \
-			--disable-loadable-i18n \
-			--disable-loadable-xcursor \
-			--enable-xthreads \
-			--disable-xcms \
-			--enable-xlocale \
-			--disable-xlocaledir \
-			--enable-xkb \
-			--with-keysymdefdir=$(TARGET_DIR)/usr/include/X11 \
-			--disable-xf86bigfont \
-			--enable-malloc0returnsnull \
-			--disable-specs \
-			--without-xmlto \
-			--without-fop \
-			--enable-composecache \
-			--disable-lint-library \
-			--disable-ipv6 \
-			--without-launchd \
-			--without-lint \
-		; \
-		$(MAKE);
-	
-#	$(TOUCH)
-
-#
-# xproto
-#
-XPROTO_VER = 2025.1
-XPROTO_SRC = xorgproto-$(XPROTO_VER).tar.xz
-XPROTO_URL = https://xorg.freedesktop.org/archive/individual/proto
-
-XPROTO_PATCH =
-
-$(ARCHIVE)/$(XPROTO_SRC):
-	$(DOWNLOAD) $(XPROTO_URL)/$(XPROTO_SRC)
-	
-$(D)/xproto: $(D)/bootstrap $(ARCHIVE)/$(XPROTO_SRC)
-	$(START_BUILD)
-	$(REMOVE)/xorgproto-$(XPROTO_VER)
-	$(UNTAR)/$(XPROTO_SRC)
-	$(CHDIR)/xorgproto-$(XPROTO_VER); \
-		$(call apply_patches, $(XPROTO_PATCH)); \
-		$(CONFIGURE) \
-			--prefix=/usr \
-		; \
-		$(MAKE); \
-		$(MAKE) install DESTDIR=$(TARGET_DIR)
-	$(REMOVE)/xorgproto-$(XPROTO_VER)
-	$(TOUCH)
-	
-#
 # glvnd
 #
 GLVND_VER = 1.7.0
@@ -296,11 +227,11 @@ $(D)/freeglut: $(D)/bootstrap $(ARCHIVE)/$(FREEGLUT_SRC) $(D)/glu
 			-DCMAKE_C_COMPILER=$(TARGET)-gcc \
 			-DCMAKE_CXX_COMPILER=$(TARGET)-g++ \
 			-DFREEGLUT_BUILD_DEMOS=OFF \
-#			-DFREEGLUT_WAYLAND=OFF \
-#			-DFREEGLUT_GLES=OFF \
-#			-DFREEGLUT_X11=OFF \
-#			-DFREEGLUT_BUILD_SHARED_LIBS=ON \
-#			-DFREEGLUT_BUILD_STATIC_LIBS=ON \
+			-DFREEGLUT_WAYLAND=OFF \
+			-DFREEGLUT_GLES=OFF \
+			-DFREEGLUT_X11=ON \
+			-DFREEGLUT_BUILD_SHARED_LIBS=ON \
+			-DFREEGLUT_BUILD_STATIC_LIBS=ON \
 		; \
 		$(MAKE); \
 		$(MAKE) install DESTDIR=$(TARGET_DIR)
@@ -350,9 +281,91 @@ $(D)/mesa: $(D)/bootstrap $(ARCHIVE)/$(MESA_SRC) $(D)/libxml2 $(D)/libarchive $(
 #	$(TOUCH)
 
 #
-# libxfont
+# libX11
 #
-#https://xorg.freedesktop.org/archive/individual/lib/libXfont2-2.0.9.tar.xz
+LIBX11_VER = 1.8.13
+LIBX11_SRC = libX11-$(LIBX11_VER).tar.gz
+LIBX11_URL = https://xorg.freedesktop.org/archive/individual/lib
+
+LIBX11_PATCH = 0001-disable-nls-tests.patch
+
+$(ARCHIVE)/$(LIBX11_SRC):
+	$(DOWNLOAD) $(LIBX11_URL)/$(LIBX11_SRC)
+	
+$(D)/libX11: $(D)/bootstrap $(ARCHIVE)/$(LIBX11_SRC)
+	$(START_BUILD)
+	$(REMOVE)/libX11-$(LIBX11_VER)
+	$(UNTAR)/$(LIBX11_SRC)
+	$(CHDIR)/libX11-$(LIBX11_VER); \
+		$(call apply_patches, $(LIBX11_PATCH)); \
+		export PKG_CONFIG_PATH=$(PKG_CONFIG_PATH); \
+		$(CONFIGURE) \
+			--build=$(BUILD) \
+			--host=$(TARGET) \
+			--prefix=/usr \
+			--disable-loadable-i18n \
+			--disable-loadable-xcursor \
+			--enable-xthreads \
+			--disable-xcms \
+			--enable-xlocale \
+			--disable-xlocaledir \
+			--enable-xkb \
+			--with-keysymdefdir=$(TARGET_DIR)/usr/include/X11 \
+			--disable-xf86bigfont \
+			--enable-malloc0returnsnull \
+			--disable-specs \
+			--without-xmlto \
+			--without-fop \
+			--enable-composecache \
+			--disable-lint-library \
+			--disable-ipv6 \
+			--without-launchd \
+			--without-lint \
+		; \
+		$(MAKE); \
+		$(MAKE) install DESTDIR=$(TARGET_DIR)
+		$(REWRITE_LIBTOOL)/libX11.a
+		$(REWRITE_PKGCONF) $(PKG_CONFIG_PATH)/libX11.pc
+	$(REMOVE)/libX11-$(LIBX11__VER)
+#	$(TOUCH)
+
+#
+# xproto
+#
+XPROTO_VER = 2025.1
+XPROTO_SRC = xorgproto-$(XPROTO_VER).tar.xz
+XPROTO_URL = https://xorg.freedesktop.org/archive/individual/proto
+
+XPROTO_PATCH =
+
+$(ARCHIVE)/$(XPROTO_SRC):
+	$(DOWNLOAD) $(XPROTO_URL)/$(XPROTO_SRC)
+	
+$(D)/xproto: $(D)/bootstrap $(ARCHIVE)/$(XPROTO_SRC)
+	$(START_BUILD)
+	$(REMOVE)/xorgproto-$(XPROTO_VER)
+	$(UNTAR)/$(XPROTO_SRC)
+	$(CHDIR)/xorgproto-$(XPROTO_VER); \
+		$(call apply_patches, $(XPROTO_PATCH)); \
+		export PKG_CONFIG_PATH=$(PKG_CONFIG_PATH); \
+		$(CONFIGURE) \
+			--build=$(BUILD) \
+			--host=$(TARGET) \
+			--prefix=$(TARGET_DIR)/usr \
+			--enable-legacy \
+			PKG_CONFIG_PATH=$(PKG_CONFIG_PATH) \
+		; \
+		$(MAKE); \
+		$(MAKE) install
+		cp -a $(TARGET_DIR)/usr/share/pkgconfig/*.pc $(TARGET_DIR)/usr/lib/
+		$(REWRITE_LIBTOOL)/xproto.a
+		$(REWRITE_PKGCONF) $(PKG_CONFIG_PATH)/xproto.pc
+	$(REMOVE)/xorgproto-$(XPROTO_VER)
+	$(TOUCH)
+
+#
+# libXfont2
+#
 XFONT2_VER = 2.0.9
 XFONT2_SRC = libXfont2-$(XFONT2_VER).tar.xz
 XFONT2_URL = https://xorg.freedesktop.org/archive/individual/lib
@@ -362,14 +375,12 @@ XFONT2_PATCH =
 $(ARCHIVE)/$(XFONT2_SRC):
 	$(DOWNLOAD) $(XFONT2_URL)/$(XFONT2_SRC)
 	
-$(D)/xfont2: $(D)/bootstrap $(D)/xmacros $(ARCHIVE)/$(XFONT2_SRC)
+$(D)/libXfont2: $(D)/bootstrap $(D)/xmacros $(ARCHIVE)/$(XFONT2_SRC)
 	$(START_BUILD)
 	$(REMOVE)/libXfont2-$(XFONT2_VER)
 	$(UNTAR)/$(XFONT2_SRC)
 	$(CHDIR)/libXfont2-$(XFONT2_VER); \
 		$(call apply_patches, $(XFONT2_PATCH)); \
-		$(BUILDENV); \
-		autoreconf -fi; \
 		$(CONFIGURE) \
 			--build=$(BUILD) \
 			--host=$(TARGET) \
@@ -396,21 +407,176 @@ $(D)/xmacros: $(D)/bootstrap $(ARCHIVE)/$(XMACROS_SRC)
 	$(UNTAR)/$(XMACROS_SRC)
 	$(CHDIR)/util-macros-$(XMACROS_VER); \
 		$(call apply_patches, $(XMACROS_PATCH)); \
-		$(BUILDENV); \
-		autoreconf -fi; \
 		$(CONFIGURE) \
-			--prefix=$(HOST_DIR) \
+			--prefix=$(TARGET_DIR)/usr \
 		; \
 		$(MAKE) all; \
 		$(MAKE) install
 	$(REMOVE)/util-macros-$(XMACROS_VER)
 	$(TOUCH)
+	
+#
+# libXinerama
+#
+LIBXINERAMA_VER = 1.1.6
+LIBXINERAMA_SRC = libXinerama-$(LIBXINERAMA_VER).tar.xz
+LIBXINERAMA_URL = https://xorg.freedesktop.org/archive/individual/lib
+
+LIBXINERAMA_PATCH = 
+
+$(ARCHIVE)/$(LIBXINERAMA_SRC):
+	$(DOWNLOAD) $(LIBXINERAMA_URL)/$(LIBXINERAMA_SRC)
+
+$(D)/libXinerama: $(D)/bootstrap $(ARCHIVE)/$(LIBXINERAMA_SRC)
+	$(START_BUILD)
+	$(REMOVE)/libXinerama-$(LIBXINERAMA_VER)
+	$(UNTAR)/$(LIBXINERAMA_SRC)
+	$(CHDIR)/libXinerama-$(LIBXINERAMA_VER); \
+		$(call apply_patches, $(LIBXINERAMA_PATCH)); \
+		$(CONFIGURE) \
+			--prefix=/usr \
+		; \
+		$(MAKE) all; \
+		$(MAKE) install DESTDIR=$(TARGET_DIR)
+#	$(REMOVE)/libXinerama-$(LIBXINERAMA_VER)
+#	$(TOUCH)
+
+#
+# xtrans
+#
+XTRANS_VER = 1.6.0
+XTRANS_SRC = xtrans-$(XTRANS_VER).tar.xz
+XTRANS_URL = https://xorg.freedesktop.org/archive/individual/lib
+
+XTRANS_PATCH = 
+
+$(ARCHIVE)/$(XTRANS_SRC):
+	$(DOWNLOAD) $(XTRANS_URL)/$(XTRANS_SRC)
+
+$(D)/xtrans: $(D)/bootstrap $(ARCHIVE)/$(XTRANS_SRC)
+	$(START_BUILD)
+	$(REMOVE)/xtrans-$(XTRANS_VER)
+	$(UNTAR)/$(XTRANS_SRC)
+	$(CHDIR)/xtrans-$(XTRANS_VER); \
+		$(call apply_patches, $(XTRANS_PATCH)); \
+		export PKG_CONFIG_PATH=$(PKG_CONFIG_PATH); \
+		$(CONFIGURE) \
+			--build=$(BUILD) \
+			--host=$(TARGET) \
+			--prefix=$(TARGET_DIR)/usr \
+			--without-xmlto \
+			PKG_CONFIG_PATH=$(PKG_CONFIG_PATH) \
+		; \
+		$(MAKE) all; \
+		$(MAKE) install
+		cp -a $(TARGET_DIR)/usr/share/pkgconfig/xtrans.pc $(TARGET_DIR)/usr/lib/
+	$(REMOVE)/xtrans-$(XTRANS_VER)
+#	$(TOUCH)
+
+#
+# xcb-proto
+#
+XCBPROTO_VER = 1.17.0
+XCBPROTO_SRC = xcb-proto-$(XCBPROTO_VER).tar.xz
+XCBPROTO_URL = https://xorg.freedesktop.org/archive/individual/proto
+
+XCBPROTO_PATCH = 
+
+$(ARCHIVE)/$(XCBPROTO_SRC):
+	$(DOWNLOAD) $(XCBPROTO_URL)/$(XCBPROTO_SRC)
+
+$(D)/xcb-proto: $(D)/bootstrap $(ARCHIVE)/$(XCBPROTO_SRC)
+	$(START_BUILD)
+	$(REMOVE)/xcb-proto-$(XCBPROTO_VER)
+	$(UNTAR)/$(XCBPROTO_SRC)
+	$(CHDIR)/xcb-proto-$(XCBPROTO_VER); \
+		$(call apply_patches, $(XCBPROTO_PATCH)); \
+		export PKG_CONFIG_PATH=$(PKG_CONFIG_PATH); \
+		$(CONFIGURE) \
+			--build=$(BUILD) \
+			--host=$(TARGET) \
+			--prefix=$(TARGET_DIR)/usr \
+			PKG_CONFIG_PATH=$(PKG_CONFIG_PATH) \
+		; \
+		$(MAKE) all; \
+		$(MAKE) install
+		cp -a $(TARGET_DIR)/usr/share/pkgconfig/xcb-proto.pc $(TARGET_DIR)/usr/lib/
+#		$(REWRITE_LIBTOOL)/xcb-proto.a
+		$(REWRITE_PKGCONF) $(PKG_CONFIG_PATH)/xcb-proto.pc
+	$(REMOVE)/xcb-proto-$(XCBPROTO_VER)
+#	$(TOUCH)
+
+#
+# libXau
+#
+LIBXAU_VER = 1.0.12
+LIBXAU_SRC = libXau-$(LIBXAU_VER).tar.xz
+LIBXAU_URL = https://xorg.freedesktop.org/archive/individual/lib
+
+LIBXAU_PATCH = 
+
+$(ARCHIVE)/$(LIBXAU_SRC):
+	$(DOWNLOAD) $(LIBXAU_URL)/$(LIBXAU_SRC)
+
+$(D)/libXau: $(D)/bootstrap $(ARCHIVE)/$(LIBXAU_SRC)
+	$(START_BUILD)
+	$(REMOVE)/libXau-$(LIBXAU_VER)
+	$(UNTAR)/$(LIBXAU_SRC)
+	$(CHDIR)/libXau-$(LIBXAU_VER); \
+		$(call apply_patches, $(LIBXAU_PATCH)); \
+		export PKG_CONFIG_PATH=$(PKG_CONFIG_PATH); \
+		$(CONFIGURE) \
+			--build=$(BUILD) \
+			--host=$(TARGET) \
+			--prefix=/usr \
+			PKG_CONFIG_PATH=$(PKG_CONFIG_PATH) \
+		; \
+		$(MAKE) all; \
+		$(MAKE) install DESTDIR=$(TARGET_DIR)
+		$(REWRITE_LIBTOOL)/libXau.la
+		$(REWRITE_PKGCONF) $(PKG_CONFIG_PATH)/xau.pc
+	$(REMOVE)/libXau-$(LIBXAU_VER)
+#	$(TOUCH)
+
+#
+# libxcb
+#
+LIBXCB_VER = 1.17.0
+LIBXCB_SRC = libxcb-$(LIBXCB_VER).tar.xz
+LIBXCB_URL = https://xorg.freedesktop.org/archive/individual/lib
+
+LIBXCB_PATCH = 
+
+$(ARCHIVE)/$(LIBXCB_SRC):
+	$(DOWNLOAD) $(LIBXCB_URL)/$(LIBXCB_SRC)
+
+$(D)/libxcb: $(D)/bootstrap $(ARCHIVE)/$(LIBXCB_SRC)
+	$(START_BUILD)
+	$(REMOVE)/libxcb-$(LIBXCB_VER)
+	$(UNTAR)/$(LIBXCB_SRC)
+	$(CHDIR)/libxcb-$(LIBXCB_VER); \
+		$(call apply_patches, $(LIBXCB_PATCH)); \
+		export PKG_CONFIG_PATH=$(PKG_CONFIG_PATH); \
+		$(CONFIGURE) \
+			--build=$(BUILD) \
+			--host=$(TARGET) \
+			--prefix=$(TARGET_DIR)/usr \
+			--disable-screensaver \
+			--disable-xprint \
+			--disable-selinux \
+			--disable-xvmc \
+			PKG_CONFIG_PATH=$(PKG_CONFIG_PATH) \
+		; \
+		$(MAKE) all; \
+		$(MAKE) install
+		$(REWRITE_LIBTOOL)/libxcb.la
+		$(REWRITE_PKGCONF) $(PKG_CONFIG_PATH)/libxcb.pc
+	$(REMOVE)/libxcb-$(LIBXCB_VER)
+#	$(TOUCH)
 
 #
 # tinyX
 #
-#https://github.com/idunham/tinyxserver.git
-#https://github.com/tinycorelinux/tinyx.git
 TINYX_VER = 
 TINYX_SRC = tinyx.git
 TINYX_URL = https://github.com/tinycorelinux/tinyx.git
@@ -425,26 +591,53 @@ $(ARCHIVE)/$(TINYX_SRC):
 		cd $(ARCHIVE); git clone $(TINYX_URL) $(TINYX_SRC); \
 	fi
 
-$(D)/tinyX: $(D)/bootstrap $(D)/xfont2 $(ARCHIVE)/$(TINYX_SRC)
+$(D)/tinyX: $(D)/bootstrap $(ARCHIVE)/$(TINYX_SRC)
 	$(START_BUILD)
 	$(REMOVE)/tinyx
 	cp -ra $(ARCHIVE)/$(TINYX_SRC) $(BUILD_TMP)/tinyx
 	$(CHDIR)/tinyx; \
 		$(call apply_patches, $(TINYX_PATCH)); \
-		$(BUILDENV) \
-		autoreconf -fi; \
 		$(CONFIGURE) \
 			--prefix=/usr \
 		; \
 		$(MAKE) all; \
 		$(MAKE) install DESTDIR=$(TARGET_DIR)
-#	$(REMOVE)/tinyx
+	$(REMOVE)/tinyx
+#	$(TOUCH)
+
+#
+# tinyxserver
+#
+TINYXSERVER_VER = 
+TINYXSERVER_SRC = tinyxserver.git
+TINYXSERVER_URL = https://github.com/idunham/tinyxserver.git
+
+TINYXSERVER_PATCH = 
+
+$(ARCHIVE)/$(TINYXSERVER_SRC):
+	set -e; 
+	if [ -d $(ARCHIVE)/$(TINYXSERVER_SRC) ]; then \
+		cd $(ARCHIVE)/$(TINYXSERVER_SRC); git pull; \
+	else \
+		cd $(ARCHIVE); git clone $(TINYXSERVER_URL) $(TINYXSERVER_SRC); \
+	fi
+
+$(D)/tinyxserver: $(D)/bootstrap $(ARCHIVE)/$(TINYXSERVER_SRC)
+	$(START_BUILD)
+	$(REMOVE)/tinyxserver
+	cp -ra $(ARCHIVE)/$(TINYXSERVER_SRC) $(BUILD_TMP)/tinyxserver
+	$(CHDIR)/tinyxserver; \
+		$(call apply_patches, $(TINYXSERVER_PATCH)); \
+		$(BUILDENV) \
+		; \
+		$(MAKE) all; \
+		$(MAKE) install DESTDIR=$(TARGET_DIR)
+#	$(REMOVE)/tinyxserver
 #	$(TOUCH)
 
 #
 # libgbm
 #
-#https://github.com/glfs-book/libgbm.git
 LIBGBM_VER = 
 LIBGBM_SRC = libgbm.git
 LIBGBM_URL = https://github.com/glfs-book/libgbm.git
