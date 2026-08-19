@@ -292,7 +292,7 @@ LIBX11_PATCH = 0001-disable-nls-tests.patch
 $(ARCHIVE)/$(LIBX11_SRC):
 	$(DOWNLOAD) $(LIBX11_URL)/$(LIBX11_SRC)
 	
-$(D)/libX11: $(D)/bootstrap $(ARCHIVE)/$(LIBX11_SRC)
+$(D)/libX11: $(D)/bootstrap $(D)/xorgproto $(D)/util-macros $(D)/xtrans $(D)/libXau $(D)/libxcb $(ARCHIVE)/$(LIBX11_SRC)
 	$(START_BUILD)
 	$(REMOVE)/libX11-$(LIBX11_VER)
 	$(UNTAR)/$(LIBX11_SRC)
@@ -321,16 +321,17 @@ $(D)/libX11: $(D)/bootstrap $(ARCHIVE)/$(LIBX11_SRC)
 			--disable-ipv6 \
 			--without-launchd \
 			--without-lint \
+			--without-perl \
 		; \
 		$(MAKE); \
 		$(MAKE) install DESTDIR=$(TARGET_DIR)
 		$(REWRITE_LIBTOOL)/libX11.a
 		$(REWRITE_PKGCONF) $(PKG_CONFIG_PATH)/libX11.pc
 	$(REMOVE)/libX11-$(LIBX11__VER)
-#	$(TOUCH)
+	$(TOUCH)
 
 #
-# xproto
+# xorgproto
 #
 XPROTO_VER = 2025.1
 XPROTO_SRC = xorgproto-$(XPROTO_VER).tar.xz
@@ -341,7 +342,7 @@ XPROTO_PATCH =
 $(ARCHIVE)/$(XPROTO_SRC):
 	$(DOWNLOAD) $(XPROTO_URL)/$(XPROTO_SRC)
 	
-$(D)/xproto: $(D)/bootstrap $(ARCHIVE)/$(XPROTO_SRC)
+$(D)/xorgproto: $(D)/bootstrap $(ARCHIVE)/$(XPROTO_SRC)
 	$(START_BUILD)
 	$(REMOVE)/xorgproto-$(XPROTO_VER)
 	$(UNTAR)/$(XPROTO_SRC)
@@ -358,7 +359,6 @@ $(D)/xproto: $(D)/bootstrap $(ARCHIVE)/$(XPROTO_SRC)
 		$(MAKE); \
 		$(MAKE) install
 		cp -a $(TARGET_DIR)/usr/share/pkgconfig/*.pc $(TARGET_DIR)/usr/lib/
-		$(REWRITE_LIBTOOL)/xproto.a
 		$(REWRITE_PKGCONF) $(PKG_CONFIG_PATH)/xproto.pc
 	$(REMOVE)/xorgproto-$(XPROTO_VER)
 	$(TOUCH)
@@ -375,7 +375,7 @@ XFONT2_PATCH =
 $(ARCHIVE)/$(XFONT2_SRC):
 	$(DOWNLOAD) $(XFONT2_URL)/$(XFONT2_SRC)
 	
-$(D)/libXfont2: $(D)/bootstrap $(D)/xmacros $(ARCHIVE)/$(XFONT2_SRC)
+$(D)/libXfont2: $(D)/bootstrap $(D)/util-macros $(ARCHIVE)/$(XFONT2_SRC)
 	$(START_BUILD)
 	$(REMOVE)/libXfont2-$(XFONT2_VER)
 	$(UNTAR)/$(XFONT2_SRC)
@@ -393,7 +393,7 @@ $(D)/libXfont2: $(D)/bootstrap $(D)/xmacros $(ARCHIVE)/$(XFONT2_SRC)
 #	$(TOUCH)
 
 #
-# xorg macros
+# util-macros
 #
 XMACROS_VER = 1.20.2
 XMACROS_SRC = util-macros-$(XMACROS_VER).tar.xz
@@ -402,18 +402,48 @@ XMACROS_URL = https://xorg.freedesktop.org/archive/individual/util
 $(ARCHIVE)/$(XMACROS_SRC):
 	$(DOWNLOAD) $(XMACROS_URL)/$(XMACROS_SRC)
 	
-$(D)/xmacros: $(D)/bootstrap $(ARCHIVE)/$(XMACROS_SRC)
+$(D)/util-macros: $(D)/bootstrap $(ARCHIVE)/$(XMACROS_SRC)
 	$(REMOVE)/util-macros-$(XMACROS_VER)
 	$(UNTAR)/$(XMACROS_SRC)
 	$(CHDIR)/util-macros-$(XMACROS_VER); \
 		$(call apply_patches, $(XMACROS_PATCH)); \
 		$(CONFIGURE) \
+			--build=$(BUILD) \
+			--host=$(TARGET) \
 			--prefix=$(TARGET_DIR)/usr \
 		; \
 		$(MAKE) all; \
 		$(MAKE) install
 	$(REMOVE)/util-macros-$(XMACROS_VER)
 	$(TOUCH)
+	
+#
+# libXext
+#
+LIBXEXT_VER = 1.3.7
+LIBXEXT_SRC = libXext-$(LIBXEXT_VER).tar.xz
+LIBXEXT_URL = https://xorg.freedesktop.org/archive/individual/lib
+
+LIBXEXT_PATCH = 
+
+$(ARCHIVE)/$(LIBXEXT_SRC):
+	$(DOWNLOAD) $(LIBXEXT_URL)/$(LIBXEXT_SRC)
+
+$(D)/libXext: $(D)/bootstrap $(ARCHIVE)/$(LIBXEXT_SRC)
+	$(START_BUILD)
+	$(REMOVE)/libXext-$(LIBXEXT_VER)
+	$(UNTAR)/$(LIBXEXT_SRC)
+	$(CHDIR)/libXext-$(LIBXEXT_VER); \
+		$(call apply_patches, $(LIBXEXT_PATCH)); \
+		$(CONFIGURE) \
+			--prefix=/usr \
+			--enable-malloc0returnsnull \
+			--without-xmlto \
+		; \
+		$(MAKE) all; \
+		$(MAKE) install DESTDIR=$(TARGET_DIR)
+	$(REMOVE)/libXext-$(LIBXEXT_VER)
+#	$(TOUCH)
 	
 #
 # libXinerama
@@ -471,7 +501,7 @@ $(D)/xtrans: $(D)/bootstrap $(ARCHIVE)/$(XTRANS_SRC)
 		$(MAKE) install
 		cp -a $(TARGET_DIR)/usr/share/pkgconfig/xtrans.pc $(TARGET_DIR)/usr/lib/
 	$(REMOVE)/xtrans-$(XTRANS_VER)
-#	$(TOUCH)
+	$(TOUCH)
 
 #
 # xcb-proto
@@ -536,7 +566,7 @@ $(D)/libXau: $(D)/bootstrap $(ARCHIVE)/$(LIBXAU_SRC)
 		$(REWRITE_LIBTOOL)/libXau.la
 		$(REWRITE_PKGCONF) $(PKG_CONFIG_PATH)/xau.pc
 	$(REMOVE)/libXau-$(LIBXAU_VER)
-#	$(TOUCH)
+	$(TOUCH)
 
 #
 # libxcb
@@ -565,14 +595,14 @@ $(D)/libxcb: $(D)/bootstrap $(ARCHIVE)/$(LIBXCB_SRC)
 			--disable-xprint \
 			--disable-selinux \
 			--disable-xvmc \
-			PKG_CONFIG_PATH=$(PKG_CONFIG_PATH) \
+			PKG_CONFIG="${PKG_CONFIG} --define-variable=xcbincludedir=${TARGET_DIR}/usr/share/xcb" \
 		; \
 		$(MAKE) all; \
 		$(MAKE) install
 		$(REWRITE_LIBTOOL)/libxcb.la
-		$(REWRITE_PKGCONF) $(PKG_CONFIG_PATH)/libxcb.pc
+		$(REWRITE_PKGCONF) $(PKG_CONFIG_PATH)/xcb.pc
 	$(REMOVE)/libxcb-$(LIBXCB_VER)
-#	$(TOUCH)
+	$(TOUCH)
 
 #
 # tinyX
