@@ -550,6 +550,7 @@ endif
 
 LIRC_OPTS = --with-kerneldir=$(KERNEL_DIR) \
 			--enable-uinput \
+			--enable-devinput \
 			--without-x \
 			--with-devdir=/dev \
 			--with-moduledir=/lib/modules \
@@ -557,7 +558,8 @@ LIRC_OPTS = --with-kerneldir=$(KERNEL_DIR) \
 			--with-driver=userspace \
 			--enable-debug \
 			--with-syslog=LOG_DAEMON \
-			--enable-sandboxed
+			--enable-sandboxed \
+			DEVINPUT_HEADER=$(CROSS_DIR)/$(TARGET)/sys-root/usr/include/linux/input.h
 
 $(ARCHIVE)/$(LIRC_SRC):
 	$(DOWNLOAD) $(LIRC_URL)/$(LIRC_SRC)
