@@ -97,7 +97,7 @@ crosstool-menuconfig: $(D)/directories $(ARCHIVE)/$(CROSSTOOL_NG_SRC)
 #
 # linux-menuconfig
 #
-linux-menuconfig: $(D)/kernel.do_prepare
+kernel-menuconfig: $(D)/kernel.do_prepare
 	set -e; cd $(KERNEL_DIR); \
 		$(MAKE) menuconfig
 		
