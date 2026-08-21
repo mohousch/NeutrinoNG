@@ -7,7 +7,7 @@
 
 BOXARCH = x86_64
 MACHINE_OPTS = --enable-lirc --enable-no-av-decoder --enable-libao
-MACHINE_DEPS = $(D)/lirc $(D)/nano $(D)/htop $(D)/mc $(D)/openssh
+MACHINE_DEPS = $(D)/lirc $(D)/libao $(D)/nano $(D)/htop $(D)/mc $(D)/openssh
 #MACHINE_OPTS += --enable-directfb
 #MACHINE_OPTS += --enable-sdl
 #MACHINE_OPTS += --enable-opengl
