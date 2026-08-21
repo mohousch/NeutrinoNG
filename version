@@ -1,4 +1,4 @@
 BS_NAME := NeutrinoNG
-BS_CYCLE := 2.6
+BS_CYCLE := 2.7
 BS_TYPE := 1
 BS_ALIAS := Numidia
