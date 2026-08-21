@@ -749,3 +749,46 @@ $(D)/sdl2: $(D)/bootstrap $(ARCHIVE)/$(SDL2_SRC)
 	$(REMOVE)/SDL2-$(SDL2_VER)
 #	$(TOUCH)
 
+#
+# sdl
+#
+SDL_VER = 1.2.15
+SDL_SRC = SDL-$(SDL_VER).tar.gz
+SDL_URL = http://www.libsdl.org/release
+
+SDL_PATCH = \
+	0001-Fix-compilation-with-libX11-1.5.99.902.patch \
+	0002-SDL_x11yuv.c-fix-possible-use-after-free.patch \
+	0003-Xext-Fix-function-declarations-without-a-prototype.patch \
+	0004-src-stdlib-SDL_iconv.c-fix-types-mismatch.patch
+
+$(ARCHIVE)/$(SDL_SRC):
+	$(DOWNLOAD) $(SDL_URL)/$(SDL_SRC)
+	
+$(D)/sdl: $(D)/bootstrap $(ARCHIVE)/$(SDL_SRC)
+	$(START_BUILD)
+	$(REMOVE)/SDL-$(SDL_VER)
+	$(UNTAR)/$(SDL_SRC)
+	$(CHDIR)/SDL-$(SDL_VER); \
+		$(call apply_patches, $(SDL_PATCH)); \
+#		$(BUILDENV); \
+#		autoreconf -fi; \
+		$(CONFIGURE) \
+			--prefix=/usr \
+			--enable-video-qtopia=no \
+			--enable-video-directfb=no \
+			--enable-video-fbcon=yes \
+			--enable-video-fbcon=no \
+			--enable-video-x11=no \
+			--disable-rpath \
+			--enable-pulseaudio=no \
+			--disable-arts \
+			--disable-esd \
+			--disable-nasm \
+			--disable-video-ps3 \
+		; \
+		$(MAKE) CFLAGS="$(TARGET_CFLAGS)"; \
+		$(MAKE) install DESTDIR=$(TARGET_DIR)
+	$(REMOVE)/SDL-$(SDL_VER)
+#	$(TOUCH)
+
