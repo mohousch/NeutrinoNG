@@ -582,6 +582,7 @@ $(D)/lirc: $(D)/bootstrap $(ARCHIVE)/$(LIRC_SRC)
 			--prefix=/usr \
 			--sbindir=/usr/bin \
 			--mandir=/.remove \
+			--sysconfdir=/etc \
 			$(LIRC_OPTS) \
 		; \
 		$(MAKE) all; \
