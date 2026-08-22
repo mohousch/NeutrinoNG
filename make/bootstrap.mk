@@ -608,8 +608,6 @@ ifeq ($(BOXARCH), x86_64)
 	cd $(TARGET_DIR)/usr && ln -sf lib lib64
 endif
 	install -d $(TARGET_DIR)/usr/lib/pkgconfig
-	install -d $(TARGET_DIR)/usr/include/linux
-	install -d $(TARGET_DIR)/usr/include/linux/dvb
 	install -d $(TARGET_DIR)/var/{lib,run}
 	install -d $(TARGET_DIR)/var/lib/{misc,nfs,opkg}
 	install -d $(TARGET_DIR)/var/bin
