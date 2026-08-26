@@ -37,6 +37,14 @@ ifeq ($(BOXARCH), $(filter $(BOXARCH), mips sh4))
 FFMPEG_CONF_OPTS  += --cpu=generic
 endif
 
+ifeq ($(BOXARCH), x86_64)
+FFMPEG_CONF_OPTS += \
+	--enable-libdrm \
+	--enable-libx264 --enable-libx265 \
+	--enable-vaapi \
+	--enable-v4l2-m2m
+endif
+
 FFMPEG_EXTRA_CFLAGS  = -I$(TARGET_INCLUDE_DIR)/libxml2
 
 $(ARCHIVE)/$(FFMPEG_SRC):
