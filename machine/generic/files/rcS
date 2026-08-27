@@ -91,8 +91,9 @@ if [ -e /etc/init.d/rcS.local ]; then
 fi
 
 # rcS.gui
-if [ -e /etc/init.d/rcS.gui ]; then
-	/etc/init.d/rcS.gui
-fi
+#if [ -e /etc/init.d/rcS.gui ]; then
+#	/etc/init.d/rcS.gui
+#fi
 
+exec /usr/bin/neutrino2 2>/dev/null > log.txt
 

@@ -140,6 +140,7 @@ $(D)/libdrm: $(D)/bootstrap $(D)/libpciaccess $(ARCHIVE)/$(LIBDRM_SRC)
 		; \
 		cd build; ninja; \
 		ninja install;
+		$(REWRITE_PKGCONF) $(PKG_CONFIG_PATH)/libdrm.pc
 	$(REMOVE)/libdrm-$(LIBDRM_VER)
 	$(TOUCH)
 	
@@ -671,7 +672,8 @@ $(D)/tinyxserver: $(D)/bootstrap $(ARCHIVE)/$(TINYXSERVER_SRC)
 #
 LIBGBM_VER = 
 LIBGBM_SRC = libgbm.git
-LIBGBM_URL = https://github.com/glfs-book/libgbm.git
+#LIBGBM_URL = https://github.com/glfs-book/libgbm.git
+LIBGBM_URL = https://github.com/thayama/libgbm.git
 
 LIBGBM_PATCH =
 
@@ -689,12 +691,13 @@ $(D)/libgbm: $(D)/bootstrap $(ARCHIVE)/$(LIBGBM_SRC)
 	cp -ra $(ARCHIVE)/$(LIBGBM_SRC) $(BUILD_TMP)/libgbm
 	$(CHDIR)/libgbm; \
 		$(call apply_patches, $(LIBGBM_PATCH)); \
-		meson setup build \
+		$(CONFIGURE) \
 			--prefix=/usr \
-			--buildtype=release \
 		; \
-		cd build; ninja; \
-		ninja install;
+		$(MAKE); \
+		$(MAKE) install DESTDIR=$(TARGET_DIR);
+		$(REWRITE_LIBTOOL)/libgbm.la
+		$(REWRITE_PKGCONF) $(PKG_CONFIG_PATH)/libgbm.pc
 	$(REMOVE)/libgbm
 #	$(TOUCH)
 

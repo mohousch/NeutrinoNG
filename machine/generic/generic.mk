@@ -7,21 +7,31 @@
 
 BOXARCH = x86_64
 MACHINE_OPTS = --enable-lirc --enable-no-av-decoder --enable-libao
-MACHINE_DEPS = $(D)/lirc $(D)/libao $(D)/nano $(D)/htop $(D)/mc $(D)/openssh
+MACHINE_DEPS = $(D)/lirc $(D)/libao $(D)/nano $(D)/htop $(D)/mc
+
 MACHINE_OPTS += --enable-directfb
-#MACHINE_OPTS += --enable-sdl
+MACHINE_DEPS += $(D)/directfb
+
+#MACHINE_OPTS += --enable-libdrm
+#MACHINE_DEPS += $(D)/libdrm $(D)/libgbm
+
 #MACHINE_OPTS += --enable-opengl
-#MACHINE_DEPS += $(D)/tinyX $(D)/glvnd $(D)/glew $(D)/glu $(D)/libao
+#MACHINE_DEPS += $(D)/tinyX $(D)/glvnd $(D)/glew $(D)/glu
 
 #
 # kernel
 #
 KERNEL_VER             = 6.12.47
 KERNEL_SRC 	       = linux-$(KERNEL_VER).tar.xz
-KERNEL_URL	       = https://cdn.kernel.org/pub/linux/kernel/v6.x
+KERNEL_URL	       = https://cdn.kernel.org/pub/linux/kernel/v7.x
 KERNEL_CONFIG          = defconfig
 KERNEL_DIR             = $(BUILD_TMP)/linux-$(KERNEL_VER)
 KERNEL_IMAGE           = bzImage
+
+KERNEL_PATCHES = \
+	0062-imon-pad-ignore-diagonal.patch \
+	9900-i915-10bit-hack.patch \
+	9901-pm-disable-async-suspend-resume-by-default.patch
 			
 $(ARCHIVE)/$(KERNEL_SRC):
 	$(DOWNLOAD) $(KERNEL_URL)/$(KERNEL_SRC)

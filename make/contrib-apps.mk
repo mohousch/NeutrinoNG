@@ -1936,6 +1936,7 @@ $(D)/nano: $(D)/bootstrap $(D)/ncurses $(ARCHIVE)/$(NANO_SRC)
 		; \
 		$(MAKE); \
 		$(MAKE) install DESTDIR=$(TARGET_DIR)
+		ln -sf $(TARGET)-nano $(TARGET_DIR)/usr/bin/nano
 	$(REMOVE)/nano-$(NANO_VER)
 	$(TOUCH)
 

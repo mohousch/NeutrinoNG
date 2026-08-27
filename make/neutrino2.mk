@@ -105,7 +105,7 @@ endif
 
 NEUTRINO2_PATCHES =
 
-$(D)/neutrino2.do_prepare: $(NEUTRINO2_DEPS)
+$(D)/neutrino2.do_prepare: $(NEUTRINO2_DEPS) $(MACHINE_DEPS)
 	$(START_BUILD)
 	rm -rf $(SOURCE_DIR)/neutrino2
 	[ -d "$(ARCHIVE)/neutrino2.git" ] && \
@@ -215,7 +215,9 @@ ifeq ($(BOXARCH), sh4)
 	install -m 0755 $(SKEL_ROOT)/etc/init.d/rcS.neutrino2 $(PKGPREFIX)/var/etc/init.d/rcS.gui
 else
 	install -d $(PKGPREFIX)/etc/init.d
+ifneq ($(BOXARCH), x86_64)
 	install -m 0755 $(SKEL_ROOT)/etc/init.d/rcS.neutrino2 $(PKGPREFIX)/etc/init.d/rcS.gui
+endif
 endif
 	pushd $(PKGPREFIX) && tar --numeric-owner --group=0 --owner=0 -czf $(PKGS_DIR)/$@/data.tar.gz ./* && popd
 	install -d $(BUILD_TMP)/neutrino2/control
