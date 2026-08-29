@@ -215,9 +215,7 @@ ifeq ($(BOXARCH), sh4)
 	install -m 0755 $(SKEL_ROOT)/etc/init.d/rcS.neutrino2 $(PKGPREFIX)/var/etc/init.d/rcS.gui
 else
 	install -d $(PKGPREFIX)/etc/init.d
-ifneq ($(BOXARCH), x86_64)
 	install -m 0755 $(SKEL_ROOT)/etc/init.d/rcS.neutrino2 $(PKGPREFIX)/etc/init.d/rcS.gui
-endif
 endif
 	pushd $(PKGPREFIX) && tar --numeric-owner --group=0 --owner=0 -czf $(PKGS_DIR)/$@/data.tar.gz ./* && popd
 	install -d $(BUILD_TMP)/neutrino2/control
@@ -302,10 +300,15 @@ release-neutrino2: $(RELEASE_DEPS) $(D)/neutrino2 $(D)/neutrino2-plugins release
 	cp -aR $(TARGET_DIR)/usr/share/tuxbox/neutrino2 $(RELEASE_DIR)/usr/share/tuxbox
 	cp -aR $(TARGET_DIR)/var/tuxbox/* $(RELEASE_DIR)/var/tuxbox
 	[ -e $(RELEASE_DIR)/var/tuxbox/control/audioplayer.end ] && rm -rf $(RELEASE_DIR)/var/tuxbox/control || true
+ifneq ($(BOXARCH), x86_64)
 	install -m 0755 $(SKEL_ROOT)/etc/init.d/rcS.neutrino2 $(RELEASE_DIR)/etc/init.d/rcS.gui
+endif	
 #
 # delete unnecessary files
 #
+ifeq ($(BOXARCH), x86_64)
+	rm -rf $(RELEASE_DIR)/var/tuxbox/config/skins
+endif
 	rm -rf $(RELEASE_DIR)/var/tuxbox/config/zapit/services.xml
 	rm -rf $(RELEASE_DIR)/var/tuxbox/config/zapit/bouquets.xml
 	rm -rf $(RELEASE_DIR)/var/tuxbox/config/zapit/ubouquets.xml

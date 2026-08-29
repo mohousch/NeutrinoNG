@@ -140,6 +140,7 @@ $(D)/libdrm: $(D)/bootstrap $(D)/libpciaccess $(ARCHIVE)/$(LIBDRM_SRC)
 		; \
 		cd build; ninja; \
 		ninja install;
+#		$(REWRITE_LIBTOOL)/libdrm.la
 		$(REWRITE_PKGCONF) $(PKG_CONFIG_PATH)/libdrm.pc
 	$(REMOVE)/libdrm-$(LIBDRM_VER)
 	$(TOUCH)

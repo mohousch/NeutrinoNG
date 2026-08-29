@@ -52,10 +52,27 @@ endif
 	rm -rf $(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)/boot.img
 	rm -rf $(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)/grub.img
 	#
+	cp -a $(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)/disk.img $(IMAGE_DIR)/
+	#
 	echo $(BS_NAME)_$(BS_CYCLE)_$(BOXTYPE)_$(shell date '+%d.%m.%Y-%H.%M') > $(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)/imageversion
 	cd $(IMAGE_BUILD_DIR) && \
 	zip -r $(IMAGE_DIR)/$(BS_NAME)_$(BS_CYCLE)_$(BOXTYPE)_$(shell date '+%d.%m.%Y-%H.%M').zip $(FLASHIMAGE_PREFIX)*
 	# cleanup
 	rm -rf $(IMAGE_BUILD_DIR)
 
+#
+# run-qemu
+#
+run-qemu:
+	qemu-system-x86_64 \
+	-M pc \
+	-m 1024 \
+	-bios /usr/share/OVMF/OVMF_CODE.fd \
+	-drive file=$(IMAGE_DIR)/disk.img,if=virtio,format=raw \
+	-net nic,model=virtio \
+	-net user \
+	-vga virtio \
+	-display gtk,gl=on \
+	-device virtio-tablet \
+	-device virtio-keyboard
 

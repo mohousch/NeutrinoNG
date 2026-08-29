@@ -9,11 +9,11 @@ BOXARCH = x86_64
 MACHINE_OPTS = --enable-lirc --enable-no-av-decoder --enable-libao
 MACHINE_DEPS = $(D)/lirc $(D)/libao $(D)/nano $(D)/htop $(D)/mc
 
-MACHINE_OPTS += --enable-directfb
-MACHINE_DEPS += $(D)/directfb
+#MACHINE_OPTS += --enable-directfb
+#MACHINE_DEPS += $(D)/directfb
 
 #MACHINE_OPTS += --enable-libdrm
-#MACHINE_DEPS += $(D)/libdrm $(D)/libgbm
+#MACHINE_DEPS += $(D)/libdrm
 
 #MACHINE_OPTS += --enable-opengl
 #MACHINE_DEPS += $(D)/tinyX $(D)/glvnd $(D)/glew $(D)/glu

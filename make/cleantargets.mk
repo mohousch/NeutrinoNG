@@ -55,6 +55,19 @@ kernel-clean:
 	-$(MAKE) -C $(KERNEL_DIR) clean
 	rm -f $(D)/kernel
 	rm -f $(D)/kernel.do_compile
+	rm -f $(TARGET_DIR)/boot/*
+ifeq ($(BOXARCH), x86_64)
+	rm -f $(TARGET_DIR)/usr/lib/pkgconfig/libcrypto.pc
+	rm -f $(D)/openssl
+endif
+
+#
+# kernel-distclean
+#
+kernel-distclean:
+	-$(MAKE) -C $(KERNEL_DIR) clean
+	rm -f $(D)/kernel
+	rm -f $(D)/kernel.do_compile
 	rm -f $(D)/kernel.do_prepare
 	rm -f $(TARGET_DIR)/boot/*
 ifeq ($(BOXARCH), x86_64)
