@@ -29,7 +29,7 @@ mknod /dev/lirc0 c 244 0
 chmod 660 /dev/lirc0
 
 # mdev
-mkdir .p /proc/sys/kernel
+mkdir -p /proc/sys/kernel
 echo "[rcS] starting mdev"
 echo /sbin/mdev >/proc/sys/kernel/hotplug
 mdev -s

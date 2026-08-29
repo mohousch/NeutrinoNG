@@ -75,4 +75,18 @@ run-qemu:
 	-display gtk,gl=on \
 	-device virtio-tablet \
 	-device virtio-keyboard
+	
+#
+#
+#
+run-qemu-bios:
+	qemu-system-x86_64 \
+	-M pc \
+	-drive file=$(IMAGE_DIR)/disk.img,if=virtio,format=raw \
+	-net nic,model=virtio \
+	-net user \
+	-vga virtio \
+	-display gtk,gl=on \
+	-device virtio-tablet \
+	-device virtio-keyboard
 
