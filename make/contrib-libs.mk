@@ -45,17 +45,11 @@ $(D)/ncurses: $(D)/bootstrap $(ARCHIVE)/$(NCURSES_SRC)
 			HOSTLDFLAGS="$(LDFLAGS)"; \
 		$(MAKE) install.libs DESTDIR=$(TARGET_DIR)
 	mv $(TARGET_DIR)/usr/bin/ncurses6-config $(HOST_DIR)/bin
-ifneq ($(BOXARCH), x86_64)
-	rm -f $(addprefix $(TARGET_LIB_DIR)/,libform* libmenu* libpanel*)
-	rm -f $(addprefix $(PKG_CONFIG_PATH)/,form.pc menu.pc panel.pc)
-endif
 	$(REWRITE_PKGCONF) $(HOST_DIR)/bin/ncurses6-config
 	$(REWRITE_PKGCONF) $(PKG_CONFIG_PATH)/ncurses.pc
-ifeq ($(BOXARCH), x86_64)
 	$(REWRITE_PKGCONF) $(PKG_CONFIG_PATH)/form.pc
 	$(REWRITE_PKGCONF) $(PKG_CONFIG_PATH)/menu.pc
 	$(REWRITE_PKGCONF) $(PKG_CONFIG_PATH)/panel.pc
-endif
 	$(REMOVE)/ncurses-$(NCURSES_VER)
 	$(TOUCH)
 
@@ -557,6 +551,8 @@ endif
 
 ifeq ($(BOXARCH), x86_64)
 LIRC_OPTS = \
+	--runstatedir=/var/run \
+	--with-lockdir=/var/lock \
 	--with-kerneldir=$(KERNEL_DIR) \
 	--enable-uinput \
 	--enable-devinput \
@@ -583,8 +579,6 @@ $(D)/lirc: $(D)/bootstrap $(ARCHIVE)/$(LIRC_SRC)
 			--host=$(TARGET) \
 			--prefix=/usr \
 			--sbindir=/usr/bin \
-			--runstatedir=/var/run \
-			--with-lockdir=/var/lock \
 			--mandir=/.remove \
 			--sysconfdir=/etc \
 			--localstatedir=/var \
@@ -1984,6 +1978,7 @@ ALSA_UTILS_URL = ftp://ftp.alsa-project.org/pub/utils
 
 ifneq ($(BOXARCH), x86_64)
 ALSA_UTILS_CONF_OPTS = \
+	--disable-amixer \
 	--disable-alsatest \
 	--disable-alsaconf \
 	--disable-alsaloop
@@ -1992,7 +1987,7 @@ endif
 $(ARCHIVE)/$(ALSA_UTILS_SRC):
 	$(DOWNLOAD) $(ALSA_UTILS_URL)/$(ALSA_UTILS_SRC)
 
-$(D)/alsa_utils: $(D)/bootstrap $(D)/alsa_lib $(ARCHIVE)/$(ALSA_UTILS_SRC)
+$(D)/alsa_utils: $(D)/bootstrap $(D)/alsa_lib $(D)/ncurses $(ARCHIVE)/$(ALSA_UTILS_SRC)
 	$(START_BUILD)
 	$(REMOVE)/alsa-utils-$(ALSA_UTILS_VER)
 	$(UNTAR)/$(ALSA_UTILS_SRC)
