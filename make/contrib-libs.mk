@@ -584,6 +584,7 @@ $(D)/lirc: $(D)/bootstrap $(ARCHIVE)/$(LIRC_SRC)
 			--prefix=/usr \
 			--sbindir=/usr/bin \
 			--runstatedir=/var/run \
+			--with-lockdir=/var/lock \
 			--mandir=/.remove \
 			--sysconfdir=/etc \
 			--localstatedir=/var \

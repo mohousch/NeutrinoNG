@@ -307,7 +307,7 @@ endif
 # delete unnecessary files
 #
 ifeq ($(BOXARCH), x86_64)
-	rm -rf $(RELEASE_DIR)/var/tuxbox/config/skins
+	rm -rf $(addprefix $(RELEASE_DIR)/var/tuxbox/config/skins/, ice elgato KravenHD MetrixHD titan neutrino2) 
 endif
 	rm -rf $(RELEASE_DIR)/var/tuxbox/config/zapit/services.xml
 	rm -rf $(RELEASE_DIR)/var/tuxbox/config/zapit/bouquets.xml
