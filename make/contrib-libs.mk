@@ -45,10 +45,17 @@ $(D)/ncurses: $(D)/bootstrap $(ARCHIVE)/$(NCURSES_SRC)
 			HOSTLDFLAGS="$(LDFLAGS)"; \
 		$(MAKE) install.libs DESTDIR=$(TARGET_DIR)
 	mv $(TARGET_DIR)/usr/bin/ncurses6-config $(HOST_DIR)/bin
+ifneq ($(BOXARCH), x86_64)
 	rm -f $(addprefix $(TARGET_LIB_DIR)/,libform* libmenu* libpanel*)
 	rm -f $(addprefix $(PKG_CONFIG_PATH)/,form.pc menu.pc panel.pc)
+endif
 	$(REWRITE_PKGCONF) $(HOST_DIR)/bin/ncurses6-config
 	$(REWRITE_PKGCONF) $(PKG_CONFIG_PATH)/ncurses.pc
+ifeq ($(BOXARCH), x86_64)
+	$(REWRITE_PKGCONF) $(PKG_CONFIG_PATH)/form.pc
+	$(REWRITE_PKGCONF) $(PKG_CONFIG_PATH)/menu.pc
+	$(REWRITE_PKGCONF) $(PKG_CONFIG_PATH)/panel.pc
+endif
 	$(REMOVE)/ncurses-$(NCURSES_VER)
 	$(TOUCH)
 
@@ -549,7 +556,6 @@ LIRC_PATCH = lirc-$(LIRC_VER).patch
 endif
 
 LIRC_OPTS = --with-kerneldir=$(KERNEL_DIR) \
-			--enable-uinput \
 			--enable-devinput \
 			--without-x \
 			--with-devdir=/dev \
@@ -581,15 +587,19 @@ $(D)/lirc: $(D)/bootstrap $(ARCHIVE)/$(LIRC_SRC)
 			--host=$(TARGET) \
 			--prefix=/usr \
 			--sbindir=/usr/bin \
+			--runstatedir=/var \
 			--mandir=/.remove \
 			--sysconfdir=/etc \
+			--localstatedir=/var \
 			$(LIRC_OPTS) \
 		; \
 		$(MAKE) all; \
 		$(MAKE) install DESTDIR=$(TARGET_DIR)
 	$(REWRITE_LIBTOOL)/liblirc_client.la
+ifneq ($(BOXARCH), x86_64)	
 	rm -f $(addprefix $(TARGET_DIR)/usr/bin/,lircmd ircat irpty irrecord irsend irw lircrcd mode2 pronto2lirc)
 	rm -rf $(TARGET_DIR)/usr/var
+endif	
 	$(REMOVE)/lirc-$(LIRC_VER)
 	$(TOUCH)
 
@@ -1967,6 +1977,13 @@ ALSA_UTILS_VER = 1.1.7
 ALSA_UTILS_SRC = alsa-utils-$(ALSA_UTILS_VER).tar.bz2
 ALSA_UTILS_URL = ftp://ftp.alsa-project.org/pub/utils
 
+ifneq ($(BOXARCH), x86_64)
+ALSA_UTILS_CONF_OPTS = \
+	--disable-alsatest \
+	--disable-alsaconf \
+	--disable-alsaloop
+endif
+
 $(ARCHIVE)/$(ALSA_UTILS_SRC):
 	$(DOWNLOAD) $(ALSA_UTILS_URL)/$(ALSA_UTILS_SRC)
 
@@ -1983,10 +2000,7 @@ $(D)/alsa_utils: $(D)/bootstrap $(D)/alsa_lib $(ARCHIVE)/$(ALSA_UTILS_SRC)
 			--with-curses=ncurses \
 			--disable-bat \
 			--disable-nls \
-			--disable-alsatest \
-			--disable-alsaconf \
-			--disable-alsaloop \
-			--disable-alsamixer \
+			$(ALSA_UTILS_CONF_OPTS) \
 			--disable-xmlto \
 			--disable-rst2man \
 		; \
@@ -1996,8 +2010,10 @@ $(D)/alsa_utils: $(D)/bootstrap $(D)/alsa_lib $(ARCHIVE)/$(ALSA_UTILS_SRC)
 	install -m 755 $(SKEL_ROOT)/etc/init.d/amixer $(TARGET_DIR)/etc/init.d/amixer
 	install -m 644 $(SKEL_ROOT)/etc/amixer.conf $(TARGET_DIR)/etc/amixer.conf
 	install -m 644 $(SKEL_ROOT)/etc/asound.conf $(TARGET_DIR)/etc/asound.conf
+ifneq ($(BOXARCH), x86_64)	
 	rm -f $(addprefix $(TARGET_DIR)/usr/bin/,aserver)
 	rm -f $(addprefix $(TARGET_DIR)/usr/sbin/,alsa-info.sh)
+endif
 	$(TOUCH)
 
 #

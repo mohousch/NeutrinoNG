@@ -248,6 +248,10 @@ endif
 	rm -f $(RELEASE_DIR)/usr/lib/*.{a,o,la}
 	chmod 755 $(RELEASE_DIR)/usr/lib/*
 #
+# var/lib
+#
+	cp -R $(TARGET_DIR)/var/lib/* $(RELEASE_DIR)/var/lib/
+#
 # gstreamer
 #
 ifeq ($(BOXARCH), $(filter $(BOXARCH), arm mips))
@@ -472,25 +476,13 @@ release: release-common release-$(BOXTYPE)
 	rm -rf $(RELEASE_DIR)/var/tuxbox/config/zapit/services.xml
 	rm -rf $(RELEASE_DIR)/var/tuxbox/config/zapit/bouquets.xml
 	rm -rf $(RELEASE_DIR)/var/tuxbox/config/zapit/ubouquets.xml
-ifeq ($(BOXARCH), sh4)
 	[ -e $(RELEASE_DIR)/usr/bin/neutrino2 ] && rm -rf $(RELEASE_DIR)/usr/bin/neutrino2 || true
 	[ -d $(RELEASE_DIR)/var/tuxbox/locale/de/LC_MESSAGES/neutrino2.mo ] && rm -rf $(RELEASE_DIR)/var/tuxbox/locale || true
 	[ -e $(RELEASE_DIR)/usr/bin/neutrino ] && rm -rf $(RELEASE_DIR)/usr/bin/neutrino || true
-	[ -e $(RELEASE_DIR)/usr/bin/enigma2 ] && rm -rf $(RELEASE_DIR)/usr/bin/enigma2 || true
-	[ -e $(RELEASE_DIR)/usr/bin/titan ] && rm -rf $(RELEASE_DIR)/usr/bin/titan || true
-	[ -e $(RELEASE_DIR)/usr/bin/amixer ] && rm -rf $(RELEASE_DIR)/usr/bin/amixer || true
-	[ -e $(RELEASE_DIR)/usr/bin/eplayer3 ] && rm -rf $(RELEASE_DIR)/usr/bin/eplayer3 || true
-	[ -e $(RELEASE_DIR)/usr/bin/exteplayer3 ] && rm -rf $(RELEASE_DIR)/usr/bin/exteplayer3 || true
+ifeq ($(BOXARCH), sh4)
 	[ -e $(RELEASE_DIR)/usr/bin/satip_client ] && rm -rf $(RELEASE_DIR)/usr/bin/satip* || true
-	[ -e $(RELEASE_DIR)/sbin/sfdisk ] && rm -rf $(RELEASE_DIR)/sbin/sfdisk || true
-	rm -rf $(RELEASE_DIR)/usr/lib/locale
-	rm -rf $(RELEASE_DIR)/usr/share/zoneinfo
-	[ -e $(RELEASE_DIR)/usr/lib/libipkg.so ] && rm -rf $(RELEASE_DIR)/usr/lib/libipkg* || true
-	[ -e $(RELEASE_DIR)/usr/bin/ipkg-cl ] && rm -rf $(RELEASE_DIR)/usr/bin/ipkg* || true
 	[ -e $(RELEASE_DIR)/usr/lib/libarchive.so ] && rm -rf $(RELEASE_DIR)/usr/lib/libarchive* || true
 	[ -e $(RELEASE_DIR)/usr/lib/libdbus-1.so ] && rm -rf $(RELEASE_DIR)/usr/lib/libdbus-1* || true
-	[ -e $(RELEASE_DIR)/usr/lib/libeplayer3.so ] && rm -rf $(RELEASE_DIR)/usr/lib/libeplayer3* || true
-	[ -e $(RELEASE_DIR)/usr/lib/libexteplayer3.so ] && rm -rf $(RELEASE_DIR)/usr/lib/libexteplayer3* || true
 	[ -e $(RELEASE_DIR)/usr/lib/libglib-2.0.so ] && rm -rf $(RELEASE_DIR)/usr/lib/libglib-2.0* || true
 	[ -e $(RELEASE_DIR)/usr/lib/libgmodule-2.0.so ] && rm -rf $(RELEASE_DIR)/usr/lib/libgmodule-2.0* || true
 	[ -e $(RELEASE_DIR)/usr/lib/libgobject-2.0.so ] && rm -rf $(RELEASE_DIR)/usr/lib/libgobject-2.0* || true
