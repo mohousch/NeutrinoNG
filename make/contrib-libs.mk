@@ -555,17 +555,13 @@ ifeq ($(BOXARCH), sh4)
 LIRC_PATCH = lirc-$(LIRC_VER).patch
 endif
 
-LIRC_OPTS = --with-kerneldir=$(KERNEL_DIR) \
-			--enable-devinput \
-			--without-x \
-			--with-devdir=/dev \
-			--with-moduledir=/lib/modules \
-			--with-major=61 \
-			--with-driver=userspace \
-			--enable-debug \
-			--with-syslog=LOG_DAEMON \
-			--enable-sandboxed \
-			DEVINPUT_HEADER=$(CROSS_DIR)/$(TARGET)/sys-root/usr/include/linux/input.h
+ifeq ($(BOXARCH), x86_64)
+LIRC_OPTS = \
+	--with-kerneldir=$(KERNEL_DIR) \
+	--enable-uinput \
+	--enable-devinput \
+	DEVINPUT_HEADER=$(CROSS_DIR)/$(TARGET)/sys-root/usr/include/linux/input.h
+endif			
 
 $(ARCHIVE)/$(LIRC_SRC):
 	$(DOWNLOAD) $(LIRC_URL)/$(LIRC_SRC)
@@ -587,10 +583,18 @@ $(D)/lirc: $(D)/bootstrap $(ARCHIVE)/$(LIRC_SRC)
 			--host=$(TARGET) \
 			--prefix=/usr \
 			--sbindir=/usr/bin \
-			--runstatedir=/var \
+			--runstatedir=/var/run \
 			--mandir=/.remove \
 			--sysconfdir=/etc \
 			--localstatedir=/var \
+			--without-x \
+			--with-devdir=/dev \
+			--with-moduledir=/lib/modules \
+			--with-major=61 \
+			--with-driver=userspace \
+			--enable-debug \
+			--with-syslog=LOG_DAEMON \
+			--enable-sandboxed \
 			$(LIRC_OPTS) \
 		; \
 		$(MAKE) all; \
