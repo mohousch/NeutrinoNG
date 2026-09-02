@@ -220,6 +220,9 @@ endif
 	ln -sf ../../bin/busybox $(RELEASE_DIR)/usr/bin/ether-wake
 ifeq ($(BOXARCH), x86_64)	
 	ln -sf ../../bin/busybox $(RELEASE_DIR)/linuxrc
+	cp -f $(BASE_DIR)/machine/$(BOXTYPE)/files/autologin $(RELEASE_DIR)/bin/
+	cp -f $(BASE_DIR)/machine/$(BOXTYPE)/files/group $(RELEASE_DIR)/etc/
+	cp -f $(BASE_DIR)/machine/$(BOXTYPE)/files/passwd $(RELEASE_DIR)/etc/
 endif
 ifeq ($(LAYOUT), multiboot)
 	mv $(RELEASE_DIR)/sbin/init $(RELEASE_DIR)/sbin/init.sysvinit
