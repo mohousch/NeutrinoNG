@@ -21,6 +21,7 @@ endif
 ifeq ($(BOXARCH), sh4)
 	@touch $(D)/crosstool.do_prepare
 endif
+	rm -rf $(TUFSBOX_DIR)/make_$(BOXTYPE)*
 	@echo -e "$(TERM_YELLOW)done\n$(TERM_NORMAL)"
 
 distclean:
