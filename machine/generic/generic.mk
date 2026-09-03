@@ -6,7 +6,7 @@
 #
 
 BOXARCH = x86_64
-MACHINE_OPTS = --enable-lirc --enable-no-av-decoder --enable-libao
+MACHINE_OPTS = --enable-lirc --enable-no-av-decoder
 MACHINE_DEPS = $(D)/lirc $(D)/libao $(D)/nano $(D)/htop $(D)/mc
 
 #MACHINE_OPTS += --enable-directfb
