@@ -20,13 +20,13 @@ mkdir -p /dev/pts
 mount -t devpts devpts /dev/pts
 
 # dri
-#mkdir -p /dev/dri
-#mknod /dev/dri/card0 c 226 0
-#chmod 660 /dev/dri/card0
+mkdir -p /dev/dri
+mknod /dev/dri/card0 c 226 0
+chmod 660 /dev/dri/card0
 
 # lirc
-#mknod /dev/lirc0 c 244 0
-#chmod 660 /dev/lirc0
+mknod /dev/lirc0 c 244 0
+chmod 660 /dev/lirc0
 
 # mdev
 echo "[rcS] starting mdev"
