@@ -291,6 +291,9 @@ endif
 ifeq ($(BOXTYPE), $(filter $(BOXTYPE), bre2ze4k e4hdultra h7 h9combo hd51 protek4k))
 	@echo "LAYOUT           : $(LAYOUT)"
 endif
+ifeq ($(BOXARCH), x86_64)
+	@echo "BOOT             : $(BOOT)"
+endif
 	@echo '================================================================================'
 	@echo "Neutrino2 extra configuration:"
 	@echo "Gstreamer        :$(GSTREAMER)"
