@@ -6,7 +6,7 @@
 #
 
 BOXARCH = arm
-TARGET_MARCH_CFLAGS := -march=armv7a -mtune=cortex-a7 -mfpu=vfpv4 -mfloat-abi=hard
+TARGET_MARCH_CFLAGS := -march=armv7-a -mtune=cortex-a7 -mfpu=neon-vfpv4 -mfloat-abi=hard
 
 MACHINE_OPTS =
 MACHINE_DEPS =
@@ -19,7 +19,7 @@ KERNEL_SRC = linux-$(KERNEL_VER).tar.xz
 KERNEL_URL = https://cdn.kernel.org/pub/linux/kernel/v6.x
 KERNEL_CONFIG = defconfig
 KERNEL_DIR = $(BUILD_TMP)/linux-$(KERNEL_VER)
-KERNEL_IMAGE = bzImage
+KERNEL_IMAGE = zImage
 
 KERNEL_PATCHES =
 
@@ -48,12 +48,12 @@ endif
 $(D)/kernel.do_compile: $(D)/kernel.do_prepare
 	set -e; cd $(KERNEL_DIR); \
 		$(MAKE) -C $(KERNEL_DIR) ARCH=$(BOXARCH) oldconfig
-		$(MAKE) -C $(KERNEL_DIR) ARCH=$(BOXARCH) CROSS_COMPILE=$(TARGET)- bzImage modules
+		$(MAKE) -C $(KERNEL_DIR) ARCH=$(BOXARCH) CROSS_COMPILE=$(TARGET)- $(KERNEL_IMAGE) modules
 		$(MAKE) -C $(KERNEL_DIR) ARCH=$(BOXARCH) CROSS_COMPILE=$(TARGET)- DEPMOD=depmod INSTALL_MOD_PATH=$(TARGET_DIR) modules_install
 	@touch $@
 
 $(D)/kernel: $(D)/bootstrap $(D)/kernel.do_compile
-	install -m 644 $(KERNEL_DIR)/arch/$(BOXARCH)/boot/bzImage $(TARGET_DIR)/boot/
+	install -m 644 $(KERNEL_DIR)/arch/$(BOXARCH)/boot/$(KERNEL_IMAGE) $(TARGET_DIR)/boot/
 	install -m 644 $(KERNEL_DIR)/System.map $(TARGET_DIR)/boot/System.map-$(BOXARCH)-$(KERNEL_VER)
 	rm $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/build || true
 	rm $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/source || true
