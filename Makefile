@@ -111,7 +111,7 @@ config:
 	@echo "   150)  ustym4kpro"
 	@echo "   151)  ustym4ks2ottx"
 	@echo "  Allwinner"
-	@echo "   160)  MXQ4K"
+	@echo "   160)  MXQ4K / Orangepi pc"
 	@echo "  PC"
 	@echo -e "\033[01;32m   *)  generic\033[00m"
 	@echo ""
