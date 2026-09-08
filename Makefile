@@ -110,6 +110,8 @@ config:
 	@echo "  Uclan"
 	@echo "   150)  ustym4kpro"
 	@echo "   151)  ustym4ks2ottx"
+	@echo "  Allwinner"
+	@echo "   160)  MXQ4K"
 	@echo "  PC"
 	@echo -e "\033[01;32m   *)  generic\033[00m"
 	@echo ""
@@ -173,6 +175,7 @@ config:
 		140) BOXTYPE="protek4k";; \
 		150) BOXTYPE="ustym4kpro";; \
 		151) BOXTYPE="ustym4ks2ottx";; \
+		160) BOXTYPE="mxq4k";; \
 		*) BOXTYPE="generic";; \
 	esac; \
 	echo "BOXTYPE?=$$BOXTYPE" > .config; \
