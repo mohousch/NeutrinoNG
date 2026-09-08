@@ -358,14 +358,13 @@ $(D)/host_atools: $(D)/directories $(ARCHIVE)/$(HAT_CORE_SRC) $(ARCHIVE)/$(HAT_E
 #
 # host_python
 #
-HOST_PYTHON_VER_MAJOR = 2.7
-HOST_PYTHON_VER_MINOR = 18
+HOST_PYTHON_VER_MAJOR = 3.14
+HOST_PYTHON_VER_MINOR = 7
 HOST_PYTHON_VER = $(HOST_PYTHON_VER_MAJOR).$(HOST_PYTHON_VER_MINOR)
 HOST_PYTHON_SRC = Python-$(HOST_PYTHON_VER).tar.xz
 HOST_PYTHON_URL = https://www.python.org/ftp/python/$(HOST_PYTHON_VER)
 
-HOST_PYTHON_PATCH = python-$(HOST_PYTHON_VER).patch
-HOST_PYTHON_PATCH += python-$(HOST_PYTHON_VER)-support_64bit.patch
+HOST_PYTHON_PATCH =
 
 $(ARCHIVE)/$(HOST_PYTHON_SRC):
 	$(DOWNLOAD) $(HOST_PYTHON_URL)/$(HOST_PYTHON_SRC)
@@ -380,22 +379,21 @@ $(D)/host_python: $(D)/directories $(ARCHIVE)/$(HOST_PYTHON_SRC)
 		CONFIG_SITE= \
 		OPT="$(HOST_CFLAGS)" \
 		./configure \
-			--without-cxx-main \
-			--with-threads \
-		; \
-		$(MAKE) python Parser/pgen; \
-		mv python ./hostpython; \
-		mv Parser/pgen ./hostpgen; \
-		\
-		$(MAKE) distclean; \
-		./configure \
 			--prefix=$(HOST_DIR) \
 			--sysconfdir=$(HOST_DIR)/etc \
 			--without-cxx-main \
 			--with-threads \
+			--without-ensurepip \
+			--without-cxx-main \
+			--disable-sqlite3 \
+			--disable-tk \
+			--with-expat=system \
+			--disable-test-modules \
+			--disable-idle3 \
 		; \
-		$(MAKE) all install; \
-		cp ./hostpgen $(HOST_DIR)/bin/pgen
+		$(MAKE) all install;
+		ln -sf python3 $(HOST_DIR)/bin/python
+		ln -sf python3-config $(HOST_DIR)/bin/python-config
 	$(REMOVE)/Python-$(HOST_PYTHON_VER)
 	$(TOUCH)
 	
