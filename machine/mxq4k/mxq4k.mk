@@ -36,12 +36,33 @@ $(D)/kernel.do_prepare: $(ARCHIVE)/$(KERNEL_SRC) $(BASE_DIR)/machine/$(BOXTYPE)/
 			$(APATCH) $(BASE_DIR)/machine/$(BOXTYPE)/patches/$$i; \
 		done
 	install -m 644 $(BASE_DIR)/machine/$(BOXTYPE)/patches/$(KERNEL_CONFIG) $(KERNEL_DIR)/.config
-#ifeq ($(OPTIMIZATIONS), $(filter $(OPTIMIZATIONS), kerneldebug debug))
-#	@echo "Using kernel debug"
-#	@grep -v "CONFIG_PRINTK" "$(KERNEL_DIR)/.config" > $(KERNEL_DIR)/.config.tmp
-#	cp $(KERNEL_DIR)/.config.tmp $(KERNEL_DIR)/.config
-#	@echo "CONFIG_PRINTK=y" >> $(KERNEL_DIR)/.config
-#	@echo "CONFIG_PRINTK_TIME=y" >> $(KERNEL_DIR)/.config
-#ndif
+ifeq ($(OPTIMIZATIONS), $(filter $(OPTIMIZATIONS), kerneldebug debug))
+	@echo "Using kernel debug"
+	@grep -v "CONFIG_PRINTK" "$(KERNEL_DIR)/.config" > $(KERNEL_DIR)/.config.tmp
+	cp $(KERNEL_DIR)/.config.tmp $(KERNEL_DIR)/.config
+	@echo "CONFIG_PRINTK=y" >> $(KERNEL_DIR)/.config
+	@echo "CONFIG_PRINTK_TIME=y" >> $(KERNEL_DIR)/.config
+endif
 	@touch $@
+	
+$(D)/kernel.do_compile: $(D)/kernel.do_prepare
+	set -e; cd $(KERNEL_DIR); \
+		$(MAKE) -C $(KERNEL_DIR) ARCH=$(BOXARCH) oldconfig
+		$(MAKE) -C $(KERNEL_DIR) ARCH=$(BOXARCH) CROSS_COMPILE=$(TARGET)- bzImage modules
+		$(MAKE) -C $(KERNEL_DIR) ARCH=$(BOXARCH) CROSS_COMPILE=$(TARGET)- DEPMOD=depmod INSTALL_MOD_PATH=$(TARGET_DIR) modules_install
+	@touch $@
+
+$(D)/kernel: $(D)/bootstrap $(D)/kernel.do_compile
+	install -m 644 $(KERNEL_DIR)/arch/$(BOXARCH)/boot/bzImage $(TARGET_DIR)/boot/
+	install -m 644 $(KERNEL_DIR)/System.map $(TARGET_DIR)/boot/System.map-$(BOXARCH)-$(KERNEL_VER)
+	rm $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/build || true
+	rm $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/source || true
+	$(TOUCH)
+
+#
+# driver
+#
+driver: $(D)/driver
+$(D)/driver:
+
 
