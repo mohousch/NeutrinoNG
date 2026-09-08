@@ -82,22 +82,22 @@ BUILD                ?= $(shell /usr/share/libtool/config.guess 2>/dev/null || /
 
 ifeq ($(BOXARCH), sh4)
 TARGET               ?= sh4-linux
-TARGET_MARCH_CFLAGS   =
+TARGET_MARCH_CFLAGS   ?=
 endif
 
 ifeq ($(BOXARCH), arm)
 TARGET               ?= arm-cortex-linux-gnueabihf
-TARGET_MARCH_CFLAGS   = -march=armv7ve -mtune=cortex-a15 -mfpu=neon-vfpv4 -mfloat-abi=hard
+TARGET_MARCH_CFLAGS  ?= -march=armv7ve -mtune=cortex-a15 -mfpu=neon-vfpv4 -mfloat-abi=hard
 endif
 
 ifeq ($(BOXARCH), mips)
 TARGET		     ?= mipsel-unknown-linux-gnu
-TARGET_MARCH_CFLAGS   = -march=mips32 -mtune=mips32
+TARGET_MARCH_CFLAGS  ?= -march=mips32 -mtune=mips32
 endif
 
 ifeq ($(BOXARCH), x86_64)
 TARGET		     ?= x86_64-unknown-linux-gnu
-TARGET_MARCH_CFLAGS   = -march=x86-64
+TARGET_MARCH_CFLAGS  ?= -march=x86-64
 endif
 
 OPTIMIZATIONS        ?= size

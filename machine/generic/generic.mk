@@ -23,7 +23,7 @@ MACHINE_DEPS = $(D)/lirc $(D)/libao $(D)/nano $(D)/htop $(D)/mc
 #
 KERNEL_VER             = 6.12.47
 KERNEL_SRC 	       = linux-$(KERNEL_VER).tar.xz
-KERNEL_URL	       = https://cdn.kernel.org/pub/linux/kernel/v7.x
+KERNEL_URL	       = https://cdn.kernel.org/pub/linux/kernel/v6.x
 KERNEL_CONFIG          = defconfig
 KERNEL_DIR             = $(BUILD_TMP)/linux-$(KERNEL_VER)
 KERNEL_IMAGE           = bzImage
