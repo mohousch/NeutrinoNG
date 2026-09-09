@@ -78,7 +78,7 @@ RELEASE_DEPS += $(D)/luajson
 # gstreamer
 #
 ifeq ($(BOXARCH), $(filter $(BOXARCH), arm mips))
-ifeq ($(GSTREAMER), gstreamer)
+ifeq ($(GSTREAMER), yes)
 RELEASE_DEPS  += $(D)/gstreamer 
 RELEASE_DEPS  += $(D)/gst_plugins_base 
 RELEASE_DEPS  += $(D)/gst_plugins_good 
@@ -92,14 +92,13 @@ endif
 # graphlcd
 #
 GRAPHLCD ?= graphlcd
-ifeq ($(GRAPHLCD), graphlcd)
+ifeq ($(GRAPHLCD), yes)
 RELEASE_DEPS += $(D)/graphlcd
 endif
 #
 # lcd4linux
 #
-LCD4LINUX ?= lcd4linux
-ifeq ($(LCD4LINUX), lcd4linux)
+ifeq ($(LCD4LINUX), yes)
 RELEASE_DEPS += $(D)/lcd4linux
 endif
 #
@@ -290,7 +289,7 @@ endif
 # gstreamer
 #
 ifeq ($(BOXARCH), $(filter $(BOXARCH), arm mips))
-ifeq ($(GSTREAMER), gstreamer)
+ifeq ($(GSTREAMER), yes)
 	cp -aR $(TARGET_DIR)/usr/lib/gstreamer-1.0 $(RELEASE_DIR)/usr/lib
 	cp -aR $(TARGET_DIR)/usr/lib/gio $(RELEASE_DIR)/usr/lib
 endif

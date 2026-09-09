@@ -47,7 +47,7 @@ endif
 NEUTRINO2_CONFIG_OPTS += --enable-lua
 
 ifeq ($(BOXARCH), $(filter $(BOXARCH), arm mips))
-ifeq ($(GSTREAMER), gstreamer)
+ifeq ($(GSTREAMER), yes)
 NEUTRINO2_DEPS  += $(D)/gstreamer 
 NEUTRINO2_DEPS  += $(D)/gst_plugins_base 
 NEUTRINO2_DEPS  += $(D)/gst_plugins_good 
@@ -64,13 +64,13 @@ endif
 endif
 
 ifeq ($(BOXARCH), $(filter $(BOXARCH), arm mips))
-ifeq ($(PYTHON), python)
+ifeq ($(PYTHON), yes)
 NEUTRINO2_DEPS += $(D)/python
 NEUTRINO2_CONFIG_OPTS += --enable-python PYTHON_CPPFLAGS="-I$(TARGET_DIR)/usr/include/python2.7" PYTHON_LIBS="-L$(TARGET_DIR)/usr/lib -lpython2.7" PYTHON_SITE_PKG="$(TARGET_DIR)/usr/lib/python2.7/site-packages"
 endif
 endif
 
-ifeq ($(GRAPHLCD), graphlcd)
+ifeq ($(GRAPHLCD), yes)
 NEUTRINO2_DEPS += $(D)/graphlcd
 NEUTRINO2_CONFIG_OPTS += --enable-graphlcd
 endif

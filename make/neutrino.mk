@@ -79,12 +79,12 @@ ifeq ($(BOXARCH), arm)
 NEUTRINO_CONFIG_OPTS += --enable-reschange
 endif
 
-ifeq ($(GRAPHLCD), graphlcd)
+ifeq ($(GRAPHLCD), yes)
 NEUTRINO_DEPS += $(D)/graphlcd
 NEUTRINO_CONFIG_OPTS += --enable-graphlcd
 endif
 
-ifeq ($(LCD4LINUX), lcd4linux)
+ifeq ($(LCD4LINUX), yes)
 NEUTRINO_DEPS += $(D)/lcd4linux
 NEUTRINO_CONFIG_OPTS += --enable-lcd4linux
 endif

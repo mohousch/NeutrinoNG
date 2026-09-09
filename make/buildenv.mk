@@ -71,7 +71,7 @@ GIT_NAME             ?= mohousch
 # backwards compatibility
 DEPDIR                = $(D)
 
-SUDOCMD			= fakeroot
+SUDOCMD               = fakeroot
 MAINTAINER           ?= $(shell whoami)
 
 CCACHE                = /usr/bin/ccache

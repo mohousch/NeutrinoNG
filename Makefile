@@ -208,8 +208,8 @@ config:
 	@read -p "Select Gstreamer (1-2)?" GSTREAMER; \
 	GSTREAMER=$${GSTREAMER}; \
 	case "$$GSTREAMER" in \
-		1) echo "GSTREAMER=gstreamer" >> .config;; \
-		2|*) echo "GSTREAMER=" >> .config;; \
+		1) echo "GSTREAMER=yes" >> .config;; \
+		2|*) echo "GSTREAMER=no" >> .config;; \
 	esac;
 # python
 	@echo -e "\npython plugins support in neutrino2 (experimental and only for mipsel / arm)?:"
@@ -218,8 +218,8 @@ config:
 	@read -p "Select python support (1-2)?" PYTHON; \
 	PYTHON=$${PYTHON}; \
 	case "$$PYTHON" in \
-		1) echo "PYTHON=python" >> .config;; \
-		2|*) echo "PYTHON=" >> .config;; \
+		1) echo "PYTHON=yes" >> .config;; \
+		2|*) echo "PYTHON=no" >> .config;; \
 	esac;
 # GraphLCD
 	@echo -e "\nGraphLCD (neutrino2 / neutrino-DDT):"
@@ -228,8 +228,8 @@ config:
 	@read -p "Select  GraphLCD (1-2)?" GRAPHLCD; \
 	GRAPHLCD=$${GRAPHLCD}; \
 	case "$$GRAPHLCD" in \
-		1) echo "GRAPHLCD=graphlcd" >> .config;; \
-		2) echo "GRAPHLCD=" >> .config;; \
+		1) echo "GRAPHLCD=yes" >> .config;; \
+		2) echo "GRAPHLCD=no" >> .config;; \
 		*) echo "GRAPHLCD=graphlcd" >> .config;; \
 	esac;
 # LCD4Linux
@@ -239,8 +239,8 @@ config:
 	@read -p "Select  LCD4Linux (1-2)?" LCD4LINUX; \
 	LCD4LINUX=$${LCD4LINUX}; \
 	case "$$LCD4LINUX" in \
-		1) echo "LCD4LINUX=" >> .config;; \
-		2) echo "LCD4LINUX=lcd4linux" >> .config;; \
+		1) echo "LCD4LINUX=no" >> .config;; \
+		2) echo "LCD4LINUX=yes" >> .config;; \
 		*) echo "LCD4LINUX=" >> .config;; \
 	esac;
 # openssh
@@ -373,6 +373,12 @@ endif
 	@echo "Graphlcd         :$(GRAPHLCD)"
 	@echo "LCD4Linux        :$(LCD4LINUX)"
 	@echo
+	@echo "Optional packages:"
+	@echo "Openssh          :$(OPENSSH)"
+	@echo "Samba            :$(SAMBA)"
+	@echo "Openvpn          :$(OPENVPN)"
+	@echo "Xupnpd           :$(XUPNPD)"
+	@echo "Dropbear         :$(DROPBEAR)"
 	@echo
 	@echo '================================================================================'
 	@make --no-print-directory toolcheck
@@ -383,7 +389,6 @@ ifeq ($(MAINTAINER),)
 	@echo "##########################################################################"
 	@echo
 endif
-	@echo
 	@echo -e "\033[01;33mIf you want to create or modify the configuration, run 'make config' or 'make'\033[0m"
 	@echo
 	@echo "Your next step could be:"
