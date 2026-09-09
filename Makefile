@@ -230,7 +230,7 @@ config:
 	case "$$GRAPHLCD" in \
 		1) echo "GRAPHLCD=yes" >> .config;; \
 		2) echo "GRAPHLCD=no" >> .config;; \
-		*) echo "GRAPHLCD=graphlcd" >> .config;; \
+		*) echo "GRAPHLCD=yes" >> .config;; \
 	esac;
 # LCD4Linux
 	@echo -e "\nLCD4linux (neutrino-DDT):"
@@ -241,7 +241,7 @@ config:
 	case "$$LCD4LINUX" in \
 		1) echo "LCD4LINUX=no" >> .config;; \
 		2) echo "LCD4LINUX=yes" >> .config;; \
-		*) echo "LCD4LINUX=" >> .config;; \
+		*) echo "LCD4LINUX=no" >> .config;; \
 	esac;
 # openssh
 	@echo -e "\nOpenssh:"	
