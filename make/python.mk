@@ -1,13 +1,28 @@
 #
+# python
 #
-#
-PYTHON_VER_MAJOR = 2.7
-PYTHON_VER_MINOR = 18
+PYTHON_VER_MAJOR = 3.14
+PYTHON_VER_MINOR = 7
+PYTHON_VER = $(PYTHON_VER_MAJOR).$(PYTHON_VER_MINOR)
+PYTHON_SRC = Python-$(PYTHON_VER).tar.xz
+
+PYTHON_PATCH  = 0001-default-is-optimized.patch \
+	0002-Make-the-build-of-pyc-files-conditional.patch \
+	0003-Disable-buggy-getaddrinfo-configure-test-when-cross-.patch \
+	0004-Add-an-option-to-disable-pydoc.patch \
+	0005-Add-an-option-to-disable-IDLE.patch \
+	0006-configure.ac-move-PY-STDLIB-MOD-SET-NA-further-up.patch \
+	0007-Add-option-to-disable-the-sqlite3-module.patch \
+	0008-Add-an-option-to-disable-the-tk-module.patch \
+	0009-Add-an-option-to-disable-the-curses-module.patch \
+	0010-Add-an-option-to-disable-expat.patch \
+	0011-configure.ac-fixup-CC-print-multiarch-output-for-mus.patch \
+	0300-generate-legacy-pyc-bytecode.patch
 
 #
 # python helpers
 #
-PYTHON_DIR         = usr/lib/python$(PYTHON_VER_MAJOR)
+PYTHON_DIR = usr/lib/python$(PYTHON_VER_MAJOR)
 PYTHON_INCLUDE_DIR = usr/include/python$(PYTHON_VER_MAJOR)
 
 PYTHON_BUILD = \
@@ -27,19 +42,6 @@ PYTHON_INSTALL = \
 	PYTHONPATH=$(TARGET_DIR)/$(PYTHON_DIR)/site-packages \
 	CPPFLAGS="$(TARGET_CPPFLAGS) -I$(TARGET_DIR)/$(PYTHON_INCLUDE_DIR)" \
 	$(HOST_DIR)/bin/python ./setup.py -q install --root=$(TARGET_DIR) --prefix=/usr
-	
-#
-# python
-#
-PYTHON_VER_MAJOR = 2.7
-PYTHON_VER_MINOR = 18
-PYTHON_VER = $(PYTHON_VER_MAJOR).$(PYTHON_VER_MINOR)
-PYTHON_SRC = Python-$(PYTHON_VER).tar.xz
-
-PYTHON_PATCH  = python-$(PYTHON_VER).patch
-PYTHON_PATCH += python-$(PYTHON_VER)-xcompile.patch
-PYTHON_PATCH += python-$(PYTHON_VER)-revert_use_of_sysconfigdata.patch
-PYTHON_PATCH += python-$(PYTHON_VER)-pgettext.patch
 
 $(D)/python: $(D)/bootstrap $(D)/ncurses $(D)/zlib $(D)/openssl $(D)/libffi $(D)/bzip2 $(D)/readline $(D)/sqlite $(ARCHIVE)/$(HOST_PYTHON_SRC)
 	$(START_BUILD)
@@ -49,36 +51,53 @@ $(D)/python: $(D)/bootstrap $(D)/ncurses $(D)/zlib $(D)/openssl $(D)/libffi $(D)
 		$(call apply_patches, $(PYTHON_PATCH)); \
 		CONFIG_SITE= \
 		$(BUILDENV) \
-		autoreconf -fiv Modules/_ctypes/libffi; \
-		autoconf; \
-		./configure \
+		$(CONFIGURE) \
 			--build=$(BUILD) \
 			--host=$(TARGET) \
 			--target=$(TARGET) \
 			--prefix=/usr \
 			--mandir=/.remove \
 			--sysconfdir=/etc \
-			--enable-shared \
-			--with-lto \
-			--enable-ipv6 \
-			--with-threads \
-			--with-pymalloc \
-			--with-signal-module \
-			--with-wctype-functions \
-			ac_sys_system=Linux \
-			ac_sys_release=2 \
-			ac_cv_file__dev_ptmx=no \
-			ac_cv_file__dev_ptc=no \
-			ac_cv_have_long_long_format=yes \
-			ac_cv_no_strict_aliasing_ok=yes \
-			ac_cv_pthread=yes \
-			ac_cv_cxx_thread=yes \
-			ac_cv_sizeof_off_t=8 \
-			ac_cv_have_chflags=no \
-			ac_cv_have_lchflags=no \
-			ac_cv_py_format_size_t=yes \
-			ac_cv_broken_sem_getvalue=no \
-			HOSTPYTHON=$(HOST_DIR)/bin/python$(PYTHON_VER_MAJOR) \
+			--with-build-python \
+			ac_cv_prog_HAS_HG=/bin/false \
+                        ac_cv_prog_SVNVERSION=/bin/false \
+                        ac_cv_file__dev_ptmx=no \
+                        ac_cv_file__dev_ptc=no \
+                        ac_cv_have_long_long_format=yes \
+                        ac_cv_working_tzset=yes \
+                        ac_cv_func_lchflags_works=no \
+                        ac_cv_func_chflags_works=no \
+                        ac_cv_func_printf_zd=yes \
+                        ac_cv_buggy_getaddrinfo=no \
+                        ac_cv_header_bluetooth_bluetooth_h=no \
+                        ac_cv_header_bluetooth_h=no \
+                        py_cv_module_unicodedata=yes \
+                        py_cv_module__codecs_cn=n/a \
+                        py_cv_module__codecs_hk=n/a \
+                        py_cv_module__codecs_iso2022=n/a \
+                        py_cv_module__codecs_jp=n/a \
+                        py_cv_module__codecs_kr=n/a \
+                        py_cv_module__codecs_tw=n/a \
+                        py_cv_module__decimal=n/a \
+                        py_cv_module_nis=n/a \
+                        py_cv_module_ossaudiodev=n/a \
+                        py_cv_module__dbm=n/a \
+                        --disable-pyc-build \
+                        --enable-sqlite3 \
+                        --with-readline \
+                        --disable-tk \
+                        --enable-curses \
+                        --disable-pydoc \
+                        --disable-test-modules \
+                        --disable-idle3 \
+                        --with-expat=system \
+                        --with-doc-strings \
+                        --with-lto \
+                        --without-pymalloc \
+                        --without-ensurepip \
+                        --enable-ipv6 \
+                        --with-build-python=$(HOST_DIR)/bin/python \
+                        --enable-shared \
 		; \
 		$(MAKE) \
 			PYTHON_MODULES_INCLUDE="$(TARGET_DIR)/usr/include" \
@@ -98,7 +117,7 @@ $(D)/python: $(D)/bootstrap $(D)/ncurses $(D)/zlib $(D)/openssl $(D)/libffi $(D)
 		$(MAKE) install DESTDIR=$(TARGET_DIR)
 	ln -sf ../../libpython$(PYTHON_VER_MAJOR).so.1.0 $(TARGET_DIR)/$(PYTHON_DIR)/config/libpython$(PYTHON_VER_MAJOR).so; \
 	ln -sf $(TARGET_DIR)/$(PYTHON_INCLUDE_DIR) $(TARGET_DIR)/usr/include/python
-	$(REWRITE_PKGCONF) $(PKG_CONFIG_PATH)/python-2.7.pc
+	$(REWRITE_PKGCONF) $(PKG_CONFIG_PATH)/python-$(PYTHON_VER_MAJOR).pc
 	$(REMOVE)/Python-$(PYTHON_VER)
 	$(TOUCH)
 

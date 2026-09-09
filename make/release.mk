@@ -181,7 +181,7 @@ endif
 ifeq ($(BOXARCH), sh4)
 	install -d $(RELEASE_DIR)/var/etc
 endif
-ifeq ($(BOXARCH), x86_64)	
+ifeq ($(BOXTYPE), $(filter $(BOXTYPE), generic mxq4k))	
 	cd $(RELEASE_DIR) && ln -sf lib lib64
 	cd $(RELEASE_DIR)/usr && ln -sf lib lib64
 endif
@@ -250,7 +250,7 @@ ifeq ($(BOXARCH), sh4)
 	cp -dp $(SKEL_ROOT)/sbin/hotplug $(RELEASE_DIR)/sbin/
 endif
 	ln -sf ../../bin/busybox $(RELEASE_DIR)/usr/bin/ether-wake
-ifeq ($(BOXARCH), x86_64)	
+ifeq ($(BOXTYPE), $(filter $(BOXTYPE), generic mxq4k))	
 	ln -sf ../../bin/busybox $(RELEASE_DIR)/linuxrc
 	cp -f $(BASE_DIR)/machine/$(BOXTYPE)/files/autologin $(RELEASE_DIR)/bin/
 	cp -f $(BASE_DIR)/machine/$(BOXTYPE)/files/group $(RELEASE_DIR)/etc/

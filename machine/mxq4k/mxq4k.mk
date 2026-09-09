@@ -65,4 +65,13 @@ $(D)/kernel: $(D)/bootstrap $(D)/kernel.do_compile
 driver: $(D)/driver
 $(D)/driver:
 
+#
+# release
+#
+release-mxq4k:
+
+#
+# image
+#
+image-mxq4k:
 

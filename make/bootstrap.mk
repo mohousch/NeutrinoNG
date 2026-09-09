@@ -356,6 +356,29 @@ $(D)/host_atools: $(D)/directories $(ARCHIVE)/$(HAT_CORE_SRC) $(ARCHIVE)/$(HAT_E
 	$(TOUCH)
 	
 #
+# host_libffi
+#
+HOST_LIBFFI_VER = 3.4.2
+HOST_LIBFFI_SRC = libffi-$(HOST_LIBFFI_VER).tar.gz
+HOST_LIBFFI_URL = https://github.com/libffi/libffi/releases/download/v$(HOST_LIBFFI_VER)
+
+$(ARCHIVE)/$(HOST_LIBFFI_SRC):
+	$(DOWNLOAD) $(HOST_LIBFFI_URL)/$(HOST_LIBFFI_SRC)
+	
+$(D)/host_libffi: $(directories) $(ARCHIVE)/$(HOST_LIBFFI_SRC)
+	$(START_BUILD)
+	$(REMOVE)/libffi-$(HOST_LIBFFI_VER)
+	$(UNTAR)/$(HOST_LIBFFI_SRC)
+	$(CHDIR)/libffi-$(HOST_LIBFFI_VER); \
+		./configure \
+			--prefix=$(HOST_DIR) \
+		; \
+		$(MAKE); \
+		$(MAKE) install
+	$(REMOVE)/mtools-$(HOST_LIBFFI_VER)
+	$(TOUCH)
+	
+#
 # host_python
 #
 HOST_PYTHON_VER_MAJOR = 3.14
@@ -376,13 +399,8 @@ $(D)/host_python: $(D)/directories $(ARCHIVE)/$(HOST_PYTHON_SRC)
 	$(CHDIR)/Python-$(HOST_PYTHON_VER); \
 		$(call apply_patches, $(HOST_PYTHON_PATCH)); \
 		autoconf; \
-		CONFIG_SITE= \
-		OPT="$(HOST_CFLAGS)" \
 		./configure \
 			--prefix=$(HOST_DIR) \
-			--sysconfdir=$(HOST_DIR)/etc \
-			--without-cxx-main \
-			--with-threads \
 			--without-ensurepip \
 			--without-cxx-main \
 			--disable-sqlite3 \
@@ -390,6 +408,15 @@ $(D)/host_python: $(D)/directories $(ARCHIVE)/$(HOST_PYTHON_SRC)
 			--with-expat=system \
 			--disable-test-modules \
 			--disable-idle3 \
+			LDFLAGS="$(HOST_LDFLAGS) -Wl,--enable-new-dtags" \
+			py_cv_module_unicodedata=yes \
+			py_cv_module__codecs_cn=n/a \
+			py_cv_module__codecs_hk=n/a \
+			py_cv_module__codecs_iso2022=n/a \
+			py_cv_module__codecs_jp=n/a \
+			py_cv_module__codecs_kr=n/a \
+			py_cv_module__codecs_tw=n/a \
+			py_cv_module__uuid=n/a \
 		; \
 		$(MAKE) all install;
 		ln -sf python3 $(HOST_DIR)/bin/python
@@ -570,7 +597,7 @@ endif
 ifeq ($(BOXARCH), $(filter $(BOXARCH), arm mips x86_64))	
 BOOTSTRAP += $(D)/host_python 
 endif
-ifeq ($(BOXARCH), x86_64)
+ifeq ($(BOXTYPE), $(filter $(BOXTYPE), generic mxq4k))
 BOOTSTRAP += $(D)/host_genimage
 endif
 
@@ -601,7 +628,7 @@ $(D)/directories:
 	ln -sf ../init.d $(TARGET_DIR)/etc/rc.d/init.d
 	install -d $(TARGET_DIR)/lib/{lsb,firmware}
 	install -d $(TARGET_DIR)/usr/{bin,lib,sbin,share}
-ifeq ($(BOXARCH), x86_64)	
+ifeq ($(BOXTYPE), $(filter $(BOXTYPE), generic mxq4k))	
 	cd $(TARGET_DIR) && ln -sf lib lib64
 	cd $(TARGET_DIR)/usr && ln -sf lib lib64
 endif
