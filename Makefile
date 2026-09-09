@@ -242,7 +242,73 @@ config:
 		1) echo "LCD4LINUX=" >> .config;; \
 		2) echo "LCD4LINUX=lcd4linux" >> .config;; \
 		*) echo "LCD4LINUX=" >> .config;; \
-	esac;	
+	esac;
+# openssh
+	@echo -e "\nOpenssh:"	
+	@echo -e "   \033[01;32m1)  no\033[00m"
+	@echo "   2) yes"
+	@read -p "Select  Openssh (1-2)?" OPENSSH; \
+	OPENSSH=$${OPENSSH}; \
+	case "$$OPENSSH" in \
+		1) echo "OPENSSH=no" >> .config;; \
+		2) echo "OPENSSH=yes" >> .config;; \
+		*) echo "OPENSSH=no" >> .config;; \
+	esac;
+# openvpn
+	@echo -e "\nOpenvpn:"	
+	@echo -e "   \033[01;32m1)  no\033[00m"
+	@echo "   2) yes"
+	@read -p "Select  Openvpn (1-2)?" OPENVPN; \
+	OPENVPN=$${OPENVPN}; \
+	case "$$OPENVPN" in \
+		1) echo "OPENVPN=no" >> .config;; \
+		2) echo "OPENVPN=yes" >> .config;; \
+		*) echo "OPENVPN=no" >> .config;; \
+	esac;
+# samba
+	@echo -e "\nSamba:"	
+	@echo -e "   \033[01;32m1)  no\033[00m"
+	@echo "   2) yes"
+	@read -p "Select  Samba (1-2)?" SAMBA; \
+	SAMBA=$${SAMBA}; \
+	case "$$SAMBA" in \
+		1) echo "SAMBA=no" >> .config;; \
+		2) echo "SAMBA=yes" >> .config;; \
+		*) echo "SAMBA=no" >> .config;; \
+	esac;
+# dropbear
+	@echo -e "\nDropbear:"	
+	@echo -e "   \033[01;32m1)  no\033[00m"
+	@echo "   2) yes"
+	@read -p "Select  Dropbear (1-2)?" DROPBEAR; \
+	DROPBEAR=$${DROPBEAR}; \
+	case "$$DROPBEAR" in \
+		1) echo "DROPBEAR=no" >> .config;; \
+		2) echo "DROPBEAR=yes" >> .config;; \
+		*) echo "DROPBEAR=no" >> .config;; \
+	esac;
+# shairport
+	@echo -e "\nShairport:"	
+	@echo -e "   \033[01;32m1)  no\033[00m"
+	@echo "   2) yes"
+	@read -p "Select  Shairport (1-2)?" SHAIRPORT; \
+	SHAIRPORT=$${SHAIRPORT}; \
+	case "$$SHAIRPORT" in \
+		1) echo "SHAIRPORT=no" >> .config;; \
+		2) echo "SHAIRPORT=yes" >> .config;; \
+		*) echo "SHAIRPORT=no" >> .config;; \
+	esac;
+# xupnpd
+	@echo -e "\nXupnpd:"	
+	@echo -e "   \033[01;32m1)  no\033[00m"
+	@echo "   2) yes"
+	@read -p "Select  Xupnpd (1-2)?" XUPNPD; \
+	XUPNPD=$${XUPNPD}; \
+	case "$$XUPNPD" in \
+		1) echo "XUPNPD=no" >> .config;; \
+		2) echo "XUPNPD=yes" >> .config;; \
+		*) echo "XUPNPD=no" >> .config;; \
+	esac;
 #	
 	@echo ""
 	@make printenv

@@ -31,10 +31,6 @@ RELEASE_DEPS += $(D)/mtd_utils
 RELEASE_DEPS += $(D)/gptfdisk
 RELEASE_DEPS += $(D)/dvb-apps
 RELEASE_DEPS += $(D)/dvbsnoop
-#RELEASE_DEPS += $(D)/openvpn
-#RELEASE_DEPS += $(D)/openssh
-#RELEASE_DEPS += $(D)/dropbear
-#RELEASE_DEPS += $(D)/samba
 endif
 #
 # tools
@@ -128,6 +124,42 @@ RELEASE_DEPS += $(D)/flac
 RELEASE_DEPS += $(D)/openssl
 RELEASE_DEPS += $(D)/libass
 RELEASE_DEPS += $(D)/libdvbcsa
+#
+# openvpn
+#
+ifeq ($(OPENVPN), yes)
+RELEASE_DEPS += $(D)/openvpn
+endif
+#
+# openssh
+#
+ifeq ($(OPENSSH), yes)
+RELEASE_DEPS += $(D)/openssh
+endif
+#
+# dropbear
+#
+ifeq ($(DROPBEAR), yes)
+RELEASE_DEPS += $(D)/dropbear
+endif
+#
+# samba
+#
+ifeq ($(SAMBA), yes)
+RELEASE_DEPS += $(D)/samba
+endif
+#
+# xupnpd
+#
+ifeq ($(XUPNPD), yes)
+RELEASE_DEPS += $(D)/xupnpd
+endif
+#
+# shairport
+#
+ifeq ($(SHAIRPORT), yes)
+RELEASE_DEPS += $(D)/shairport
+endif
 
 release-common: $(RELEASE_DEPS) $(MACHINE_DEPS)
 	rm -rf $(RELEASE_DIR) || true
