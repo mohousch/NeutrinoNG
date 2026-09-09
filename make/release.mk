@@ -62,7 +62,9 @@ endif
 # python
 #
 ifeq ($(BOXARCH), $(filter $(BOXARCH), arm mips))
+ifeq ($(PYTHON), yes)
 RELEASE_DEPS += $(D)/python
+endif
 endif
 #
 # lua
@@ -305,10 +307,12 @@ endif
 # python
 #
 ifeq ($(BOXARCH), $(filter $(BOXARCH), arm mips))
+ifeq ($(PYTHON), yes)
 	install -d $(RELEASE_DIR)/$(PYTHON_DIR)
 	cp -R $(TARGET_DIR)/$(PYTHON_DIR)/* $(RELEASE_DIR)/$(PYTHON_DIR)/
 	install -d $(RELEASE_DIR)/$(PYTHON_INCLUDE_DIR)
 	cp $(TARGET_DIR)/$(PYTHON_INCLUDE_DIR)/pyconfig.h $(RELEASE_DIR)/$(PYTHON_INCLUDE_DIR)
+endif
 endif
 #
 # mc
@@ -399,6 +403,7 @@ endif
 # delete unnecessary python files
 #
 ifeq ($(BOXARCH), $(filter $(BOXARCH), arm mips))
+ifeq ($(PYTHON), yes)
 	rm -rf $(RELEASE_DIR)/$(PYTHON_DIR)/{bsddb,compiler,curses,lib-old,lib-tk,plat-linux3,test,sqlite3,pydoc_data,multiprocessing,hotshot,distutils,email,unitest,ensurepip,wsgiref,lib2to3,logging,idlelib}
 	rm -rf $(RELEASE_DIR)/$(PYTHON_DIR)/pdb.doc
 	rm -rf $(RELEASE_DIR)/$(PYTHON_DIR)/ctypes/test
@@ -443,6 +448,7 @@ ifeq ($(BOXARCH), $(filter $(BOXARCH), arm mips))
 	find $(RELEASE_DIR)/$(PYTHON_DIR)/ -name '*.py' -exec rm -f {} \;
 	find $(RELEASE_DIR)/$(PYTHON_DIR)/ -name '*.o' -exec rm -f {} \;
 	find $(RELEASE_DIR)/$(PYTHON_DIR)/ -name '*.la' -exec rm -f {} \;
+endif
 endif
 ifeq ($(BOXARCH), sh4)
 	rm -f $(RELEASE_DIR)/sbin/jfs_fsck

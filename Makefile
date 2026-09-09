@@ -202,7 +202,7 @@ config:
 		esac; \
 	fi;	
 # Gstreamer
-	@echo -e "\nGstreamer as mediaplayer for neutrino2 (only for mipsel / arm)"
+	@echo -e "\nGstreamer"
 	@echo "   1) yes"
 	@echo -e "   \033[01;32m2) no\033[00m"
 	@read -p "Select Gstreamer (1-2)?" GSTREAMER; \
@@ -212,7 +212,7 @@ config:
 		2|*) echo "GSTREAMER=no" >> .config;; \
 	esac;
 # python
-	@echo -e "\npython plugins support in neutrino2 (experimental and only for mipsel / arm)?:"
+	@echo -e "\npython:"
 	@echo "   1)  yes"
 	@echo -e "   \033[01;32m2)  no\033[00m"
 	@read -p "Select python support (1-2)?" PYTHON; \
