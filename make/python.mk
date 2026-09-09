@@ -60,44 +60,28 @@ $(D)/python: $(D)/bootstrap $(D)/ncurses $(D)/zlib $(D)/openssl $(D)/libffi $(D)
 			--sysconfdir=/etc \
 			--with-build-python \
 			ac_cv_prog_HAS_HG=/bin/false \
-                        ac_cv_prog_SVNVERSION=/bin/false \
-                        ac_cv_file__dev_ptmx=no \
-                        ac_cv_file__dev_ptc=no \
-                        ac_cv_have_long_long_format=yes \
-                        ac_cv_working_tzset=yes \
-                        ac_cv_func_lchflags_works=no \
-                        ac_cv_func_chflags_works=no \
-                        ac_cv_func_printf_zd=yes \
-                        ac_cv_buggy_getaddrinfo=no \
-                        ac_cv_header_bluetooth_bluetooth_h=no \
-                        ac_cv_header_bluetooth_h=no \
-                        py_cv_module_unicodedata=yes \
-                        py_cv_module__codecs_cn=n/a \
-                        py_cv_module__codecs_hk=n/a \
-                        py_cv_module__codecs_iso2022=n/a \
-                        py_cv_module__codecs_jp=n/a \
-                        py_cv_module__codecs_kr=n/a \
-                        py_cv_module__codecs_tw=n/a \
-                        py_cv_module__decimal=n/a \
-                        py_cv_module_nis=n/a \
-                        py_cv_module_ossaudiodev=n/a \
-                        py_cv_module__dbm=n/a \
-                        --disable-pyc-build \
-                        --enable-sqlite3 \
-                        --with-readline \
-                        --disable-tk \
-                        --enable-curses \
-                        --disable-pydoc \
-                        --disable-test-modules \
-                        --disable-idle3 \
-                        --with-expat=system \
-                        --with-doc-strings \
-                        --with-lto \
-                        --without-pymalloc \
-                        --without-ensurepip \
-                        --enable-ipv6 \
-                        --with-build-python=$(HOST_DIR)/bin/python \
-                        --enable-shared \
+			ac_cv_prog_SVNVERSION=/bin/false \
+			ac_cv_file__dev_ptmx=no \
+			ac_cv_file__dev_ptc=no \
+			ac_cv_have_long_long_format=yes \
+			ac_cv_working_tzset=yes \
+			ac_cv_func_lchflags_works=no \
+			ac_cv_func_chflags_works=no \
+			ac_cv_func_printf_zd=yes \
+			ac_cv_buggy_getaddrinfo=no \
+			ac_cv_header_bluetooth_bluetooth_h=no \
+			ac_cv_header_bluetooth_h=no \
+			py_cv_module_unicodedata=yes \
+			py_cv_module__codecs_cn=n/a \
+			py_cv_module__codecs_hk=n/a \
+			py_cv_module__codecs_iso2022=n/a \
+			py_cv_module__codecs_jp=n/a \
+			py_cv_module__codecs_kr=n/a \
+			py_cv_module__codecs_tw=n/a \
+			py_cv_module__decimal=n/a \
+			py_cv_module_nis=n/a \
+			py_cv_module_ossaudiodev=n/a \
+			py_cv_module__dbm=n/a \
 		; \
 		$(MAKE) \
 			PYTHON_MODULES_INCLUDE="$(TARGET_DIR)/usr/include" \

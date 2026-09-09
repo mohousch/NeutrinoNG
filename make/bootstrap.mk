@@ -398,7 +398,6 @@ $(D)/host_python: $(D)/directories $(ARCHIVE)/$(HOST_PYTHON_SRC)
 	$(UNTAR)/$(HOST_PYTHON_SRC)
 	$(CHDIR)/Python-$(HOST_PYTHON_VER); \
 		$(call apply_patches, $(HOST_PYTHON_PATCH)); \
-		autoconf; \
 		./configure \
 			--prefix=$(HOST_DIR) \
 			--without-ensurepip \
