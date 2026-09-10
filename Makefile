@@ -215,7 +215,7 @@ config:
 	@echo -e "\npython:"
 	@echo "   1)  python3"
 	@echo "   2)  python"
-	@echo -e "   \033[01;32m3)  none\033[00m"
+	@echo -e "   \033[01;32m3)  no\033[00m"
 	@read -p "Select python support (1-2)?" PYTHON; \
 	PYTHON=$${PYTHON}; \
 	case "$$PYTHON" in \
