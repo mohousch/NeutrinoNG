@@ -213,13 +213,15 @@ config:
 	esac;
 # python
 	@echo -e "\npython:"
-	@echo "   1)  yes"
-	@echo -e "   \033[01;32m2)  no\033[00m"
+	@echo "   1)  python3"
+	@echo "   2)  python"
+	@echo -e "   \033[01;32m3)  none\033[00m"
 	@read -p "Select python support (1-2)?" PYTHON; \
 	PYTHON=$${PYTHON}; \
 	case "$$PYTHON" in \
-		1) echo "PYTHON=yes" >> .config;; \
-		2|*) echo "PYTHON=no" >> .config;; \
+		1) echo "PYTHON=python3" >> .config;; \
+		2) echo "PYTHON=python" >> .config;; \
+		3|*) echo "PYTHON=no" >> .config;; \
 	esac;
 # GraphLCD
 	@echo -e "\nGraphLCD (neutrino2 / neutrino-DDT):"
@@ -445,6 +447,7 @@ include make/ffmpeg.mk
 include make/gstreamer.mk
 include make/root-etc.mk
 include make/python.mk
+include make/python3.mk
 include make/lua.mk
 include make/graphic.mk
 include make/tools.mk

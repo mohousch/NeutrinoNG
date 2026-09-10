@@ -381,23 +381,65 @@ $(D)/host_libffi: $(directories) $(ARCHIVE)/$(HOST_LIBFFI_SRC)
 #
 # host_python
 #
-HOST_PYTHON_VER_MAJOR = 3.14
-HOST_PYTHON_VER_MINOR = 7
+HOST_PYTHON_VER_MAJOR = 2.7
+HOST_PYTHON_VER_MINOR = 18
 HOST_PYTHON_VER = $(HOST_PYTHON_VER_MAJOR).$(HOST_PYTHON_VER_MINOR)
-HOST_PYTHON_SRC = Python-$(HOST_PYTHON_VER).tar.xz
-HOST_PYTHON_URL = https://www.python.org/ftp/python/$(HOST_PYTHON_VER)
+HOST_PYTHON_SOURCE = Python-$(HOST_PYTHON_VER).tar.xz
+HOST_PYTHON_PATCH = python-$(HOST_PYTHON_VER).patch
+HOST_PYTHON_PATCH += python-$(HOST_PYTHON_VER)-support_64bit.patch
 
-HOST_PYTHON_PATCH =
+$(ARCHIVE)/$(HOST_PYTHON_SOURCE):
+	$(DOWNLOAD) https://www.python.org/ftp/python/$(HOST_PYTHON_VER)/$(HOST_PYTHON_SOURCE)
 
-$(ARCHIVE)/$(HOST_PYTHON_SRC):
-	$(DOWNLOAD) $(HOST_PYTHON_URL)/$(HOST_PYTHON_SRC)
-
-$(D)/host_python: $(D)/directories $(ARCHIVE)/$(HOST_PYTHON_SRC)
+$(D)/host_python: $(ARCHIVE)/$(HOST_PYTHON_SOURCE)
 	$(START_BUILD)
 	$(REMOVE)/Python-$(HOST_PYTHON_VER)
-	$(UNTAR)/$(HOST_PYTHON_SRC)
+	$(UNTAR)/$(HOST_PYTHON_SOURCE)
 	$(CHDIR)/Python-$(HOST_PYTHON_VER); \
 		$(call apply_patches, $(HOST_PYTHON_PATCH)); \
+		autoconf; \
+		CONFIG_SITE= \
+		OPT="$(HOST_CFLAGS)" \
+		./configure \
+			--without-cxx-main \
+			--with-threads \
+		; \
+		$(MAKE) python Parser/pgen; \
+		mv python ./hostpython; \
+		mv Parser/pgen ./hostpgen; \
+		\
+		$(MAKE) distclean; \
+		./configure \
+			--prefix=$(HOST_DIR) \
+			--sysconfdir=$(HOST_DIR)/etc \
+			--without-cxx-main \
+			--with-threads \
+		; \
+		$(MAKE) all install; \
+		cp ./hostpgen $(HOST_DIR)/bin/pgen
+	$(REMOVE)/Python-$(HOST_PYTHON_VER)
+	$(TOUCH)
+	
+#
+# host_python3
+#
+HOST_PYTHON3_VER_MAJOR = 3.14
+HOST_PYTHON3_VER_MINOR = 7
+HOST_PYTHON3_VER = $(HOST_PYTHON3_VER_MAJOR).$(HOST_PYTHON3_VER_MINOR)
+HOST_PYTHON3_SRC = Python-$(HOST_PYTHON3_VER).tar.xz
+HOST_PYTHON3_URL = https://www.python.org/ftp/python/$(HOST_PYTHON3_VER)
+
+HOST_PYTHON3_PATCH =
+
+$(ARCHIVE)/$(HOST_PYTHON3_SRC):
+	$(DOWNLOAD) $(HOST_PYTHON3_URL)/$(HOST_PYTHON3_SRC)
+
+$(D)/host_python3: $(D)/directories $(ARCHIVE)/$(HOST_PYTHON3_SRC)
+	$(START_BUILD)
+	$(REMOVE)/Python-$(HOST_PYTHON3_VER)
+	$(UNTAR)/$(HOST_PYTHON_SRC)
+	$(CHDIR)/Python-$(HOST_PYTHON3_VER); \
+		$(call apply_patches, $(HOST_PYTHON3_PATCH)); \
 		./configure \
 			--prefix=$(HOST_DIR) \
 			--without-ensurepip \
@@ -420,7 +462,7 @@ $(D)/host_python: $(D)/directories $(ARCHIVE)/$(HOST_PYTHON_SRC)
 		$(MAKE) all install;
 		ln -sf python3 $(HOST_DIR)/bin/python
 		ln -sf python3-config $(HOST_DIR)/bin/python-config
-	$(REMOVE)/Python-$(HOST_PYTHON_VER)
+	$(REMOVE)/Python-$(HOST_PYTHON3_VER)
 	$(TOUCH)
 	
 #
@@ -593,8 +635,12 @@ endif
 ifeq ($(BOXTYPE), $(filter $(BOXTYPE), sf8008 sf8008m ustym4kpro ustym4ks2ottx gbtrio4k gbtrio4kpro gbip4k))
 BOOTSTRAP += $(D)/host_hisi3798mv200_buildimage
 endif
-ifeq ($(BOXARCH), $(filter $(BOXARCH), arm mips x86_64))	
-BOOTSTRAP += $(D)/host_python 
+ifeq ($(BOXARCH), $(filter $(BOXARCH), arm mips x86_64))
+ifeq ($(PYTHON), python3)	
+BOOTSTRAP += $(D)/host_python3
+else ifeq ($(PYTHON), python)
+BOOTSTRAP += $(D)/host_python
+endif
 endif
 ifeq ($(BOXTYPE), $(filter $(BOXTYPE), generic mxq4k))
 BOOTSTRAP += $(D)/host_genimage

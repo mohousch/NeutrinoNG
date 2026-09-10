@@ -61,8 +61,10 @@ endif
 #
 # python
 #
-ifeq ($(BOXARCH), $(filter $(BOXARCH), arm mips))
-ifeq ($(PYTHON), yes)
+ifeq ($(BOXARCH), $(filter $(BOXARCH), arm mips x86_64))
+ifeq ($(PYTHON), python3)
+RELEASE_DEPS += $(D)/python3
+else ifeq ($(PYTHON), python)
 RELEASE_DEPS += $(D)/python
 endif
 endif
@@ -307,7 +309,7 @@ endif
 # python
 #
 ifeq ($(BOXARCH), $(filter $(BOXARCH), arm mips))
-ifeq ($(PYTHON), yes)
+ifeq ($(PYTHON), $(filter $(PYTHON), python python3))
 	install -d $(RELEASE_DIR)/$(PYTHON_DIR)
 	cp -R $(TARGET_DIR)/$(PYTHON_DIR)/* $(RELEASE_DIR)/$(PYTHON_DIR)/
 	install -d $(RELEASE_DIR)/$(PYTHON_INCLUDE_DIR)
@@ -403,7 +405,7 @@ endif
 # delete unnecessary python files
 #
 ifeq ($(BOXARCH), $(filter $(BOXARCH), arm mips))
-ifeq ($(PYTHON), yes)
+ifeq ($(PYTHON), $(filter $(PYTHON), python python3))
 	rm -rf $(RELEASE_DIR)/$(PYTHON_DIR)/{bsddb,compiler,curses,lib-old,lib-tk,plat-linux3,test,sqlite3,pydoc_data,multiprocessing,hotshot,distutils,email,unitest,ensurepip,wsgiref,lib2to3,logging,idlelib}
 	rm -rf $(RELEASE_DIR)/$(PYTHON_DIR)/pdb.doc
 	rm -rf $(RELEASE_DIR)/$(PYTHON_DIR)/ctypes/test
