@@ -64,7 +64,7 @@ endif
 endif
 
 ifeq ($(BOXARCH), $(filter $(BOXARCH), arm mips))
-ifeq ($(PYTHON), yes)
+ifeq ($(PYTHON), $(filter $(PYTHON), python python3))
 NEUTRINO2_DEPS += $(D)/python
 NEUTRINO2_CONFIG_OPTS += --enable-python PYTHON_CPPFLAGS="-I$(TARGET_DIR)/usr/include/python$(PYTHON_VER_MAJOR)" PYTHON_LIBS="-L$(TARGET_DIR)/usr/lib -lpython$(PYTHON_VER_MAJOR)" PYTHON_SITE_PKG="$(TARGET_DIR)/usr/lib/python$(PYTHON_VER_MAJOR)/site-packages"
 endif

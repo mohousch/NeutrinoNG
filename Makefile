@@ -368,7 +368,6 @@ endif
 	@echo '================================================================================'
 	@echo "Neutrino2 extra configuration:"
 	@echo "Gstreamer        :$(GSTREAMER)"
-	@echo "Python           :$(PYTHON)"
 	@echo "Graphlcd         :$(GRAPHLCD)"
 	@echo
 	@echo "Neutrino-DDT extra configuration:"
@@ -376,6 +375,7 @@ endif
 	@echo "LCD4Linux        :$(LCD4LINUX)"
 	@echo
 	@echo "Optional packages:"
+	@echo "Python           :$(PYTHON)"
 	@echo "Openssh          :$(OPENSSH)"
 	@echo "Samba            :$(SAMBA)"
 	@echo "Openvpn          :$(OPENVPN)"
