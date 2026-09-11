@@ -104,6 +104,8 @@ $(D)/libpciaccess: $(D)/bootstrap $(D)/zlib $(ARCHIVE)/$(LIBPCIACCESS_SRC)
 		; \
 		cd build; ninja; \
 		ninja install;
+#		$(REWRITE_LIBTOOL)/libpciaccess.la
+#		$(REWRITE_PKGCONF) $(PKG_CONFIG_PATH)/libpciaccess.pc
 	$(REMOVE)/libpciaccess-$(LIBPCIACCESS_VER)
 	$(TOUCH)
 	
