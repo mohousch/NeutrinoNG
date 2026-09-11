@@ -80,7 +80,8 @@ fi
 #
 echo "init lircd"
 mkdir -p /var/run/lirc
-/usr/bin/lircd --nodaemon &
+#/usr/bin/lircd --nodaemon &
+/usr/bin/lircd --device=/dev/lirc0 --uinput --perm=666 --effective-user=root &
 
 # set dummy time
 NTPDATE=`date +"%Y%m%d"`

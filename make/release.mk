@@ -184,7 +184,7 @@ endif
 ifeq ($(BOXARCH), sh4)
 	install -d $(RELEASE_DIR)/var/etc
 endif
-ifeq ($(BOXTYPE), $(filter $(BOXTYPE), pc))	
+ifeq ($(BOXTYPE), $(filter $(BOXTYPE), generic))	
 	cd $(RELEASE_DIR) && ln -sf lib lib64
 	cd $(RELEASE_DIR)/usr && ln -sf lib lib64
 endif
@@ -257,7 +257,7 @@ ifeq ($(BOXARCH), sh4)
 	cp -dp $(SKEL_ROOT)/sbin/hotplug $(RELEASE_DIR)/sbin/
 endif
 	ln -sf ../../bin/busybox $(RELEASE_DIR)/usr/bin/ether-wake
-ifeq ($(BOXTYPE), $(filter $(BOXTYPE), pc mxq4k))	
+ifeq ($(BOXTYPE), $(filter $(BOXTYPE), generic mxq4k))	
 	ln -sf ../../bin/busybox $(RELEASE_DIR)/linuxrc
 endif
 ifeq ($(LAYOUT), multiboot)
