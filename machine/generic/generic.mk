@@ -6,6 +6,8 @@
 #
 
 BOXARCH = x86_64
+BOXCPU = x86-64
+
 MACHINE_OPTS = --enable-lirc --enable-no-av-decoder
 MACHINE_DEPS = $(D)/lirc $(D)/libao $(D)/nano $(D)/htop $(D)/mc
 

@@ -6,6 +6,8 @@
 #
 
 BOXARCH = arm
+BOXCPU = cortex-a7
+
 TARGET_MARCH_CFLAGS := -march=armv7-a -mtune=cortex-a7 -mfpu=neon-vfpv4 -mfloat-abi=hard
 
 MACHINE_OPTS =

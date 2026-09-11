@@ -82,7 +82,7 @@ BUILD                ?= $(shell /usr/share/libtool/config.guess 2>/dev/null || /
 
 ifeq ($(BOXARCH), sh4)
 TARGET               ?= sh4-linux
-TARGET_MARCH_CFLAGS   ?=
+TARGET_MARCH_CFLAGS  ?=
 endif
 
 ifeq ($(BOXARCH), arm)

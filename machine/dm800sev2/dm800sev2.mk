@@ -6,6 +6,8 @@
 #
 
 BOXARCH = mips
+BOXCPU = mips32
+
 MACHINE_OPTS = --enable-ci --enable-lcd96 --enable-lcd-color-bitorder-rgb565 --enable-scart --enable-cec
 
 #

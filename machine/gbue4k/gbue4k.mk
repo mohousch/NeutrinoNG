@@ -6,6 +6,8 @@
 #
 
 BOXARCH = arm
+BOXCPU = cortex-a15
+
 MACHINE_OPTS = --enable-ci --enable-fkeys --enable-lcd --enable-lcd-color-bitorder-rgb565 --enable-led_color --enable-4k --enable-cec
 
 #

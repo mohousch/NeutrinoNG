@@ -6,6 +6,8 @@
 #
 
 BOXARCH = mips
+BOXCPU = mips32
+
 MACHINE_OPTS = --enable-ci --enable-fkeys --enable-vfd --enable-scart --enable-cec
 
 #

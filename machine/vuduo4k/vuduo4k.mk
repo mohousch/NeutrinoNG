@@ -6,6 +6,8 @@
 #
 
 BOXARCH = arm
+BOXCPU = cortex-a15
+
 MACHINE_OPTS = --enable-ci --enable-fkeys --enable-lcd480 --enable-scart --enable-4k --enable-cec
 
 #

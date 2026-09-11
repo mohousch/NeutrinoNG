@@ -6,6 +6,8 @@
 #
 
 BOXARCH = mips
+BOXCPU = mips32
+
 MACHINE_OPTS = --enable-ci --enable-4digits --enable-cec
 
 #
