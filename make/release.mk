@@ -59,53 +59,6 @@ RELEASE_DEPS += $(D)/wpa_supplicant
 RELEASE_DEPS += $(D)/wireless_tools
 endif
 #
-# python
-#
-ifeq ($(BOXARCH), $(filter $(BOXARCH), arm mips x86_64))
-ifeq ($(PYTHON), python3)
-RELEASE_DEPS += $(D)/python3
-else ifeq ($(PYTHON), python)
-RELEASE_DEPS += $(D)/python
-endif
-endif
-#
-# lua
-#
-RELEASE_DEPS += $(D)/lua 
-RELEASE_DEPS += $(D)/luaexpat 
-RELEASE_DEPS += $(D)/luacurl 
-RELEASE_DEPS += $(D)/luasocket 
-RELEASE_DEPS += $(D)/luafeedparser 
-RELEASE_DEPS += $(D)/luasoap 
-RELEASE_DEPS += $(D)/luajson
-#
-# gstreamer
-#
-ifeq ($(BOXARCH), $(filter $(BOXARCH), arm mips))
-ifeq ($(GSTREAMER), yes)
-RELEASE_DEPS  += $(D)/gstreamer 
-RELEASE_DEPS  += $(D)/gst_plugins_base 
-RELEASE_DEPS  += $(D)/gst_plugins_good 
-RELEASE_DEPS  += $(D)/gst_plugins_bad 
-RELEASE_DEPS  += $(D)/gst_plugins_ugly 
-RELEASE_DEPS  += $(D)/gst_plugins_subsink
-RELEASE_DEPS  += $(D)/gst_plugins_dvbmediasink
-endif
-endif
-#
-# graphlcd
-#
-GRAPHLCD ?= graphlcd
-ifeq ($(GRAPHLCD), yes)
-RELEASE_DEPS += $(D)/graphlcd
-endif
-#
-# lcd4linux
-#
-ifeq ($(LCD4LINUX), yes)
-RELEASE_DEPS += $(D)/lcd4linux
-endif
-#
 # neutrino common
 #
 RELEASE_DEPS += $(D)/ncurses  
@@ -127,6 +80,53 @@ RELEASE_DEPS += $(D)/flac
 RELEASE_DEPS += $(D)/openssl
 RELEASE_DEPS += $(D)/libass
 RELEASE_DEPS += $(D)/libdvbcsa
+#
+# lua
+#
+RELEASE_DEPS += $(D)/lua 
+RELEASE_DEPS += $(D)/luaexpat 
+RELEASE_DEPS += $(D)/luacurl 
+RELEASE_DEPS += $(D)/luasocket 
+RELEASE_DEPS += $(D)/luafeedparser 
+RELEASE_DEPS += $(D)/luasoap 
+RELEASE_DEPS += $(D)/luajson
+#
+# graphlcd
+#
+GRAPHLCD ?= graphlcd
+ifeq ($(GRAPHLCD), yes)
+RELEASE_DEPS += $(D)/graphlcd
+endif
+#
+# lcd4linux
+#
+ifeq ($(LCD4LINUX), yes)
+RELEASE_DEPS += $(D)/lcd4linux
+endif
+#
+# gstreamer
+#
+ifeq ($(BOXARCH), $(filter $(BOXARCH), arm mips))
+ifeq ($(GSTREAMER), yes)
+RELEASE_DEPS  += $(D)/gstreamer 
+RELEASE_DEPS  += $(D)/gst_plugins_base 
+RELEASE_DEPS  += $(D)/gst_plugins_good 
+RELEASE_DEPS  += $(D)/gst_plugins_bad 
+RELEASE_DEPS  += $(D)/gst_plugins_ugly 
+RELEASE_DEPS  += $(D)/gst_plugins_subsink
+RELEASE_DEPS  += $(D)/gst_plugins_dvbmediasink
+endif
+endif
+#
+# python
+#
+ifeq ($(BOXARCH), $(filter $(BOXARCH), arm mips x86_64))
+ifeq ($(PYTHON), python3)
+RELEASE_DEPS += $(D)/python3
+else ifeq ($(PYTHON), python)
+RELEASE_DEPS += $(D)/python
+endif
+endif
 #
 # openvpn
 #
@@ -184,9 +184,13 @@ endif
 ifeq ($(BOXARCH), sh4)
 	install -d $(RELEASE_DIR)/var/etc
 endif
-ifeq ($(BOXTYPE), $(filter $(BOXTYPE), generic mxq4k))	
+ifeq ($(BOXTYPE), $(filter $(BOXTYPE), generic))	
 	cd $(RELEASE_DIR) && ln -sf lib lib64
 	cd $(RELEASE_DIR)/usr && ln -sf lib lib64
+endif
+ifeq ($(BOXTYPE), $(filter $(BOXTYPE), mxq4k))	
+	cd $(RELEASE_DIR) && ln -sf lib lib32
+	cd $(RELEASE_DIR)/usr && ln -sf lib lib32
 endif
 	install -d $(RELEASE_DIR)/var/tuxbox/config
 	install -d $(RELEASE_DIR)/var/lib/{nfs,modules,opkg}

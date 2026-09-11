@@ -673,9 +673,13 @@ $(D)/directories:
 	ln -sf ../init.d $(TARGET_DIR)/etc/rc.d/init.d
 	install -d $(TARGET_DIR)/lib/{lsb,firmware}
 	install -d $(TARGET_DIR)/usr/{bin,lib,sbin,share}
-ifeq ($(BOXTYPE), $(filter $(BOXTYPE), generic mxq4k))	
+ifeq ($(BOXTYPE), $(filter $(BOXTYPE), generic))	
 	cd $(TARGET_DIR) && ln -sf lib lib64
 	cd $(TARGET_DIR)/usr && ln -sf lib lib64
+endif
+ifeq ($(BOXTYPE), $(filter $(BOXTYPE), mxq4k))	
+	cd $(TARGET_DIR) && ln -sf lib lib32
+	cd $(TARGET_DIR)/usr && ln -sf lib lib32
 endif
 	install -d $(TARGET_DIR)/usr/lib/pkgconfig
 	install -d $(TARGET_DIR)/var/{lib,run}
