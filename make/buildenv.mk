@@ -87,17 +87,17 @@ endif
 
 ifeq ($(BOXARCH), arm)
 TARGET               ?= arm-cortex-linux-gnueabihf
-TARGET_MARCH_CFLAGS  ?= -march=armv7ve -mtune=cortex-a15 -mfpu=neon-vfpv4 -mfloat-abi=hard
+TARGET_MARCH_CFLAGS  ?= -march=armv7ve -mtune=$(BOXCPU) -mfpu=neon-vfpv4 -mfloat-abi=hard
 endif
 
 ifeq ($(BOXARCH), mips)
 TARGET		     ?= mipsel-unknown-linux-gnu
-TARGET_MARCH_CFLAGS  ?= -march=mips32 -mtune=mips32
+TARGET_MARCH_CFLAGS  ?= -march=$(BOXCPU) -mtune=$(BOXCPU)
 endif
 
 ifeq ($(BOXARCH), x86_64)
 TARGET		     ?= x86_64-unknown-linux-gnu
-TARGET_MARCH_CFLAGS  ?= -march=x86-64
+TARGET_MARCH_CFLAGS  ?= -march=$(BOXCPU)
 endif
 
 OPTIMIZATIONS        ?= size

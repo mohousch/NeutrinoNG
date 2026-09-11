@@ -29,14 +29,6 @@ FFMPEG_CONF_OPTS  += --enable-libzvbi
 FFMPEG_CONF_OPTS  += --enable-decoder=libzvbi_teletext
 FFMPEG_DEPS 	  += $(D)/libzvbi
 
-ifeq ($(BOXARCH), arm)
-FFMPEG_CONF_OPTS  += --cpu=cortex-a15
-endif
-
-ifeq ($(BOXARCH), $(filter $(BOXARCH), mips sh4))
-FFMPEG_CONF_OPTS  += --cpu=generic
-endif
-
 #ifeq ($(BOXARCH), x86_64)
 #FFMPEG_CONF_OPTS += \
 #	--enable-gpl \
@@ -59,6 +51,8 @@ $(D)/ffmpeg: $(D)/bootstrap $(FFMPEG_DEPS) $(ARCHIVE)/$(FFMPEG_SRC)
 	$(CHDIR)/ffmpeg-$(FFMPEG_VER); \
 		$(call apply_patches, $(FFMPEG_PATCH)); \
 		./configure \
+			--cpu=$(BOXCPU) \
+			\
 			--disable-ffplay \
 			--disable-ffprobe \
 			\
