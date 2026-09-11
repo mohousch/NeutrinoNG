@@ -355,6 +355,9 @@ else
 	@echo "BOXTYPE          : $(BOXTYPE)"
 endif
 	@echo "BOXARCH          : $(BOXARCH)"
+ifeq ($(BOXARCH), $(filter $(BOXARCH), arm mips x86_64))
+	@echo "BOXCPU           : $(BOXCPU)"
+endif
 	@echo "TARGET           : $(TARGET)"
 	@echo "GCC              : $(GCC_VER)"
 	@echo "KERNEL_VERSION   : $(KERNEL_VER)"
