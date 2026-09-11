@@ -113,7 +113,7 @@ config:
 	@echo "  Allwinner"
 	@echo "   160)  MXQ4K / Orangepi pc"
 	@echo "  PC"
-	@echo -e "\033[01;32m   *)  generic\033[00m"
+	@echo -e "\033[01;32m   *)  pc\033[00m"
 	@echo ""
 	@read -p "Select target (1-150)? " BOXTYPE; \
 	BOXTYPE=$${BOXTYPE}; \
@@ -176,7 +176,7 @@ config:
 		150) BOXTYPE="ustym4kpro";; \
 		151) BOXTYPE="ustym4ks2ottx";; \
 		160) BOXTYPE="mxq4k";; \
-		*) BOXTYPE="generic";; \
+		*) BOXTYPE="pc";; \
 	esac; \
 	echo "BOXTYPE?=$$BOXTYPE" > .config; \
 	if [ $$BOXTYPE == 'bre2ze4k' -o $$BOXTYPE == 'hd51' -o $$BOXTYPE == 'e4hdultra' -o $$BOXTYPE == 'h7' -o $$BOXTYPE == 'protek4k' -o $$BOXTYPE == 'h9combo' ]; then \
@@ -190,7 +190,7 @@ config:
 			2|*) echo "LAYOUT=multi" >> .config;; \
 		esac; \
 	fi; \
-	if [ $$BOXTYPE == 'generic' ]; then \
+	if [ $$BOXTYPE == 'pc' ]; then \
 		echo -e "\nBoot"; \
 		echo "   1) Legacy BIOS"; \
 		echo -e "   \033[01;32m2) UEFI\033[00m"; \
@@ -319,7 +319,7 @@ config-clean:
 	rm -f .config
 	
 defconfig:
-	echo "BOXTYPE?=generic" > .config
+	echo "BOXTYPE?=pc" > .config
 
 include make/buildenv.mk
 

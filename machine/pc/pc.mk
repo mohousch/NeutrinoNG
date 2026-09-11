@@ -80,7 +80,7 @@ $(D)/driver:
 #
 # release
 #
-release-generic:
+release-pc:
 	cp -pa $(TARGET_DIR)/lib/modules/$(KERNEL_VER) $(RELEASE_DIR)/lib/modules
 	install -m 0755 $(BASE_DIR)/machine/$(BOXTYPE)/files/rcS $(RELEASE_DIR)/etc/init.d/rcS
 	install -m 0755 $(BASE_DIR)/machine/$(BOXTYPE)/files/halt $(RELEASE_DIR)/etc/init.d/
@@ -93,10 +93,10 @@ release-generic:
 #
 # image
 #
-FLASHIMAGE_PREFIX = generic
+FLASHIMAGE_PREFIX = pc
 
--include $(HELPERS_DIR)/generic/generic.mk
+-include $(HELPERS_DIR)/pc/pc.mk
 
-image-generic:
-	$(MAKE) generic-efi-disk-image
+image-pc:
+	$(MAKE) pc-efi-disk-image
 

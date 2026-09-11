@@ -642,7 +642,7 @@ else ifeq ($(PYTHON), python)
 BOOTSTRAP += $(D)/host_python
 endif
 endif
-ifeq ($(BOXTYPE), $(filter $(BOXTYPE), generic mxq4k))
+ifeq ($(BOXTYPE), $(filter $(BOXTYPE), pc mxq4k))
 BOOTSTRAP += $(D)/host_genimage
 endif
 
@@ -673,7 +673,7 @@ $(D)/directories:
 	ln -sf ../init.d $(TARGET_DIR)/etc/rc.d/init.d
 	install -d $(TARGET_DIR)/lib/{lsb,firmware}
 	install -d $(TARGET_DIR)/usr/{bin,lib,sbin,share}
-ifeq ($(BOXTYPE), $(filter $(BOXTYPE), generic))	
+ifeq ($(BOXTYPE), $(filter $(BOXTYPE), pc))	
 	cd $(TARGET_DIR) && ln -sf lib lib64
 	cd $(TARGET_DIR)/usr && ln -sf lib lib64
 endif

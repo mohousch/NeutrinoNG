@@ -1,5 +1,5 @@
 #
-# generic image
+# pc image
 #
 ifeq ($(BOOT), uefi)
 	GENIMAGE_CFG = $(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)/genimage-efi.cfg
@@ -7,7 +7,7 @@ else
 	GENIMAGE_CFG = $(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)/genimage-bios.cfg
 endif
 	
-generic-efi-disk-image:
+pc-efi-disk-image:
 	rm -rf $(IMAGE_BUILD_DIR) || true
 	mkdir -p $(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)
 	#
@@ -33,7 +33,7 @@ endif
 	resize2fs $(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)/rootfs.ext2 1048576k
 	#
 ifeq ($(BOOT), uefi)
-	$(HELPERS_DIR)/generic/post-image-efi.sh $(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)
+	$(HELPERS_DIR)/pc/post-image-efi.sh $(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)
 endif
 	#
 	genimage \
