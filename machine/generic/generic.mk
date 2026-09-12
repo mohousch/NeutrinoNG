@@ -11,9 +11,6 @@ BOXCPU = x86-64
 MACHINE_OPTS = --enable-lirc --enable-no-av-decoder
 MACHINE_DEPS = $(D)/lirc $(D)/libao $(D)/nano $(D)/htop $(D)/mc
 
-#MACHINE_OPTS += --enable-directfb
-#MACHINE_DEPS += $(D)/directfb
-
 #MACHINE_OPTS += --enable-libdrm
 #MACHINE_DEPS += $(D)/libdrm
 
