@@ -51,8 +51,6 @@ $(D)/ffmpeg: $(D)/bootstrap $(FFMPEG_DEPS) $(ARCHIVE)/$(FFMPEG_SRC)
 	$(CHDIR)/ffmpeg-$(FFMPEG_VER); \
 		$(call apply_patches, $(FFMPEG_PATCH)); \
 		./configure \
-			--cpu=$(BOXCPU) \
-			\
 			--disable-ffplay \
 			--disable-ffprobe \
 			\
@@ -345,6 +343,7 @@ $(D)/ffmpeg: $(D)/bootstrap $(FFMPEG_DEPS) $(ARCHIVE)/$(FFMPEG_SRC)
 			--extra-cflags="$(TARGET_CFLAGS) $(FFMPEG_EXTRA_CFLAGS)" \
 			--extra-ldflags="$(TARGET_LDFLAGS) -lrt" \
 			--arch=$(BOXARCH) \
+			--cpu=$(BOXCPU) \
 			--target-os=linux \
 			--prefix=/usr \
 			--bindir=/sbin \
