@@ -9,7 +9,7 @@ id:3:initdefault:
 si::sysinit:/etc/init.d/rcS
 
 # What to do in single-user mode.
-~~:S:wait:/sbin/sulogin
+#~~:S:wait:/sbin/sulogin
 
 # /etc/init.d executes the S and K scripts upon change
 # of runlevel.
@@ -27,7 +27,7 @@ l4:4:wait:/etc/init.d/rc 4
 l5:5:wait:/etc/init.d/rc 5
 l6:6:wait:/etc/init.d/rc 6
 # Normally not reached, but fallthrough in case of emergency.
-z6:6:respawn:/sbin/sulogin
+#z6:6:respawn:/sbin/sulogin
 
 # What to do when CTRL-ALT-DEL is pressed.
 ca:12345:ctrlaltdel:/sbin/shutdown -t1 -a -r now
@@ -67,7 +67,7 @@ po::powerokwait:/etc/init.d/powerfail stop
 #T0:23:respawn:/sbin/getty -L ttyS0 9600 vt100
 #T1:23:respawn:/sbin/getty -L ttyS1 9600 vt100
 #S0:2345:respawn:/sbin/getty -L ttySC0 115200 vt102
-A0:2345:respawn:/sbin/getty -n -l /bin/autologin -L tty1 115200 vt102
+tty1:2345:respawn:/sbin/getty -n -l /bin/autologin -L tty1 115200 vt102
 
 # Example how to put a getty on a modem line.
 #

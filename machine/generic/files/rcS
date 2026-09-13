@@ -18,6 +18,7 @@ mount -t sysfs sys /sys
 mount -t tmpfs tmp /tmp
 mkdir -p /dev/pts
 mount -t devpts devpts /dev/pts
+mount -t devtmpfs devtmpfs /dev
 
 # dri
 mkdir -p /dev/dri
