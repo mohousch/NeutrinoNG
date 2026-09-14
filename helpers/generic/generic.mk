@@ -1,5 +1,5 @@
 #
-# generic image
+# generic disk image
 #
 ifeq ($(BOOT), uefi)
 	GENIMAGE_CFG = $(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)/genimage-efi.cfg

@@ -604,6 +604,40 @@ $(D)/host_genimage: $(D)/directories $(ARCHIVE)/$(HOST_GENIMAGE_SRC) $(D)/host_l
 		$(MAKE) install
 	$(REMOVE)/genimage-$(HOST_GENIMAGE_VER)
 	$(TOUCH)
+	
+#
+# host_util_linux
+#
+HOST_UTIL_LINUX_MAJOR = 2.41
+HOST_UTIL_LINUX_MINOR = 5
+HOST_UTIL_LINUX_VER = $(HOST_UTIL_LINUX_MAJOR).$(HOST_UTIL_LINUX_MINOR)
+HOST_UTIL_LINUX_SRC = util-linux-$(HOST_UTIL_LINUX_VER).tar.xz
+HOST_UTIL_LINUX_URL = https://www.kernel.org/pub/linux/utils/util-linux/v$(HOST_UTIL_LINUX_MAJOR)
+
+HOST_UTIL_LINUX_PATCH =
+
+$(ARCHIVE)/$(HOST_UTIL_LINUX_SRC):
+	$(DOWNLOAD) $(HOST_UTIL_LINUX_URL)/$(HOST_UTIL_LINUX_SRC)
+	
+$(D)/host_util_linux: $(D)/directories $(ARCHIVE)/$(HOST_UTIL_LINUX_SRC)
+	$(START_BUILD)
+	$(REMOVE)/util-linux-$(HOST_UTIL_LINUX_VER)
+	$(UNTAR)/$(HOST_UTIL_LINUX_SRC)
+	$(CHDIR)/util-linux-$(HOST_UTIL_LINUX_VER); \
+		./configure \
+			--prefix=$(HOST_DIR) \
+			--disable-asciidoc \
+			--disable-poman \
+			--without-systemd \
+			--with-systemdsystemunitdir=no \
+			--without-python \
+			--disable-makeinstall-chown \
+			--disable-liblastlog2 \
+		; \
+		$(MAKE); \
+		$(MAKE) install
+	$(REMOVE)/util-linux-$(HOST_UTIL_LINUX_VER)
+	$(TOUCH)
 
 #
 # bootstrap
@@ -644,6 +678,7 @@ endif
 endif
 ifeq ($(BOXTYPE), $(filter $(BOXTYPE), generic mxq4k))
 BOOTSTRAP += $(D)/host_genimage
+BOOTSTRAP += $(D)/host_util_linux
 endif
 
 $(D)/bootstrap: $(BOOTSTRAP)

@@ -71,9 +71,23 @@ $(D)/driver:
 # release
 #
 release-mxq4k:
+	cp -pa $(TARGET_DIR)/lib/modules/$(KERNEL_VER) $(RELEASE_DIR)/lib/modules
+	install -m 0755 $(BASE_DIR)/machine/$(BOXTYPE)/files/rcS $(RELEASE_DIR)/etc/init.d/rcS
+	install -m 0755 $(BASE_DIR)/machine/$(BOXTYPE)/files/halt $(RELEASE_DIR)/etc/init.d/
+	cp -f $(BASE_DIR)/machine/$(BOXTYPE)/files/fstab $(RELEASE_DIR)/etc/
+	cp -f $(BASE_DIR)/machine/$(BOXTYPE)/files/autologin $(RELEASE_DIR)/bin/
+	cp -f $(BASE_DIR)/machine/$(BOXTYPE)/files/group $(RELEASE_DIR)/etc/
+	cp -f $(BASE_DIR)/machine/$(BOXTYPE)/files/passwd $(RELEASE_DIR)/etc/
+	cp -f $(BASE_DIR)/machine/$(BOXTYPE)/files/inittab $(RELEASE_DIR)/etc/
+	cp -f $(BASE_DIR)/machine/$(BOXTYPE)/files/libao.conf $(RELEASE_DIR)/etc/
 
 #
 # image
 #
+FLASHIMAGE_PREFIX = mxq4k
+
+-include $(HELPERS_DIR)/allwinner/h3.mk
+
 image-mxq4k:
+	$(MAKE) h3-disk-image
 
