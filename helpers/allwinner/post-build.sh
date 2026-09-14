@@ -9,5 +9,6 @@ PARTUUID="$($HOST_DIR/bin/uuidgen)"
 #	-e "s/%LINUXIMAGE%/zImage/g" \
 #	-e "s/%PARTUUID%/$PARTUUID/g" \
 #	"$BINARIES_DIR/extlinux.conf"
-
+sed -i "s/%LINUXIMAGE%/zImage/g" "$BINARIES_DIR/extlinux.conf"
+sed -i "s/%PARTUUID%/$PARTUUID/g" "$BINARIES_DIR/extlinux.conf"
 sed -i "s/%PARTUUID%/$PARTUUID/g" "$BINARIES_DIR/genimage.cfg"

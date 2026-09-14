@@ -13,6 +13,7 @@ h3-disk-image:
 	cp -a $(BASE_DIR)/machine/$(BOXTYPE)/files/extlinux.conf $(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)/
 	$(HELPERS_DIR)/allwinner/post-build.sh $(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX) $(HOST_DIR)
 	cp -a $(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)/extlinux.conf $(RELEASE_DIR)/boot/extlinux/
+	cp -a $(BASE_DIR)/machine/$(BOXTYPE)/files/sun8i-h3-orangepi-pc.dtb $(RELEASE_DIR)/boot/
 	# rootfs
 	dd if=/dev/zero of=$(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)/rootfs.ext4 bs=512 count=2097152
 	mkfs.ext4 -F -L "${BS_NAME} ${BS_CYCLE}" $(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)/rootfs.ext4 -d $(RELEASE_DIR)
