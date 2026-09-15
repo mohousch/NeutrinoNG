@@ -80,6 +80,7 @@ release-mxq4k:
 	cp -f $(BASE_DIR)/machine/$(BOXTYPE)/files/passwd $(RELEASE_DIR)/etc/
 	cp -f $(BASE_DIR)/machine/$(BOXTYPE)/files/inittab $(RELEASE_DIR)/etc/
 	cp -f $(BASE_DIR)/machine/$(BOXTYPE)/files/libao.conf $(RELEASE_DIR)/etc/
+	cp -aR $(SKEL_ROOT)/etc/mdev_x86_64.conf $(RELEASE_DIR)/etc/mdev.conf
 
 #
 # image
