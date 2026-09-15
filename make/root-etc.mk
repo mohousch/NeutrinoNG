@@ -41,7 +41,6 @@ BASE_FILES_ADAPTED_ETC_FILES = \
 	host.conf \
 	nsswitch.conf \
 	inetd.conf \
-	irexec.keys \
 	issue.net
 
 BASE_PASSWD_ADAPTED_ETC_FILES = \
