@@ -67,8 +67,7 @@ po::powerokwait:/etc/init.d/powerfail stop
 #T0:23:respawn:/sbin/getty -L ttyS0 9600 vt100
 #T1:23:respawn:/sbin/getty -L ttyS1 9600 vt100
 #S0:2345:respawn:/sbin/getty -L ttySC0 115200 vt102
-#tty1:2345:respawn:/sbin/getty -n -l /bin/autologin -L tty1 115200 vt102
-console::respawn:/sbin/getty -L  console 0 vt100 # GENERIC_SERIAL
+tty1:2345:respawn:/sbin/getty -n -l /bin/autologin -L tty1 115200 vt102
 
 # Example how to put a getty on a modem line.
 #

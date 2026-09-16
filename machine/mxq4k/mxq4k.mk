@@ -2,13 +2,13 @@
 # MACHINE = MXQ4K
 # VENDOR = Allwinner
 # OEM = Allwinner
-# SOC = Allwinner H3
+# SOC = Allwinner H3 sunxi
 #
 
 BOXARCH = arm
 BOXCPU = cortex-a7
 
-TARGET_MARCH_CFLAGS := -march=armv7-a -mtune=$(BOXCPU) -mfpu=neon-vfpv4 -mfloat-abi=hard
+TARGET_MARCH_CFLAGS := -march=armv7ve -mtune=$(BOXCPU) -mfpu=neon-vfpv4 -mfloat-abi=hard
 
 MACHINE_OPTS = --enable-lirc --enable-no-av-decoder
 MACHINE_DEPS = $(D)/lirc $(D)/libao

@@ -1992,7 +1992,9 @@ $(D)/alsa_utils: $(D)/bootstrap $(D)/alsa_lib $(D)/ncurses $(ARCHIVE)/$(ALSA_UTI
 	$(REMOVE)/alsa-utils-$(ALSA_UTILS_VER)
 	$(UNTAR)/$(ALSA_UTILS_SRC)
 	$(CHDIR)/alsa-utils-$(ALSA_UTILS_VER); \
+	if [ "$(BOXARCH)" != "x86_64" ]; then \
 		sed -ir -r "s/(alsamixer|amidi|aplay|iecset|speaker-test|seq|alsactl|alsaucm|topology)//g" Makefile.am ;\
+	fi; \
 		autoreconf -fi -I $(TARGET_DIR)/usr/share/aclocal; \
 		$(CONFIGURE) \
 			--prefix=/usr \
