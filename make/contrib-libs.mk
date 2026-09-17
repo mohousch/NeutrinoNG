@@ -2379,9 +2379,9 @@ $(D)/libplist: $(D)/bootstrap $(D)/libxml2 $(ARCHIVE)/$(LIBPLIST_SRC)
 #
 # libao
 #
-LIBAO_VER = 1.1.0
+LIBAO_VER = 1.2.2
 LIBAO_SRC = libao-$(LIBAO_VER).tar.gz
-LIBAO_URL = https://ftp.osuosl.org/pub/xiph/releases/ao
+LIBAO_URL = https://gitlab.xiph.org/xiph/libao/-/archive/$(LIBAO_VER)
 
 $(ARCHIVE)/$(LIBAO_SRC):
 	$(DOWNLOAD) $(LIBAO_URL)/$(LIBAO_SRC)
@@ -2397,9 +2397,16 @@ $(D)/libao: $(D)/bootstrap $(D)/alsa_lib $(ARCHIVE)/$(LIBAO_SRC)
 			--disable-static \
 			--enable-alsa \
 			--enable-alsa-mmap \
+			--disable-esd \
+			--disable-wmm \
+			--disable-arts \
+			--disable-nas \
+			--disable-pulse \
+			--disable-broken-oss \
 		; \
 		$(MAKE) all; \
 		$(MAKE) install DESTDIR=$(TARGET_DIR)
+		rm -f $(TARGET_DIR)/usr/lib/ao/plugins-4/liboss.so
 	$(REWRITE_PKGCONF) $(PKG_CONFIG_PATH)/ao.pc
 	$(REWRITE_LIBTOOL)/libao.la
 	$(REMOVE)/libao-$(LIBAO_VER)
