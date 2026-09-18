@@ -163,7 +163,40 @@ endif
 ifeq ($(SHAIRPORT), yes)
 RELEASE_DEPS += $(D)/shairport
 endif
+#
+# mc
+#
+ifeq ($(MC), yes)
+RELEASE_DEPS += $(D)/mc
+endif
+#
+# nano
+#
+ifeq ($(NANO), yes)
+RELEASE_DEPS += $(D)/nano
+endif
+#
+# htop
+#
+ifeq ($(HTOP), yes)
+RELEASE_DEPS += $(D)/htop
+endif
+#
+# GDB
+#
+ifeq ($(GDB), yes)
+RELEASE_DEPS += $(D)/gdb
+endif
+#
+# valgrind
+#
+ifeq ($(VALGRIND), yes)
+RELEASE_DEPS += $(D)/valgrind
+endif
 
+#
+# release-common
+#
 release-common: $(RELEASE_DEPS) $(MACHINE_DEPS)
 	rm -rf $(RELEASE_DIR) || true
 	install -d $(RELEASE_DIR)

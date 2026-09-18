@@ -311,6 +311,61 @@ config:
 		2) echo "XUPNPD=yes" >> .config;; \
 		*) echo "XUPNPD=no" >> .config;; \
 	esac;
+# mc
+	@echo -e "\nMC:"	
+	@echo -e "   \033[01;32m1)  no\033[00m"
+	@echo "   2) yes"
+	@read -p "Select  MC (1-2)?" MC; \
+	MC=$${MC}; \
+	case "$$MC" in \
+		1) echo "MC=no" >> .config;; \
+		2) echo "MC=yes" >> .config;; \
+		*) echo "MC=no" >> .config;; \
+	esac;
+# nano
+	@echo -e "\nnano:"	
+	@echo -e "   \033[01;32m1)  no\033[00m"
+	@echo "   2) yes"
+	@read -p "Select  nano (1-2)?" NANO; \
+	NANO=$${NANO}; \
+	case "$$NANO" in \
+		1) echo "NANO=no" >> .config;; \
+		2) echo "NANO=yes" >> .config;; \
+		*) echo "NANO=no" >> .config;; \
+	esac;
+# htop
+	@echo -e "\nhtop:"	
+	@echo -e "   \033[01;32m1)  no\033[00m"
+	@echo "   2) yes"
+	@read -p "Select  htop (1-2)?" HTOP; \
+	HTOP=$${HTOP}; \
+	case "$$HTOP" in \
+		1) echo "HTOP=no" >> .config;; \
+		2) echo "HTOP=yes" >> .config;; \
+		*) echo "HTOP=no" >> .config;; \
+	esac;
+# gdb
+	@echo -e "\nGDB:"	
+	@echo -e "   \033[01;32m1)  no\033[00m"
+	@echo "   2) yes"
+	@read -p "Select  GDB (1-2)?" GDB; \
+	GDB=$${GDB}; \
+	case "$$GDB" in \
+		1) echo "GDB=no" >> .config;; \
+		2) echo "GDB=yes" >> .config;; \
+		*) echo "GDB=no" >> .config;; \
+	esac;
+# valgrind
+	@echo -e "\nvalgrind:"	
+	@echo -e "   \033[01;32m1)  no\033[00m"
+	@echo "   2) yes"
+	@read -p "Select  valgrind (1-2)?" VALGRIND; \
+	VALGRIND=$${VALGRIND}; \
+	case "$$VALGRIND" in \
+		1) echo "VALGRIND=no" >> .config;; \
+		2) echo "VALGRIND=yes" >> .config;; \
+		*) echo "VALGRIND=no" >> .config;; \
+	esac;
 #	
 	@echo ""
 	@make printenv
@@ -384,7 +439,13 @@ endif
 	@echo "Openvpn          :$(OPENVPN)"
 	@echo "Xupnpd           :$(XUPNPD)"
 	@echo "Dropbear         :$(DROPBEAR)"
-	@echo
+	@echo "Misc packages:"
+	@echo "MC               :$(MC)"
+	@echo "Nano             :$(NANO)"
+	@echo "Htop             :$(HTOP)"
+	@echo "Development tools:"
+	@echo "GDB              :$(GDB)"
+	@echo "Valgrind         :$(VALGRIND)"
 	@echo '================================================================================'
 	@make --no-print-directory toolcheck
 ifeq ($(MAINTAINER),)

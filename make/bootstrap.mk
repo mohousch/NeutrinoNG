@@ -437,7 +437,7 @@ $(ARCHIVE)/$(HOST_PYTHON3_SRC):
 $(D)/host_python3: $(D)/directories $(ARCHIVE)/$(HOST_PYTHON3_SRC)
 	$(START_BUILD)
 	$(REMOVE)/Python-$(HOST_PYTHON3_VER)
-	$(UNTAR)/$(HOST_PYTHON_SRC)
+	$(UNTAR)/$(HOST_PYTHON3_SRC)
 	$(CHDIR)/Python-$(HOST_PYTHON3_VER); \
 		$(call apply_patches, $(HOST_PYTHON3_PATCH)); \
 		./configure \

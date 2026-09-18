@@ -25,28 +25,10 @@ PYTHON3_PATCH  = 0001-default-is-optimized.patch \
 PYTHON3_DIR = usr/lib/python$(PYTHON_VER_MAJOR)
 PYTHON3_INCLUDE_DIR = usr/include/python$(PYTHON_VER_MAJOR)
 
-PYTHON3_BUILD = \
-	CC="$(TARGET)-gcc" \
-	CFLAGS="$(TARGET_CFLAGS)" \
-	LDFLAGS="$(TARGET_LDFLAGS)" \
-	LDSHARED="$(TARGET)-gcc -shared" \
-	PYTHONPATH=$(TARGET_DIR)/$(PYTHON3_DIR)/site-packages \
-	CPPFLAGS="$(TARGET_CPPFLAGS) -I$(TARGET_DIR)/$(PYTHON3_INCLUDE_DIR)" \
-	$(HOST_DIR)/bin/python ./setup.py -q build --executable=/usr/bin/python
-
-PYTHON3_INSTALL = \
-	CC="$(TARGET)-gcc" \
-	CFLAGS="$(TARGET_CFLAGS)" \
-	LDFLAGS="$(TARGET_LDFLAGS)" \
-	LDSHARED="$(TARGET)-gcc -shared" \
-	PYTHONPATH=$(TARGET_DIR)/$(PYTHON3_DIR)/site-packages \
-	CPPFLAGS="$(TARGET_CPPFLAGS) -I$(TARGET_DIR)/$(PYTHON3_INCLUDE_DIR)" \
-	$(HOST_DIR)/bin/python ./setup.py -q install --root=$(TARGET_DIR) --prefix=/usr
-
 $(D)/python3: $(D)/bootstrap $(D)/ncurses $(D)/zlib $(D)/openssl $(D)/libffi $(D)/bzip2 $(D)/readline $(D)/sqlite $(ARCHIVE)/$(HOST_PYTHON3_SRC)
 	$(START_BUILD)
 	$(REMOVE)/Python-$(PYTHON3_VER)
-	$(UNTAR)/$(PYTHON_SRC)
+	$(UNTAR)/$(PYTHON3_SRC)
 	$(CHDIR)/Python-$(PYTHON3_VER); \
 		$(call apply_patches, $(PYTHON3_PATCH)); \
 		CONFIG_SITE= \
