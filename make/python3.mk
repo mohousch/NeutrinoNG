@@ -40,7 +40,22 @@ $(D)/python3: $(D)/bootstrap $(D)/ncurses $(D)/zlib $(D)/openssl $(D)/libffi $(D
 			--prefix=/usr \
 			--mandir=/.remove \
 			--sysconfdir=/etc \
-			--with-build-python \
+			--with-build-python=$(HOST_DIR)/bin/python \
+			--disable-pyc-build \
+			--enable-sqlite3 \
+			--with-readline \
+			--disable-tk \
+			--enable-curses \
+			--disable-pydoc \
+			--disable-test-modules \
+			--disable-idle3 \
+			--with-expat=system \
+			--with-doc-strings \
+			--with-lto \
+			--without-pymalloc \
+			--without-ensurepip \
+			--enable-ipv6 \
+			--enable-shared \
 			ac_cv_prog_HAS_HG=/bin/false \
 			ac_cv_prog_SVNVERSION=/bin/false \
 			ac_cv_file__dev_ptmx=no \
@@ -71,7 +86,6 @@ $(D)/python3: $(D)/bootstrap $(D)/ncurses $(D)/zlib $(D)/openssl $(D)/libffi $(D
 			PYTHON_XCOMPILE_DEPENDENCIES_PREFIX="$(TARGET_DIR)" \
 			CROSS_COMPILE_TARGET=yes \
 			CROSS_COMPILE=$(TARGET) \
-			MACHDEP=linux2 \
 			HOSTARCH=$(TARGET) \
 			CFLAGS="$(TARGET_CFLAGS)" \
 			LDFLAGS="$(TARGET_LDFLAGS)" \
