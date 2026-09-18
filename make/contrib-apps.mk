@@ -2025,7 +2025,6 @@ $(D)/valgrind: $(D)/bootstrap $(ARCHIVE)/$(VALGRIND_SRC)
 			--prefix=/usr \
 			--mandir=/.remove \
 			--datadir=/.remove \
-			-enable-only32bit \
 		; \
 		$(MAKE); \
 		$(MAKE) install DESTDIR=$(TARGET_DIR)
