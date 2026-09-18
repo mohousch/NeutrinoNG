@@ -1,7 +1,7 @@
 #
 # dm-nfi-image
 #
-dm-nfi-image-$(BOXTYPE): $(ARCHIVE)/$(2ND_FILE)
+dm-nfi-image: $(ARCHIVE)/$(2ND_FILE)
 	rm -rf $(IMAGE_BUILD_DIR) || true
 	mkdir -p $(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)
 	#
@@ -44,7 +44,7 @@ dm-nfi-image-$(BOXTYPE): $(ARCHIVE)/$(2ND_FILE)
 #
 # dm-rootfs-image
 #
-dm-rootfs-image-$(BOXTYPE):
+dm-rootfs-image:
 	rm -rf $(IMAGE_BUILD_DIR) || true
 	mkdir -p $(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)
 	# kernel

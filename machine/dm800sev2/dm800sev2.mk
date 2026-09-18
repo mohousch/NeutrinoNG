@@ -161,5 +161,5 @@ $(ARCHIVE)/$(2ND_FILE):
 -include $(HELPERS_DIR)/dm/dm.mk
 
 image-dm800sev2:
-	$(MAKE) dm-nfi-image-$(BOXTYPE)
+	$(MAKE) dm-nfi-image
 

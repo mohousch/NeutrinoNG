@@ -128,5 +128,5 @@ FLASHSIZE = 4096
 -include $(HELPERS_DIR)/usb/usb.mk
 
 image-dm7080:
-	$(MAKE) usb-image-$(BOXTYPE)
+	$(MAKE) usb-image
 

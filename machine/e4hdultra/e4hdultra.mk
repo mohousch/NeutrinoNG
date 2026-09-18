@@ -132,5 +132,5 @@ else
 endif
 
 image-e4hdultra:
-	$(MAKE) gfuture-disk-image-$(BOXTYPE) gfuture-rootfs-image-$(BOXTYPE)
+	$(MAKE) gfuture-disk-image gfuture-rootfs-image
 

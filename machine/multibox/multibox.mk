@@ -199,5 +199,5 @@ $(ARCHIVE)/$(FLASH_RECOVERY_SRC):
 -include $(HELPERS_DIR)/gfuture/hdfastboot8gb.mk
 	
 image-multibox:
-	$(MAKE) hdfastboot8gb-disk-image-$(BOXTYPE) hdfastboot8gb-rootfs-image-$(BOXTYPE)
+	$(MAKE) hdfastboot8gb-disk-image hdfastboot8gb-rootfs-image
 

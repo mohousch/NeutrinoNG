@@ -1,7 +1,7 @@
 #
 # ubi-image
 #
-ubi-image-$(BOXTYPE):
+ubi-image:
 	rm -rf $(IMAGE_BUILD_DIR) || true
 	mkdir -p $(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)
 	# splash

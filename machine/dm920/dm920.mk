@@ -124,5 +124,5 @@ FLASHIMAGE_PREFIX = $(BOXTYPE)
 -include $(HELPERS_DIR)/dm/dm.mk
 
 image-dm920:
-	$(MAKE) dm-rootfs-image-$(BOXTYPE)
+	$(MAKE) dm-rootfs-image
 

@@ -270,5 +270,5 @@ $(ARCHIVE)/$(PARAM_SRC):
 -include $(HELPERS_DIR)/zgemma/zgemma.mk
 	
 image-h9:
-	$(MAKE) zgemma-ubi-image-h9
+	$(MAKE) zgemma-ubi-image
 

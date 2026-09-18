@@ -30,7 +30,7 @@ ROOTFS4_PARTITION_OFFSET = $(shell expr $(KERNEL4_PARTITION_OFFSET) + $(KERNEL_P
 
 SWAP_PARTITION_OFFSET = $(shell expr $(ROOTFS4_PARTITION_OFFSET) + $(ROOTFS_PARTITION_SIZE))
 
-edision-disk-image-$(BOXTYPE):
+edision-disk-image:
 	rm -rf $(IMAGE_BUILD_DIR) || true
 	mkdir -p $(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)
 	# Create a sparse image block
@@ -79,7 +79,7 @@ edision-disk-image-$(BOXTYPE):
 #
 # edision-rootfs-image
 #
-edision-rootfs-image-$(BOXTYPE):
+edision-rootfs-image:
 	rm -rf $(IMAGE_BUILD_DIR) || true
 	mkdir -p $(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)
 	# kernel

@@ -126,5 +126,5 @@ else
 endif
 
 image-hd51:
-	$(MAKE) gfuture-disk-image-$(BOXTYPE) gfuture-rootfs-image-$(BOXTYPE)
+	$(MAKE) gfuture-disk-image gfuture-rootfs-image
 

@@ -171,5 +171,5 @@ FLASHIMAGE_PREFIX = $(BOXTYPE)
 -include $(HELPERS_DIR)/edision/edision.mk
 
 image-osmini4k:
-	$(MAKE) edision-disk-image-$(BOXTYPE) edision-rootfs-image-$(BOXTYPE)
+	$(MAKE) edision-disk-image edision-rootfs-image
 

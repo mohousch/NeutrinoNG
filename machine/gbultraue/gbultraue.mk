@@ -122,5 +122,5 @@ BOOT_UPDATE_FILE = noforce
 -include $(HELPERS_DIR)/ubi/ubi.mk
 
 image-gbultraue:
-	$(MAKE) ubi-image-$(BOXTYPE)
+	$(MAKE) ubi-image
 

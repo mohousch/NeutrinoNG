@@ -114,5 +114,5 @@ release-dm820:
 -include $(HELPERS_DIR)/usb/usb.mk
 
 image-dm820:
-	$(MAKE) usb-image-$(BOXTYPE)
+	$(MAKE) usb-image
 

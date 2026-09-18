@@ -1,7 +1,7 @@
 #
 # vuplus-rootfs-image
 #
-vuplus-rootfs-image-$(BOXTYPE):
+vuplus-rootfs-image:
 	rm -rf $(IMAGE_BUILD_DIR) || true
 	mkdir -p $(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)
 	# kernel
@@ -24,7 +24,7 @@ vuplus-rootfs-image-$(BOXTYPE):
 #
 # vuplus-multi-rootfs image
 #
-vuplus-multi-rootfs-image-$(BOXTYPE):
+vuplus-multi-rootfs-image:
 	rm -rf $(IMAGE_BUILD_DIR) || true
 	mkdir -p $(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)
 	# kernel

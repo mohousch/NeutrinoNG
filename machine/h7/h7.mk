@@ -166,5 +166,5 @@ else
 endif
 
 image-h7:
-	$(MAKE) gfuture-disk-image-$(BOXTYPE) gfuture-rootfs-image-$(BOXTYPE)
+	$(MAKE) gfuture-disk-image gfuture-rootfs-image
 

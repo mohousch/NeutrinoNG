@@ -166,5 +166,5 @@ else
 endif
 
 image-bre2ze4k:
-	$(MAKE) gfuture-disk-image-$(BOXTYPE) gfuture-rootfs-image-$(BOXTYPE)
+	$(MAKE) gfuture-disk-image gfuture-rootfs-image
 

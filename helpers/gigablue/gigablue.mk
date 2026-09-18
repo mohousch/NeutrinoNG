@@ -1,7 +1,7 @@
 #
 # gbue4k-rootfs-image
 #
-gigablue-rootfs-image-$(BOXTYPE): $(ARCHIVE)/$(INITRD_SRC)
+gigablue-rootfs-image: $(ARCHIVE)/$(INITRD_SRC)
 	rm -rf $(IMAGE_BUILD_DIR) || true
 	mkdir -p $(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)
 	# splash

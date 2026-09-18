@@ -4,7 +4,7 @@
 FLASH_IMAGE_NAME = disk
 ROOTFS_SIZE = $(IMAGE_ROOTFS_SIZE)
 
-hisi3798mv200-disk-image-$(BOXTYPE): $(ARCHIVE)/$(FLASH_PARTITONS_SRC)
+hisi3798mv200-disk-image: $(ARCHIVE)/$(FLASH_PARTITONS_SRC)
 	rm -rf $(IMAGE_BUILD_DIR) || true
 	mkdir -p $(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)
 	# kernel
@@ -44,7 +44,7 @@ endif
 #
 # hisi3798mv200-rootfs-image
 #	
-hisi3798mv200-rootfs-image-$(BOXTYPE):
+hisi3798mv200-rootfs-image:
 	rm -rf $(IMAGE_BUILD_DIR) || true
 	mkdir -p $(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)
 	# kernel

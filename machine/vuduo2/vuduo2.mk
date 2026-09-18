@@ -188,5 +188,5 @@ BOOT_UPDATE_FILE = reboot.update
 -include $(HELPERS_DIR)/ubi/ubi.mk
 
 image-vuduo2:
-	$(MAKE) ubi-image-$(BOXTYPE)
+	$(MAKE) ubi-image
 

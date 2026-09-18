@@ -141,5 +141,5 @@ BOOT_UPDATE_FILE = noforce
 -include $(HELPERS_DIR)/ubi/ubi.mk
 
 image-bre2zet2c:
-	$(MAKE) ubi-image-$(BOXTYPE)
+	$(MAKE) ubi-image
 

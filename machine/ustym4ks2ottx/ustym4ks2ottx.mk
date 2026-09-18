@@ -219,5 +219,5 @@ $(ARCHIVE)/$(FLASH_PARTITONS_SRC):
 -include $(HELPERS_DIR)/hisi3798mv200/hisi3798mv200.mk
 
 image-ustym4ks2ottx:
-	$(MAKE) hisi3798mv200-disk-image-$(BOXTYPE) hisi3798mv200-rootfs-image-$(BOXTYPE)
+	$(MAKE) hisi3798mv200-disk-image hisi3798mv200-rootfs-image
 
