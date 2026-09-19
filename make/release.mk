@@ -104,20 +104,6 @@ ifeq ($(LCD4LINUX), yes)
 RELEASE_DEPS += $(D)/lcd4linux
 endif
 #
-# gstreamer
-#
-ifeq ($(BOXARCH), $(filter $(BOXARCH), arm mips))
-ifeq ($(GSTREAMER), yes)
-RELEASE_DEPS  += $(D)/gstreamer 
-RELEASE_DEPS  += $(D)/gst_plugins_base 
-RELEASE_DEPS  += $(D)/gst_plugins_good 
-RELEASE_DEPS  += $(D)/gst_plugins_bad 
-RELEASE_DEPS  += $(D)/gst_plugins_ugly 
-RELEASE_DEPS  += $(D)/gst_plugins_subsink
-RELEASE_DEPS  += $(D)/gst_plugins_dvbmediasink
-endif
-endif
-#
 # python
 #
 ifeq ($(BOXARCH), $(filter $(BOXARCH), arm mips x86_64))
@@ -317,22 +303,13 @@ endif
 # usr/lib
 #
 	cp -R $(TARGET_DIR)/usr/lib/* $(RELEASE_DIR)/usr/lib/
-	rm -rf $(RELEASE_DIR)/usr/lib/{engines,gconv,libxslt-plugins,pkgconfig,lua,python$(PYTHON_VER_MAJOR),enigma2,gstreamer-1.0,gio,dbus-1.0}
+	rm -rf $(RELEASE_DIR)/usr/lib/{engines,gconv,libxslt-plugins,pkgconfig,lua,python$(PYTHON_VER_MAJOR),enigma2,gio,dbus-1.0}
 	rm -f $(RELEASE_DIR)/usr/lib/*.{a,o,la}
 	chmod 755 $(RELEASE_DIR)/usr/lib/*
 #
 # var/lib
 #
 	cp -R $(TARGET_DIR)/var/lib/* $(RELEASE_DIR)/var/lib/
-#
-# gstreamer
-#
-ifeq ($(BOXARCH), $(filter $(BOXARCH), arm mips))
-ifeq ($(GSTREAMER), yes)
-	cp -aR $(TARGET_DIR)/usr/lib/gstreamer-1.0 $(RELEASE_DIR)/usr/lib
-	cp -aR $(TARGET_DIR)/usr/lib/gio $(RELEASE_DIR)/usr/lib
-endif
-endif
 #
 # lua
 #

@@ -200,17 +200,7 @@ config:
 			1) echo "BOOT=bios" >> .config;; \
 			2|*) echo "BOOT=uefi" >> .config;; \
 		esac; \
-	fi;	
-# Gstreamer
-	@echo -e "\nGstreamer"
-	@echo "   1) yes"
-	@echo -e "   \033[01;32m2) no\033[00m"
-	@read -p "Select Gstreamer (1-2)?" GSTREAMER; \
-	GSTREAMER=$${GSTREAMER}; \
-	case "$$GSTREAMER" in \
-		1) echo "GSTREAMER=yes" >> .config;; \
-		2|*) echo "GSTREAMER=no" >> .config;; \
-	esac;
+	fi;
 # python
 	@echo -e "\npython:"
 	@echo "   1)  python"
@@ -424,11 +414,7 @@ ifeq ($(BOXARCH), x86_64)
 	@echo "BOOT             : $(BOOT)"
 endif
 	@echo '================================================================================'
-	@echo "Neutrino2 extra configuration:"
-	@echo "Gstreamer        :$(GSTREAMER)"
-	@echo "Graphlcd         :$(GRAPHLCD)"
-	@echo
-	@echo "Neutrino-DDT extra configuration:"
+	@echo "GUI configuration:"
 	@echo "Graphlcd         :$(GRAPHLCD)"
 	@echo "LCD4Linux        :$(LCD4LINUX)"
 	@echo
@@ -508,7 +494,6 @@ include make/bootstrap.mk
 include make/contrib-libs.mk
 include make/contrib-apps.mk
 include make/ffmpeg.mk
-include make/gstreamer.mk
 include make/root-etc.mk
 include make/python.mk
 include make/python3.mk
