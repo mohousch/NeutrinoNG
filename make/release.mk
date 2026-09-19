@@ -303,7 +303,11 @@ endif
 # usr/lib
 #
 	cp -R $(TARGET_DIR)/usr/lib/* $(RELEASE_DIR)/usr/lib/
+ifeq ($(PYTHON), $(filter $(PYTHON), python))
 	rm -rf $(RELEASE_DIR)/usr/lib/{engines,gconv,libxslt-plugins,pkgconfig,lua,python$(PYTHON_VER_MAJOR),enigma2,gio,dbus-1.0}
+else ifeq ($(PYTHON), $(filter $(PYTHON), python3))
+	rm -rf $(RELEASE_DIR)/usr/lib/{engines,gconv,libxslt-plugins,pkgconfig,lua,python$(PYTHON3_VER_MAJOR),enigma2,gio,dbus-1.0}
+endif
 	rm -f $(RELEASE_DIR)/usr/lib/*.{a,o,la}
 	chmod 755 $(RELEASE_DIR)/usr/lib/*
 #
@@ -321,11 +325,16 @@ endif
 # python
 #
 ifeq ($(BOXARCH), $(filter $(BOXARCH), arm mips))
-ifeq ($(PYTHON), $(filter $(PYTHON), python python3))
+ifeq ($(PYTHON), $(filter $(PYTHON), python))
 	install -d $(RELEASE_DIR)/$(PYTHON_DIR)
 	cp -R $(TARGET_DIR)/$(PYTHON_DIR)/* $(RELEASE_DIR)/$(PYTHON_DIR)/
 	install -d $(RELEASE_DIR)/$(PYTHON_INCLUDE_DIR)
 	cp $(TARGET_DIR)/$(PYTHON_INCLUDE_DIR)/pyconfig.h $(RELEASE_DIR)/$(PYTHON_INCLUDE_DIR)
+else ifeq ($(PYTHON), $(filter $(PYTHON), python3))
+	install -d $(RELEASE_DIR)/$(PYTHON3_DIR)
+	cp -R $(TARGET_DIR)/$(PYTHON3_DIR)/* $(RELEASE_DIR)/$(PYTHON3_DIR)/
+	install -d $(RELEASE_DIR)/$(PYTHON3_INCLUDE_DIR)
+	cp $(TARGET_DIR)/$(PYTHON3_INCLUDE_DIR)/pyconfig.h $(RELEASE_DIR)/$(PYTHON3_INCLUDE_DIR)
 endif
 endif
 #
@@ -455,6 +464,7 @@ ifeq ($(PYTHON), $(filter $(PYTHON), python python3))
 	rm -rf $(RELEASE_DIR)/$(PYTHON_DIR)/site-packages/twisted/trial/test
 	rm -rf $(RELEASE_DIR)/$(PYTHON_DIR)/site-packages/twisted/web/test
 	rm -rf $(RELEASE_DIR)/$(PYTHON_DIR)/site-packages/twisted/words/test
+ifeq ($(PYTHON), $(filter $(PYTHON), python))
 	rm -rf $(RELEASE_DIR)/$(PYTHON_DIR)/site-packages/*-py$(PYTHON_VER_MAJOR).egg-info
 	find $(RELEASE_DIR)/$(PYTHON_DIR)/ -name '*.a' -exec rm -f {} \;
 	find $(RELEASE_DIR)/$(PYTHON_DIR)/ -name '*.c' -exec rm -f {} \;
@@ -462,6 +472,15 @@ ifeq ($(PYTHON), $(filter $(PYTHON), python python3))
 	find $(RELEASE_DIR)/$(PYTHON_DIR)/ -name '*.py' -exec rm -f {} \;
 	find $(RELEASE_DIR)/$(PYTHON_DIR)/ -name '*.o' -exec rm -f {} \;
 	find $(RELEASE_DIR)/$(PYTHON_DIR)/ -name '*.la' -exec rm -f {} \;
+else ifeq ($(PYTHON), $(filter $(PYTHON), python3))
+	rm -rf $(RELEASE_DIR)/$(PYTHON3_DIR)/site-packages/*-py$(PYTHON_VER_MAJOR).egg-info
+	find $(RELEASE_DIR)/$(PYTHON3_DIR)/ -name '*.a' -exec rm -f {} \;
+	find $(RELEASE_DIR)/$(PYTHON3_DIR)/ -name '*.c' -exec rm -f {} \;
+	find $(RELEASE_DIR)/$(PYTHON3_DIR)/ -name '*.pyx' -exec rm -f {} \;
+	find $(RELEASE_DIR)/$(PYTHON3_DIR)/ -name '*.py' -exec rm -f {} \;
+	find $(RELEASE_DIR)/$(PYTHON3_DIR)/ -name '*.o' -exec rm -f {} \;
+	find $(RELEASE_DIR)/$(PYTHON3_DIR)/ -name '*.la' -exec rm -f {} \;
+endif
 endif
 endif
 ifeq ($(BOXARCH), sh4)
@@ -541,7 +560,11 @@ ifeq ($(BOXARCH), sh4)
 	[ -e $(RELEASE_DIR)/usr/lib/libgmodule-2.0.so ] && rm -rf $(RELEASE_DIR)/usr/lib/libgmodule-2.0* || true
 	[ -e $(RELEASE_DIR)/usr/lib/libgobject-2.0.so ] && rm -rf $(RELEASE_DIR)/usr/lib/libgobject-2.0* || true
 	[ -e $(RELEASE_DIR)/usr/lib/libgthread-2.0.so ] && rm -rf $(RELEASE_DIR)/usr/lib/libgthread-2.0* || true
+ifeq ($(PYTHON), $(filter $(PYTHON), python))
 	[ -e $(RELEASE_DIR)/usr/lib/libpython$(PYTHON_VER_MAJOR).so ] && rm -rf $(RELEASE_DIR)/usr/lib/libpython* || true
+else ifeq ($(PYTHON), $(filter $(PYTHON), python3))
+	[ -e $(RELEASE_DIR)/usr/lib/libpython$(PYTHON3_VER_MAJOR).so ] && rm -rf $(RELEASE_DIR)/usr/lib/libpython* || true
+endif
 #
 # imigrate /etc to /var/etc
 #

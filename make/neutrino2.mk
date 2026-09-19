@@ -46,10 +46,13 @@ endif
 
 NEUTRINO2_CONFIG_OPTS += --enable-lua
 
-ifeq ($(BOXARCH), $(filter $(BOXARCH), arm mips))
-ifeq ($(PYTHON), $(filter $(PYTHON), python python3))
+ifeq ($(BOXARCH), $(filter $(BOXARCH), arm mips x86_64))
+ifeq ($(PYTHON), $(filter $(PYTHON), python))
 NEUTRINO2_DEPS += $(D)/python
 NEUTRINO2_CONFIG_OPTS += --enable-python PYTHON_CPPFLAGS="-I$(TARGET_DIR)/usr/include/python$(PYTHON_VER_MAJOR)" PYTHON_LIBS="-L$(TARGET_DIR)/usr/lib -lpython$(PYTHON_VER_MAJOR)" PYTHON_SITE_PKG="$(TARGET_DIR)/usr/lib/python$(PYTHON_VER_MAJOR)/site-packages"
+#else ifeq ($(PYTHON), $(filter $(PYTHON), python3))
+#NEUTRINO2_DEPS += $(D)/python3
+#NEUTRINO2_CONFIG_OPTS += --enable-python PYTHON_CPPFLAGS="-I$(TARGET_DIR)/usr/include/python$(PYTHON3_VER_MAJOR)" PYTHON_LIBS="-L$(TARGET_DIR)/usr/lib -lpython$(PYTHON3_VER_MAJOR)" PYTHON_SITE_PKG="$(TARGET_DIR)/usr/lib/python$(PYTHON3_VER_MAJOR)/site-packages"
 endif
 endif
 
@@ -318,7 +321,11 @@ ifeq ($(BOXARCH), sh4)
 	[ -e $(RELEASE_DIR)/usr/lib/libgmodule-2.0.so ] && rm -rf $(RELEASE_DIR)/usr/lib/libgmodule-2.0* || true
 	[ -e $(RELEASE_DIR)/usr/lib/libgobject-2.0.so ] && rm -rf $(RELEASE_DIR)/usr/lib/libgobject-2.0* || true
 	[ -e $(RELEASE_DIR)/usr/lib/libgthread-2.0.so ] && rm -rf $(RELEASE_DIR)/usr/lib/libgthread-2.0* || true
+ifeq ($(PYTHON), $(filter $(PYTHON), python))
 	[ -e $(RELEASE_DIR)/usr/lib/libpython$(PYTHON_VER_MAJOR).so ] && rm -rf $(RELEASE_DIR)/usr/lib/libpython* || true
+else ifeq ($(PYTHON), $(filter $(PYTHON), python3))
+	[ -e $(RELEASE_DIR)/usr/lib/libpython$(PYTHON3_VER_MAJOR).so ] && rm -rf $(RELEASE_DIR)/usr/lib/libpython* || true
+endif
 #
 # imigrate /etc to /var/etc
 #
