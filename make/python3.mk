@@ -113,7 +113,6 @@ $(D)/python3: $(D)/bootstrap $(D)/host_python3 $(D)/ncurses $(D)/zlib $(D)/opens
 		; \
 		$(MAKE) install DESTDIR=$(TARGET_DIR)
 	ln -sf ../../libpython$(PYTHON3_VER_MAJOR).so.1.0 $(TARGET_DIR)/$(PYTHON3_DIR)/config/libpython$(PYTHON3_VER_MAJOR).so; \
-	ln -sf $(TARGET_DIR)/$(PYTHON3_INCLUDE_DIR) $(TARGET_DIR)/usr/include/python
 	ln -sf python3 $(TARGET_DIR)/usr/bin/python
 	$(REWRITE_PKGCONF) $(PKG_CONFIG_PATH)/python-$(PYTHON3_VER_MAJOR).pc
 	$(REMOVE)/Python-$(PYTHON3_VER)

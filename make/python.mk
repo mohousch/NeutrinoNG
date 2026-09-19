@@ -97,7 +97,6 @@ $(D)/python: $(D)/bootstrap $(D)/host_python $(D)/ncurses $(D)/zlib $(D)/openssl
 		; \
 		$(MAKE) install DESTDIR=$(TARGET_DIR)
 	ln -sf ../../libpython$(PYTHON_VER_MAJOR).so.1.0 $(TARGET_DIR)/$(PYTHON_DIR)/config/libpython$(PYTHON_VER_MAJOR).so; \
-	ln -sf $(TARGET_DIR)/$(PYTHON_INCLUDE_DIR) $(TARGET_DIR)/usr/include/python
 	$(REWRITE_PKGCONF) $(PKG_CONFIG_PATH)/python-$(PYTHON_VER_MAJOR).pc
 	$(REMOVE)/Python-$(PYTHON_VER)
 	$(TOUCH)
