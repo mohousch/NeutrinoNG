@@ -425,10 +425,12 @@ endif
 	@echo "Openvpn          :$(OPENVPN)"
 	@echo "Xupnpd           :$(XUPNPD)"
 	@echo "Dropbear         :$(DROPBEAR)"
+	@echo
 	@echo "Misc packages:"
 	@echo "MC               :$(MC)"
 	@echo "Nano             :$(NANO)"
 	@echo "Htop             :$(HTOP)"
+	@echo
 	@echo "Development tools:"
 	@echo "GDB              :$(GDB)"
 	@echo "Valgrind         :$(VALGRIND)"
