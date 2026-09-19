@@ -557,8 +557,7 @@ LIRC_OPTS = \
 	--enable-uinput \
 	--enable-devinput \
 	DEVINPUT_HEADER=$(CROSS_DIR)/$(TARGET)/sys-root/usr/include/linux/input.h \
-	--with-driver=userspace \
-	--with-python_prefix=$(HOST_DIR)/bin/python
+	--with-driver=userspace
 else ifeq ($(BOXARCH), sh4)
 LIRC_OPTS = \
 	--with-driver=userspace \

@@ -22,8 +22,26 @@ PYTHON3_PATCH  = 0001-default-is-optimized.patch \
 #
 # python helpers
 #
-PYTHON3_DIR = usr/lib/python$(PYTHON_VER_MAJOR)
-PYTHON3_INCLUDE_DIR = usr/include/python$(PYTHON_VER_MAJOR)
+PYTHON3_DIR = usr/lib/python$(PYTHON3_VER_MAJOR)
+PYTHON3_INCLUDE_DIR = usr/include/python$(PYTHON3_VER_MAJOR)
+
+PYTHON3_BUILD = \
+	CC="$(TARGET)-gcc" \
+	CFLAGS="$(TARGET_CFLAGS)" \
+	LDFLAGS="$(TARGET_LDFLAGS)" \
+	LDSHARED="$(TARGET)-gcc -shared" \
+	PYTHONPATH=$(TARGET_DIR)/$(PYTHON3_DIR)/site-packages \
+	CPPFLAGS="$(TARGET_CPPFLAGS) -I$(TARGET_DIR)/$(PYTHON3_INCLUDE_DIR)" \
+	$(HOST_DIR)/bin/python ./setup.py -q build --executable=/usr/bin/python
+
+PYTHON3_INSTALL = \
+	CC="$(TARGET)-gcc" \
+	CFLAGS="$(TARGET_CFLAGS)" \
+	LDFLAGS="$(TARGET_LDFLAGS)" \
+	LDSHARED="$(TARGET)-gcc -shared" \
+	PYTHONPATH=$(TARGET_DIR)/$(PYTHON3_DIR)/site-packages \
+	CPPFLAGS="$(TARGET_CPPFLAGS) -I$(TARGET_DIR)/$(PYTHON3_INCLUDE_DIR)" \
+	$(HOST_DIR)/bin/python ./setup.py -q install --root=$(TARGET_DIR) --prefix=/usr
 
 $(D)/python3: $(D)/bootstrap $(D)/ncurses $(D)/zlib $(D)/openssl $(D)/libffi $(D)/bzip2 $(D)/readline $(D)/sqlite $(ARCHIVE)/$(HOST_PYTHON3_SRC)
 	$(START_BUILD)
@@ -53,7 +71,6 @@ $(D)/python3: $(D)/bootstrap $(D)/ncurses $(D)/zlib $(D)/openssl $(D)/libffi $(D
 			--with-doc-strings \
 			--with-lto \
 			--without-pymalloc \
-			--without-ensurepip \
 			--enable-ipv6 \
 			--enable-shared \
 			ac_cv_prog_HAS_HG=/bin/false \
@@ -100,5 +117,25 @@ $(D)/python3: $(D)/bootstrap $(D)/ncurses $(D)/zlib $(D)/openssl $(D)/libffi $(D
 	ln -sf python3 $(TARGET_DIR)/usr/bin/python
 	$(REWRITE_PKGCONF) $(PKG_CONFIG_PATH)/python-$(PYTHON3_VER_MAJOR).pc
 	$(REMOVE)/Python-$(PYTHON3_VER)
+	$(TOUCH)
+	
+#
+# python_setuptools
+#
+PYTHON3_SETUPTOOLS_VER = 80.9.0
+PYTHON3_SETUPTOOLS_SRC = setuptools-$(PYTHON3_SETUPTOOLS_VER).tar.gz
+PYTHON3_SETUPTOOLS_URL = https://pypi.python.org/packages/source/s/setuptools
+
+$(ARCHIVE)/$(PYTHON3_SETUPTOOLS_SRC):
+	$(DOWNLOAD) $(PYTHON3_SETUPTOOLS_URL)/$(PYTHON3_SETUPTOOLS_SRC)
+
+$(D)/python3_setuptools: $(D)/bootstrap $(D)/python3 $(ARCHIVE)/$(PYTHON3_SETUPTOOLS_SRC)
+	$(START_BUILD)
+	$(REMOVE)/setuptools-$(PYTHON3_SETUPTOOLS_VER)
+	$(UNTAR)/$(PYTHON3_SETUPTOOLS_SRC)
+	$(CHDIR)/setuptools-$(PYTHON3_SETUPTOOLS_VER); \
+		$(PYTHON3_BUILD); \
+		$(PYTHON3_INSTALL)
+	$(REMOVE)/setuptools-$(PYTHON3_SETUPTOOLS_VER)
 	$(TOUCH)
 
