@@ -604,9 +604,11 @@ $(D)/lirc: $(D)/bootstrap $(ARCHIVE)/$(LIRC_SRC)
 		$(MAKE) all; \
 		$(MAKE) install DESTDIR=$(TARGET_DIR)
 	$(REWRITE_LIBTOOL)/liblirc_client.la
-ifneq ($(BOXARCH), x86_64)	
+ifeq ($(BOXARCH), sh4)	
 	rm -f $(addprefix $(TARGET_DIR)/usr/bin/,lircmd ircat irpty irrecord irsend irw lircrcd mode2 pronto2lirc)
 	rm -rf $(TARGET_DIR)/usr/var
+else
+	rm -rf $(TARGET_DIR)/usr/lib/python
 endif	
 	$(REMOVE)/lirc-$(LIRC_VER)
 	$(TOUCH)
