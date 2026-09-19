@@ -9,7 +9,7 @@ BLOCK_SECTOR = 2
 FLASH_BOOTOPTIONS_PARTITION_SIZE = 4096
 FLASH_IMAGE_ROOTFS_SIZE = 1048576
 
-hdfastboot8gb-disk-image-$(BOXTYPE): $(ARCHIVE)/$(FLASH_BOOTARGS_SRC) $(ARCHIVE)/$(FLASH_PARTITONS_SRC) $(ARCHIVE)/$(FLASH_RECOVERY_SRC)
+hdfastboot8gb-disk-image: $(ARCHIVE)/$(FLASH_BOOTARGS_SRC) $(ARCHIVE)/$(FLASH_PARTITONS_SRC) $(ARCHIVE)/$(FLASH_RECOVERY_SRC)
 	# Create image
 	rm -rf $(IMAGE_BUILD_DIR) || true
 	mkdir -p $(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)
@@ -52,7 +52,7 @@ endif
 #
 # hdfastboot8gb-rootfs-image
 #	
-hdfastboot8gb-rootfs-image-$(BOXTYPE):
+hdfastboot8gb-rootfs-image:
 	rm -rf $(IMAGE_BUILD_DIR) || true
 	mkdir -p $(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)
 	#
