@@ -41,7 +41,7 @@ PYTHON_PATCH += python-$(PYTHON_VER)-xcompile.patch
 PYTHON_PATCH += python-$(PYTHON_VER)-revert_use_of_sysconfigdata.patch
 PYTHON_PATCH += python-$(PYTHON_VER)-pgettext.patch
 
-$(D)/python: $(D)/bootstrap $(D)/ncurses $(D)/zlib $(D)/openssl $(D)/libffi $(D)/bzip2 $(D)/readline $(D)/sqlite $(ARCHIVE)/$(HOST_PYTHON_SOURCE)
+$(D)/python: $(D)/bootstrap $(D)/host_python $(D)/ncurses $(D)/zlib $(D)/openssl $(D)/libffi $(D)/bzip2 $(D)/readline $(D)/sqlite $(ARCHIVE)/$(HOST_PYTHON_SOURCE)
 	$(START_BUILD)
 	$(REMOVE)/Python-$(PYTHON_VER)
 	$(UNTAR)/$(PYTHON_SOURCE)

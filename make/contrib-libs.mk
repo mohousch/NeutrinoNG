@@ -579,6 +579,12 @@ $(D)/lirc: $(D)/bootstrap $(ARCHIVE)/$(LIRC_SRC)
 		$(call apply_patches, $(LIRC_PATCH)); \
 		$(CONFIGURE) \
 		ac_cv_path_LIBUSB_CONFIG= \
+		am_cv_path_PYTHON="none" \
+		ac_cv_path_PYTHON="none" \
+		ax_cv_python_developer_package="no" \
+		PYTHON="true" \
+		am_cv_path_PYTHON="true" \
+		ac_cv_path_PYTHON="true" \
 		CFLAGS="$(TARGET_CFLAGS) $(LIRC_CFLAGS)" \
 			--build=$(BUILD) \
 			--host=$(TARGET) \

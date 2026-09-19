@@ -43,7 +43,7 @@ PYTHON3_INSTALL = \
 	CPPFLAGS="$(TARGET_CPPFLAGS) -I$(TARGET_DIR)/$(PYTHON3_INCLUDE_DIR)" \
 	$(HOST_DIR)/bin/python ./setup.py -q install --root=$(TARGET_DIR) --prefix=/usr
 
-$(D)/python3: $(D)/bootstrap $(D)/ncurses $(D)/zlib $(D)/openssl $(D)/libffi $(D)/bzip2 $(D)/readline $(D)/sqlite $(ARCHIVE)/$(HOST_PYTHON3_SRC)
+$(D)/python3: $(D)/bootstrap $(D)/host_python3 $(D)/ncurses $(D)/zlib $(D)/openssl $(D)/libffi $(D)/bzip2 $(D)/readline $(D)/sqlite $(ARCHIVE)/$(HOST_PYTHON3_SRC)
 	$(START_BUILD)
 	$(REMOVE)/Python-$(PYTHON3_VER)
 	$(UNTAR)/$(PYTHON3_SRC)
