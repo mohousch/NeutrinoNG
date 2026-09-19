@@ -556,7 +556,13 @@ LIRC_OPTS = \
 	--with-kerneldir=$(KERNEL_DIR) \
 	--enable-uinput \
 	--enable-devinput \
-	DEVINPUT_HEADER=$(CROSS_DIR)/$(TARGET)/sys-root/usr/include/linux/input.h
+	DEVINPUT_HEADER=$(CROSS_DIR)/$(TARGET)/sys-root/usr/include/linux/input.h \
+	--with-driver=userspace \
+	--with-python_prefix=$(HOST_DIR)/bin/python
+else ifeq ($(BOXARCH), sh4)
+LIRC_OPTS = \
+	--with-driver=userspace \
+	--enable-sandboxed
 endif			
 
 $(ARCHIVE)/$(LIRC_SRC):
@@ -586,10 +592,8 @@ $(D)/lirc: $(D)/bootstrap $(ARCHIVE)/$(LIRC_SRC)
 			--with-devdir=/dev \
 			--with-moduledir=/lib/modules \
 			--with-major=61 \
-			--with-driver=userspace \
 			--enable-debug \
 			--with-syslog=LOG_DAEMON \
-			--enable-sandboxed \
 			$(LIRC_OPTS) \
 		; \
 		$(MAKE) all; \
