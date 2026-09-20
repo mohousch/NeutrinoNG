@@ -8,7 +8,7 @@
 BOXARCH = x86_64
 BOXCPU = x86-64
 
-MACHINE_OPTS = --enable-lirc --enable-no-av-decoder
+MACHINE_OPTS = --enable-lirc --enable-no-av-decoder --enable-keyboard
 MACHINE_DEPS = $(D)/lirc $(D)/libao
 
 #MACHINE_OPTS += --enable-libdrm

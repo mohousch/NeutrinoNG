@@ -8,7 +8,7 @@
 BOXARCH = arm
 BOXCPU = cortex-a7
 
-MACHINE_OPTS = --enable-lirc --enable-no-av-decoder
+MACHINE_OPTS = --enable-lirc --enable-no-av-decoder --enable-keyboard
 MACHINE_DEPS = $(D)/lirc $(D)/libao
 
 #
