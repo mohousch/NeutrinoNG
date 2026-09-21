@@ -478,9 +478,8 @@ help:
 	@echo " make neutrino-distclean         - clears neutrino to invoke update neutrino sources"
 	@echo ""
 	@echo "feed packages:"
-	@echo " make package_name-ipk           - build package."
-	@echo " make packages                   - build all feed packages."
-	@echo " make packges-clean              - clean all packages."
+	@echo " make package_name-package       - build package."
+	@echo " make packages-clean              - clean all packages."
 	@echo ""
 	@echo "optional (for developers):"
 	@echo " make image                      - build base image without GUI."
@@ -506,7 +505,6 @@ include make/cleantargets.mk
 include make/release.mk
 include make/neutrino2.mk
 include make/neutrino.mk
-include make/packages.mk
 
 update:
 	git stash && git stash show -p > ./pull-stash-NeutrinoNG_$(shell date '+%d.%m.%Y-%H.%M').patch || true && git pull || true;

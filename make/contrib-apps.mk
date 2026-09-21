@@ -776,6 +776,53 @@ $(D)/fbshot: $(D)/bootstrap $(D)/libpng $(ARCHIVE)/$(FBSHOT_SRC)
 		install -D -m 755 fbshot $(TARGET_DIR)/usr/bin/fbshot
 	$(REMOVE)/fbshot-$(FBSHOT_VER)
 	$(TOUCH)
+	
+#
+# fbshot-package
+#
+fbshot-package: $(D)/bootstrap $(D)/libpng $(ARCHIVE)/$(FBSHOT_SRC)
+	$(START_BUILD)
+	rm -rf $(PKGPREFIX)
+	install -d $(PKGPREFIX)
+	install -d $(PKGS_DIR)
+	install -d $(PKGS_DIR)/$@
+	$(REMOVE)/fbshot-$(FBSHOT_VER)
+	$(UNTAR)/$(FBSHOT_SRC)
+	$(CHDIR)/fbshot-$(FBSHOT_VER); \
+		$(call apply_patches, $(FBSHOT_PATCH)); \
+		sed -i s~'gcc'~"$(TARGET)-gcc $(TARGET_CFLAGS) $(TARGET_LDFLAGS)"~ Makefile; \
+		sed -i 's/strip fbshot/$(TARGET)-strip fbshot/' Makefile; \
+		$(MAKE) all; \
+		install -D -m 755 fbshot $(PKGPREFIX)/bin/fbshot
+	$(REMOVE)/fbshot-$(FBSHOT_VER)
+ifneq ($(OPTIMIZATIONS), $(filter $(OPTIMIZATIONS), kerneldebug debug normal))
+	find $(PKGPREFIX)/ -name '*' -exec $(TARGET)-strip --strip-unneeded {} &>/dev/null \;
+endif
+	pushd $(PKGPREFIX) && tar --numeric-owner --group=0 --owner=0 -czf $(PKGS_DIR)/$@/data.tar.gz ./* && popd
+	install -d $(BUILD_TMP)/fbshot/control
+	touch $(BUILD_TMP)/fbshot/control/control
+	echo Package: fbshot > $(BUILD_TMP)/fbshot/control/control
+	echo Version: $(FBSHOT_VER) >> $(BUILD_TMP)/fbshot/control/control
+	echo Section: base/libraries >> $(BUILD_TMP)/fbshot/control/control
+ifeq ($(BOXARCH), mips)
+	echo Architecture: $(BOXARCH)el >> $(BUILD_TMP)/fbshot/control/control 
+else
+	echo Architecture: $(BOXARCH) >> $(BUILD_TMP)/fbshot/control/control 
+endif
+	echo Maintainer: $(MAINTAINER)  >> $(BUILD_TMP)/fbshot/control/control 
+	echo Depends:  >> $(BUILD_TMP)/fbshot/control/control
+	touch $(BUILD_TMP)/fbshot/control/preint
+	echo '#!/bin/sh' > $(BUILD_TMP)/fbshot/control/preint
+	echo 'if test -x /sbin/ldconfig; then' >> $(BUILD_TMP)/fbshot/control/preint
+	echo '	echo "updating dynamic linker cache..."' >> $(BUILD_TMP)/fbshot/control/preint
+	echo '	/sbin/ldconfig' >> $(BUILD_TMP)/fbshot/control/preint
+	echo 'fi' >> $(BUILD_TMP)/fbshot/control/preint
+	pushd $(BUILD_TMP)/fbshot/control && chmod +x * && tar --numeric-owner --group=0 --owner=0 -czf $(PKGS_DIR)/$@/control.tar.gz ./* && popd
+	pushd $(PKGS_DIR)/$@ && echo 2.0 > debian-binary && ar rv $(PKGS_DIR)/fbshot-$(FBSHOT_VER)_$(BOXARCH)_all.ipk ./data.tar.gz ./control.tar.gz ./debian-binary && popd && rm -rf data.tar.gz control.tar.gz debian-binary
+	rm -rf $(PKGPREFIX)
+	rm -rf $(BUILD_TMP)/fbshot
+	rm -rf $(PKGS_DIR)/$@
+	$(END_BUILD)
 
 #
 # sysstat
@@ -1331,6 +1378,141 @@ $(D)/samba: $(D)/bootstrap $(ARCHIVE)/$(SAMBA_SRC)
 	rm -rf $(TARGET_LIB_DIR)/gpext
 	$(REMOVE)/samba-$(SAMBA_VER)
 	$(TOUCH)
+	
+#
+# samba-package
+#	
+samba-package: $(D)/bootstrap $(ARCHIVE)/$(SAMBA_SRC)
+	$(START_BUILD)
+	rm -rf $(PKGPREFIX)
+	install -d $(PKGPREFIX)
+	install -d $(PKGPREFIX)/etc/init.d
+	install -d $(PKGS_DIR)
+	install -d $(PKGS_DIR)/$@
+	$(REMOVE)/samba-$(SAMBA_VER)
+	$(UNTAR)/$(SAMBA_SRC)
+	$(CHDIR)/samba-$(SAMBA_VER); \
+		$(call apply_patches, $(SAMBA_PATCH)); \
+		cd source3; \
+		./autogen.sh; \
+		$(BUILDENV) \
+		ac_cv_lib_attr_getxattr=no \
+		ac_cv_search_getxattr=no \
+		ac_cv_file__proc_sys_kernel_core_pattern=yes \
+		libreplace_cv_HAVE_C99_VSNPRINTF=yes \
+		libreplace_cv_HAVE_GETADDRINFO=yes \
+		libreplace_cv_HAVE_IFACE_IFCONF=yes \
+		LINUX_LFS_SUPPORT=no \
+		samba_cv_CC_NEGATIVE_ENUM_VALUES=yes \
+		samba_cv_HAVE_GETTIMEOFDAY_TZ=yes \
+		samba_cv_HAVE_IFACE_IFCONF=yes \
+		samba_cv_HAVE_KERNEL_OPLOCKS_LINUX=yes \
+		samba_cv_HAVE_SECURE_MKSTEMP=yes \
+		samba_cv_HAVE_WRFILE_KEYTAB=no \
+		samba_cv_USE_SETREUID=yes \
+		samba_cv_USE_SETRESUID=yes \
+		samba_cv_have_setreuid=yes \
+		samba_cv_have_setresuid=yes \
+		ac_cv_header_zlib_h=no \
+		samba_cv_zlib_1_2_3=no \
+		ac_cv_path_PYTHON="" \
+		ac_cv_path_PYTHON_CONFIG="" \
+		libreplace_cv_HAVE_GETADDRINFO=no \
+		libreplace_cv_READDIR_NEEDED=no \
+		./configure \
+			--build=$(BUILD) \
+			--host=$(TARGET) \
+			--prefix= \
+			--includedir=/usr/include \
+			--exec-prefix=/usr \
+			--disable-pie \
+			--disable-avahi \
+			--disable-cups \
+			--disable-relro \
+			--disable-swat \
+			--disable-shared-libs \
+			--disable-socket-wrapper \
+			--disable-nss-wrapper \
+			--disable-smbtorture4 \
+			--disable-fam \
+			--disable-iprint \
+			--disable-dnssd \
+			--disable-pthreadpool \
+			--disable-dmalloc \
+			--with-included-iniparser \
+			--with-included-popt \
+			--with-sendfile-support \
+			--without-aio-support \
+			--without-cluster-support \
+			--without-ads \
+			--without-krb5 \
+			--without-dnsupdate \
+			--without-automount \
+			--without-ldap \
+			--without-pam \
+			--without-pam_smbpass \
+			--without-winbind \
+			--without-wbclient \
+			--without-syslog \
+			--without-nisplus-home \
+			--without-quotas \
+			--without-sys-quotas \
+			--without-utmp \
+			--without-acl-support \
+			--with-configdir=/etc/samba \
+			--with-privatedir=/etc/samba \
+			--with-mandir=no \
+			--with-piddir=/var/run \
+			--with-logfilebase=/var/log \
+			--with-lockdir=/var/lock \
+			--with-swatdir=/usr/share/swat \
+			--disable-cups \
+			--without-winbind \
+			--without-libtdb \
+			--without-libtalloc \
+			--without-libnetapi \
+			--without-libsmbclient \
+			--without-libsmbsharemodes \
+			--without-libtevent \
+			--without-libaddns \
+		; \
+		$(MAKE); \
+		$(MAKE) installservers installbin installscripts installdat installmodules \
+			SBIN_PROGS="bin/samba_multicall" DESTDIR=$(PKGPREFIX) prefix=./. ; \
+			ln -s samba_multicall $(PKGPREFIX)/usr/sbin/nmbd
+			ln -s samba_multicall $(PKGPREFIX)/usr/sbin/smbd
+			ln -s samba_multicall $(PKGPREFIX)/usr/sbin/smbpasswd
+	install -m 755 $(SKEL_ROOT)/etc/init.d/samba $(PKGPREFIX)/etc/init.d/
+	install -m 644 $(SKEL_ROOT)/etc/samba/smb.conf $(PKGPREFIX)/etc/samba/
+	$(REMOVE)/samba-$(SAMBA_VER)
+ifneq ($(OPTIMIZATIONS), $(filter $(OPTIMIZATIONS), kerneldebug debug normal))
+	find $(PKGPREFIX)/ -name '*' -exec $(TARGET)-strip --strip-unneeded {} &>/dev/null \;
+endif
+	pushd $(PKGPREFIX) && tar --numeric-owner --group=0 --owner=0 -czf $(PKGS_DIR)/$@/data.tar.gz ./* && popd
+	install -d $(BUILD_TMP)/samba/control
+	touch $(BUILD_TMP)/samba/control/control
+	echo Package: samba > $(BUILD_TMP)/samba/control/control
+	echo Version: $(SAMBA_VER) >> $(BUILD_TMP)/samba/control/control
+	echo Section: base/libraries >> $(BUILD_TMP)/samba/control/control
+ifeq ($(BOXARCH), mips)
+	echo Architecture: $(BOXARCH)el >> $(BUILD_TMP)/samba/control/control 
+else
+	echo Architecture: $(BOXARCH) >> $(BUILD_TMP)/samba/control/control 
+endif
+	echo Maintainer: $(MAINTAINER)  >> $(BUILD_TMP)/samba/control/control 
+	echo Depends:  >> $(BUILD_TMP)/samba/control/control
+	touch $(BUILD_TMP)/samba/control/preint
+	echo '#!/bin/sh' > $(BUILD_TMP)/samba/control/preint
+	echo 'if test -x /sbin/ldconfig; then' >> $(BUILD_TMP)/samba/control/preint
+	echo '	echo "updating dynamic linker cache..."' >> $(BUILD_TMP)/samba/control/preint
+	echo '	/sbin/ldconfig' >> $(BUILD_TMP)/samba/control/preint
+	echo 'fi' >> $(BUILD_TMP)/samba/control/preint
+	pushd $(BUILD_TMP)/samba/control && chmod +x * && tar --numeric-owner --group=0 --owner=0 -czf $(PKGS_DIR)/$@/control.tar.gz ./* && popd
+	pushd $(PKGS_DIR)/$@ && echo 2.0 > debian-binary && ar rv $(PKGS_DIR)/samba-$(SAMBA_VER)_$(BOXARCH)_all.ipk ./data.tar.gz ./control.tar.gz ./debian-binary && popd && rm -rf data.tar.gz control.tar.gz debian-binary
+	rm -rf $(BUILD_TMP)/samba
+	rm -rf $(PKGPREFIX)
+	rm -rf $(PKGS_DIR)/$@
+	$(END_BUILD)
 
 #
 # ntp
@@ -1705,6 +1887,59 @@ $(D)/ofgwrite: $(D)/bootstrap $(ARCHIVE)/$(OFGWRITE_SRC)
 	$(TOUCH)
 	
 #
+# ofgwrite-package
+#
+ofgwrite-package: $(D)/bootstrap $(ARCHIVE)/$(OFGWRITE_SRC)
+	$(START_BUILD)
+	rm -rf $(PKGPREFIX)
+	install -d $(PKGPREFIX)
+	install -d $(PKGPREFIX)/usr/bin
+	install -d $(PKGS_DIR)
+	install -d $(PKGS_DIR)/$@
+	$(REMOVE)/ofgwrite-ddt
+	set -e; if [ -d $(ARCHIVE)/ofgwrite-ddt.git ]; \
+		then cd $(ARCHIVE)/ofgwrite-ddt.git; git pull; \
+		else cd $(ARCHIVE); git clone https://github.com/Duckbox-Developers/ofgwrite-ddt.git ofgwrite-ddt.git; \
+		fi
+	cp -ra $(ARCHIVE)/ofgwrite-ddt.git $(BUILD_TMP)/ofgwrite-ddt
+	$(CHDIR)/ofgwrite-ddt; \
+		$(call apply_patches,$(OFGWRITE_PATCH)); \
+		$(BUILDENV) \
+		$(MAKE); \
+	install -m 755 $(BUILD_TMP)/ofgwrite-ddt/ofgwrite_bin $(PKGPREFIX)/usr/bin
+	install -m 755 $(BUILD_TMP)/ofgwrite-ddt/ofgwrite_caller $(PKGPREFIX)/usr/bin
+	install -m 755 $(BUILD_TMP)/ofgwrite-ddt/ofgwrite $(PKGPREFIX)/usr/bin
+	$(REMOVE)/ofgwrite-ddt
+ifneq ($(OPTIMIZATIONS), $(filter $(OPTIMIZATIONS), kerneldebug debug normal))
+	find $(PKGPREFIX)/ -name '*' -exec $(TARGET)-strip --strip-unneeded {} &>/dev/null \;
+endif
+	pushd $(PKGPREFIX) && tar --numeric-owner --group=0 --owner=0 -czf $(PKGS_DIR)/$@/data.tar.gz ./* && popd
+	install -d $(BUILD_TMP)/ofgwrite/control
+	touch $(BUILD_TMP)/ofgwrite/control/control
+	echo Package: ofgwrite > $(BUILD_TMP)/ofgwrite/control/control
+	echo Version: $(OFGWRITE_VER) >> $(BUILD_TMP)/ofgwrite/control/control
+	echo Section: base/libraries >> $(BUILD_TMP)/ofgwrite/control/control
+ifeq ($(BOXARCH), mips)
+	echo Architecture: $(BOXARCH)el >> $(BUILD_TMP)/ofgwrite/control/control 
+else
+	echo Architecture: $(BOXARCH) >> $(BUILD_TMP)/ofgwrite/control/control 
+endif
+	echo Maintainer: $(MAINTAINER)  >> $(BUILD_TMP)/ofgwrite/control/control 
+	echo Depends:  >> $(BUILD_TMP)/ofgwrite/control/control
+	touch $(BUILD_TMP)/ofgwrite/control/preint
+	echo '#!/bin/sh' > $(BUILD_TMP)/ofgwrite/control/preint
+	echo 'if test -x /sbin/ldconfig; then' >> $(BUILD_TMP)/ofgwrite/control/preint
+	echo '	echo "updating dynamic linker cache..."' >> $(BUILD_TMP)/ofgwrite/control/preint
+	echo '	/sbin/ldconfig' >> $(BUILD_TMP)/ofgwrite/control/preint
+	echo 'fi' >> $(BUILD_TMP)/ofgwrite/control/preint
+	pushd $(BUILD_TMP)/ofgwrite/control && chmod +x * && tar --numeric-owner --group=0 --owner=0 -czf $(PKGS_DIR)/$@/control.tar.gz ./* && popd
+	pushd $(PKGS_DIR)/$@ && echo 2.0 > debian-binary && ar rv $(PKGS_DIR)/ofgwrite-$(OFGWRITE_VER)_$(BOXARCH)_all.ipk ./data.tar.gz ./control.tar.gz ./debian-binary && popd && rm -rf data.tar.gz control.tar.gz debian-binary
+	rm -rf $(BUILD_TMP)/ofgwrite
+	rm -rf $(PKGPREFIX)
+	rm -rf $(PKGS_DIR)/$@
+	$(END_BUILD)
+	
+#
 # dvb-apps
 #
 DVB_APPS_SRC = dvb-apps.git
@@ -1837,6 +2072,61 @@ $(D)/xupnpd: $(D)/bootstrap $(D)/openssl $(D)/lua $(ARCHIVE)/$(XUPNPD_SRC)
 	mkdir -p $(TARGET_DIR)/usr/share/xupnpd/config
 	$(REMOVE)/xupnpd
 	$(TOUCH)
+	
+#
+# xupnpd-package
+#	
+xupnpd-package: $(D)/bootstrap $(D)/openssl $(D)/lua
+	$(START_BUILD)
+	rm -rf $(PKGPREFIX)
+	install -d $(PKGPREFIX)
+	install -d $(PKGPREFIX)/etc/init.d
+	install -d $(PKGS_DIR)
+	install -d $(PKGS_DIR)/$@
+	$(REMOVE)/xupnpd
+	set -e; if [ -d $(ARCHIVE)/xupnpd.git ]; \
+		then cd $(ARCHIVE)/xupnpd.git; git pull; \
+		else cd $(ARCHIVE); git clone https://github.com/clark15b/xupnpd.git xupnpd.git; \
+		fi
+	cp -ra $(ARCHIVE)/xupnpd.git $(BUILD_TMP)/xupnpd
+	($(CHDIR)/xupnpd; git checkout -q $(XUPNPD_BRANCH);)
+	$(CHDIR)/xupnpd; \
+		$(call apply_patches, $(XUPNPD_PATCH))
+	$(CHDIR)/xupnpd/src; \
+		$(BUILDENV) \
+		$(MAKE) embedded TARGET=$(TARGET) PKG_CONFIG=$(PKG_CONFIG) LUAFLAGS="$(TARGET_LDFLAGS) -I$(TARGET_INCLUDE_DIR)"; \
+		$(MAKE) install DESTDIR=$(PKGPREFIX)
+	install -m 755 $(SKEL_ROOT)/etc/init.d/xupnpd $(PKGPREFIX)/etc/init.d/
+	mkdir -p $(PKGPREFIX)/usr/share/xupnpd/config
+	$(REMOVE)/xupnpd
+ifneq ($(OPTIMIZATIONS), $(filter $(OPTIMIZATIONS), kerneldebug debug normal))
+	find $(PKGPREFIX)/ -name '*' -exec $(TARGET)-strip --strip-unneeded {} &>/dev/null \;
+endif
+	pushd $(PKGPREFIX) && tar --numeric-owner --group=0 --owner=0 -czf $(PKGS_DIR)/$@/data.tar.gz ./* && popd
+	install -d $(BUILD_TMP)/xupnpd/control
+	touch $(BUILD_TMP)/xupnpd/control/control
+	echo Package: xupnpd > $(BUILD_TMP)/xupnpd/control/control
+	echo Version: $(XUPNPD_VER) >> $(BUILD_TMP)/xupnpd/control/control
+	echo Section: base/application >> $(BUILD_TMP)/xupnpd/control/control
+ifeq ($(BOXARCH), mips)
+	echo Architecture: $(BOXARCH)el >> $(BUILD_TMP)/xupnpd/control/control 
+else
+	echo Architecture: $(BOXARCH) >> $(BUILD_TMP)/xupnpd/control/control 
+endif
+	echo Maintainer: $(MAINTAINER)  >> $(BUILD_TMP)/xupnpd/control/control 
+	echo Depends:  >> $(BUILD_TMP)/xupnpd/control/control
+	touch $(BUILD_TMP)/xupnpd/control/preint
+	echo '#!/bin/sh' > $(BUILD_TMP)/xupnpd/control/preint
+	echo 'if test -x /sbin/ldconfig; then' >> $(BUILD_TMP)/xupnpd/control/preint
+	echo '	echo "updating dynamic linker cache..."' >> $(BUILD_TMP)/xupnpd/control/preint
+	echo '	/sbin/ldconfig' >> $(BUILD_TMP)/xupnpd/control/preint
+	echo 'fi' >> $(BUILD_TMP)/xupnpd/control/preint
+	pushd $(BUILD_TMP)/xupnpd/control && chmod +x * && tar --numeric-owner --group=0 --owner=0 -czf $(PKGS_DIR)/$@/control.tar.gz ./* && popd
+	pushd $(PKGS_DIR)/$@ && echo 2.0 > debian-binary && ar rv $(PKGS_DIR)/xupnpd-$(XUPNPD_VER)_$(BOXARCH)_all.ipk ./data.tar.gz ./control.tar.gz ./debian-binary && popd && rm -rf data.tar.gz control.tar.gz debian-binary
+	rm -rf $(BUILD_TMP)/xupnpd
+	rm -rf $(PKGPREFIX)
+	rm -rf $(PKGS_DIR)/$@
+	$(END_BUILD)
 	
 #
 # f2fs-tools

@@ -83,8 +83,14 @@ builds-clean:
 	rm -rf $(BASE_DIR)/builds
 	
 #
-#
+# buildlogs-clean
 #
 buildlogs-clean:
 	rm -rf $(TUFSBOX_DIR)/make_$(BOXTYPE)*
+	
+#
+# pkg-clean
+#
+packages-clean:
+	cd $(PKGS_DIR) && rm -rf *
 

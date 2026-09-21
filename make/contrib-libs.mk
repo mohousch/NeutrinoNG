@@ -963,6 +963,60 @@ $(D)/libsigc: $(D)/bootstrap $(ARCHIVE)/$(LIBSIGC_SRC)
 	$(REWRITE_LIBTOOL)/libsigc-2.0.la
 	$(REMOVE)/libsigc++-$(LIBSIGC_VER)
 	$(TOUCH)
+	
+#
+# libsigc-package
+#
+libsigc-package: $(D)/bootstrap $(ARCHIVE)/$(LIBSIGC_SRC)
+	$(START_BUILD)
+	rm -rf $(PKGPREFIX)
+	install -d $(PKGPREFIX)
+	install -d $(PKGS_DIR)
+	install -d $(PKGS_DIR)/$@
+	$(REMOVE)/libsigc++-$(LIBSIGC_VER)
+	$(UNTAR)/$(LIBSIGC_SRC)
+	$(CHDIR)/libsigc++-$(LIBSIGC_VER); \
+		$(CONFIGURE) \
+			--prefix=/usr \
+			--enable-shared \
+			--disable-documentation \
+		; \
+		$(MAKE); \
+		$(MAKE) install DESTDIR=$(PKGPREFIX); \
+		if [ -d $(PKGPREFIX)/usr/include/sigc++-2.0/sigc++ ] ; then \
+			ln -sf ./sigc++-2.0/sigc++ $(PKGPREFIX)/usr/include/sigc++; \
+		fi;
+		mv $(PKGPREFIX)/usr/lib/sigc++-2.0/include/sigc++config.h $(PKGPREFIX)/usr/include; \
+		rm -fr $(PKGPREFIX)/usr/lib/sigc++-2.0
+	$(REMOVE)/libsigc++-$(LIBSIGC_VER)
+ifneq ($(OPTIMIZATIONS), $(filter $(OPTIMIZATIONS), kerneldebug debug normal))
+	find $(PKGPREFIX)/ -name '*' -exec $(TARGET)-strip --strip-unneeded {} &>/dev/null \;
+endif
+	pushd $(PKGPREFIX) && tar --numeric-owner --group=0 --owner=0 -czf $(PKGS_DIR)/$@/data.tar.gz ./* && popd
+	install -d $(BUILD_TMP)/libsigc/control
+	touch $(BUILD_TMP)/libsigc/control/control
+	echo Package: libsigc > $(BUILD_TMP)/libsigc/control/control
+	echo Version: $(LIBSIGC_VER) >> $(BUILD_TMP)/libsigc/control/control
+	echo Section: base/libraries >> $(BUILD_TMP)/libsigc/control/control
+ifeq ($(BOXARCH), mips)
+	echo Architecture: $(BOXARCH)el >> $(BUILD_TMP)/libsigc/control/control 
+else
+	echo Architecture: $(BOXARCH) >> $(BUILD_TMP)/libsigc/control/control 
+endif
+	echo Maintainer: $(MAINTAINER) >> $(BUILD_TMP)/libsigc/control/control 
+	echo Depends:  >> $(BUILD_TMP)/libsigc/control/control
+	touch $(BUILD_TMP)/libsigc/control/preint
+	echo '#!/bin/sh' > $(BUILD_TMP)/libsigc/control/preint
+	echo 'if test -x /sbin/ldconfig; then' >> $(BUILD_TMP)/libsigc/control/preint
+	echo '	echo "updating dynamic linker cache..."' >> $(BUILD_TMP)/libsigc/control/preint
+	echo '	/sbin/ldconfig' >> $(BUILD_TMP)/libsigc/control/preint
+	echo 'fi' >> $(BUILD_TMP)/libsigc/control/preint
+	pushd $(BUILD_TMP)/libsigc/control && chmod +x * && tar --numeric-owner --group=0 --owner=0 -czf $(PKGS_DIR)/$@/control.tar.gz ./* && popd
+	pushd $(PKGS_DIR)/$@ && echo 2.0 > debian-binary && ar rv $(PKGS_DIR)/libsigc-$(LIBSIGC_VER)_$(BOXARCH)_all.ipk ./data.tar.gz ./control.tar.gz ./debian-binary && popd && rm -rf data.tar.gz control.tar.gz debian-binary
+	rm -rf $(BUILD_TMP)/libsigc
+	rm -rf $(PKGPREFIX)
+	rm -rf $(PKGS_DIR)/$@
+	$(END_BUILD)
 
 #
 # libmad
@@ -998,6 +1052,60 @@ $(D)/libmad: $(D)/bootstrap $(ARCHIVE)/$(LIBMAD_SRC)
 	$(REWRITE_LIBTOOL)/libmad.la
 	$(REMOVE)/libmad-$(LIBMAD_VER)
 	$(TOUCH)
+	
+#
+# libmad-package
+#
+libmad-package: $(D)/bootstrap $(ARCHIVE)/$(LIBMAD_SRC)
+	$(START_BUILD)
+	rm -rf $(PKGPREFIX)
+	install -d $(PKGPREFIX)
+	install -d $(PKGS_DIR)
+	install -d $(PKGS_DIR)/$@
+	$(REMOVE)/libmad-$(LIBMAD_VER)
+	$(UNTAR)/$(LIBMAD_SRC)
+	$(CHDIR)/libmad-$(LIBMAD_VER); \
+		$(call apply_patches, $(LIBMAD_PATCH)); \
+		touch NEWS AUTHORS ChangeLog; \
+		autoreconf -fi; \
+		$(CONFIGURE) \
+			--prefix=/usr \
+			--disable-debugging \
+			--enable-shared=yes \
+			--enable-speed \
+			--enable-sso \
+		; \
+		$(MAKE) all; \
+		$(MAKE) install DESTDIR=$(PKGPREFIX)
+	$(REMOVE)/libmad-$(LIBMAD_VER)
+ifneq ($(OPTIMIZATIONS), $(filter $(OPTIMIZATIONS), kerneldebug debug normal))
+	find $(PKGPREFIX)/ -name '*' -exec $(TARGET)-strip --strip-unneeded {} &>/dev/null \;
+endif
+	pushd $(PKGPREFIX) && tar --numeric-owner --group=0 --owner=0 -czf $(PKGS_DIR)/$@/data.tar.gz ./* && popd
+	install -d $(BUILD_TMP)/libmad/control
+	touch $(BUILD_TMP)/libmad/control/control
+	echo Package: libmad > $(BUILD_TMP)/libmad/control/control
+	echo Version: $(LIBMAD_VER) >> $(BUILD_TMP)/libmad/control/control
+	echo Section: base/libraries >> $(BUILD_TMP)/libmad/control/control
+ifeq ($(BOXARCH), mips)
+	echo Architecture: $(BOXARCH)el >> $(BUILD_TMP)/libmad/control/control 
+else
+	echo Architecture: $(BOXARCH) >> $(BUILD_TMP)/libmad/control/control 
+endif
+	echo Maintainer: $(MAINTAINER) >> $(BUILD_TMP)/libmad/control/control 
+	echo Depends:  >> $(BUILD_TMP)/libmad/control/control
+	touch $(BUILD_TMP)/libmad/control/preint
+	echo '#!/bin/sh' > $(BUILD_TMP)/libmad/control/preint
+	echo 'if test -x /sbin/ldconfig; then' >> $(BUILD_TMP)/libmad/control/preint
+	echo '	echo "updating dynamic linker cache..."' >> $(BUILD_TMP)/libmad/control/preint
+	echo '	/sbin/ldconfig' >> $(BUILD_TMP)/libmad/control/preint
+	echo 'fi' >> $(BUILD_TMP)/libmad/control/preint
+	pushd $(BUILD_TMP)/libmad/control && chmod +x * && tar --numeric-owner --group=0 --owner=0 -czf $(PKGS_DIR)/$@/control.tar.gz ./* && popd
+	pushd $(PKGS_DIR)/$@ && echo 2.0 > debian-binary && ar rv $(PKGS_DIR)/libmad-$(LIBMAD_VER)_$(BOXARCH)_all.ipk ./data.tar.gz ./control.tar.gz ./debian-binary && popd && rm -rf data.tar.gz control.tar.gz debian-binary
+	rm -rf $(BUILD_TMP)/libmad
+	rm -rf $(PKGPREFIX)
+	rm -rf $(PKGS_DIR)/$@
+	$(END_BUILD)
 
 #
 # libid3tag
@@ -1033,6 +1141,57 @@ endif
 	$(REWRITE_LIBTOOL)/libid3tag.la
 	$(REMOVE)/libid3tag-$(LIBID3TAG_VER)
 	$(TOUCH)
+	
+#
+# libid3tag-package
+#
+libid3tag-package: $(D)/bootstrap $(D)/zlib $(ARCHIVE)/$(LIBID3TAG_SRC)
+	$(START_BUILD)
+	rm -rf $(PKGPREFIX)
+	install -d $(PKGPREFIX)
+	install -d $(PKGS_DIR)
+	install -d $(PKGS_DIR)/$@
+	$(REMOVE)/libid3tag-$(LIBID3TAG_VER)
+	$(UNTAR)/$(LIBID3TAG_SRC)
+	$(CHDIR)/libid3tag-$(LIBID3TAG_VER); \
+		$(call apply_patches, $(LIBID3TAG_PATCH)); \
+		touch NEWS AUTHORS ChangeLog; \
+		autoreconf -fi; \
+		$(CONFIGURE) \
+			--prefix=/usr \
+			--enable-shared=yes \
+		; \
+		$(MAKE) all; \
+		$(MAKE) install DESTDIR=$(PKGPREFIX)
+	$(REMOVE)/libid3tag-$(LIBID3TAG_VER)
+ifneq ($(OPTIMIZATIONS), $(filter $(OPTIMIZATIONS), kerneldebug debug normal))
+	find $(PKGPREFIX)/ -name '*' -exec $(TARGET)-strip --strip-unneeded {} &>/dev/null \;
+endif
+	pushd $(PKGPREFIX) && tar --numeric-owner --group=0 --owner=0 -czf $(PKGS_DIR)/$@/data.tar.gz ./* && popd
+	install -d $(BUILD_TMP)/libid3tag/control
+	touch $(BUILD_TMP)/libid3tag/control/control
+	echo Package: libid3tag > $(BUILD_TMP)/libid3tag/control/control
+	echo Version: $(LIBID3TAG_VER) >> $(BUILD_TMP)/libid3tag/control/control
+	echo Section: base/libraries >> $(BUILD_TMP)/libid3tag/control/control
+ifeq ($(BOXARCH), mips)
+	echo Architecture: $(BOXARCH)el >> $(BUILD_TMP)/libid3tag/control/control 
+else
+	echo Architecture: $(BOXARCH) >> $(BUILD_TMP)/libid3tag/control/control 
+endif
+	echo Maintainer: $(MAINTAINER) >> $(BUILD_TMP)/libid3tag/control/control 
+	echo Depends:  >> $(BUILD_TMP)/libid3tag/control/control
+	touch $(BUILD_TMP)/libid3tag/control/preint
+	echo '#!/bin/sh' > $(BUILD_TMP)/libid3tag/control/preint
+	echo 'if test -x /sbin/ldconfig; then' >> $(BUILD_TMP)/libid3tag/control/preint
+	echo '	echo "updating dynamic linker cache..."' >> $(BUILD_TMP)/libid3tag/control/preint
+	echo '	/sbin/ldconfig' >> $(BUILD_TMP)/libid3tag/control/preint
+	echo 'fi' >> $(BUILD_TMP)/libid3tag/control/preint
+	pushd $(BUILD_TMP)/libid3tag/control && chmod +x * && tar --numeric-owner --group=0 --owner=0 -czf $(PKGS_DIR)/$@/control.tar.gz ./* && popd
+	pushd $(PKGS_DIR)/$@ && echo 2.0 > debian-binary && ar rv $(PKGS_DIR)/libid3tag-$(LIBID3TAG_VER)_$(BOXARCH)_all.ipk ./data.tar.gz ./control.tar.gz ./debian-binary && popd && rm -rf data.tar.gz control.tar.gz debian-binary
+	rm -rf $(BUILD_TMP)/libid3tag
+	rm -rf $(PKGPREFIX)
+	rm -rf $(PKGS_DIR)/$@
+	$(END_BUILD)
 
 #
 # flac
@@ -1078,6 +1237,71 @@ $(D)/flac: $(D)/bootstrap $(ARCHIVE)/$(FLAC_SRC)
 	$(REWRITE_LIBTOOL)/libFLAC.la
 	$(REMOVE)/flac-$(FLAC_VER)
 	$(TOUCH)
+	
+#
+# libflac-package
+#
+flac-package: $(D)/bootstrap $(ARCHIVE)/$(FLAC_SRC)
+	$(START_BUILD)
+	rm -rf $(PKGPREFIX)
+	install -d $(PKGPREFIX)
+	install -d $(PKGS_DIR)
+	install -d $(PKGS_DIR)/$@
+	$(REMOVE)/flac-$(FLAC_VER)
+	$(UNTAR)/$(FLAC_SRC)
+	$(CHDIR)/flac-$(FLAC_VER); \
+		$(call apply_patches, $(FLAC_PATCH)); \
+		touch NEWS AUTHORS ChangeLog; \
+		autoreconf -fi; \
+		$(CONFIGURE) \
+			--prefix=/usr \
+			--mandir=/.remove \
+			--datarootdir=/.remove \
+			--disable-cpplibs \
+			--disable-debug \
+			--disable-asm-optimizations \
+			--disable-sse \
+			--disable-altivec \
+			--disable-doxygen-docs \
+			--disable-thorough-tests \
+			--disable-exhaustive-tests \
+			--disable-valgrind-testing \
+			--disable-ogg \
+			--disable-oggtest \
+			--disable-local-xmms-plugin \
+			--disable-xmms-plugin \
+		; \
+		$(MAKE); \
+		$(MAKE) install DESTDIR=$(PKGPREFIX) docdir=/.remove
+	$(REMOVE)/flac-$(FLAC_VER)
+ifneq ($(OPTIMIZATIONS), $(filter $(OPTIMIZATIONS), kerneldebug debug normal))
+	find $(PKGPREFIX)/ -name '*' -exec $(TARGET)-strip --strip-unneeded {} &>/dev/null \;
+endif
+	pushd $(PKGPREFIX) && tar --numeric-owner --group=0 --owner=0 -czf $(PKGS_DIR)/$@/data.tar.gz ./* && popd
+	install -d $(BUILD_TMP)/libflac/control
+	touch $(BUILD_TMP)/libflac/control/control
+	echo Package: libflac > $(BUILD_TMP)/libflac/control/control
+	echo Version: $(FLAC_VER) >> $(BUILD_TMP)/libflac/control/control
+	echo Section: base/libraries >> $(BUILD_TMP)/libflac/control/control
+ifeq ($(BOXARCH), mips)
+	echo Architecture: $(BOXARCH)el >> $(BUILD_TMP)/libflac/control/control 
+else
+	echo Architecture: $(BOXARCH) >> $(BUILD_TMP)/libflac/control/control 
+endif
+	echo Maintainer: $(MAINTAINER) >> $(BUILD_TMP)/libflac/control/control 
+	echo Depends:  >> $(BUILD_TMP)/libflac/control/control
+	touch $(BUILD_TMP)/libflac/control/preint
+	echo '#!/bin/sh' > $(BUILD_TMP)/libflac/control/preint
+	echo 'if test -x /sbin/ldconfig; then' >> $(BUILD_TMP)/libflac/control/preint
+	echo '	echo "updating dynamic linker cache..."' >> $(BUILD_TMP)/libflac/control/preint
+	echo '	/sbin/ldconfig' >> $(BUILD_TMP)/libflac/control/preint
+	echo 'fi' >> $(BUILD_TMP)/libflac/control/preint
+	pushd $(BUILD_TMP)/libflac/control && chmod +x * && tar --numeric-owner --group=0 --owner=0 -czf $(PKGS_DIR)/$@/control.tar.gz ./* && popd
+	pushd $(PKGS_DIR)/$@ && echo 2.0 > debian-binary && ar rv $(PKGS_DIR)/libflac-$(FLAC_VER)_$(BOXARCH)_all.ipk ./data.tar.gz ./control.tar.gz ./debian-binary && popd && rm -rf data.tar.gz control.tar.gz debian-binary
+	rm -rf $(BUILD_TMP)/libflac
+	rm -rf $(PKGPREFIX)
+	rm -rf $(PKGS_DIR)/$@
+	$(END_BUILD)
 
 #
 # libogg
@@ -1106,6 +1330,56 @@ $(D)/libogg: $(D)/bootstrap $(ARCHIVE)/$(LIBOGG_SRC)
 	$(REWRITE_LIBTOOL)/libogg.la
 	$(REMOVE)/libogg-$(LIBOGG_VER)
 	$(TOUCH)
+	
+#
+# libogg-package
+#
+libogg-package: $(D)/bootstrap $(ARCHIVE)/$(LIBOGG_SRC)
+	$(START_BUILD)
+	rm -rf $(PKGPREFIX)
+	install -d $(PKGPREFIX)
+	install -d $(PKGS_DIR)
+	install -d $(PKGS_DIR)/$@
+	$(REMOVE)/libogg-$(LIBOGG_VER)
+	$(UNTAR)/$(LIBOGG_SRC)
+	$(CHDIR)/libogg-$(LIBOGG_VER); \
+		$(CONFIGURE) \
+			--prefix=/usr \
+			--docdir=/.remove \
+			--enable-shared \
+			--disable-static \
+		; \
+		$(MAKE); \
+		$(MAKE) install DESTDIR=$(PKGPREFIX)
+	$(REMOVE)/libogg-$(LIBOGG_VER)
+ifneq ($(OPTIMIZATIONS), $(filter $(OPTIMIZATIONS), kerneldebug debug normal))
+	find $(PKGPREFIX)/ -name '*' -exec $(TARGET)-strip --strip-unneeded {} &>/dev/null \;
+endif
+	pushd $(PKGPREFIX) && tar --numeric-owner --group=0 --owner=0 -czf $(PKGS_DIR)/$@/data.tar.gz ./* && popd
+	install -d $(BUILD_TMP)/libogg/control
+	touch $(BUILD_TMP)/libogg/control/control
+	echo Package: libogg > $(BUILD_TMP)/libogg/control/control
+	echo Version: $(LIBOGG_VER) >> $(BUILD_TMP)/libogg/control/control
+	echo Section: base/libraries >> $(BUILD_TMP)/libogg/control/control
+ifeq ($(BOXARCH), mips)
+	echo Architecture: $(BOXARCH)el >> $(BUILD_TMP)/libogg/control/control 
+else
+	echo Architecture: $(BOXARCH) >> $(BUILD_TMP)/libogg/control/control 
+endif
+	echo Maintainer: $(MAINTAINER) >> $(BUILD_TMP)/libogg/control/control 
+	echo Depends:  >> $(BUILD_TMP)/libogg/control/control
+	touch $(BUILD_TMP)/libogg/control/preint
+	echo '#!/bin/sh' > $(BUILD_TMP)/libogg/control/preint
+	echo 'if test -x /sbin/ldconfig; then' >> $(BUILD_TMP)/libogg/control/preint
+	echo '	echo "updating dynamic linker cache..."' >> $(BUILD_TMP)/libogg/control/preint
+	echo '	/sbin/ldconfig' >> $(BUILD_TMP)/libogg/control/preint
+	echo 'fi' >> $(BUILD_TMP)/libogg/control/preint
+	pushd $(BUILD_TMP)/libogg/control && chmod +x * && tar --numeric-owner --group=0 --owner=0 -czf $(PKGS_DIR)/$@/control.tar.gz ./* && popd
+	pushd $(PKGS_DIR)/$@ && echo 2.0 > debian-binary && ar rv $(PKGS_DIR)/libogg-$(LIBOGG_VER)_$(BOXARCH)_all.ipk ./data.tar.gz ./control.tar.gz ./debian-binary && popd && rm -rf data.tar.gz control.tar.gz debian-binary
+	rm -rf $(BUILD_TMP)/libogg
+	rm -rf $(PKGPREFIX)
+	rm -rf $(PKGS_DIR)/$@
+	$(END_BUILD)
 
 #
 # libvorbis
@@ -1143,6 +1417,58 @@ $(D)/libvorbis: $(D)/bootstrap $(D)/libogg $(ARCHIVE)/$(LIBVORBIS_SRC)
 	$(REWRITE_LIBTOOLDEP)/libvorbisfile.la
 	$(REMOVE)/libvorbis-$(LIBVORBIS_VER)
 	$(TOUCH)
+	
+#
+# libvorbis-package
+#
+libvorbis-package: $(D)/bootstrap $(D)/libogg $(ARCHIVE)/$(LIBVORBIS_SRC)
+	$(START_BUILD)
+	rm -rf $(PKGPREFIX)
+	install -d $(PKGPREFIX)
+	install -d $(PKGS_DIR)
+	install -d $(PKGS_DIR)/$@
+	$(REMOVE)/libvorbis-$(LIBVORBIS_VER)
+	$(UNTAR)/$(LIBVORBIS_SRC)
+	$(CHDIR)/libvorbis-$(LIBVORBIS_VER); \
+		$(CONFIGURE) \
+			--prefix=/usr \
+			--docdir=/.remove \
+			--mandir=/.remove \
+			--disable-docs \
+			--disable-examples \
+			--disable-oggtest \
+		; \
+		$(MAKE); \
+		$(MAKE) install DESTDIR=$(PKGPREFIX) docdir=/.remove
+	$(REMOVE)/libvorbis-$(LIBVORBIS_VER)
+ifneq ($(OPTIMIZATIONS), $(filter $(OPTIMIZATIONS), kerneldebug debug normal))
+	find $(PKGPREFIX)/ -name '*' -exec $(TARGET)-strip --strip-unneeded {} &>/dev/null \;
+endif
+	pushd $(PKGPREFIX) && tar --numeric-owner --group=0 --owner=0 -czf $(PKGS_DIR)/$@/data.tar.gz ./* && popd
+	install -d $(BUILD_TMP)/libvorbis/control
+	touch $(BUILD_TMP)/libvorbis/control/control
+	echo Package: libvorbis > $(BUILD_TMP)/libvorbis/control/control
+	echo Version: $(LIBVORBIS_VER) >> $(BUILD_TMP)/libvorbis/control/control
+	echo Section: base/libraries >> $(BUILD_TMP)/libvorbis/control/control
+ifeq ($(BOXARCH), mips)
+	echo Architecture: $(BOXARCH)el >> $(BUILD_TMP)/libvorbis/control/control 
+else
+	echo Architecture: $(BOXARCH) >> $(BUILD_TMP)/libvorbis/control/control 
+endif
+	echo Maintainer: $(MAINTAINER) >> $(BUILD_TMP)/libvorbis/control/control 
+	echo Depends:  >> $(BUILD_TMP)/libvorbis/control/control
+	touch $(BUILD_TMP)/libvorbis/control/preint
+	echo '#!/bin/sh' > $(BUILD_TMP)/libvorbis/control/preint
+	echo 'if test -x /sbin/ldconfig; then' >> $(BUILD_TMP)/libvorbis/control/preint
+	echo '	echo "updating dynamic linker cache..."' >> $(BUILD_TMP)/libvorbis/control/preint
+	echo '	/sbin/ldconfig' >> $(BUILD_TMP)/libvorbis/control/preint
+	echo 'fi' >> $(BUILD_TMP)/libvorbis/control/preint
+	pushd $(BUILD_TMP)/libvorbis/control && chmod +x * && tar --numeric-owner --group=0 --owner=0 -czf $(PKGS_DIR)/$@/control.tar.gz ./* && popd
+	pushd $(PKGS_DIR)/$@ && echo 2.0 > debian-binary && ar rv $(PKGS_DIR)/libvorbis-$(LIBVORBIS_VER)_$(BOXARCH)_all.ipk ./data.tar.gz ./control.tar.gz ./debian-binary && popd && rm -rf data.tar.gz control.tar.gz debian-binary
+	rm -rf $(BUILD_TMP)/libvorbis
+	rm -rf $(PKGPREFIX)
+	rm -rf $(PKGS_DIR)/$@
+	$(END_BUILD)
 
 #
 # libvorbisidec
@@ -1174,6 +1500,58 @@ $(D)/libvorbisidec: $(D)/bootstrap $(D)/libogg $(ARCHIVE)/$(LIBVORBISIDEC_SRC)
 	$(REWRITE_LIBTOOL)/libvorbisidec.la
 	$(REMOVE)/libvorbisidec-$(LIBVORBISIDEC_VER)
 	$(TOUCH)
+	
+#
+# libvorbisidec-package
+#
+libvorbisidec-package: $(D)/bootstrap $(D)/libogg $(ARCHIVE)/$(LIBVORBISIDEC_SRC)
+	$(START_BUILD)
+	rm -rf $(PKGPREFIX)
+	install -d $(PKGPREFIX)
+	install -d $(PKGS_DIR)
+	install -d $(PKGS_DIR)/$@
+	$(REMOVE)/libvorbisidec-$(LIBVORBISIDEC_VER)
+	$(UNTAR)/$(LIBVORBISIDEC_SRC)
+	$(CHDIR)/libvorbisidec-$(LIBVORBISIDEC_VER); \
+		$(call apply_patches, $(LIBVORBISIDEC_PATCH)); \
+		ACLOCAL_FLAGS="-I . -I $(TARGET_DIR)/usr/share/aclocal" \
+		$(BUILDENV) \
+		./autogen.sh \
+			--host=$(TARGET) \
+			--build=$(BUILD) \
+			--prefix=/usr \
+		; \
+		$(MAKE) all; \
+		$(MAKE) install DESTDIR=$(PKGPREFIX)
+	$(REMOVE)/libvorbisidec-$(LIBVORBISIDEC_VER)
+ifneq ($(OPTIMIZATIONS), $(filter $(OPTIMIZATIONS), kerneldebug debug normal))
+	find $(PKGPREFIX)/ -name '*' -exec $(TARGET)-strip --strip-unneeded {} &>/dev/null \;
+endif
+	pushd $(PKGPREFIX) && tar --numeric-owner --group=0 --owner=0 -czf $(PKGS_DIR)/$@/data.tar.gz ./* && popd
+	install -d $(BUILD_TMP)/libvorbisidec/control
+	touch $(BUILD_TMP)/libvorbisidec/control/control
+	echo Package: libvorbisidec > $(BUILD_TMP)/libvorbisidec/control/control
+	echo Version: $(LIBVORBISIDEC_VER) >> $(BUILD_TMP)/libvorbisidec/control/control
+	echo Section: base/libraries >> $(BUILD_TMP)/libvorbisidec/control/control
+ifeq ($(BOXARCH), mips)
+	echo Architecture: $(BOXARCH)el >> $(BUILD_TMP)/libvorbisidec/control/control 
+else
+	echo Architecture: $(BOXARCH) >> $(BUILD_TMP)/libvorbisidec/control/control 
+endif
+	echo Maintainer: $(MAINTAINER) >> $(BUILD_TMP)/libvorbisidec/control/control 
+	echo Depends:  >> $(BUILD_TMP)/libvorbisidec/control/control
+	touch $(BUILD_TMP)/libvorbisidec/control/preint
+	echo '#!/bin/sh' > $(BUILD_TMP)/libvorbisidec/control/preint
+	echo 'if test -x /sbin/ldconfig; then' >> $(BUILD_TMP)/libvorbisidec/control/preint
+	echo '	echo "updating dynamic linker cache..."' >> $(BUILD_TMP)/libvorbisidec/control/preint
+	echo '	/sbin/ldconfig' >> $(BUILD_TMP)/libvorbisidec/control/preint
+	echo 'fi' >> $(BUILD_TMP)/libvorbisidec/control/preint
+	pushd $(BUILD_TMP)/libvorbisidec/control && chmod +x * && tar --numeric-owner --group=0 --owner=0 -czf $(PKGS_DIR)/$@/control.tar.gz ./* && popd
+	pushd $(PKGS_DIR)/$@ && echo 2.0 > debian-binary && ar rv $(PKGS_DIR)/libvorbisidec-$(LIBVORBISIDEC_VER)_$(BOXARCH)_all.ipk ./data.tar.gz ./control.tar.gz ./debian-binary && popd && rm -rf data.tar.gz control.tar.gz debian-binary
+	rm -rf $(BUILD_TMP)/libvorbisidec
+	rm -rf $(PKGPREFIX)
+	rm -rf $(PKGS_DIR)/$@
+	$(END_BUILD)
 
 #
 # libiconv
@@ -1434,6 +1812,59 @@ $(D)/libass: $(D)/bootstrap $(D)/freetype $(D)/libfribidi $(ARCHIVE)/$(LIBASS_SR
 	$(REWRITE_LIBTOOL)/libass.la
 	$(REMOVE)/libass-$(LIBASS_VER)
 	$(TOUCH)
+	
+#
+# libass-package
+#
+libass-package: $(D)/bootstrap $(D)/freetype $(D)/libfribidi $(ARCHIVE)/$(LIBASS_SRC)
+	$(START_BUILD)
+	rm -rf $(PKGPREFIX)
+	install -d $(PKGPREFIX)
+	install -d $(PKGS_DIR)
+	install -d $(PKGS_DIR)/$@
+	$(REMOVE)/libass-$(LIBASS_VER)
+	$(UNTAR)/$(LIBASS_SRC)
+	$(CHDIR)/libass-$(LIBASS_VER); \
+		$(call apply_patches, $(LIBASS_PATCH)); \
+		$(CONFIGURE) \
+			--prefix=/usr \
+			--disable-static \
+			--disable-test \
+			--disable-fontconfig \
+			--disable-harfbuzz \
+			--disable-require-system-font-provider \
+		; \
+		$(MAKE); \
+		$(MAKE) install DESTDIR=$(PKGPREFIX)
+	$(REMOVE)/libass-$(LIBASS_VER)
+ifneq ($(OPTIMIZATIONS), $(filter $(OPTIMIZATIONS), kerneldebug debug normal))
+	find $(PKGPREFIX)/ -name '*' -exec $(TARGET)-strip --strip-unneeded {} &>/dev/null \;
+endif
+	pushd $(PKGPREFIX) && tar --numeric-owner --group=0 --owner=0 -czf $(PKGS_DIR)/$@/data.tar.gz ./* && popd
+	install -d $(BUILD_TMP)/libass/control
+	touch $(BUILD_TMP)/libass/control/control
+	echo Package: libass > $(BUILD_TMP)/libass/control/control
+	echo Version: $(LIBASS_VER) >> $(BUILD_TMP)/libass/control/control
+	echo Section: base/libraries >> $(BUILD_TMP)/libass/control/control
+ifeq ($(BOXARCH), mips)
+	echo Architecture: $(BOXARCH)el >> $(BUILD_TMP)/libass/control/control 
+else
+	echo Architecture: $(BOXARCH) >> $(BUILD_TMP)/libass/control/control 
+endif
+	echo Maintainer: $(MAINTAINER) >> $(BUILD_TMP)/libass/control/control 
+	echo Depends:  >> $(BUILD_TMP)/libass/control/control
+	touch $(BUILD_TMP)/libass/control/preint
+	echo '#!/bin/sh' > $(BUILD_TMP)/libass/control/preint
+	echo 'if test -x /sbin/ldconfig; then' >> $(BUILD_TMP)/libass/control/preint
+	echo '	echo "updating dynamic linker cache..."' >> $(BUILD_TMP)/libass/control/preint
+	echo '	/sbin/ldconfig' >> $(BUILD_TMP)/libass/control/preint
+	echo 'fi' >> $(BUILD_TMP)/libass/control/preint
+	pushd $(BUILD_TMP)/libass/control && chmod +x * && tar --numeric-owner --group=0 --owner=0 -czf $(PKGS_DIR)/$@/control.tar.gz ./* && popd
+	pushd $(PKGS_DIR)/$@ && echo 2.0 > debian-binary && ar rv $(PKGS_DIR)/libass-$(LIBASS_VER)_$(BOXARCH)_all.ipk ./data.tar.gz ./control.tar.gz ./debian-binary && popd && rm -rf data.tar.gz control.tar.gz debian-binary
+	rm -rf $(BUILD_TMP)/libass
+	rm -rf $(PKGPREFIX)
+	rm -rf $(PKGS_DIR)/$@
+	$(END_BUILD)
 
 #
 # sqlite
@@ -1724,6 +2155,61 @@ $(D)/pugixml: $(D)/bootstrap $(ARCHIVE)/$(PUGIXML_SRC)
 	$(REMOVE)/pugixml-$(PUGIXML_VER)
 	cd $(TARGET_DIR) && rm -rf usr/lib/cmake
 	$(TOUCH)
+	
+#
+# pugixml-package
+#
+pugixml-package: $(D)/bootstrap $(ARCHIVE)/$(PUGIXML_SRC)
+	$(START_BUILD)
+	rm -rf $(PKGPREFIX)
+	install -d $(PKGPREFIX)
+	install -d $(PKGS_DIR)
+	install -d $(PKGS_DIR)/$@
+	$(REMOVE)/pugixml-$(PUGIXML_VER)
+	$(UNTAR)/$(PUGIXML_SRC)
+	$(CHDIR)/pugixml-$(PUGIXML_VER); \
+		$(call apply_patches, $(PUGIXML_PATCH)); \
+		cmake  --no-warn-unused-cli \
+			-DCMAKE_INSTALL_PREFIX=/usr \
+			-DBUILD_SHARED_LIBS=ON \
+			-DCMAKE_BUILD_TYPE=Linux \
+			-DCMAKE_C_COMPILER=$(TARGET)-gcc \
+			-DCMAKE_CXX_COMPILER=$(TARGET)-g++ \
+			-DCMAKE_C_FLAGS="-pipe -Os" \
+			-DCMAKE_CXX_FLAGS="-pipe -Os" \
+			| tail -n +90 \
+		; \
+		$(MAKE); \
+		$(MAKE) install DESTDIR=$(PKGPREFIX)
+	$(REMOVE)/pugixml-$(PUGIXML_VER)
+ifneq ($(OPTIMIZATIONS), $(filter $(OPTIMIZATIONS), kerneldebug debug normal))
+	find $(PKGPREFIX)/ -name '*' -exec $(TARGET)-strip --strip-unneeded {} &>/dev/null \;
+endif
+	pushd $(PKGPREFIX) && tar --numeric-owner --group=0 --owner=0 -czf $(PKGS_DIR)/$@/data.tar.gz ./* && popd
+	install -d $(BUILD_TMP)/pugixml/control
+	touch $(BUILD_TMP)/pugixml/control/control
+	echo Package: pugixml > $(BUILD_TMP)/pugixml/control/control
+	echo Version: $(PUGIXML_VER) >> $(BUILD_TMP)/pugixml/control/control
+	echo Section: base/libraries >> $(BUILD_TMP)/pugixml/control/control
+ifeq ($(BOXARCH), mips)
+	echo Architecture: $(BOXARCH)el >> $(BUILD_TMP)/pugixml/control/control 
+else
+	echo Architecture: $(BOXARCH) >> $(BUILD_TMP)/pugixml/control/control 
+endif
+	echo Maintainer: $(MAINTAINER) >> $(BUILD_TMP)/pugixml/control/control 
+	echo Depends:  >> $(BUILD_TMP)/pugixml/control/control
+	touch $(BUILD_TMP)/pugixml/control/preint
+	echo '#!/bin/sh' > $(BUILD_TMP)/pugixml/control/preint
+	echo 'if test -x /sbin/ldconfig; then' >> $(BUILD_TMP)/pugixml/control/preint
+	echo '	echo "updating dynamic linker cache..."' >> $(BUILD_TMP)/pugixml/control/preint
+	echo '	/sbin/ldconfig' >> $(BUILD_TMP)/pugixml/control/preint
+	echo 'fi' >> $(BUILD_TMP)/pugixml/control/preint
+	pushd $(BUILD_TMP)/pugixml/control && chmod +x * && tar --numeric-owner --group=0 --owner=0 -czf $(PKGS_DIR)/$@/control.tar.gz ./* && popd
+	pushd $(PKGS_DIR)/$@ && echo 2.0 > debian-binary && ar rv $(PKGS_DIR)/pugixml-$(PUGIXML_VER)_$(BOXARCH)_all.ipk ./data.tar.gz ./control.tar.gz ./debian-binary && popd && rm -rf data.tar.gz control.tar.gz debian-binary
+	rm -rf $(BUILD_TMP)/pugixml
+	rm -rf $(PKGPREFIX)
+	rm -rf $(PKGS_DIR)/$@
+	$(END_BUILD)
 
 #
 # graphlcd
@@ -1771,6 +2257,56 @@ $(D)/graphlcd: $(D)/bootstrap $(D)/freetype $(D)/libusb $(D)/libusb_compat $(ARC
 		cp -a graphlcd.conf $(TARGET_DIR)/etc
 	$(REMOVE)/graphlcd-git-$(GRAPHLCD_VER)
 	$(TOUCH)
+	
+#
+# graphlcd-package
+#
+graphlcd-package: $(D)/bootstrap $(D)/freetype $(D)/libusb $(ARCHIVE)/$(GRAPHLCD_SRC)
+	$(START_BUILD)
+	rm -rf $(PKGPREFIX)
+	install -d $(PKGPREFIX)
+	install -d $(PKGPREFIX)/etc
+	install -d $(PKGS_DIR)
+	install -d $(PKGS_DIR)/$@
+	$(REMOVE)/graphlcd-git-$(GRAPHLCD_VER)
+	$(UNTAR)/$(GRAPHLCD_SRC)
+	$(CHDIR)/graphlcd-git-$(GRAPHLCD_VER); \
+		$(call apply_patches, $(GRAPHLCD_PATCH)); \
+		$(MAKE) -C glcdgraphics all TARGET=$(TARGET)- DESTDIR=$(PKGPREFIX); \
+		$(MAKE) -C glcddrivers all TARGET=$(TARGET)- DESTDIR=$(PKGPREFIX); \
+		$(MAKE) -C glcdgraphics install DESTDIR=$(PKGPREFIX); \
+		$(MAKE) -C glcddrivers install DESTDIR=$(PKGPREFIX); \
+		cp -a graphlcd.conf $(PKGPREFIX)/etc
+		rm -r $(PKGPREFIX)/usr/include
+	$(REMOVE)/graphlcd-git-$(GRAPHLCD_VER)
+ifneq ($(OPTIMIZATIONS), $(filter $(OPTIMIZATIONS), kerneldebug debug normal))
+	find $(PKGPREFIX)/ -name '*' -exec $(TARGET)-strip --strip-unneeded {} &>/dev/null \;
+endif
+	pushd $(PKGPREFIX) && tar --numeric-owner --group=0 --owner=0 -czf $(PKGS_DIR)/$@/data.tar.gz ./* && popd
+	install -d $(BUILD_TMP)/graphlcd/control
+	touch $(BUILD_TMP)/graphlcd/control/control
+	echo Package: graphlcd > $(BUILD_TMP)/graphlcd/control/control
+	echo Version: $(GRAPHLCD_VER) >> $(BUILD_TMP)/graphlcd/control/control
+	echo Section: base/libraries >> $(BUILD_TMP)/graphlcd/control/control
+ifeq ($(BOXARCH), mips)
+	echo Architecture: $(BOXARCH)el >> $(BUILD_TMP)/graphlcd/control/control 
+else
+	echo Architecture: $(BOXARCH) >> $(BUILD_TMP)/graphlcd/control/control 
+endif
+	echo Maintainer: $(MAINTAINER)  >> $(BUILD_TMP)/graphlcd/control/control 
+	echo Depends:  >> $(BUILD_TMP)/graphlcd/control/control
+	touch $(BUILD_TMP)/graphlcd/control/preint
+	echo '#!/bin/sh' > $(BUILD_TMP)/graphlcd/control/preint
+	echo 'if test -x /sbin/ldconfig; then' >> $(BUILD_TMP)/graphlcd/control/preint
+	echo '	echo "updating dynamic linker cache..."' >> $(BUILD_TMP)/graphlcd/control/preint
+	echo '	/sbin/ldconfig' >> $(BUILD_TMP)/graphlcd/control/preint
+	echo 'fi' >> $(BUILD_TMP)/graphlcd/control/preint
+	pushd $(BUILD_TMP)/graphlcd/control && chmod +x * && tar --numeric-owner --group=0 --owner=0 -czf $(PKGS_DIR)/$@/control.tar.gz ./* && popd
+	pushd $(PKGS_DIR)/$@ && echo 2.0 > debian-binary && ar rv $(PKGS_DIR)/graphlcd-$(GRAPHLCD_VER)_$(BOXARCH)_all.ipk ./data.tar.gz ./control.tar.gz ./debian-binary && popd && rm -rf data.tar.gz control.tar.gz debian-binary
+	rm -rf $(BUILD_TMP)/graphlcd
+	rm -rf $(PKGPREFIX)
+	rm -rf $(PKGS_DIR)/$@
+	$(END_BUILD)
 
 #
 # libdpf
@@ -1834,6 +2370,61 @@ $(D)/lcd4linux: $(D)/bootstrap $(D)/libusb_compat $(D)/gd $(D)/libusb $(D)/libdp
 	install -D -m 0600 $(SKEL_ROOT)/etc/lcd4linux.conf $(TARGET_DIR)/etc/lcd4linux.conf
 	$(REMOVE)/lcd4linux-git-$(LCD4LINUX_VER)
 	$(TOUCH)
+	
+#
+# lcd4linux-package
+#
+lcd4linux-package: $(D)/bootstrap $(D)/libusb_compat $(D)/gd $(D)/libusb $(D)/libdpf $(ARCHIVE)/$(LCD4LINUX_SRC)
+	$(START_BUILD)
+	rm -rf $(PKGPREFIX)
+	install -d $(PKGPREFIX)
+	install -d $(PKGPREFIX)/etc/init.d
+	install -d $(PKGS_DIR)
+	install -d $(PKGS_DIR)/$@
+	$(REMOVE)/lcd4linux-git-$(LCD4LINUX_VER)
+	$(UNTAR)/$(LCD4LINUX_SRC)
+	$(CHDIR)/lcd4linux-git-$(LCD4LINUX_VER); \
+		$(call apply_patches, $(LCD4LINUX_PATCH)); \
+		$(BUILDENV) ./bootstrap; \
+		$(BUILDENV) ./configure $(CONFIGURE_OPTS) \
+			--prefix=/usr \
+			--with-drivers='DPF,SamsungSPF$(LCD4LINUX_DRV),PNG' \
+			--with-plugins='all,!apm,!asterisk,!dbus,!dvb,!gps,!hddtemp,!huawei,!imon,!isdn,!kvv,!mpd,!mpris_dbus,!mysql,!pop3,!ppp,!python,!qnaplog,!raspi,!sample,!seti,!w1retap,!wireless,!xmms' \
+			--without-ncurses \
+		; \
+		$(MAKE) vcs_version all; \
+		$(MAKE) install DESTDIR=$(PKGPREFIX)
+	install -m 755 $(SKEL_ROOT)/etc/init.d/lcd4linux $(PKGPREFIX)/etc/init.d/
+	install -D -m 0600 $(SKEL_ROOT)/etc/lcd4linux.conf $(PKGPREFIX)/etc/lcd4linux.conf
+	$(REMOVE)/lcd4linux-git-$(LCD4LINUX_VER)
+ifneq ($(OPTIMIZATIONS), $(filter $(OPTIMIZATIONS), kerneldebug debug normal))
+	find $(PKGPREFIX)/ -name '*' -exec $(TARGET)-strip --strip-unneeded {} &>/dev/null \;
+endif
+	pushd $(PKGPREFIX) && tar --numeric-owner --group=0 --owner=0 -czf $(PKGS_DIR)/$@/data.tar.gz ./* && popd
+	install -d $(BUILD_TMP)/lcd4linux/control
+	touch $(BUILD_TMP)/lcd4linux/control/control
+	echo Package: lcd4linux > $(BUILD_TMP)/lcd4linux/control/control
+	echo Version: $(LCD4LINUX_VER) >> $(BUILD_TMP)/lcd4linux/control/control
+	echo Section: base/libraries >> $(BUILD_TMP)/lcd4linux/control/control
+ifeq ($(BOXARCH), mips)
+	echo Architecture: $(BOXARCH)el >> $(BUILD_TMP)/lcd4linux/control/control 
+else
+	echo Architecture: $(BOXARCH) >> $(BUILD_TMP)/lcd4linux/control/control 
+endif
+	echo Maintainer: $(MAINTAINER)  >> $(BUILD_TMP)/lcd4linux/control/control 
+	echo Depends:  >> $(BUILD_TMP)/lcd4linux/control/control
+	touch $(BUILD_TMP)/lcd4linux/control/preint
+	echo '#!/bin/sh' > $(BUILD_TMP)/lcd4linux/control/preint
+	echo 'if test -x /sbin/ldconfig; then' >> $(BUILD_TMP)/lcd4linux/control/preint
+	echo '	echo "updating dynamic linker cache..."' >> $(BUILD_TMP)/lcd4linux/control/preint
+	echo '	/sbin/ldconfig' >> $(BUILD_TMP)/lcd4linux/control/preint
+	echo 'fi' >> $(BUILD_TMP)/lcd4linux/control/preint
+	pushd $(BUILD_TMP)/lcd4linux/control && chmod +x * && tar --numeric-owner --group=0 --owner=0 -czf $(PKGS_DIR)/$@/control.tar.gz ./* && popd
+	pushd $(PKGS_DIR)/$@ && echo 2.0 > debian-binary && ar rv $(PKGS_DIR)/lcd4linux-$(LCD4LINUX_VER)_$(BOXARCH)_$(BOXTYPE).ipk ./data.tar.gz ./control.tar.gz ./debian-binary && popd && rm -rf data.tar.gz control.tar.gz debian-binary
+	rm -rf $(BUILD_TMP)/lcd4linux
+	rm -rf $(PKGPREFIX)
+	rm -rf $(PKGS_DIR)/$@
+	$(END_BUILD)
 
 #
 # gd
@@ -2118,6 +2709,54 @@ $(D)/libdvbsi: $(D)/bootstrap $(ARCHIVE)/$(LIBDVBSI_SRC)
 	$(REWRITE_LIBTOOL)/libdvbsi++.la
 	$(REMOVE)/libdvbsi-git-$(LIBDVBSI_VER)
 	$(TOUCH)
+	
+#
+# libdvbsi-package
+#
+libdvbsi-package: $(D)/bootstrap $(ARCHIVE)/$(LIBDVBSI_SRC)
+	$(START_BUILD)
+	rm -rf $(PKGPREFIX)
+	install -d $(PKGPREFIX)
+	install -d $(PKGS_DIR)
+	install -d $(PKGS_DIR)/$@
+	$(REMOVE)/libdvbsi-git-$(LIBDVBSI_VER)
+	$(UNTAR)/$(LIBDVBSI_SRC)
+	$(CHDIR)/libdvbsi-git-$(LIBDVBSI_VER); \
+		$(call apply_patches, $(LIBDVBSI_PATCH)); \
+		$(CONFIGURE) \
+			--prefix=/usr \
+		; \
+		$(MAKE); \
+		$(MAKE) install DESTDIR=$(PKGPREFIX)
+	$(REMOVE)/libdvbsi-git-$(LIBDVBSI_VER)
+ifneq ($(OPTIMIZATIONS), $(filter $(OPTIMIZATIONS), kerneldebug debug normal))
+	find $(PKGPREFIX)/ -name '*' -exec $(TARGET)-strip --strip-unneeded {} &>/dev/null \;
+endif
+	pushd $(PKGPREFIX) && tar --numeric-owner --group=0 --owner=0 -czf $(PKGS_DIR)/$@/data.tar.gz ./* && popd
+	install -d $(BUILD_TMP)/libdvbsi/control
+	touch $(BUILD_TMP)/libdvbsi/control/control
+	echo Package: libdvbsi > $(BUILD_TMP)/libdvbsi/control/control
+	echo Version: $(LIBDVBSI_VER) >> $(BUILD_TMP)/libdvbsi/control/control
+	echo Section: base/libraries >> $(BUILD_TMP)/libdvbsi/control/control
+ifeq ($(BOXARCH), mips)
+	echo Architecture: $(BOXARCH)el >> $(BUILD_TMP)/libdvbsi/control/control 
+else
+	echo Architecture: $(BOXARCH) >> $(BUILD_TMP)/libdvbsi/control/control 
+endif
+	echo Maintainer: $(MAINTAINER) >> $(BUILD_TMP)/libdvbsi/control/control 
+	echo Depends:  >> $(BUILD_TMP)/libdvbsi/control/control
+	touch $(BUILD_TMP)/libdvbsi/control/preint
+	echo '#!/bin/sh' > $(BUILD_TMP)/libdvbsi/control/preint
+	echo 'if test -x /sbin/ldconfig; then' >> $(BUILD_TMP)/libdvbsi/control/preint
+	echo '	echo "updating dynamic linker cache..."' >> $(BUILD_TMP)/libdvbsi/control/preint
+	echo '	/sbin/ldconfig' >> $(BUILD_TMP)/libdvbsi/control/preint
+	echo 'fi' >> $(BUILD_TMP)/libdvbsi/control/preint
+	pushd $(BUILD_TMP)/libdvbsi/control && chmod +x * && tar --numeric-owner --group=0 --owner=0 -czf $(PKGS_DIR)/$@/control.tar.gz ./* && popd
+	pushd $(PKGS_DIR)/$@ && echo 2.0 > debian-binary && ar rv $(PKGS_DIR)/libdvbsi-$(LIBDVBSI_VER)_$(BOXARCH)_all.ipk ./data.tar.gz ./control.tar.gz ./debian-binary && popd && rm -rf data.tar.gz control.tar.gz debian-binary
+	rm -rf $(BUILD_TMP)/libdvbsi
+	rm -rf $(PKGPREFIX)
+	rm -rf $(PKGS_DIR)/$@
+	$(END_BUILD)
 
 #
 # libmodplug
@@ -2196,6 +2835,55 @@ $(D)/minidlna: $(D)/bootstrap $(D)/zlib $(D)/sqlite $(D)/libexif $(D)/libjpeg $(
 		$(MAKE) install prefix=/usr DESTDIR=$(TARGET_DIR)
 	$(REMOVE)/minidlna-$(MINIDLNA_VER)
 	$(TOUCH)
+	
+#
+# minidlna-package
+#	
+minidlna-package: $(D)/bootstrap $(D)/zlib $(D)/sqlite $(D)/libexif $(D)/libjpeg $(D)/libid3tag $(D)/libogg $(D)/libvorbis $(D)/flac $(D)/ffmpeg $(ARCHIVE)/$(MINIDLNA_SRC)
+	$(START_BUILD)
+	rm -rf $(PKGPREFIX)
+	install -d $(PKGPREFIX)
+	install -d $(PKGS_DIR)
+	install -d $(PKGS_DIR)/$@
+	$(REMOVE)/minidlna-$(MINIDLNA_VER)
+	$(UNTAR)/$(MINIDLNA_SRC)
+	$(CHDIR)/minidlna-$(MINIDLNA_VER); \
+		$(call apply_patches, $(MINIDLNA_PATCH)); \
+		autoreconf -fi; \
+		$(CONFIGURE) \
+			--prefix=/usr \
+		; \
+		$(MAKE); \
+		$(MAKE) install prefix=/usr DESTDIR=$(PKGPREFIX)
+	$(REMOVE)/minidlna-$(MINIDLNA_VER)
+ifneq ($(OPTIMIZATIONS), $(filter $(OPTIMIZATIONS), kerneldebug debug normal))
+	find $(PKGPREFIX)/ -name '*' -exec $(TARGET)-strip --strip-unneeded {} &>/dev/null \;
+endif
+	pushd $(PKGPREFIX) && tar --numeric-owner --group=0 --owner=0 -czf $(PKGS_DIR)/$@/data.tar.gz ./* && popd
+	install -d $(BUILD_TMP)/minidlna/control
+	touch $(BUILD_TMP)/minidlna/control/control
+	echo Package: minidlna > $(BUILD_TMP)/minidlna/control/control
+	echo Version: $(MINIDLNA_VER) >> $(BUILD_TMP)/minidlna/control/control
+	echo Section: base/libraries >> $(BUILD_TMP)/minidlna/control/control
+ifeq ($(BOXARCH), mips)
+	echo Architecture: $(BOXARCH)el >> $(BUILD_TMP)/minidlna/control/control 
+else
+	echo Architecture: $(BOXARCH) >> $(BUILD_TMP)/minidlna/control/control 
+endif
+	echo Maintainer: $(MAINTAINER)  >> $(BUILD_TMP)/minidlna/control/control 
+	echo Depends:  >> $(BUILD_TMP)/minidlna/control/control
+	touch $(BUILD_TMP)/minidlna/control/preint
+	echo '#!/bin/sh' > $(BUILD_TMP)/minidlna/control/preint
+	echo 'if test -x /sbin/ldconfig; then' >> $(BUILD_TMP)/minidlna/control/preint
+	echo '	echo "updating dynamic linker cache..."' >> $(BUILD_TMP)/minidlna/control/preint
+	echo '	/sbin/ldconfig' >> $(BUILD_TMP)/minidlna/control/preint
+	echo 'fi' >> $(BUILD_TMP)/minidlna/control/preint
+	pushd $(BUILD_TMP)/minidlna/control && chmod +x * && tar --numeric-owner --group=0 --owner=0 -czf $(PKGS_DIR)/$@/control.tar.gz ./* && popd
+	pushd $(PKGS_DIR)/$@ && echo 2.0 > debian-binary && ar rv $(PKGS_DIR)/minidlna-$(MINIDLNA_VER)_$(BOXARCH)_all.ipk ./data.tar.gz ./control.tar.gz ./debian-binary && popd && rm -rf data.tar.gz control.tar.gz debian-binary
+	rm -rf $(BUILD_TMP)/minidlna
+	rm -rf $(PKGPREFIX)
+	rm -rf $(PKGS_DIR)/$@
+	$(END_BUILD)
 
 #
 # libexif
@@ -2248,6 +2936,54 @@ $(D)/libupnp: $(D)/bootstrap $(ARCHIVE)/$(LIBUPNP_SRC)
 	$(REWRITE_LIBTOOL)/libupnp.la	
 	$(REMOVE)/libupnp-$(LIBUPNP_VER)
 	$(TOUCH)
+	
+#
+# libupnp-package
+#
+libupnp-package: $(D)/bootstrap $(ARCHIVE)/$(LIBUPNP_SRC)
+	$(START_BUILD)
+	rm -rf $(PKGPREFIX)
+	install -d $(PKGPREFIX)
+	install -d $(PKGS_DIR)
+	install -d $(PKGS_DIR)/$@
+	$(REMOVE)/libupnp-$(LIBUPNP_VER)
+	$(UNTAR)/$(LIBUPNP_SRC)
+	$(CHDIR)/libupnp-$(LIBUPNP_VER); \
+		$(CONFIGURE) \
+			--prefix=/usr \
+		; \
+		$(MAKE) all; \
+		$(MAKE) install DESTDIR=$(PKGPREFIX)
+	rm -r $(PKGPREFIX)/usr/include $(PKGPREFIX)/usr/lib/pkgconfig
+	$(REMOVE)/libupnp-$(LIBUPNP_VER)
+ifneq ($(OPTIMIZATIONS), $(filter $(OPTIMIZATIONS), kerneldebug debug normal))
+	find $(PKGPREFIX)/ -name '*' -exec $(TARGET)-strip --strip-unneeded {} &>/dev/null \;
+endif
+	pushd $(PKGPREFIX) && tar --numeric-owner --group=0 --owner=0 -czf $(PKGS_DIR)/$@/data.tar.gz ./* && popd
+	install -d $(BUILD_TMP)/libupnp/control
+	touch $(BUILD_TMP)/libupnp/control/control
+	echo Package: libupnp > $(BUILD_TMP)/libupnp/control/control
+	echo Version: $(LIBUPNP_VER) >> $(BUILD_TMP)/libupnp/control/control
+	echo Section: base/libraries >> $(BUILD_TMP)/libupnp/control/control
+ifeq ($(BOXARCH), mips)
+	echo Architecture: $(BOXARCH)el >> $(BUILD_TMP)/libupnp/control/control 
+else
+	echo Architecture: $(BOXARCH) >> $(BUILD_TMP)/libupnp/control/control 
+endif
+	echo Maintainer: $(MAINTAINER)  >> $(BUILD_TMP)/libupnp/control/control 
+	echo Depends:  >> $(BUILD_TMP)/libupnp/control/control
+	touch $(BUILD_TMP)/libupnp/control/preint
+	echo '#!/bin/sh' > $(BUILD_TMP)/libupnp/control/preint
+	echo 'if test -x /sbin/ldconfig; then' >> $(BUILD_TMP)/libupnp/control/preint
+	echo '	echo "updating dynamic linker cache..."' >> $(BUILD_TMP)/libupnp/control/preint
+	echo '	/sbin/ldconfig' >> $(BUILD_TMP)/libupnp/control/preint
+	echo 'fi' >> $(BUILD_TMP)/libupnp/control/preint
+	pushd $(BUILD_TMP)/libupnp/control && chmod +x * && tar --numeric-owner --group=0 --owner=0 -czf $(PKGS_DIR)/$@/control.tar.gz ./* && popd
+	pushd $(PKGS_DIR)/$@ && echo 2.0 > debian-binary && ar rv $(PKGS_DIR)/libupnp-$(LIBUPNP_VER)_$(BOXARCH)_all.ipk ./data.tar.gz ./control.tar.gz ./debian-binary && popd && rm -rf data.tar.gz control.tar.gz debian-binary
+	rm -rf $(BUILD_TMP)/libupnp
+	rm -rf $(PKGPREFIX)
+	rm -rf $(PKGS_DIR)/$@
+	$(END_BUILD)
 
 #
 # rarfs

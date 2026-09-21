@@ -36,6 +36,53 @@ $(D)/lua: $(D)/bootstrap $(D)/ncurses $(ARCHIVE)/$(LUAPOSIX_SRC) $(ARCHIVE)/$(LU
 	cd $(TARGET_DIR)/usr && rm bin/lua bin/luac
 	$(REMOVE)/lua-$(LUA_VER)
 	$(TOUCH)
+	
+#
+# lua-package
+#
+lua-package: $(D)/bootstrap $(D)/ncurses $(ARCHIVE)/$(LUAPOSIX_SRC) $(ARCHIVE)/$(LUA_SRC)
+	$(START_BUILD)
+	rm -rf $(PKGPREFIX)
+	install -d $(PKGPREFIX)
+	install -d $(PKGS_DIR)
+	install -d $(PKGS_DIR)/$@
+	$(REMOVE)/lua-$(LUA_VER)
+	mkdir -p $(PKGPREFIX)/usr/share/lua/$(LUA_VER_SHORT)
+	$(UNTAR)/$(LUA_SRC)
+	$(CHDIR)/lua-$(LUA_VER); \
+		$(call apply_patches, $(LUAPOSIX_PATCH)); \
+		tar xf $(ARCHIVE)/$(LUAPOSIX_SRC); \
+		cd luaposix-git-$(LUAPOSIX_VER)/ext; cp posix/posix.c include/lua52compat.h ../../src/; cd ../..; \
+		cd luaposix-git-$(LUAPOSIX_VER)/lib; cp *.lua $(TARGET_DIR)/usr/share/lua/$(LUA_VER_SHORT); cd ../..; \
+		sed -i 's/<config.h>/"config.h"/' src/posix.c; \
+		sed -i '/^#define/d' src/lua52compat.h; \
+		sed -i 's|man/man1|/.remove|' Makefile; \
+		$(MAKE) linux CC=$(TARGET)-gcc CPPFLAGS="$(TARGET_CPPFLAGS) -fPIC" LDFLAGS="-L$(TARGET_DIR)/usr/lib" BUILDMODE=dynamic PKG_VERSION=$(LUA_VER); \
+		$(MAKE) install INSTALL_TOP=$(PKGPREFIX)/usr INSTALL_MAN=$(PKGPREFIX)/.remove
+	rm -r $(PKGPREFIX)/usr/include $(PKGPREFIX)/usr/bin/luac
+	$(REMOVE)/lua-$(LUA_VER)
+ifneq ($(OPTIMIZATIONS), $(filter $(OPTIMIZATIONS), kerneldebug debug normal))
+	find $(PKGPREFIX)/ -name '*' -exec $(TARGET)-strip --strip-unneeded {} &>/dev/null \;
+endif
+	pushd $(PKGPREFIX) && tar --numeric-owner --group=0 --owner=0 -czf $(PKGS_DIR)/$@/data.tar.gz ./* && popd
+	install -d $(BUILD_TMP)/lua/control
+	touch $(BUILD_TMP)/lua/control/control
+	echo Package: lua > $(BUILD_TMP)/lua/control/control
+	echo Version: $(LUA_VER) >> $(BUILD_TMP)/lua/control/control
+	echo Section: base/libraries >> $(BUILD_TMP)/lua/control/control
+ifeq ($(BOXARCH), mips)
+	echo Architecture: $(BOXARCH)el >> $(BUILD_TMP)/lua/control/control 
+else
+	echo Architecture: $(BOXARCH) >> $(BUILD_TMP)/lua/control/control 
+endif
+	echo Maintainer: $(MAINTAINER)  >> $(BUILD_TMP)/lua/control/control 
+	echo Depends:  >> $(BUILD_TMP)/lua/control/control
+	pushd $(BUILD_TMP)/lua/control && chmod +x * && tar --numeric-owner --group=0 --owner=0 -czf $(PKGS_DIR)/$@/control.tar.gz ./* && popd
+	pushd $(PKGS_DIR)/$@ && echo 2.0 > debian-binary && ar rv $(PKGS_DIR)/lua-$(LUA_VER)_$(BOXARCH)_all.ipk ./data.tar.gz ./control.tar.gz ./debian-binary && popd && rm -rf data.tar.gz control.tar.gz debian-binary
+	rm -rf $(BUILD_TMP)/lua
+	rm -rf $(PKGPREFIX)
+	rm -rf $(PKGS_DIR)/$@
+	$(END_BUILD)
 
 #
 # luacurl
@@ -58,6 +105,46 @@ $(D)/luacurl: $(D)/bootstrap $(D)/libcurl $(D)/lua $(ARCHIVE)/$(LUACURL_SRC)
 		$(MAKE) install DESTDIR=$(TARGET_DIR) LUA_CMOD=/usr/lib/lua/$(LUA_VER_SHORT) LUA_LMOD=/usr/share/lua/$(LUA_VER_SHORT)
 	$(REMOVE)/luacurl-git-$(LUACURL_VER)
 	$(TOUCH)
+	
+#
+# luacurl-package
+#
+luacurl-package: $(D)/bootstrap $(D)/libcurl $(D)/lua $(ARCHIVE)/$(LUACURL_SRC)
+	$(START_BUILD)
+	rm -rf $(PKGPREFIX)
+	install -d $(PKGPREFIX)
+	install -d $(PKGS_DIR)
+	install -d $(PKGS_DIR)/$@
+	$(REMOVE)/luacurl-git-$(LUACURL_VER)
+	$(UNTAR)/$(LUACURL_SRC)
+	$(CHDIR)/luacurl-git-$(LUACURL_VER); \
+		$(MAKE) CC=$(TARGET)-gcc LDFLAGS="-L$(TARGET_DIR)/usr/lib" \
+			LIBDIR=$(TARGET_DIR)/usr/lib \
+			LUA_INC=$(TARGET_DIR)/usr/include; \
+		$(MAKE) install DESTDIR=$(PKGPREFIX) LUA_CMOD=/usr/lib/lua/$(LUA_VER_SHORT) LUA_LMOD=/usr/share/lua/$(LUA_VER_SHORT)
+	$(REMOVE)/luacurl-git-$(LUACURL_VER)
+ifneq ($(OPTIMIZATIONS), $(filter $(OPTIMIZATIONS), kerneldebug debug normal))
+	find $(PKGPREFIX)/ -name '*' -exec $(TARGET)-strip --strip-unneeded {} &>/dev/null \;
+endif
+	pushd $(PKGPREFIX) && tar --numeric-owner --group=0 --owner=0 -czf $(PKGS_DIR)/$@/data.tar.gz ./* && popd
+	install -d $(BUILD_TMP)/luacurl/control
+	touch $(BUILD_TMP)/luacurl/control/control
+	echo Package: luacurl > $(BUILD_TMP)/luacurl/control/control
+	echo Version: $(LUACURL_VER) >> $(BUILD_TMP)/luacurl/control/control
+	echo Section: base/libraries >> $(BUILD_TMP)/luacurl/control/control
+ifeq ($(BOXARCH), mips)
+	echo Architecture: $(BOXARCH)el >> $(BUILD_TMP)/luacurl/control/control 
+else
+	echo Architecture: $(BOXARCH) >> $(BUILD_TMP)/luacurl/control/control 
+endif
+	echo Maintainer: $(MAINTAINER)  >> $(BUILD_TMP)/luacurl/control/control 
+	echo Depends:  >> $(BUILD_TMP)/luacurl/control/control
+	pushd $(BUILD_TMP)/luacurl/control && chmod +x * && tar --numeric-owner --group=0 --owner=0 -czf $(PKGS_DIR)/$@/control.tar.gz ./* && popd
+	pushd $(PKGS_DIR)/$@ && echo 2.0 > debian-binary && ar rv $(PKGS_DIR)/luacurl-$(LUACURL_VER)_$(BOXARCH)_all.ipk ./data.tar.gz ./control.tar.gz ./debian-binary && popd && rm -rf data.tar.gz control.tar.gz debian-binary
+	rm -rf $(BUILD_TMP)/luacurl
+	rm -rf $(PKGPREFIX)
+	rm -rf $(PKGS_DIR)/$@
+	$(END_BUILD)
 
 #
 # luaexpat
@@ -81,6 +168,45 @@ $(D)/luaexpat: $(D)/bootstrap $(D)/lua $(D)/expat $(ARCHIVE)/$(LUAEXPAT_SRC)
 		$(MAKE) install DESTDIR=$(TARGET_DIR)/usr
 	$(REMOVE)/luaexpat-$(LUAEXPAT_VER)
 	$(TOUCH)
+	
+#
+# luaexpat-package
+#
+luaexpat-package: $(D)/bootstrap $(D)/lua $(D)/expat $(ARCHIVE)/$(LUAEXPAT_SRC)
+	$(START_BUILD)
+	rm -rf $(PKGPREFIX)
+	install -d $(PKGPREFIX)
+	install -d $(PKGS_DIR)
+	install -d $(PKGS_DIR)/$@
+	$(REMOVE)/luaexpat-$(LUAEXPAT_VER)
+	$(UNTAR)/$(LUAEXPAT_SRC)
+	$(CHDIR)/luaexpat-$(LUAEXPAT_VER); \
+		$(call apply_patches, $(LUAEXPAT_PATCH)); \
+		$(MAKE) CC=$(TARGET)-gcc LDFLAGS="-L$(TARGET_DIR)/usr/lib" PREFIX=$(TARGET_DIR)/usr; \
+		$(MAKE) install DESTDIR=$(PKGPREFIX)/usr
+	$(REMOVE)/luaexpat-$(LUAEXPAT_VER)
+ifneq ($(OPTIMIZATIONS), $(filter $(OPTIMIZATIONS), kerneldebug debug normal))
+	find $(PKGPREFIX)/ -name '*' -exec $(TARGET)-strip --strip-unneeded {} &>/dev/null \;
+endif
+	pushd $(PKGPREFIX) && tar --numeric-owner --group=0 --owner=0 -czf $(PKGS_DIR)/$@/data.tar.gz ./* && popd
+	install -d $(BUILD_TMP)/luaexpat/control
+	touch $(BUILD_TMP)/luaexpat/control/control
+	echo Package: luaexpat > $(BUILD_TMP)/luaexpat/control/control
+	echo Version: $(LUAEXPAT_VER) >> $(BUILD_TMP)/luaexpat/control/control
+	echo Section: base/libraries >> $(BUILD_TMP)/luaexpat/control/control
+ifeq ($(BOXARCH), mips)
+	echo Architecture: $(BOXARCH)el >> $(BUILD_TMP)/luaexpat/control/control 
+else
+	echo Architecture: $(BOXARCH) >> $(BUILD_TMP)/luaexpat/control/control 
+endif
+	echo Maintainer: $(MAINTAINER)  >> $(BUILD_TMP)/luaexpat/control/control 
+	echo Depends:  >> $(BUILD_TMP)/luaexpat/control/control
+	pushd $(BUILD_TMP)/luaexpat/control && chmod +x * && tar --numeric-owner --group=0 --owner=0 -czf $(PKGS_DIR)/$@/control.tar.gz ./* && popd
+	pushd $(PKGS_DIR)/$@ && echo 2.0 > debian-binary && ar rv $(PKGS_DIR)/luaexpat-$(LUAEXPAT_VER)_$(BOXARCH)_all.ipk ./data.tar.gz ./control.tar.gz ./debian-binary && popd && rm -rf data.tar.gz control.tar.gz debian-binary
+	rm -rf $(BUILD_TMP)/luaexpat
+	rm -rf $(PKGPREFIX)
+	rm -rf $(PKGS_DIR)/$@
+	$(END_BUILD)
 
 #
 # luasocket
@@ -102,6 +228,45 @@ $(D)/luasocket: $(D)/bootstrap $(D)/lua $(ARCHIVE)/$(LUASOCKET_SRC)
 		$(MAKE) install LUAPREFIX_linux= LUAV=$(LUA_VER_SHORT)
 	$(REMOVE)/luasocket-git-$(LUASOCKET_VER)
 	$(TOUCH)
+	
+#
+# luasocket-package
+#	
+luasocket-package: $(D)/bootstrap $(D)/lua $(ARCHIVE)/$(LUASOCKET_SRC)
+	$(START_BUILD)
+	rm -rf $(PKGPREFIX)
+	install -d $(PKGPREFIX)
+	install -d $(PKGS_DIR)
+	install -d $(PKGS_DIR)/$@
+	$(REMOVE)/luasocket-git-$(LUASOCKET_VER)
+	$(UNTAR)/$(LUASOCKET_SRC)
+	$(CHDIR)/luasocket-git-$(LUASOCKET_VER); \
+		sed -i -e "s@LD_linux=gcc@LD_LINUX=$(TARGET)-gcc@" -e "s@CC_linux=gcc@CC_LINUX=$(TARGET)-gcc -L$(TARGET_DIR)/usr/lib@" -e "s@DESTDIR?=@DESTDIR?=$(PKGPREFIX)/usr@" src/makefile; \
+		$(MAKE) CC=$(TARGET)-gcc LD=$(TARGET)-gcc LUAV=$(LUA_VER_SHORT) PLAT=linux COMPAT=COMPAT LUAINC_linux=$(TARGET_DIR)/usr/include LUAPREFIX_linux=; \
+		$(MAKE) install LUAPREFIX_linux= LUAV=$(LUA_VER_SHORT)
+	$(REMOVE)/luasocket-git-$(LUASOCKET_VER)
+ifneq ($(OPTIMIZATIONS), $(filter $(OPTIMIZATIONS), kerneldebug debug normal))
+	find $(PKGPREFIX)/ -name '*' -exec $(TARGET)-strip --strip-unneeded {} &>/dev/null \;
+endif
+	pushd $(PKGPREFIX) && tar --numeric-owner --group=0 --owner=0 -czf $(PKGS_DIR)/$@/data.tar.gz ./* && popd
+	install -d $(BUILD_TMP)/luasocket/control
+	touch $(BUILD_TMP)/luasocket/control/control
+	echo Package: luasocket > $(BUILD_TMP)/luasocket/control/control
+	echo Version: $(LUASOCKET_VER) >> $(BUILD_TMP)/luasocket/control/control
+	echo Section: base/libraries >> $(BUILD_TMP)/luasocket/control/control
+ifeq ($(BOXARCH), mips)
+	echo Architecture: $(BOXARCH)el >> $(BUILD_TMP)/luasocket/control/control 
+else
+	echo Architecture: $(BOXARCH) >> $(BUILD_TMP)/luasocket/control/control 
+endif
+	echo Maintainer: $(MAINTAINER)  >> $(BUILD_TMP)/luasocket/control/control 
+	echo Depends:  >> $(BUILD_TMP)/luasocket/control/control
+	pushd $(BUILD_TMP)/luasocket/control && chmod +x * && tar --numeric-owner --group=0 --owner=0 -czf $(PKGS_DIR)/$@/control.tar.gz ./* && popd
+	pushd $(PKGS_DIR)/$@ && echo 2.0 > debian-binary && ar rv $(PKGS_DIR)/luasocket-$(LUASOCKET_VER)_$(BOXARCH)_all.ipk ./data.tar.gz ./control.tar.gz ./debian-binary && popd && rm -rf data.tar.gz control.tar.gz debian-binary
+	rm -rf $(BUILD_TMP)/luasocket
+	rm -rf $(PKGPREFIX)
+	rm -rf $(PKGS_DIR)/$@
+	$(END_BUILD)
 
 #
 # luafeedparser
@@ -122,6 +287,45 @@ $(D)/luafeedparser: $(D)/bootstrap $(D)/lua $(ARCHIVE)/$(LUAFEEDPARSER_SRC)
 		$(BUILDENV) $(MAKE) install  LUA_DIR=$(TARGET_DIR)/usr/share/lua/$(LUA_VER_SHORT)
 	$(REMOVE)/luafeedparser-git-$(LUAFEEDPARSER_VER)
 	$(TOUCH)
+	
+#
+# luafeedparser-package
+#
+luafeedparser-package: $(D)/bootstrap $(D)/lua $(ARCHIVE)/$(LUAFEEDPARSER_SRC)
+	$(START_BUILD)
+	rm -rf $(PKGPREFIX)
+	install -d $(PKGPREFIX)
+	install -d $(PKGS_DIR)
+	install -d $(PKGS_DIR)/$@
+	install -d $(PKGPREFIX)/usr/share/lua/$(LUA_VER_SHORT)
+	$(REMOVE)/luafeedparser-git-$(LUAFEEDPARSER_VER)
+	$(UNTAR)/$(LUAFEEDPARSER_SRC)
+	$(CHDIR)/luafeedparser-git-$(LUAFEEDPARSER_VER); \
+		sed -i -e "s/^PREFIX.*//" -e "s/^LUA_DIR.*//" Makefile ; \
+		$(BUILDENV) $(MAKE) install  LUA_DIR=$(PKGPREFIX)/usr/share/lua/$(LUA_VER_SHORT)
+	$(REMOVE)/luafeedparser-git-$(LUAFEEDPARSER_VER)
+ifneq ($(OPTIMIZATIONS), $(filter $(OPTIMIZATIONS), kerneldebug debug normal))
+	find $(PKGPREFIX)/ -name '*' -exec $(TARGET)-strip --strip-unneeded {} &>/dev/null \;
+endif
+	pushd $(PKGPREFIX) && tar --numeric-owner --group=0 --owner=0 -czf $(PKGS_DIR)/$@/data.tar.gz ./* && popd
+	install -d $(BUILD_TMP)/luafeedparser/control
+	touch $(BUILD_TMP)/luafeedparser/control/control
+	echo Package: luafeedparser > $(BUILD_TMP)/luafeedparser/control/control
+	echo Version: $(LUAFEEDPARSER_VER) >> $(BUILD_TMP)/luafeedparser/control/control
+	echo Section: base/libraries >> $(BUILD_TMP)/luafeedparser/control/control
+ifeq ($(BOXARCH), mips)
+	echo Architecture: $(BOXARCH)el >> $(BUILD_TMP)/luafeedparser/control/control 
+else
+	echo Architecture: $(BOXARCH) >> $(BUILD_TMP)/luafeedparser/control/control 
+endif
+	echo Maintainer: $(MAINTAINER)  >> $(BUILD_TMP)/luafeedparser/control/control 
+	echo Depends:  >> $(BUILD_TMP)/luafeedparser/control/control
+	pushd $(BUILD_TMP)/luafeedparser/control && chmod +x * && tar --numeric-owner --group=0 --owner=0 -czf $(PKGS_DIR)/$@/control.tar.gz ./* && popd
+	pushd $(PKGS_DIR)/$@ && echo 2.0 > debian-binary && ar rv $(PKGS_DIR)/luafeedparser-$(LUAFEEDPARSER_VER)_$(BOXARCH)_all.ipk ./data.tar.gz ./control.tar.gz ./debian-binary && popd && rm -rf data.tar.gz control.tar.gz debian-binary
+	rm -rf $(BUILD_TMP)/luafeedparser
+	rm -rf $(PKGPREFIX)
+	rm -rf $(PKGS_DIR)/$@
+	$(END_BUILD)
 
 #
 # luasoap
@@ -144,6 +348,45 @@ $(D)/luasoap: $(D)/bootstrap $(D)/lua $(ARCHIVE)/$(LUASOAP_SRC)
 		$(MAKE) install LUA_DIR=$(TARGET_DIR)/usr/share/lua/$(LUA_VER_SHORT)
 	$(REMOVE)/luasoap-$(LUASOAP_VER)
 	$(TOUCH)
+	
+#
+# luasoap-package
+#
+luasoap-package: $(D)/bootstrap $(D)/lua $(ARCHIVE)/$(LUASOAP_SRC)
+	$(START_BUILD)
+	rm -rf $(PKGPREFIX)
+	install -d $(PKGPREFIX)
+	install -d $(PKGS_DIR)
+	install -d $(PKGS_DIR)/$@
+	install -d $(PKGPREFIX)/usr/share/lua/$(LUA_VER_SHORT)
+	$(REMOVE)/luasoap-$(LUASOAP_VER)
+	$(UNTAR)/$(LUASOAP_SRC)
+	$(CHDIR)/luasoap-$(LUASOAP_VER); \
+		$(call apply_patches, $(LUASOAP_PATCH)); \
+		$(MAKE) install LUA_DIR=$(PKGPREFIX)/usr/share/lua/$(LUA_VER_SHORT)
+	$(REMOVE)/luasoap-$(LUASOAP_VER)
+ifneq ($(OPTIMIZATIONS), $(filter $(OPTIMIZATIONS), kerneldebug debug normal))
+	find $(PKGPREFIX)/ -name '*' -exec $(TARGET)-strip --strip-unneeded {} &>/dev/null \;
+endif
+	pushd $(PKGPREFIX) && tar --numeric-owner --group=0 --owner=0 -czf $(PKGS_DIR)/$@/data.tar.gz ./* && popd
+	install -d $(BUILD_TMP)/luasoap/control
+	touch $(BUILD_TMP)/luasoap/control/control
+	echo Package: luasoap > $(BUILD_TMP)/luasoap/control/control
+	echo Version: $(LUA_VER_SHORT) >> $(BUILD_TMP)/luasoap/control/control
+	echo Section: base/libraries >> $(BUILD_TMP)/luasoap/control/control
+ifeq ($(BOXARCH), mips)
+	echo Architecture: $(BOXARCH)el >> $(BUILD_TMP)/luasoap/control/control 
+else
+	echo Architecture: $(BOXARCH) >> $(BUILD_TMP)/luasoap/control/control 
+endif
+	echo Maintainer: $(MAINTAINER)  >> $(BUILD_TMP)/luasoap/control/control 
+	echo Depends:  >> $(BUILD_TMP)/luasoap/control/control
+	pushd $(BUILD_TMP)/luasoap/control && chmod +x * && tar --numeric-owner --group=0 --owner=0 -czf $(PKGS_DIR)/$@/control.tar.gz ./* && popd
+	pushd $(PKGS_DIR)/$@ && echo 2.0 > debian-binary && ar rv $(PKGS_DIR)/luasoap-$(LUA_VER_SHORT)_$(BOXARCH)_all.ipk ./data.tar.gz ./control.tar.gz ./debian-binary && popd && rm -rf data.tar.gz control.tar.gz debian-binary
+	rm -rf $(BUILD_TMP)/luasoap
+	rm -rf $(PKGPREFIX)
+	rm -rf $(PKGS_DIR)/$@
+	$(END_BUILD)
 
 #
 # luajson
@@ -158,4 +401,38 @@ $(D)/luajson: $(D)/bootstrap $(D)/lua $(ARCHIVE)/$(LUA_JSON_SRC)
 	$(START_BUILD)
 	cp $(ARCHIVE)/$(LUA_JSON_SRC) $(TARGET_DIR)/usr/share/lua/$(LUA_VER_SHORT)/json.lua
 	$(TOUCH)
+	
+#
+# luajson-package
+#
+luajson-package: $(D)/bootstrap $(D)/lua $(ARCHIVE)/json.lua
+	$(START_BUILD)
+	rm -rf $(PKGPREFIX)
+	install -d $(PKGPREFIX)
+	install -d $(PKGS_DIR)
+	install -d $(PKGS_DIR)/$@
+	install -d $(PKGPREFIX)/usr/share/lua/$(LUA_VER_SHORT)
+	cp $(ARCHIVE)/json.lua $(PKGPREFIX)/usr/share/lua/$(LUA_VER_SHORT)/json.lua
+ifneq ($(OPTIMIZATIONS), $(filter $(OPTIMIZATIONS), kerneldebug debug normal))
+	find $(PKGPREFIX)/ -name '*' -exec $(TARGET)-strip --strip-unneeded {} &>/dev/null \;
+endif
+	pushd $(PKGPREFIX) && tar --numeric-owner --group=0 --owner=0 -czf $(PKGS_DIR)/$@/data.tar.gz ./* && popd
+	install -d $(BUILD_TMP)/luajson/control
+	touch $(BUILD_TMP)/luajson/control/control
+	echo Package: luajson > $(BUILD_TMP)/luajson/control/control
+	echo Version: $(LUA_VER_SHORT) >> $(BUILD_TMP)/luajson/control/control
+	echo Section: base/libraries >> $(BUILD_TMP)/luajson/control/control
+ifeq ($(BOXARCH), mips)
+	echo Architecture: $(BOXARCH)el >> $(BUILD_TMP)/luajson/control/control 
+else
+	echo Architecture: $(BOXARCH) >> $(BUILD_TMP)/luajson/control/control 
+endif
+	echo Maintainer: $(MAINTAINER)  >> $(BUILD_TMP)/luajson/control/control 
+	echo Depends:  >> $(BUILD_TMP)/luajson/control/control
+	pushd $(BUILD_TMP)/luajson/control && chmod +x * && tar --numeric-owner --group=0 --owner=0 -czf $(PKGS_DIR)/$@/control.tar.gz ./* && popd
+	pushd $(PKGS_DIR)/$@ && echo 2.0 > debian-binary && ar rv $(PKGS_DIR)/luajson-$(LUA_VER_SHORT)_$(BOXARCH)_all.ipk ./data.tar.gz ./control.tar.gz ./debian-binary && popd && rm -rf data.tar.gz control.tar.gz debian-binary
+	rm -rf $(BUILD_TMP)/luajson
+	rm -rf $(PKGPREFIX)
+	rm -rf $(PKGS_DIR)/$@
+	$(END_BUILD)
 

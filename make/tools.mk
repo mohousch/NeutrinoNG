@@ -60,6 +60,43 @@ $(D)/tools-aio-grab: $(D)/bootstrap $(D)/libpng $(D)/libjpeg
 		$(MAKE); \
 		$(MAKE) install DESTDIR=$(TARGET_DIR)
 	$(TOUCH)
+	
+#
+# aio-grab-package
+#
+aio-grab-ipk: $(D)/bootstrap $(D)/libpng $(D)/libjpeg
+	$(START_BUILD)
+	rm -rf $(PKGPREFIX)
+	install -d $(PKGPREFIX)
+	install -d $(PKGS_DIR)
+	install -d $(PKGS_DIR)/$@
+	set -e; cd $(TOOLS_DIR)/aio-grab-$(BOXARCH); \
+		$(CONFIGURE) CPPFLAGS="$(CPPFLAGS) -I$(DRIVER_DIR)/bpamem" \
+			--prefix=/usr \
+		; \
+		$(MAKE); \
+		$(MAKE) install DESTDIR=$(PKGPREFIX)
+ifneq ($(OPTIMIZATIONS), $(filter $(OPTIMIZATIONS), kerneldebug debug normal))
+	find $(PKGPREFIX)/ -name '*' -exec $(TARGET)-strip --strip-unneeded {} &>/dev/null \;
+endif
+	pushd $(PKGPREFIX) && tar --numeric-owner --group=0 --owner=0 -czf $(PKGS_DIR)/$@/data.tar.gz ./* && popd
+	install -d $(BUILD_TMP)/aio-grab/control
+	touch $(BUILD_TMP)/aio-grab/control/control
+	echo Package: aio-grab > $(BUILD_TMP)/aio-grab/control/control
+	echo Section: applications >> $(BUILD_TMP)/aio-grab/control/control
+ifeq ($(BOXARCH), mips)
+	echo Architecture: $(BOXARCH)el >> $(BUILD_TMP)/aio-grab/control/control 
+else
+	echo Architecture: $(BOXARCH) >> $(BUILD_TMP)/aio-grab/control/control 
+endif
+	echo Maintainer: $(MAINTAINER)  >> $(BUILD_TMP)/aio-grab/control/control 
+	echo Depends:  >> $(BUILD_TMP)/aio-grab/control/control
+	pushd $(BUILD_TMP)/aio-grab/control && chmod +x * && tar --numeric-owner --group=0 --owner=0 -czf $(PKGS_DIR)/$@/control.tar.gz ./* && popd
+	pushd $(PKGS_DIR)/$@ && echo 2.0 > debian-binary && ar rv $(PKGS_DIR)/aio-grab_$(BOXARCH)_all.ipk ./data.tar.gz ./control.tar.gz ./debian-binary && popd && rm -rf data.tar.gz control.tar.gz debian-binary
+	rm -rf $(BUILD_TMP)/aio-grab
+	rm -rf $(PKGPREFIX)
+	rm -rf $(PKGS_DIR)/$@
+	$(END_BUILD)
 
 #
 # evremote2
@@ -209,6 +246,44 @@ $(D)/tools-showiframe: $(D)/bootstrap
 		$(MAKE); \
 		$(MAKE) install DESTDIR=$(TARGET_DIR)
 	$(TOUCH)
+	
+#
+# showiframe-package
+#
+showiframe-package: $(D)/bootstrap
+	$(START_BUILD)
+	rm -rf $(PKGPREFIX)
+	install -d $(PKGPREFIX)
+	install -d $(PKGS_DIR)
+	install -d $(PKGS_DIR)/$@
+	set -e; cd $(TOOLS_DIR)/showiframe-$(BOXARCH); \
+		$(CONFIGURE) \
+			--prefix= \
+		; \
+		$(MAKE); \
+		$(MAKE) install DESTDIR=$(PKGPREFIX)
+ifneq ($(OPTIMIZATIONS), $(filter $(OPTIMIZATIONS), kerneldebug debug normal))
+	find $(PKGPREFIX)/ -name '*' -exec $(TARGET)-strip --strip-unneeded {} &>/dev/null \;
+endif
+	pushd $(PKGPREFIX) && tar --numeric-owner --group=0 --owner=0 -czf $(PKGS_DIR)/$@/data.tar.gz ./* && popd
+	install -d $(BUILD_TMP)/showiframe/control
+	touch $(BUILD_TMP)/showiframe/control/control
+	echo Package: showiframe > $(BUILD_TMP)/showiframe/control/control
+#	echo Version: $(SHOWIFRAME_VER) >> $(BUILD_TMP)/showiframe/control/control
+	echo Section: applications >> $(BUILD_TMP)/showiframe/control/control
+ifeq ($(BOXARCH), mips)
+	echo Architecture: $(BOXARCH)el >> $(BUILD_TMP)/showiframe/control/control 
+else
+	echo Architecture: $(BOXARCH) >> $(BUILD_TMP)/showiframe/control/control 
+endif
+	echo Maintainer: $(MAINTAINER)  >> $(BUILD_TMP)/showiframe/control/control 
+	echo Depends:  >> $(BUILD_TMP)/showiframe/control/control
+	pushd $(BUILD_TMP)/showiframe/control && chmod +x * && tar --numeric-owner --group=0 --owner=0 -czf $(PKGS_DIR)/$@/control.tar.gz ./* && popd
+	pushd $(PKGS_DIR)/$@ && echo 2.0 > debian-binary && ar rv $(PKGS_DIR)/showiframe_$(BOXARCH)_all.ipk ./data.tar.gz ./control.tar.gz ./debian-binary && popd && rm -rf data.tar.gz control.tar.gz debian-binary
+	rm -rf $(BUILD_TMP)/showiframe
+	rm -rf $(PKGPREFIX)
+	rm -rf $(PKGS_DIR)/$@
+	$(END_BUILD)
 
 #
 # spf_tool
