@@ -479,7 +479,7 @@ help:
 	@echo ""
 	@echo "feed packages:"
 	@echo " make package_name-package       - build package."
-	@echo " make packages-clean              - clean all packages."
+	@echo " make packages-clean             - clean all packages."
 	@echo ""
 	@echo "optional (for developers):"
 	@echo " make image                      - build base image without GUI."
