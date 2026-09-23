@@ -1,5 +1,5 @@
 #
-# MACHINE = Octagon sf8008
+# MACHINE = Octagon sf8008 4K
 # VENDOR = Octagon
 # OEM = Octagon
 # SOC = hisi3798mv200

@@ -1,5 +1,5 @@
 #
-# MACHINE = Vuplus
+# MACHINE = Vuplus Vuzero 4K
 # VENDOR = Vuplus
 # OEM = VU+
 # SOC = bcm72604

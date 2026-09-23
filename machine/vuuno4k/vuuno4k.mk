@@ -1,5 +1,5 @@
 #
-# MACHINE = Vuplus
+# MACHINE = Vuplus Vuno 4K
 # VENDOR = Vuplus
 # OEM = VU+
 # SOC = bcm7252s

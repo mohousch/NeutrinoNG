@@ -1,5 +1,5 @@
 #
-# MACHINE = Vuplus
+# MACHINE = Vuplus Vusolo 4K
 # VENDOR = Vuplus
 # OEM = VU+
 # SOC = bcm7376

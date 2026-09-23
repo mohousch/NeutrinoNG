@@ -1,5 +1,5 @@
 #
-# MACHINE = Mut@nt hd51
+# MACHINE = Mut@nt hd51 4K
 # VENDOR = Mut@nt
 # OEM = GFUTURES
 # SOC = bcm7251s

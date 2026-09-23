@@ -1,5 +1,5 @@
 #
-# MACHINE = Maxytec Multibox
+# MACHINE = Maxytec Multibox 4K
 # VENDOR = Maxytec
 # OEM = Maxytec
 # SOC = hisi3798mv200

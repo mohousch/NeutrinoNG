@@ -1,5 +1,5 @@
 #
-# MACHINE = Vuplus
+# MACHINE = Vuplus Vuno4kse
 # VENDOR = Vuplus
 # OEM = VU+
 # SOC = bcm7252s

@@ -1,5 +1,5 @@
 #
-# MACHINE = Vuplus
+# MACHINE = Vuplus Vuduo HD
 # VENDOR = Vuplus
 # OEM = VU+
 # SOC = bcm7335

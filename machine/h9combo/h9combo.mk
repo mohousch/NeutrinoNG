@@ -1,5 +1,5 @@
 #
-# MACHINE = Zgemma h9 Combo
+# MACHINE = Zgemma h9 Combo 4K
 # VENDOR = zgemma
 # OEM = Air Digital
 # SOC = hisi3798mv200

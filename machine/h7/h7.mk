@@ -1,5 +1,5 @@
 #
-# MACHINE = Zgemma h7
+# MACHINE = Zgemma h7 4K
 # VENDOR = zgemma
 # OEM = Air Digital
 # SOC = bcm7251s

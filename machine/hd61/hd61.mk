@@ -1,5 +1,5 @@
 #
-# MACHINE = Mut@nt hd61
+# MACHINE = Mut@nt hd61 4K
 # VENDOR = Mut@nt
 # OEM = GFUTURES
 # SOC = hisi3798mv200

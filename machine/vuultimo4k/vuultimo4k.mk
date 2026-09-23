@@ -1,5 +1,5 @@
 #
-# MACHINE = Vuplus
+# MACHINE = Vuplus Vultimo 4K
 # VENDOR = Vuplus
 # OEM = VU+
 # SOC = bcm7444
