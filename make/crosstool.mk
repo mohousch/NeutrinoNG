@@ -44,7 +44,7 @@ crosstool.do_prepare: $(D)/directories $(ARCHIVE)/$(KERNEL_SRC) $(ARCHIVE)/$(CRO
 		test $$NUM_CPUS -gt $$MEM_512M && NUM_CPUS=$$MEM_512M; \
 		test $$NUM_CPUS = 0 && NUM_CPUS=1; \
 		sed -i "s@^CT_PARALLEL_JOBS=.*@CT_PARALLEL_JOBS=$$NUM_CPUS@" .config; \
-		sed -i "s@^CT_ARCH_TUNE=.*@CT_ARCH_TUNE=$(BOXCPU)@" .config; \
+		sed -i "s/CT_ARCH_TUNE=\".*\"/CT_ARCH_TUNE=\"$(BOXCPU)\"/g" .config; \
 		$(call apply_patches, $(CROSSTOOL_NG_PATCH)); \
 		\
 		export CT_NG_ARCHIVE=$(ARCHIVE); \
