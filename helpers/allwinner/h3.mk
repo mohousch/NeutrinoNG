@@ -48,9 +48,9 @@ h3-disk-image:
 #
 run-qemu:
 	qemu-system-arm \
-	-m 2G \
+	-M orangepi-pc \
+	-m 16G \
 	-drive file=$(IMAGE_DIR)/disk.img,if=virtio,format=raw \
 	-net nic,model=virtio \
-	-net user \
-	-vga virtio
+	-net user
 
