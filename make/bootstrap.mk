@@ -712,10 +712,14 @@ $(D)/directories:
 ifeq ($(BOXTYPE), $(filter $(BOXTYPE), generic))	
 	cd $(TARGET_DIR) && ln -sf lib lib64
 	cd $(TARGET_DIR)/usr && ln -sf lib lib64
+	install -d $(TARGET_DIR)/root
+	install -d $(TARGET_DIR)/home
 endif
 ifeq ($(BOXTYPE), $(filter $(BOXTYPE), mxq4k))	
 	cd $(TARGET_DIR) && ln -sf lib lib32
 	cd $(TARGET_DIR)/usr && ln -sf lib lib32
+	install -d $(TARGET_DIR)/root
+	install -d $(TARGET_DIR)/home
 endif
 	install -d $(TARGET_DIR)/usr/lib/pkgconfig
 	install -d $(TARGET_DIR)/var/{lib,run}
