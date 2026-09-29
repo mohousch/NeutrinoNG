@@ -8,7 +8,7 @@
 BOXARCH = arm
 BOXCPU = cortex-a15
 
-MACHINE_OPTS = --enable-ci --enable-fkeys --enable-lcd --enable-4k --enable-cec
+MACHINE_OPTS = --enable-ci --enable-fkeys --enable-lcd480 --enable-4k --enable-cec
 
 #
 # kernel
