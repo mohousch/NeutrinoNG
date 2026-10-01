@@ -93,7 +93,6 @@ RELEASE_DEPS += $(D)/luajson
 #
 # graphlcd
 #
-GRAPHLCD ?= graphlcd
 ifeq ($(GRAPHLCD), yes)
 RELEASE_DEPS += $(D)/graphlcd
 endif
