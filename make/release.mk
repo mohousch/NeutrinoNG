@@ -206,10 +206,14 @@ endif
 ifeq ($(BOXTYPE), $(filter $(BOXTYPE), generic))	
 	cd $(RELEASE_DIR) && ln -sf lib lib64
 	cd $(RELEASE_DIR)/usr && ln -sf lib lib64
+	install -d $(RELEASE_DIR)/root
+	install -d $(RELEASE_DIR)/home
 endif
 ifeq ($(BOXTYPE), $(filter $(BOXTYPE), mxq4k))	
 	cd $(RELEASE_DIR) && ln -sf lib lib32
 	cd $(RELEASE_DIR)/usr && ln -sf lib lib32
+	install -d $(RELEASE_DIR)/root
+	install -d $(RELEASE_DIR)/home
 endif
 	install -d $(RELEASE_DIR)/var/tuxbox/config
 	install -d $(RELEASE_DIR)/var/lib/{nfs,modules,opkg}
