@@ -56,9 +56,9 @@ endif
 
 $(D)/kernel.do_compile: $(D)/kernel.do_prepare
 	set -e; cd $(KERNEL_DIR); \
-		$(MAKE) -C $(KERNEL_DIR) ARCH=$(BOXARCH) oldconfig
-		$(MAKE) -C $(KERNEL_DIR) ARCH=$(BOXARCH) CROSS_COMPILE=$(TARGET)- bzImage modules
-		$(MAKE) -C $(KERNEL_DIR) ARCH=$(BOXARCH) CROSS_COMPILE=$(TARGET)- DEPMOD=depmod INSTALL_MOD_PATH=$(TARGET_DIR) modules_install
+		$(MAKE) -C $(KERNEL_DIR) ARCH=x86 oldconfig
+		$(MAKE) -C $(KERNEL_DIR) ARCH=x86 CROSS_COMPILE=$(TARGET)- bzImage modules
+		$(MAKE) -C $(KERNEL_DIR) ARCH=x86 CROSS_COMPILE=$(TARGET)- DEPMOD=depmod INSTALL_MOD_PATH=$(TARGET_DIR) modules_install
 	@touch $@
 
 $(D)/kernel: $(D)/bootstrap $(D)/kernel.do_compile
