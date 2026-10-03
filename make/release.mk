@@ -304,10 +304,11 @@ endif
 #
 	cp -R $(TARGET_DIR)/usr/lib/* $(RELEASE_DIR)/usr/lib/
 ifeq ($(PYTHON), $(filter $(PYTHON), python))
-	rm -rf $(RELEASE_DIR)/usr/lib/{engines,gconv,libxslt-plugins,pkgconfig,lua,python$(PYTHON_VER_MAJOR),enigma2,gio,dbus-1.0}
+	rm -rf $(RELEASE_DIR)/usr/lib/{engines,gconv,libxslt-plugins,python$(PYTHON_VER_MAJOR),gio,dbus-1.0}
 else ifeq ($(PYTHON), $(filter $(PYTHON), python3))
-	rm -rf $(RELEASE_DIR)/usr/lib/{engines,gconv,libxslt-plugins,pkgconfig,lua,python$(PYTHON3_VER_MAJOR),enigma2,gio,dbus-1.0}
+	rm -rf $(RELEASE_DIR)/usr/lib/{engines,gconv,libxslt-plugins,python$(PYTHON3_VER_MAJOR),gio,dbus-1.0}
 endif
+	rm -rf $(RELEASE_DIR)/usr/lib/pkgconfig
 	rm -f $(RELEASE_DIR)/usr/lib/*.{a,o,la}
 	chmod 755 $(RELEASE_DIR)/usr/lib/*
 #

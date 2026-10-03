@@ -298,13 +298,9 @@ endif
 	rm -rf $(RELEASE_DIR)/var/tuxbox/config/zapit/ubouquets.xml
 	[ -e $(RELEASE_DIR)/var/tuxbox/config/nhttpd.conf ] && rm -rf $(RELEASE_DIR)/var/tuxbox/config/nhttpd.conf || true
 ifeq ($(BOXARCH), sh4)
-	[ -e $(RELEASE_DIR)/usr/bin/titan ] && rm -rf $(RELEASE_DIR)/usr/bin/titan || true
-	[ -e $(RELEASE_DIR)/usr/bin/enigma2 ] && rm -rf $(RELEASE_DIR)/usr/bin/enigma2 || true
 	[ -e $(RELEASE_DIR)/usr/bin/neutrino ] && rm -rf $(RELEASE_DIR)/usr/bin/neutrino || true
 	[ -e $(RELEASE_DIR)/sbin/sfdisk ] && rm -rf $(RELEASE_DIR)/sbin/sfdisk || true
 	[ -e $(RELEASE_DIR)/usr/bin/ipkg-cl ] && rm -rf $(RELEASE_DIR)/usr/bin/ipkg-cl || true
-	[ -e $(RELEASE_DIR)/usr/bin/eplayer3 ] && rm -rf $(RELEASE_DIR)/usr/bin/eplayer3 || true
-	[ -e $(RELEASE_DIR)/usr/bin/exteplayer3 ] && rm -rf $(RELEASE_DIR)/usr/bin/exteplayer3 || true
 	rm -rf $(RELEASE_DIR)/usr/share/zoneinfo
 	rm -rf $(RELEASE_DIR)/usr/share/fonts
 	rm -rf $(RELEASE_DIR)/usr/share/iso-codes
