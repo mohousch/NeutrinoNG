@@ -25,6 +25,10 @@ mkdir -p /dev/dri
 mknod /dev/dri/card0 c 226 0
 chmod 660 /dev/dri/card0
 
+# render
+mknod /dev/dri/renderD128 c 226 128
+chmod 666 /dev/dri/renderD128
+
 # lirc
 mknod /dev/lirc0 c 244 0
 chmod 660 /dev/lirc0
@@ -83,7 +87,7 @@ echo "init lircd"
 mkdir -p /var/run/lirc
 ln -sf /var/run/lirc/lircd /dev/lircd
 #/usr/bin/lircd --nodaemon &
-/usr/bin/lircd -- -n -O /etc/lirc/lirc_options.conf &
+/usr/bin/lircd -n -O /etc/lirc/lirc_options.conf &
 
 # set dummy time
 NTPDATE=`date +"%Y%m%d"`

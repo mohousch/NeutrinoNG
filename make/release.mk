@@ -279,9 +279,6 @@ ifeq ($(BOXARCH), sh4)
 	cp -dp $(SKEL_ROOT)/sbin/hotplug $(RELEASE_DIR)/sbin/
 endif
 	ln -sf ../../bin/busybox $(RELEASE_DIR)/usr/bin/ether-wake
-ifeq ($(BOXTYPE), $(filter $(BOXTYPE), generic mxq4k))	
-	ln -sf ../../bin/busybox $(RELEASE_DIR)/linuxrc
-endif
 ifeq ($(LAYOUT), multiboot)
 	mv $(RELEASE_DIR)/sbin/init $(RELEASE_DIR)/sbin/init.sysvinit
 	install -m 0755 $(SKEL_ROOT)/sbin/init $(RELEASE_DIR)/sbin/
@@ -511,7 +508,9 @@ endif
 ifeq ($(BOXARCH), $(filter $(BOXARCH), arm mips x86_64))
 	rm -rf $(RELEASE_DIR)/dev.static
 	rm -rf $(RELEASE_DIR)/ram
+ifneq ($(BOXTYPE), $(filter $(BOXTYPE), generic mxq4k))
 	rm -rf $(RELEASE_DIR)/root
+endif
 endif
 	rm -rf $(RELEASE_DIR)/usr/lib/m4-nofpu/
 	rm -rf $(RELEASE_DIR)/usr/lib/gcc
