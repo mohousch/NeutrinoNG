@@ -35,9 +35,6 @@ SKEL_ROOT             = $(BASE_DIR)/root
 # BOXTYPE
 -include $(BASE_DIR)/.config
 
-# for local extensions
--include $(BASE_DIR)/config.local
-
 #
 TUFSBOX_DIR           = $(BASE_DIR)/builds/$(BOXTYPE)
 
