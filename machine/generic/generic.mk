@@ -85,7 +85,6 @@ release-generic:
 	cp -f $(BASE_DIR)/machine/$(BOXTYPE)/files/autologin $(RELEASE_DIR)/bin/
 	cp -f $(BASE_DIR)/machine/$(BOXTYPE)/files/group $(RELEASE_DIR)/etc/
 	cp -f $(BASE_DIR)/machine/$(BOXTYPE)/files/passwd $(RELEASE_DIR)/etc/
-	cp -f $(BASE_DIR)/machine/$(BOXTYPE)/files/inittab $(RELEASE_DIR)/etc/
 	cp -f $(BASE_DIR)/machine/$(BOXTYPE)/files/libao.conf $(RELEASE_DIR)/etc/
 #	cp -f $(BASE_DIR)/machine/$(BOXTYPE)/files/asound.conf $(RELEASE_DIR)/etc/
 
