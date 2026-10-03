@@ -276,7 +276,7 @@ $(D)/mesa: $(D)/bootstrap $(ARCHIVE)/$(MESA_SRC) $(D)/libxml2 $(D)/libarchive $(
 			-Dmicrosoft-clc=disabled \
 			-Dplatforms="" \
 			-Dglx=disabled \
-			-Dglvnd=true \
+			-Dglvnd=false \
 			-Dllvm=disabled \
 		; \
 		cd build; ninja; \
