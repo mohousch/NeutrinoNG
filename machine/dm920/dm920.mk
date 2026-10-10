@@ -94,9 +94,10 @@ $(D)/kernel: $(D)/bootstrap $(D)/kernel.do_compile
 DRIVER_VER = 3.14-1.17
 DRIVER_DATE = 20200321
 DRIVER_SRC = dreambox-dvb-modules_$(DRIVER_VER)-$(BOXTYPE)-$(DRIVER_DATE)_$(BOXTYPE).tar.xz
+DRIVER_URL = https://source.mynonpublic.com/dreambox
 
 $(ARCHIVE)/$(DRIVER_SRC):
-	$(DOWNLOAD) https://source.mynonpublic.com/dreambox/$(DRIVER_SRC)
+	$(DOWNLOAD) $(DRIVER_URL)/$(DRIVER_SRC)
 
 driver: $(D)/driver	
 $(D)/driver: $(ARCHIVE)/$(DRIVER_SRC) $(D)/bootstrap $(D)/kernel

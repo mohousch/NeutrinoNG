@@ -109,9 +109,10 @@ $(D)/kernel: $(D)/bootstrap $(D)/kernel.do_compile
 DRIVER_VER = 3.2
 DRIVER_DATE = 20151201
 DRIVER_SRC = dreambox-dvb-modules-$(BOXTYPE)-$(DRIVER_VER)-$(BOXTYPE)-$(DRIVER_DATE).tar.bz2
+DRIVER_URL = https://github.com/oe-mirrors/dreambox/raw/main
 
 $(ARCHIVE)/$(DRIVER_SRC):
-	$(DOWNLOAD) https://github.com/oe-mirrors/dreambox/raw/main/$(DRIVER_SRC)
+	$(DOWNLOAD) $(DRIVER_URL)/$(DRIVER_SRC)
 
 driver: $(D)/driver	
 $(D)/driver: $(ARCHIVE)/$(DRIVER_SRC) $(D)/bootstrap $(D)/kernel
@@ -152,11 +153,11 @@ BOOT_SIZE = 0x700000
 ROOT_SIZE = 0x3F800000
 
 DM800SEV2_2ND_SRC = secondstage-dm800sev2-89.bin
-DM800SEV2_2ND_URL = https://github.com/oe-mirrors/dreambox/raw/main/$(DM800SEV2_2ND_SRC)
+DM800SEV2_2ND_URL = https://github.com/oe-mirrors/dreambox/raw/main
 2ND_FILE = secondstage-dm800sev2-89.bin
 
 $(ARCHIVE)/$(2ND_FILE):
-	$(DOWNLOAD) $(DM800SEV2_2ND_URL)
+	$(DOWNLOAD) $(DM800SEV2_2ND_URL)/$(DM800SEV2_2ND_SRC)
 
 -include $(HELPERS_DIR)/dm/dm.mk
 
