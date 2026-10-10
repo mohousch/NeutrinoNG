@@ -11,9 +11,9 @@ generic-disk-image:
 	rm -rf $(IMAGE_BUILD_DIR) || true
 	mkdir -p $(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)
 	#
-	cp -a $(TARGET_DIR)/boot/bzImage $(RELEASE_DIR)/boot/
+	cp -a $(TARGET_DIR)/boot/$(KERNEL_IMAGE) $(RELEASE_DIR)/boot/
 ifeq ($(BOOT), uefi)
-	cp -a $(TARGET_DIR)/boot/bzImage $(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)/
+	cp -a $(TARGET_DIR)/boot/$(KERNEL_IMAGE) $(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)/
 	cp -a $(BASE_DIR)/machine/$(BOXTYPE)/files/efi-part $(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)
 	cp -a $(BASE_DIR)/machine/$(BOXTYPE)/files/genimage-efi.cfg $(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)/
 else
@@ -46,7 +46,7 @@ endif
 	rm -rf $(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)/rootfs.ext2
 	rm -rf $(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)/efi-part.vfat
 	rm -rf $(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)/efi-part
-	rm -rf $(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)/bzImage
+	rm -rf $(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)/$(KERNEL_IMAGE)
 	rm -rf $(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)/genimage-efi.cfg
 	rm -rf $(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)/genimage-bios.cfg
 	rm -rf $(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)/boot.img

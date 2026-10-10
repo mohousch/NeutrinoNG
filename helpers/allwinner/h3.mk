@@ -5,8 +5,8 @@ h3-disk-image:
 	rm -rf $(IMAGE_BUILD_DIR) || true
 	mkdir -p $(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)
 	#
-	cp -a $(TARGET_DIR)/boot/zImage $(RELEASE_DIR)/boot/
-	cp -a $(TARGET_DIR)/boot/zImage $(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)/
+	cp -a $(TARGET_DIR)/boot/$(KERNEL_IMAGE) $(RELEASE_DIR)/boot/
+	cp -a $(TARGET_DIR)/boot/$(KERNEL_IMAGE) $(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)/
 	cp -a $(BASE_DIR)/machine/$(BOXTYPE)/files/genimage.cfg $(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)/
 	mkdir -p $(RELEASE_DIR)/boot/extlinux
 	cp -a $(BASE_DIR)/machine/$(BOXTYPE)/files/u-boot-sunxi-with-spl.bin $(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)/
@@ -30,7 +30,7 @@ h3-disk-image:
 	--config $(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)/genimage.cfg
 	#
 	rm -rf $(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)/rootfs.ext4
-	rm -rf $(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)/zImage
+	rm -rf $(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)/$(KERNEL_IMAGE)
 	rm -rf $(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)/genimage.cfg
 	rm -rf $(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)/extlinux.conf
 	rm -rf $(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)/u-boot-sunxi-with-spl.bin
