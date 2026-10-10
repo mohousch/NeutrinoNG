@@ -75,14 +75,14 @@ endif
 $(D)/kernel.do_compile: $(D)/kernel.do_prepare
 	set -e; cd $(KERNEL_DIR); \
 		$(MAKE) -C $(KERNEL_DIR) ARCH=arm oldconfig
-		$(MAKE) -C $(KERNEL_DIR) ARCH=arm CROSS_COMPILE=$(TARGET)- zImage modules
+		$(MAKE) -C $(KERNEL_DIR) ARCH=arm CROSS_COMPILE=$(TARGET)- $(KERNEL_IMAGE) modules
 		$(MAKE) -C $(KERNEL_DIR) ARCH=arm CROSS_COMPILE=$(TARGET)- DEPMOD=depmod INSTALL_MOD_PATH=$(TARGET_DIR) modules_install
 	@touch $@
 
 $(D)/kernel: $(D)/bootstrap $(D)/kernel.do_compile
 	install -m 644 $(KERNEL_DIR)/vmlinux $(TARGET_DIR)/boot/vmlinux-arm-$(KERNEL_VER)
 	install -m 644 $(KERNEL_DIR)/System.map $(TARGET_DIR)/boot/System.map-$(BOXARCH)-$(KERNEL_VER)
-	cp $(KERNEL_DIR)/arch/arm/boot/zImage $(TARGET_DIR)/boot/
+	cp $(KERNEL_DIR)/arch/arm/boot/$(KERNEL_IMAGE) $(TARGET_DIR)/boot/
 	rm $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/build || true
 	rm $(TARGET_DIR)/lib/modules/$(KERNEL_VER)/source || true
 	$(TOUCH)
