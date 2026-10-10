@@ -64,7 +64,7 @@ edision-disk-image:
 	mcopy -i $(IMAGE_BUILD_DIR)/boot.img -v $(IMAGE_BUILD_DIR)/STARTUP_4 ::
 	parted -s $(EMMC_IMAGE) unit KiB print
 	dd conv=notrunc if=$(IMAGE_BUILD_DIR)/boot.img of=$(EMMC_IMAGE) seek=1 bs=$(shell expr $(IMAGE_ROOTFS_ALIGNMENT) \* 1024)
-	dd conv=notrunc if=$(TARGET_DIR)/boot/zImage of=$(EMMC_IMAGE) seek=1 bs=$(shell expr $(IMAGE_ROOTFS_ALIGNMENT) \* 1024 + $(BOOT_PARTITION_SIZE) \* 1024)
+	dd conv=notrunc if=$(TARGET_DIR)/boot/$(KERNEL_IMAGE) of=$(EMMC_IMAGE) seek=1 bs=$(shell expr $(IMAGE_ROOTFS_ALIGNMENT) \* 1024 + $(BOOT_PARTITION_SIZE) \* 1024)
 	resize2fs $(IMAGE_BUILD_DIR)/$(IMAGE_LINK) $(ROOTFS_PARTITION_SIZE)k
 	dd if=$(IMAGE_BUILD_DIR)/$(IMAGE_LINK) of=$(EMMC_IMAGE) seek=1 bs=$(shell expr $(IMAGE_ROOTFS_ALIGNMENT) \* 1024 + $(BOOT_PARTITION_SIZE) \* 1024 + $(KERNEL_PARTITION_SIZE) \* 1024)
 	mv $(EMMC_IMAGE) $(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)/
@@ -83,7 +83,7 @@ edision-rootfs-image:
 	rm -rf $(IMAGE_BUILD_DIR) || true
 	mkdir -p $(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)
 	# kernel
-	cp $(TARGET_DIR)/boot/zImage $(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)/$(KERNEL_FILE)
+	cp $(TARGET_DIR)/boot/$(KERNEL_IMAGE) $(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)/$(KERNEL_FILE)
 	# rootfs
 	cd $(RELEASE_DIR) && \
 	tar -cvf $(IMAGE_BUILD_DIR)/$(FLASHIMAGE_PREFIX)/rootfs.tar . >/dev/null 2>&1; \
