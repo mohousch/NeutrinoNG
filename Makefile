@@ -246,6 +246,17 @@ config:
 		2) echo "OPENSSH=yes" >> .config;; \
 		*) echo "OPENSSH=no" >> .config;; \
 	esac;
+# minisatip
+	@echo -e "\nMiniSatIP:"	
+	@echo -e "   \033[01;32m1)  no\033[00m"
+	@echo "   2) yes"
+	@read -p "Select  MiniSatIP (1-2)?" MINISATIP; \
+	MINISATIP=$${MINISATIP}; \
+	case "$$MINISATIP" in \
+		1) echo "MINISATIP=no" >> .config;; \
+		2) echo "MINISATIP=yes" >> .config;; \
+		*) echo "MINISATIP=no" >> .config;; \
+	esac;
 # openvpn
 	@echo -e "\nOpenvpn:"	
 	@echo -e "   \033[01;32m1)  no\033[00m"
@@ -300,6 +311,17 @@ config:
 		1) echo "XUPNPD=no" >> .config;; \
 		2) echo "XUPNPD=yes" >> .config;; \
 		*) echo "XUPNPD=no" >> .config;; \
+	esac;
+# avahi
+	@echo -e "\nAvahi:"	
+	@echo -e "   \033[01;32m1)  no\033[00m"
+	@echo "   2) yes"
+	@read -p "Select  Avahi (1-2)?" AVAHI; \
+	AVAHI=$${AVAHI}; \
+	case "$$AVAHI" in \
+		1) echo "AVAHI=no" >> .config;; \
+		2) echo "AVAHI=yes" >> .config;; \
+		*) echo "AVAHI=no" >> .config;; \
 	esac;
 # mc
 	@echo -e "\nMC:"	
@@ -421,10 +443,12 @@ endif
 	@echo "Optional packages:"
 	@echo "Python           :$(PYTHON)"
 	@echo "Openssh          :$(OPENSSH)"
+	@echo "MiniSatIP        :$(MINISATIP)"
 	@echo "Samba            :$(SAMBA)"
 	@echo "Openvpn          :$(OPENVPN)"
 	@echo "Xupnpd           :$(XUPNPD)"
 	@echo "Dropbear         :$(DROPBEAR)"
+	@echo "Avahi            :$(AVAHI)"
 	@echo
 	@echo "Misc packages:"
 	@echo "MC               :$(MC)"

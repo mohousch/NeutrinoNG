@@ -149,6 +149,18 @@ ifeq ($(SHAIRPORT), yes)
 RELEASE_DEPS += $(D)/shairport
 endif
 #
+# minisatip
+#
+ifeq ($(MINISATIP), yes)
+RELEASE_DEPS += $(D)/minisatip
+endif
+#
+# avahi
+#
+ifeq ($(AVAHI), yes)
+RELEASE_DEPS += $(D)/avahi
+endif
+#
 # mc
 #
 ifeq ($(MC), yes)
