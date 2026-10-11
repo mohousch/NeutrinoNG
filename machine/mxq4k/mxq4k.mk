@@ -73,9 +73,6 @@ release-mxq4k:
 	install -m 0755 $(BASE_DIR)/machine/$(BOXTYPE)/files/rcS $(RELEASE_DIR)/etc/init.d/rcS
 	install -m 0755 $(BASE_DIR)/machine/$(BOXTYPE)/files/halt $(RELEASE_DIR)/etc/init.d/
 	cp -f $(BASE_DIR)/machine/$(BOXTYPE)/files/fstab $(RELEASE_DIR)/etc/
-	cp -f $(BASE_DIR)/machine/$(BOXTYPE)/files/autologin $(RELEASE_DIR)/bin/
-	cp -f $(BASE_DIR)/machine/$(BOXTYPE)/files/group $(RELEASE_DIR)/etc/
-	cp -f $(BASE_DIR)/machine/$(BOXTYPE)/files/passwd $(RELEASE_DIR)/etc/
 	cp -f $(BASE_DIR)/machine/$(BOXTYPE)/files/libao.conf $(RELEASE_DIR)/etc/
 	cp -aR $(SKEL_ROOT)/etc/mdev_x86_64.conf $(RELEASE_DIR)/etc/mdev.conf
 
