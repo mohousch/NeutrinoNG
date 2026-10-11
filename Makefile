@@ -235,6 +235,39 @@ config:
 		2) echo "LCD4LINUX=yes" >> .config;; \
 		*) echo "LCD4LINUX=no" >> .config;; \
 	esac;
+# minisatip
+	@echo -e "\nMiniSatIP:"	
+	@echo -e "   \033[01;32m1)  no\033[00m"
+	@echo "   2) yes"
+	@read -p "Select MiniSatIP (1-2)?" MINISATIP; \
+	MINISATIP=$${MINISATIP}; \
+	case "$$MINISATIP" in \
+		1) echo "MINISATIP=no" >> .config;; \
+		2) echo "MINISATIP=yes" >> .config;; \
+		*) echo "MINISATIP=no" >> .config;; \
+	esac;
+# dvbsnoop
+	@echo -e "\nDVBSnoop:"	
+	@echo -e "   \033[01;32m1)  no\033[00m"
+	@echo "   2) yes"
+	@read -p "Select DVBSnoop (1-2)?" DVBSNOOP; \
+	DVBSNOOP=$${DVBSNOOP}; \
+	case "$$DVBSNOOP" in \
+		1) echo "DVBSNOOP=no" >> .config;; \
+		2) echo "DVBSNOOP=yes" >> .config;; \
+		*) echo "DVBSNOOP=no" >> .config;; \
+	esac;
+# dvb-apps
+	@echo -e "\nDVB Apps:"	
+	@echo -e "   \033[01;32m1)  no\033[00m"
+	@echo "   2) yes"
+	@read -p "Select DVB Apps (1-2)?" DVBAPPS; \
+	DVBAPPS=$${DVBAPPS}; \
+	case "$$DVBAPPS" in \
+		1) echo "DVBAPPS=no" >> .config;; \
+		2) echo "DVBAPPS=yes" >> .config;; \
+		*) echo "DVBAPPS=no" >> .config;; \
+	esac;
 # openssh
 	@echo -e "\nOpenssh:"	
 	@echo -e "   \033[01;32m1)  no\033[00m"
@@ -245,17 +278,6 @@ config:
 		1) echo "OPENSSH=no" >> .config;; \
 		2) echo "OPENSSH=yes" >> .config;; \
 		*) echo "OPENSSH=no" >> .config;; \
-	esac;
-# minisatip
-	@echo -e "\nMiniSatIP:"	
-	@echo -e "   \033[01;32m1)  no\033[00m"
-	@echo "   2) yes"
-	@read -p "Select  MiniSatIP (1-2)?" MINISATIP; \
-	MINISATIP=$${MINISATIP}; \
-	case "$$MINISATIP" in \
-		1) echo "MINISATIP=no" >> .config;; \
-		2) echo "MINISATIP=yes" >> .config;; \
-		*) echo "MINISATIP=no" >> .config;; \
 	esac;
 # openvpn
 	@echo -e "\nOpenvpn:"	
@@ -442,8 +464,10 @@ endif
 	@echo
 	@echo "Optional packages:"
 	@echo "Python           :$(PYTHON)"
-	@echo "Openssh          :$(OPENSSH)"
 	@echo "MiniSatIP        :$(MINISATIP)"
+	@echo "DVSnoop          :$(DVBSNOOP)"
+	@echo "DVB Apps         :$(DVBAPPS)"
+	@echo "Openssh          :$(OPENSSH)"
 	@echo "Samba            :$(SAMBA)"
 	@echo "Openvpn          :$(OPENVPN)"
 	@echo "Xupnpd           :$(XUPNPD)"

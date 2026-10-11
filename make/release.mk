@@ -29,8 +29,6 @@ ifeq ($(BOXARCH), $(filter $(BOXARCH), arm mips x86_64))
 RELEASE_DEPS += $(D)/parted
 RELEASE_DEPS += $(D)/mtd_utils 
 RELEASE_DEPS += $(D)/gptfdisk
-RELEASE_DEPS += $(D)/dvb-apps
-RELEASE_DEPS += $(D)/dvbsnoop
 endif
 #
 # tools
@@ -111,6 +109,18 @@ RELEASE_DEPS += $(D)/python3
 else ifeq ($(PYTHON), python)
 RELEASE_DEPS += $(D)/python
 endif
+endif
+#
+# dvbsnoop
+#
+ifeq ($(DVBSNOOP), yes)
+RELEASE_DEPS += $(D)/dvbsnoop
+endif
+#
+# dvb-apps
+#
+ifeq ($(DVBAPPS), yes)
+RELEASE_DEPS += $(D)/dvb-apps
 endif
 #
 # openvpn
