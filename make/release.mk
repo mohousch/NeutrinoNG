@@ -620,6 +620,33 @@ image: release
 	$(END_BUILD)
 	
 #
+# qemu-image
+#
+qemu-image: release
+	$(START_BUILD)
+	# kernel
+	cp -a $(TARGET_DIR)/boot/$(KERNEL_IMAGE) $(IMAGE_DIR)/
+	# rootfs
+	dd if=/dev/zero of=$(IMAGE_DIR)/rootfs.ext2 bs=512 count=2097152
+	mkfs.ext2 -F -L "${BS_NAME} ${BS_CYCLE}" $(IMAGE_DIR)/rootfs.ext2 -d $(RELEASE_DIR)
+	# Error codes 0-3 indicate successfull operation of fsck (no errors or errors corrected)
+	fsck.ext2 -pvfD $(IMAGE_DIR)/rootfs.ext2 || [ $? -le 3 ]
+	# resize
+	resize2fs $(IMAGE_DIR)/rootfs.ext2 1048576k
+	#
+	echo $(BS_NAME)_$(BS_CYCLE)_$(BOXTYPE)_$(shell date '+%d.%m.%Y-%H.%M') > $(IMAGE_DIR)/imageversion
+	$(END_BUILD)
+	
+#
+# run-qemu
+#
+run-qemu:
+	qemu-system-$(BOXARCH) \
+	-m 2G \
+	-kernel $(IMAGE_DIR)/$(KERNEL_IMAGE) \
+	-drive file=$(IMAGE_DIR)/rootfs.ext2,format=raw -append "rootwait root=/dev/sda console=tty1,115200"
+	
+#
 # image-clean
 #
 image-clean:

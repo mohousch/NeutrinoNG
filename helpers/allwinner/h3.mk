@@ -42,15 +42,4 @@ h3-disk-image:
 	zip -r $(IMAGE_DIR)/$(BS_NAME)_$(BS_CYCLE)_$(BOXTYPE)_$(shell date '+%d.%m.%Y-%H.%M').zip $(FLASHIMAGE_PREFIX)*
 	# cleanup
 	rm -rf $(IMAGE_BUILD_DIR)
-	
-#
-# run-qemu
-#
-run-qemu:
-	qemu-system-arm \
-	-M orangepi-pc \
-	-m 16G \
-	-drive file=$(IMAGE_DIR)/disk.img,if=virtio,format=raw \
-	-net nic,model=virtio \
-	-net user
 

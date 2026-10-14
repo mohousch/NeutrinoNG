@@ -60,16 +60,3 @@ endif
 	# cleanup
 	rm -rf $(IMAGE_BUILD_DIR)
 
-#
-# run-qemu
-#
-run-qemu:
-	qemu-system-x86_64 \
-	-M pc \
-	-m 2G \
-	-bios /usr/share/OVMF/OVMF_CODE.fd \
-	-drive file=$(IMAGE_DIR)/disk.img,if=virtio,format=raw \
-	-net nic,model=virtio \
-	-net user \
-	-vga virtio
-
