@@ -69,7 +69,6 @@ fi
 
 #
 /etc/init.d/hostname start
-/etc/init.d/portmap start
 /usr/sbin/inetd
 # rpc.statd for nfs
 /etc/init.d/nfs-common start

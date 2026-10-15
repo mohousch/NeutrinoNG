@@ -21,7 +21,6 @@ else
 fi
 
 /etc/init.d/mountvirtfs start
-var/etc/init.d/portmap start
 var/etc/init.d/autofs start
 
 echo "[rcS] Starting DEBUG Interface"

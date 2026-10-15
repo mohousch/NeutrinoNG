@@ -2,6 +2,10 @@
 
 . /etc/profile
 
+if [ -e /usr/bin/portmap ]; then
+	/etc/init.d/portmap start
+fi
+
 if [ -e /usr/sbin/openvpn ]; then
 	/etc/init.d/openvpn start
 fi

@@ -38,8 +38,8 @@ echo "[rcS] add mmcblks in /dev/block"
 
 echo "setup network"
 /etc/init.d/hostname start
-/etc/init.d/portmap start
 /usr/sbin/inetd
+
 NFS=$(grep -c nfs /proc/cmdline)
   if [ "$NFS" -eq "1" ]; then
     echo "Booting from nfs, don't set network"

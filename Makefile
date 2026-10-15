@@ -268,6 +268,28 @@ config:
 		2) echo "DVBAPPS=yes" >> .config;; \
 		*) echo "DVBAPPS=no" >> .config;; \
 	esac;
+# portmap
+	@echo -e "\nPortmap:"	
+	@echo -e "   \033[01;32m1)  no\033[00m"
+	@echo "   2) yes"
+	@read -p "Select Portmap (1-2)?" PORTMAP; \
+	PORTMAP=$${PORTMAP}; \
+	case "$$PORTMAP" in \
+		1) echo "PORTMAP=no" >> .config;; \
+		2) echo "PORTMAP=yes" >> .config;; \
+		*) echo "PORTMAP=no" >> .config;; \
+	esac;
+# udpxy
+	@echo -e "\nUdpxy:"	
+	@echo -e "   \033[01;32m1)  no\033[00m"
+	@echo "   2) yes"
+	@read -p "Select Udpxy (1-2)?" UDPXY; \
+	UDPXY=$${UDPXY}; \
+	case "$$PORTMAP" in \
+		1) echo "UDPXY=no" >> .config;; \
+		2) echo "UDPXY=yes" >> .config;; \
+		*) echo "UDPXY=no" >> .config;; \
+	esac;
 # openssh
 	@echo -e "\nOpenssh:"	
 	@echo -e "   \033[01;32m1)  no\033[00m"
@@ -467,6 +489,8 @@ endif
 	@echo "MiniSatIP        :$(MINISATIP)"
 	@echo "DVSnoop          :$(DVBSNOOP)"
 	@echo "DVB Apps         :$(DVBAPPS)"
+	@echo "Portmap          :$(PORTMAP)"
+	@echo "Udpxy            :$(UDPXY)"
 	@echo "Openssh          :$(OPENSSH)"
 	@echo "Samba            :$(SAMBA)"
 	@echo "Openvpn          :$(OPENVPN)"

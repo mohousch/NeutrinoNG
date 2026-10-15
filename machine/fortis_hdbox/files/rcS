@@ -82,9 +82,7 @@ if [ ! -e /var/etc/.firstboot ]; then
    #delay
    /bin/evremote2 10 140 &
 
-  /etc/init.d/portmap start
-#  /etc/init.d/vsftpd start
-  /usr/sbin/inetd
+   /usr/sbin/inetd
 
    #timefix
    date -s "200901011200"

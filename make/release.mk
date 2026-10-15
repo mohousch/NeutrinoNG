@@ -15,10 +15,8 @@ RELEASE_DEPS += $(D)/diverse-tools
 RELEASE_DEPS += $(D)/util_linux
 RELEASE_DEPS += $(D)/e2fsprogs
 RELEASE_DEPS += $(D)/hdidle
-RELEASE_DEPS += $(D)/portmap
 RELEASE_DEPS += $(D)/jfsutils
 RELEASE_DEPS += $(D)/nfs_utils
-RELEASE_DEPS += $(D)/udpxy
 RELEASE_DEPS += $(D)/opkg
 RELEASE_DEPS += $(D)/alsa_utils
 RELEASE_DEPS += $(D)/ntp
@@ -121,6 +119,18 @@ endif
 #
 ifeq ($(DVBAPPS), yes)
 RELEASE_DEPS += $(D)/dvb-apps
+endif
+#
+# portmap
+#
+ifeq ($(PORTMAP), yes)
+RELEASE_DEPS += $(D)/portmap
+endif
+#
+# udpxy
+#
+ifeq ($(UDPXY), yes)
+RELEASE_DEPS += $(D)/udpxy
 endif
 #
 # openvpn
@@ -636,16 +646,7 @@ qemu-image: release
 	#
 	echo $(BS_NAME)_$(BS_CYCLE)_$(BOXTYPE)_$(shell date '+%d.%m.%Y-%H.%M') > $(IMAGE_DIR)/imageversion
 	$(END_BUILD)
-	
-#
-# run-qemu
-#
-run-qemu:
-	qemu-system-$(BOXARCH) \
-	-m 2G \
-	-kernel $(IMAGE_DIR)/$(KERNEL_IMAGE) \
-	-drive file=$(IMAGE_DIR)/rootfs.ext2,format=raw -append "rootwait root=/dev/sda console=tty1,115200"
-	
+
 #
 # image-clean
 #
