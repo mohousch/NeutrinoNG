@@ -2,7 +2,7 @@
 
 . /etc/profile
 
-if [ -e /usr/bin/portmap ]; then
+if [ -e /sbin/portmap ]; then
 	/etc/init.d/portmap start
 fi
 
