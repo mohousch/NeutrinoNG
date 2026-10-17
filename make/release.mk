@@ -307,9 +307,7 @@ ifeq ($(BOXARCH), sh4)
 	ln -sf ../../usr/sbin/fw_printenv $(RELEASE_DIR)/usr/sbin/fw_setenv
 endif
 	cp $(SKEL_ROOT)/bin/autologin $(RELEASE_DIR)/bin/
-ifeq ($(BOXARCH), sh4)
 	cp -dp $(SKEL_ROOT)/sbin/hotplug $(RELEASE_DIR)/sbin/
-endif
 	ln -sf ../../bin/busybox $(RELEASE_DIR)/usr/bin/ether-wake
 ifeq ($(LAYOUT), multiboot)
 	mv $(RELEASE_DIR)/sbin/init $(RELEASE_DIR)/sbin/init.sysvinit
