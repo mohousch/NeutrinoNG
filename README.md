@@ -56,7 +56,5 @@ Tested on:
 - Cuberevo 3000HD / IPBox 910HD
 - Golden Media Spark 7162
 
-All others platforms are not tested, do it on your own risk.
-
 
 
